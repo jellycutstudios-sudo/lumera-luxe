@@ -1,0 +1,263 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../data/site';
+---
+
+<BaseLayout
+  title={`Our Story — ${siteConfig.brandName}`}
+  description="The philosophy and heritage behind LUMÈRA LUXE. Hand-curating verified luxury fragrances for perfume connoisseurs across Qatar."
+>
+  <div class="story-page">
+    <header class="story-header">
+      <div class="container text-center">
+        <span class="eyebrow">The Boutique Philosophy</span>
+        <h1 class="story-title">Where Luxury Meets Affordability</h1>
+        <p class="story-lead">
+          Founded in Doha, Qatar, LUMÈRA LUXE was created with a clear and unwavering purpose: to bring the art of fine perfumery within graceful reach.
+        </p>
+      </div>
+    </header>
+
+    <div class="container story-content">
+      <section class="story-block">
+        <div class="story-text">
+          <h2 class="story-section-title">A Curated Approach to Scents</h2>
+          <p>
+            Fragrance is deeply personal. It lingers as a signature, evokes cherished memories, and defines everyday presence. Yet for too long, true luxury fragrance has been obscured by inflated markups and impersonal retail counters.
+          </p>
+          <p>
+            At LUMÈRA LUXE, we believe connoisseur-level fragrances should be accessible without sacrificing authenticity, concentration strength, or personal care. We carefully vet every bottle we bring to Qatar, guaranteeing that every concentrate—from radiant Eau de Toilette to rich Eau de Parfum—is 100% genuine.
+          </p>
+        </div>
+        <div class="story-visual">
+          <img
+            src="/assets/products/boucheron-quatre-en-bleu.png"
+            alt="Authentic luxury bottle curated by LUMÈRA LUXE"
+            class="story-art-img"
+            loading="lazy"
+          />
+        </div>
+      </section>
+
+      <section class="story-block reverse">
+        <div class="story-text">
+          <h2 class="story-section-title">Our Promise to Qatar</h2>
+          <p>
+            Operating directly from Doha, our concierge approach means you don't interact with automated bots or anonymous fulfillment centers. 
+          </p>
+          <p>
+            When you select a fragrance on our boutique, our local team confirms availability personally, prepares your order with meticulous attention, and provides seamless doorstep delivery across Qatar.
+          </p>
+          <div class="story-quote">
+            <p class="quote-text">
+              “Elegance is not about being noticed, it's about being remembered.”
+            </p>
+            <span class="quote-author">— The LUMÈRA LUXE Manifesto</span>
+          </div>
+        </div>
+        <div class="story-visual">
+          <img
+            src="/assets/products/dolce-gabbana-devotion.png"
+            alt="LUMÈRA LUXE perfume presentation"
+            class="story-art-img"
+            loading="lazy"
+          />
+        </div>
+      </section>
+
+      <!-- Promises Recap -->
+      <section class="story-pillars-grid">
+        {siteConfig.promises.map((p) => (
+          <div class="pillar-card">
+            <h3 class="pillar-title">{p.title}</h3>
+            <p class="pillar-desc">{p.description}</p>
+          </div>
+        ))}
+      </section>
+
+      <div class="story-cta-box text-center">
+        <h2 class="cta-heading">Experience the Collection</h2>
+        <p class="cta-sub">Browse our verified fragrances or speak directly with our Doha concierge.</p>
+        <div class="cta-buttons">
+          <a href="/shop/" class="btn btn-primary">Explore Fragrances</a>
+          <a href={`https://wa.me/${siteConfig.whatsappNumber}`} class="btn btn-secondary" target="_blank" rel="noopener">
+            WhatsApp Concierge
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .story-header {
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    padding: clamp(3rem, 6vw, 5rem) 0;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-accent);
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .story-title {
+    font-size: var(--text-4xl);
+    color: var(--color-text-main);
+    margin-bottom: 1.25rem;
+  }
+
+  .story-lead {
+    font-size: clamp(1.1rem, 2vw, 1.25rem);
+    color: var(--color-text-muted);
+    max-width: 680px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .story-content {
+    padding-top: clamp(3rem, 5vw, 5rem);
+    padding-bottom: 5rem;
+  }
+
+  .story-block {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    align-items: center;
+    margin-bottom: clamp(3.5rem, 6vw, 6rem);
+  }
+
+  @media (min-width: 860px) {
+    .story-block {
+      grid-template-columns: 1.25fr 1fr;
+      gap: 4.5rem;
+    }
+    .story-block.reverse {
+      grid-template-columns: 1fr 1.25fr;
+    }
+    .story-block.reverse .story-text {
+      order: 2;
+    }
+    .story-block.reverse .story-visual {
+      order: 1;
+    }
+  }
+
+  .story-section-title {
+    font-size: var(--text-3xl);
+    margin-bottom: 1.25rem;
+  }
+
+  .story-text p {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    margin-bottom: 1.25rem;
+  }
+
+  .story-visual {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem;
+  }
+
+  .story-art-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .story-quote {
+    background-color: var(--color-surface);
+    border-left: 3px solid var(--color-accent);
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+  }
+
+  .quote-text {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-style: italic;
+    color: var(--color-text-main);
+    margin-bottom: 0.5rem !important;
+  }
+
+  .quote-author {
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-accent);
+  }
+
+  .story-pillars-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin-bottom: 5rem;
+  }
+
+  @media (min-width: 768px) {
+    .story-pillars-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .pillar-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    padding: 2rem 1.5rem;
+    border-radius: var(--border-radius-sm);
+  }
+
+  .pillar-title {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .pillar-desc {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+  }
+
+  .story-cta-box {
+    background-color: var(--color-surface-subtle);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    padding: clamp(2.5rem, 5vw, 4rem) 1.5rem;
+  }
+
+  .cta-heading {
+    font-size: var(--text-3xl);
+    margin-bottom: 0.75rem;
+  }
+
+  .cta-sub {
+    font-size: 1.05rem;
+    color: var(--color-text-muted);
+    margin-bottom: 2rem;
+  }
+
+  .cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+</style>

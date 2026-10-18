@@ -1,0 +1,284 @@
+---
+import { siteConfig } from '../data/site';
+---
+
+<header class="site-header" id="main-header">
+  <div class="container header-container">
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-toggle" id="menu-toggle-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="primary-nav">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+
+    <!-- Brand Logo -->
+    <a href="/" class="brand-link" aria-label="LUMÈRA LUXE Home">
+      <img src="/assets/lumera-logo.svg" alt="LUMÈRA LUXE" class="brand-logo" width="180" height="32" />
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="primary-nav" id="primary-nav" aria-label="Primary navigation">
+      <ul class="nav-list">
+        {siteConfig.navigation.map((item) => (
+          <li class="nav-item">
+            <a href={item.href} class="nav-link">{item.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <!-- Header Actions (Search & Bag) -->
+    <div class="header-actions">
+      <a href="/shop/" class="action-btn" aria-label="Search fragrances">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </a>
+
+      <button class="action-btn bag-btn" id="open-bag-btn" aria-label="View shopping bag" aria-haspopup="dialog">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        <span class="bag-count" id="header-bag-count">0</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Dropdown Navigation -->
+  <div class="mobile-menu" id="mobile-menu" hidden>
+    <div class="container mobile-menu-inner">
+      <ul class="mobile-nav-list">
+        {siteConfig.navigation.map((item) => (
+          <li>
+            <a href={item.href} class="mobile-nav-link">{item.label}</a>
+          </li>
+        ))}
+      </ul>
+      <div class="mobile-menu-footer">
+        <p class="mobile-concierge-note">Qatar Concierge Service</p>
+        <a href={`https://wa.me/${siteConfig.whatsappNumber}`} class="btn btn-primary btn-block" target="_blank" rel="noopener">
+          WhatsApp Assistance
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    height: 72px;
+    background-color: rgba(250, 248, 244, 0.95);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--color-border);
+    transition: background-color var(--transition-fast);
+  }
+
+  .header-container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .brand-link {
+    display: flex;
+    align-items: center;
+  }
+
+  .brand-logo {
+    height: 28px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  @media (min-width: 768px) {
+    .brand-logo {
+      height: 32px;
+    }
+  }
+
+  .primary-nav {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .primary-nav {
+      display: block;
+    }
+  }
+
+  .nav-list {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 2rem;
+  }
+
+  .nav-link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--color-text-main);
+    text-transform: uppercase;
+    position: relative;
+    padding-bottom: 4px;
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 1.5px;
+    background-color: var(--color-accent);
+    transition: width var(--transition-fast);
+  }
+
+  .nav-link:hover::after {
+    width: 100%;
+  }
+
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--border-radius-sm);
+    color: var(--color-text-main);
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+    position: relative;
+  }
+
+  .action-btn:hover {
+    background-color: var(--color-surface);
+    color: var(--color-accent);
+  }
+
+  .bag-count {
+    position: absolute;
+    top: 6px;
+    right: 4px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    border-radius: 9px;
+    background-color: var(--color-accent);
+    color: #FFFFFF;
+    font-size: 11px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform var(--transition-fast);
+  }
+
+  .mobile-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+  }
+
+  @media (min-width: 768px) {
+    .mobile-toggle {
+      display: none;
+    }
+  }
+
+  .hamburger-line {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background-color: var(--color-text-main);
+    transition: all var(--transition-fast);
+  }
+
+  /* Mobile Dropdown */
+  .mobile-menu {
+    position: absolute;
+    top: 72px;
+    left: 0;
+    right: 0;
+    background-color: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  }
+
+  .mobile-menu-inner {
+    padding-top: 1.5rem;
+    padding-bottom: 2rem;
+  }
+
+  .mobile-nav-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+  }
+
+  .mobile-nav-link {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    color: var(--color-text-main);
+    display: block;
+  }
+
+  .mobile-menu-footer {
+    border-top: 1px solid var(--color-border);
+    padding-top: 1.5rem;
+  }
+
+  .mobile-concierge-note {
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-light);
+    margin-bottom: 0.75rem;
+  }
+
+  .btn-block {
+    width: 100%;
+  }
+</style>
+
+<script>
+  // Mobile menu interactive toggle
+  const toggleBtn = document.getElementById('menu-toggle-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  if (toggleBtn && mobileMenu) {
+    toggleBtn.addEventListener('click', () => {
+      const isExpanded = toggleBtn.getAttribute('aria-expanded') === 'true';
+      toggleBtn.setAttribute('aria-expanded', String(!isExpanded));
+      mobileMenu.hidden = isExpanded;
+    });
+
+    // Close on navigation click
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.hidden = true;
+        toggleBtn.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+</script>

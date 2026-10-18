@@ -1,0 +1,155 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../data/site';
+---
+
+<BaseLayout
+  title={`Delivery & Returns — ${siteConfig.brandName}`}
+  description="Transparent policies for delivery, cancellation, and returns across Qatar for LUMÈRA LUXE fragrance orders."
+>
+  <div class="policy-page">
+    <header class="policy-header">
+      <div class="container text-center">
+        <span class="eyebrow">Client Policies</span>
+        <h1 class="policy-title">Delivery & Returns Policy</h1>
+        <p class="policy-lead">
+          Clear, honest, and personal service for our Qatar fragrance clients.
+        </p>
+      </div>
+    </header>
+
+    <div class="container policy-body-container">
+      <div class="policy-content">
+        <section class="policy-section">
+          <h2 class="policy-section-heading">1. Delivery Across Qatar</h2>
+          <p>
+            LUMÈRA LUXE offers courier doorstep delivery across the State of Qatar, including Doha, Lusail, The Pearl-Qatar, Al Rayyan, Al Wakrah, and surrounding areas.
+          </p>
+          <ul class="policy-list">
+            <li><strong>Delivery Charges:</strong> Delivery charges vary depending on municipality and delivery urgency. The exact charge will be communicated and confirmed during your WhatsApp order request prior to payment.</li>
+            <li><strong>Delivery Schedule:</strong> Standard deliveries are fulfilled within 24 to 48 hours following confirmation of your order and receipt verification.</li>
+            <li><strong>Special Requests:</strong> If you require same-day delivery or scheduled gifting delivery, please inform our concierge on WhatsApp during order submission.</li>
+          </ul>
+        </section>
+
+        <section class="policy-section">
+          <h2 class="policy-section-heading">2. Order Confirmation & Payment</h2>
+          <p>
+            Placing an order request on this website does not charge any card or complete a financial transaction. All order requests are reviewed by our team:
+          </p>
+          <ul class="policy-list">
+            <li>We verify current bottle stock and concentration integrity.</li>
+            <li>We calculate the final payable amount, including exact Qatar delivery fees.</li>
+            <li>We provide approved, verified payment instructions directly through the WhatsApp conversation.</li>
+            <li>Orders are dispatched once payment confirmation is verified.</li>
+          </ul>
+        </section>
+
+        <section class="policy-section">
+          <h2 class="policy-section-heading">3. Returns & Exchange Policy</h2>
+          <p>
+            Fragrances are intimate beauty products subject to strict hygienic and storage standards. To ensure safety and authenticity for all customers:
+          </p>
+          <ul class="policy-list">
+            <li><strong>Eligible Returns:</strong> Fragrances may be returned or exchanged within 3 days of delivery only if the product remains completely sealed in its original cellophane packaging, unused, and undamaged.</li>
+            <li><strong>Damaged or Incorrect Items:</strong> If you receive an incorrect fragrance variant or an item damaged in transit, contact our WhatsApp concierge within 24 hours with photographs of the item and courier receipt. We will replace or refund promptly.</li>
+            <li><strong>Opened Bottles:</strong> Due to hygiene and scent preservation considerations, opened or tested bottles cannot be returned or refunded unless an authentic defect is established.</li>
+          </ul>
+        </section>
+
+        <section class="policy-section">
+          <h2 class="policy-section-heading">4. Contact Concierge</h2>
+          <p>
+            Have a question or require assistance with an existing order request? Connect with us:
+          </p>
+          <p>
+            <strong>WhatsApp:</strong> <a href={`https://wa.me/${siteConfig.whatsappNumber}`} target="_blank" rel="noopener">{siteConfig.whatsappDisplay}</a><br />
+            <strong>Email:</strong> <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .policy-header {
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    padding: clamp(3rem, 6vw, 4.5rem) 0;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-accent);
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .policy-title {
+    font-size: var(--text-4xl);
+    color: var(--color-text-main);
+    margin-bottom: 0.75rem;
+  }
+
+  .policy-lead {
+    font-size: 1.1rem;
+    color: var(--color-text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .policy-body-container {
+    padding-top: clamp(2.5rem, 5vw, 4rem);
+    padding-bottom: 5rem;
+  }
+
+  .policy-content {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .policy-section {
+    margin-bottom: 3rem;
+  }
+
+  .policy-section-heading {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+    color: var(--color-text-main);
+  }
+
+  .policy-section p {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+    color: var(--color-text-muted);
+  }
+
+  .policy-list {
+    margin-left: 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .policy-list li {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    line-height: 1.65;
+  }
+
+  .policy-content a {
+    color: var(--color-accent);
+    text-decoration: underline;
+  }
+</style>

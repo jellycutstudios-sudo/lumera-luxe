@@ -1,0 +1,407 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProductCard from '../components/ProductCard.astro';
+import productsData from '../data/products.json';
+
+// Unique brands
+const brands = Array.from(new Set(productsData.map((p) => p.brand))).sort();
+
+// Scent family tokens
+const allFamilies = Array.from(
+  new Set(productsData.flatMap((p) => p.scentFamilies.map((f) => f.trim())))
+).sort();
+---
+
+<BaseLayout
+  title="Collection — LUMÈRA LUXE | Fragrances in Qatar"
+  description="Explore our curated collection of verified designer and niche fragrances. Authentic concentrates, fair pricing, and personal concierge service in Qatar."
+>
+  <div class="shop-page">
+    <!-- Header Banner -->
+    <header class="shop-header">
+      <div class="container">
+        <span class="shop-eyebrow">Curated Catalogue</span>
+        <h1 class="shop-title">The Fragrance Collection</h1>
+        <p class="shop-description">
+          Every fragrance is genuine, verified for volume and concentration, and backed by direct WhatsApp concierge assistance.
+        </p>
+      </div>
+    </header>
+
+    <div class="container shop-layout">
+      <!-- Search & Filter Controls -->
+      <div class="filter-toolbar">
+        <!-- Search Input -->
+        <div class="search-input-wrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="search-icon">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input
+            type="search"
+            id="catalogue-search"
+            class="search-input"
+            placeholder="Search by perfume, brand, or note (e.g. Jasmine, Vanilla, Dior)..."
+          />
+        </div>
+
+        <div class="toolbar-dropdowns">
+          <!-- Brand Filter -->
+          <div class="select-wrap">
+            <label for="filter-brand" class="sr-only">Filter by Brand</label>
+            <select id="filter-brand" class="toolbar-select">
+              <option value="">All Brands ({brands.length})</option>
+              {brands.map((b) => <option value={b}>{b}</option>)}
+            </select>
+          </div>
+
+          <!-- Scent Family Filter -->
+          <div class="select-wrap">
+            <label for="filter-family" class="sr-only">Filter by Scent Family</label>
+            <select id="filter-family" class="toolbar-select">
+              <option value="">All Scent Families</option>
+              {allFamilies.map((f) => <option value={f}>{f}</option>)}
+            </select>
+          </div>
+
+          <!-- Sort -->
+          <div class="select-wrap">
+            <label for="sort-select" class="sr-only">Sort By</label>
+            <select id="sort-select" class="toolbar-select">
+              <option value="featured">Featured First</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="name-asc">Alphabetical (A-Z)</option>
+            </select>
+          </div>
+
+          <button id="clear-filters-btn" class="btn-clear-filters" type="button">
+            Reset
+          </button>
+        </div>
+      </div>
+
+      <!-- Active Filter Status & Count -->
+      <div class="catalogue-status-bar">
+        <span id="results-count" class="results-count">
+          Showing <strong>{productsData.length}</strong> fragrances
+        </span>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="grid-products" id="catalogue-grid">
+        {productsData.map((product) => (
+          <ProductCard product={product} />
+        ))}
+      </div>
+
+      <!-- Zero Results State -->
+      <div class="zero-results" id="zero-results" hidden>
+        <div class="zero-icon-wrap">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            <line x1="8" y1="11" x2="14" y2="11"></line>
+          </svg>
+        </div>
+        <h3 class="zero-title">No fragrances match your selection</h3>
+        <p class="zero-subtitle">Try adjusting your search keywords or clearing some filters.</p>
+        <button id="reset-zero-btn" class="btn btn-primary btn-sm">Clear All Filters</button>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .shop-header {
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    padding: clamp(2.5rem, 5vw, 4rem) 0;
+    text-align: center;
+  }
+
+  .shop-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-accent);
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .shop-title {
+    font-size: var(--text-4xl);
+    color: var(--color-text-main);
+    margin-bottom: 0.75rem;
+  }
+
+  .shop-description {
+    font-size: 1.05rem;
+    color: var(--color-text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .shop-layout {
+    padding-top: 2.5rem;
+    padding-bottom: 5rem;
+  }
+
+  /* Filter Toolbar */
+  .filter-toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  @media (min-width: 860px) {
+    .filter-toolbar {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+
+  .search-input-wrap {
+    position: relative;
+    flex: 1;
+    max-width: 480px;
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-light);
+    pointer-events: none;
+  }
+
+  .search-input {
+    width: 100%;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    padding: 0.75rem 1rem 0.75rem 2.65rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    background-color: #FFFFFF;
+    color: var(--color-text-main);
+    transition: border-color var(--transition-fast);
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+  }
+
+  .toolbar-dropdowns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .select-wrap {
+    position: relative;
+  }
+
+  .toolbar-select {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    padding: 0.65rem 1.75rem 0.65rem 0.85rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    background-color: #FFFFFF;
+    color: var(--color-text-main);
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2325211E' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.6rem center;
+    background-size: 14px;
+  }
+
+  .toolbar-select:focus {
+    outline: none;
+    border-color: var(--color-accent);
+  }
+
+  .btn-clear-filters {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-light);
+    padding: 0.65rem 0.85rem;
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    transition: all var(--transition-fast);
+  }
+
+  .btn-clear-filters:hover {
+    color: var(--color-text-main);
+    border-color: var(--color-text-main);
+  }
+
+  .catalogue-status-bar {
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-border-subtle);
+    margin-bottom: 2rem;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+  }
+
+  /* Zero Results */
+  .zero-results {
+    text-align: center;
+    padding: 5rem 1rem;
+  }
+
+  .zero-icon-wrap {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: var(--color-surface);
+    color: var(--color-text-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem auto;
+  }
+
+  .zero-title {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .zero-subtitle {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+</style>
+
+<script>
+  import productsData from '../data/products.json';
+
+  const searchInput = document.getElementById('catalogue-search') as HTMLInputElement;
+  const brandSelect = document.getElementById('filter-brand') as HTMLSelectElement;
+  const familySelect = document.getElementById('filter-family') as HTMLSelectElement;
+  const sortSelect = document.getElementById('sort-select') as HTMLSelectElement;
+  const clearBtn = document.getElementById('clear-filters-btn');
+  const resetZeroBtn = document.getElementById('reset-zero-btn');
+  const countEl = document.getElementById('results-count');
+  const gridEl = document.getElementById('catalogue-grid');
+  const zeroEl = document.getElementById('zero-results');
+
+  // Read URL params
+  const urlParams = new URLSearchParams(window.location.search);
+  const initialSearch = urlParams.get('search') || '';
+  const initialBrand = urlParams.get('brand') || '';
+  const initialFamily = urlParams.get('family') || '';
+
+  if (searchInput && initialSearch) searchInput.value = initialSearch;
+  if (brandSelect && initialBrand) brandSelect.value = initialBrand;
+  if (familySelect && initialFamily) familySelect.value = initialFamily;
+
+  function filterAndSortProducts() {
+    const q = searchInput?.value.trim().toLowerCase() || '';
+    const selectedBrand = brandSelect?.value || '';
+    const selectedFamily = familySelect?.value.toLowerCase() || '';
+    const sort = sortSelect?.value || 'featured';
+
+    const cards = Array.from(gridEl?.querySelectorAll('.product-card') || []) as HTMLElement[];
+
+    let visibleCount = 0;
+
+    cards.forEach((card) => {
+      const id = card.getAttribute('data-product-id');
+      const prod = productsData.find((p) => p.id === id);
+      if (!prod) return;
+
+      const matchesSearch =
+        !q ||
+        prod.name.toLowerCase().includes(q) ||
+        prod.brand.toLowerCase().includes(q) ||
+        prod.rawNotes.toLowerCase().includes(q) ||
+        prod.scentFamilies.some((f) => f.toLowerCase().includes(q));
+
+      const matchesBrand = !selectedBrand || prod.brand === selectedBrand;
+      const matchesFamily =
+        !selectedFamily ||
+        prod.scentFamilies.some((f) => f.toLowerCase().includes(selectedFamily));
+
+      if (matchesSearch && matchesBrand && matchesFamily) {
+        card.style.display = '';
+        visibleCount++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    // Sort visible cards
+    if (gridEl) {
+      const sortedCards = cards.slice().sort((a, b) => {
+        const prodA = productsData.find((p) => p.id === a.getAttribute('data-product-id'))!;
+        const prodB = productsData.find((p) => p.id === b.getAttribute('data-product-id'))!;
+
+        if (sort === 'price-asc') return prodA.priceMinor - prodB.priceMinor;
+        if (sort === 'price-desc') return prodB.priceMinor - prodA.priceMinor;
+        if (sort === 'name-asc') return prodA.name.localeCompare(prodB.name);
+        return (prodB.featured ? 1 : 0) - (prodA.featured ? 1 : 0);
+      });
+
+      sortedCards.forEach((c) => gridEl.appendChild(c));
+    }
+
+    // Update status
+    if (countEl) {
+      countEl.innerHTML = `Showing <strong>${visibleCount}</strong> fragrance${visibleCount === 1 ? '' : 's'}`;
+    }
+
+    if (zeroEl && gridEl) {
+      if (visibleCount === 0) {
+        zeroEl.hidden = false;
+        gridEl.hidden = true;
+      } else {
+        zeroEl.hidden = true;
+        gridEl.hidden = false;
+      }
+    }
+  }
+
+  function resetFilters() {
+    if (searchInput) searchInput.value = '';
+    if (brandSelect) brandSelect.value = '';
+    if (familySelect) familySelect.value = '';
+    if (sortSelect) sortSelect.value = 'featured';
+    filterAndSortProducts();
+  }
+
+  searchInput?.addEventListener('input', filterAndSortProducts);
+  brandSelect?.addEventListener('change', filterAndSortProducts);
+  familySelect?.addEventListener('change', filterAndSortProducts);
+  sortSelect?.addEventListener('change', filterAndSortProducts);
+  clearBtn?.addEventListener('click', resetFilters);
+  resetZeroBtn?.addEventListener('click', resetFilters);
+
+  // Run initial filter check
+  if (initialSearch || initialBrand || initialFamily) {
+    filterAndSortProducts();
+  }
+</script>

@@ -1,0 +1,700 @@
+---
+import { siteConfig } from '../data/site';
+---
+
+<div class="bag-drawer-backdrop" id="bag-backdrop" hidden></div>
+
+<aside
+  class="bag-drawer"
+  id="bag-drawer"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="bag-drawer-title"
+  hidden
+>
+  <div class="bag-drawer-header">
+    <div class="bag-drawer-title-group">
+      <h2 id="bag-drawer-title" class="bag-drawer-title">Shopping Bag</h2>
+      <span class="bag-drawer-badge" id="bag-items-badge">0 items</span>
+    </div>
+    <button class="bag-close-btn" id="bag-close-btn" aria-label="Close shopping bag">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Bag Items Container -->
+  <div class="bag-drawer-body">
+    <div id="bag-empty-state" class="bag-empty-state">
+      <div class="empty-icon-wrap">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+      </div>
+      <p class="empty-title">Your fragrance bag is empty</p>
+      <p class="empty-subtitle">Explore our collection of authentic luxury perfumes.</p>
+      <a href="/shop/" class="btn btn-primary btn-sm" id="empty-shop-link">Browse Collection</a>
+    </div>
+
+    <ul id="bag-items-list" class="bag-items-list"></ul>
+  </div>
+
+  <!-- Bag Drawer Footer -->
+  <div class="bag-drawer-footer" id="bag-footer" hidden>
+    <!-- Optional Customer Context -->
+    <div class="customer-fields">
+      <div class="field-group">
+        <label for="order-customer-name" class="field-label">Your Name (Optional)</label>
+        <input type="text" id="order-customer-name" class="field-input" placeholder="e.g. Fatima" />
+      </div>
+      <div class="field-group">
+        <label for="order-delivery-area" class="field-label">Delivery Area (Qatar)</label>
+        <input type="text" id="order-delivery-area" class="field-input" placeholder="e.g. West Bay, Lusail, The Pearl" />
+      </div>
+    </div>
+
+    <!-- Pricing Summary -->
+    <div class="bag-summary">
+      <div class="summary-row">
+        <span>Estimated Subtotal</span>
+        <span class="summary-val" id="bag-subtotal-val">0 QAR</span>
+      </div>
+      <p class="delivery-disclaimer">
+        Delivery fee and availability are confirmed personally on WhatsApp.
+      </p>
+    </div>
+
+    <!-- Checkout Actions -->
+    <div class="bag-actions">
+      <button class="btn btn-primary btn-block btn-whatsapp-checkout" id="btn-whatsapp-order">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12.031 2C6.495 2 2 6.495 2 12.031c0 1.77.462 3.498 1.341 5.022L2 22l5.093-1.336A10.007 10.007 0 0 0 12.031 22C17.567 22 22 17.505 22 12.031 22 6.495 17.567 2 12.031 2zm5.879 14.195c-.244.686-1.42 1.314-1.956 1.385-.514.068-1.163.097-3.708-.958-3.04-1.258-4.996-4.34-5.148-4.542-.152-.202-1.233-1.64-1.233-3.128 0-1.488.777-2.22 1.052-2.525.275-.305.6-.381.8-.381.2 0 .4 0 .576.01.187.01.438-.071.686.525.257.619.876 2.143.952 2.296.076.153.127.33.025.534-.102.204-.153.33-.305.508-.152.178-.32.396-.457.533-.153.153-.312.32-.134.626.178.305.792 1.306 1.698 2.112 1.166 1.037 2.148 1.358 2.453 1.51.305.153.483.128.66-.076.178-.204.762-.89 965-1.195.204-.305.407-.254.686-.153.28.102 1.777.838 2.082.99.305.153.508.229.584.356.076.127.076.737-.168 1.423z"/>
+        </svg>
+        Request via WhatsApp
+      </button>
+
+      <button class="btn btn-secondary btn-block btn-sm" id="btn-copy-order">
+        Copy Order Summary
+      </button>
+    </div>
+  </div>
+</aside>
+
+<!-- Toast Notification -->
+<div class="toast-notification" id="toast-notify" role="status" aria-live="polite" hidden>
+  <span class="toast-message" id="toast-text">Added to bag</span>
+  <button class="toast-action" id="toast-view-btn">View Bag</button>
+</div>
+
+<style>
+  .bag-drawer-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(37, 33, 30, 0.4);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 100;
+  }
+
+  .bag-drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 440px;
+    background-color: #FFFFFF;
+    z-index: 101;
+    display: flex;
+    flex-direction: column;
+    box-shadow: -10px 0 35px rgba(0, 0, 0, 0.1);
+    animation: drawerSlideIn 240ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes drawerSlideIn {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+  }
+
+  .bag-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+  }
+
+  .bag-drawer-title-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .bag-drawer-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+
+  .bag-drawer-badge {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-accent);
+    background-color: var(--color-accent-light);
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--border-radius-sm);
+  }
+
+  .bag-close-btn {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-main);
+    border-radius: var(--border-radius-sm);
+    transition: background-color var(--transition-fast);
+  }
+
+  .bag-close-btn:hover {
+    background-color: var(--color-surface);
+  }
+
+  .bag-drawer-body {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.25rem 1.5rem;
+  }
+
+  .bag-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 1rem;
+    color: var(--color-text-muted);
+  }
+
+  .empty-icon-wrap {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background-color: var(--color-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+    color: var(--color-text-light);
+  }
+
+  .empty-title {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    color: var(--color-text-main);
+    margin-bottom: 0.35rem;
+  }
+
+  .empty-subtitle {
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .bag-items-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .bag-item-card {
+    display: flex;
+    gap: 1rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  .bag-item-img-wrap {
+    width: 72px;
+    height: 90px;
+    background-color: var(--color-surface-subtle);
+    border-radius: var(--border-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .bag-item-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .bag-item-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .bag-item-brand {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--color-text-light);
+  }
+
+  .bag-item-name {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+    margin-bottom: 0.15rem;
+  }
+
+  .bag-item-meta {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    margin-bottom: 0.65rem;
+  }
+
+  .bag-item-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+  }
+
+  .bag-qty-controls {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    background-color: #FFFFFF;
+  }
+
+  .bag-qty-btn {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    color: var(--color-text-main);
+  }
+
+  .bag-qty-val {
+    min-width: 24px;
+    text-align: center;
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+
+  .bag-item-price {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+  }
+
+  .bag-drawer-footer {
+    border-top: 1px solid var(--color-border);
+    padding: 1.25rem 1.5rem;
+    background-color: var(--color-bg);
+  }
+
+  .customer-fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .field-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+  }
+
+  .field-input {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    padding: 0.5rem 0.65rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    background-color: #FFFFFF;
+    color: var(--color-text-main);
+  }
+
+  .field-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+  }
+
+  .bag-summary {
+    margin-bottom: 1.25rem;
+  }
+
+  .summary-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+    margin-bottom: 0.25rem;
+  }
+
+  .delivery-disclaimer {
+    font-size: 0.75rem;
+    color: var(--color-text-light);
+    line-height: 1.4;
+  }
+
+  .bag-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .btn-whatsapp-checkout {
+    background-color: #25D366;
+    border-color: #25D366;
+    color: #FFFFFF;
+    font-weight: 600;
+  }
+
+  .btn-whatsapp-checkout:hover {
+    background-color: #1EBE5D;
+    border-color: #1EBE5D;
+    color: #FFFFFF;
+  }
+
+  /* Toast Notification */
+  .toast-notification {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    background-color: var(--color-text-main);
+    color: #FFFFFF;
+    padding: 0.85rem 1.25rem;
+    border-radius: var(--border-radius-sm);
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    z-index: 110;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    animation: toastPop 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes toastPop {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .toast-message {
+    font-size: 0.875rem;
+  }
+
+  .toast-action {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-accent);
+    border-bottom: 1px solid var(--color-accent);
+    padding-bottom: 1px;
+  }
+</style>
+
+<script>
+  import productsData from '../data/products.json';
+  import { siteConfig } from '../data/site';
+
+  interface CartStorageItem {
+    id: string;
+    quantity: number;
+  }
+
+  const STORAGE_KEY = 'lumera_bag_v1';
+
+  function getCartItems(): CartStorageItem[] {
+    try {
+      const data = localStorage.getItem(STORAGE_KEY);
+      return data ? JSON.parse(data) : [];
+    } catch {
+      return [];
+    }
+  }
+
+  function saveCartItems(items: CartStorageItem[]) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+    } catch (e) {
+      console.error('Failed to save cart to localStorage', e);
+    }
+    updateBagUI();
+  }
+
+  function getHydratedCart() {
+    const stored = getCartItems();
+    return stored
+      .map(item => {
+        const prod = productsData.find(p => p.id === item.id);
+        if (!prod) return null;
+        return {
+          id: prod.id,
+          name: prod.name,
+          brand: prod.brand,
+          sizeDisplay: prod.sizeDisplay,
+          concentration: prod.concentration,
+          priceMinor: prod.priceMinor,
+          priceDisplay: prod.priceDisplay,
+          image: prod.image,
+          quantity: item.quantity
+        };
+      })
+      .filter(Boolean);
+  }
+
+  function updateBagUI() {
+    const items = getHydratedCart();
+    const totalCount = items.reduce((sum, it) => sum + it.quantity, 0);
+
+    // Update header badges
+    const headerCount = document.getElementById('header-bag-count');
+    if (headerCount) headerCount.textContent = String(totalCount);
+
+    const drawerBadge = document.getElementById('bag-items-badge');
+    if (drawerBadge) drawerBadge.textContent = `${totalCount} item${totalCount === 1 ? '' : 's'}`;
+
+    const emptyState = document.getElementById('bag-empty-state');
+    const footer = document.getElementById('bag-footer');
+    const list = document.getElementById('bag-items-list');
+
+    if (!items.length) {
+      if (emptyState) emptyState.hidden = false;
+      if (footer) footer.hidden = true;
+      if (list) list.innerHTML = '';
+      return;
+    }
+
+    if (emptyState) emptyState.hidden = true;
+    if (footer) footer.hidden = false;
+
+    // Render list
+    if (list) {
+      list.innerHTML = items
+        .map(
+          item => `
+        <li class="bag-item-card">
+          <div class="bag-item-img-wrap">
+            <img src="${item.image}" alt="${item.brand} ${item.name}" class="bag-item-img" />
+          </div>
+          <div class="bag-item-details">
+            <span class="bag-item-brand">${item.brand}</span>
+            <h4 class="bag-item-name">${item.name}</h4>
+            <span class="bag-item-meta">${item.sizeDisplay} · ${item.concentration}</span>
+            <div class="bag-item-bottom">
+              <div class="bag-qty-controls">
+                <button class="bag-qty-btn" data-action="decrement" data-id="${item.id}" aria-label="Decrease quantity">−</button>
+                <span class="bag-qty-val">${item.quantity}</span>
+                <button class="bag-qty-btn" data-action="increment" data-id="${item.id}" aria-label="Increase quantity">+</button>
+              </div>
+              <span class="bag-item-price">${((item.priceMinor * item.quantity) / 100).toFixed(0)} QAR</span>
+            </div>
+          </div>
+        </li>
+      `
+        )
+        .join('');
+    }
+
+    // Update Subtotal
+    const subtotalMinor = items.reduce((sum, it) => sum + it.priceMinor * it.quantity, 0);
+    const subtotalEl = document.getElementById('bag-subtotal-val');
+    if (subtotalEl) subtotalEl.textContent = `${(subtotalMinor / 100).toFixed(0)} QAR`;
+  }
+
+  // Bag Drawer Open/Close handling
+  const backdrop = document.getElementById('bag-backdrop');
+  const drawer = document.getElementById('bag-drawer');
+  const openBtn = document.getElementById('open-bag-btn');
+  const closeBtn = document.getElementById('bag-close-btn');
+
+  function openBag() {
+    if (backdrop) backdrop.hidden = false;
+    if (drawer) drawer.hidden = false;
+    document.body.style.overflow = 'hidden';
+    updateBagUI();
+  }
+
+  function closeBag() {
+    if (backdrop) backdrop.hidden = true;
+    if (drawer) drawer.hidden = true;
+    document.body.style.overflow = '';
+  }
+
+  if (openBtn) openBtn.addEventListener('click', openBag);
+  if (closeBtn) closeBtn.addEventListener('click', closeBag);
+  if (backdrop) backdrop.addEventListener('click', closeBag);
+
+  window.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && drawer && !drawer.hidden) {
+      closeBag();
+    }
+  });
+
+  // Global Add to Bag click delegator
+  document.addEventListener('click', e => {
+    const target = (e.target as HTMLElement).closest('[data-action]');
+    if (!target) return;
+
+    const action = target.getAttribute('data-action');
+    const id = target.getAttribute('data-id');
+
+    if (action === 'add-to-bag' && id) {
+      const items = getCartItems();
+      const existing = items.find(it => it.id === id);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        items.push({ id, quantity: 1 });
+      }
+      saveCartItems(items);
+      showToast('Added to bag');
+    }
+
+    if (action === 'increment' && id) {
+      const items = getCartItems();
+      const existing = items.find(it => it.id === id);
+      if (existing) {
+        existing.quantity += 1;
+        saveCartItems(items);
+      }
+    }
+
+    if (action === 'decrement' && id) {
+      let items = getCartItems();
+      const existing = items.find(it => it.id === id);
+      if (existing) {
+        existing.quantity -= 1;
+        if (existing.quantity <= 0) {
+          items = items.filter(it => it.id !== id);
+        }
+        saveCartItems(items);
+      }
+    }
+  });
+
+  // Toast
+  let toastTimer: number;
+  function showToast(msg: string) {
+    const toast = document.getElementById('toast-notify');
+    const text = document.getElementById('toast-text');
+    if (!toast || !text) return;
+
+    text.textContent = msg;
+    toast.hidden = false;
+
+    window.clearTimeout(toastTimer);
+    toastTimer = window.setTimeout(() => {
+      toast.hidden = true;
+    }, 3500);
+  }
+
+  const toastViewBtn = document.getElementById('toast-view-btn');
+  if (toastViewBtn) {
+    toastViewBtn.addEventListener('click', () => {
+      const toast = document.getElementById('toast-notify');
+      if (toast) toast.hidden = true;
+      openBag();
+    });
+  }
+
+  // WhatsApp Order Submission
+  const btnWhatsApp = document.getElementById('btn-whatsapp-order');
+  if (btnWhatsApp) {
+    btnWhatsApp.addEventListener('click', () => {
+      const items = getHydratedCart();
+      if (!items.length) return;
+
+      const nameInput = document.getElementById('order-customer-name') as HTMLInputElement;
+      const areaInput = document.getElementById('order-delivery-area') as HTMLInputElement;
+
+      const customerName = nameInput ? nameInput.value.trim() : '';
+      const deliveryArea = areaInput ? areaInput.value.trim() : '';
+
+      const subtotalMinor = items.reduce((sum, it) => sum + it.priceMinor * it.quantity, 0);
+
+      let msg = `*LUMÈRA LUXE — Fragrance Order Request*\n\n`;
+      if (customerName) msg += `*Customer:* ${customerName}\n`;
+      if (deliveryArea) msg += `*Delivery Area:* ${deliveryArea} (Qatar)\n`;
+      if (customerName || deliveryArea) msg += `\n`;
+
+      msg += `*Selected Fragrances:*\n`;
+      items.forEach((item, idx) => {
+        const itemTotal = ((item.priceMinor * item.quantity) / 100).toFixed(0);
+        msg += `${idx + 1}. *${item.brand} — ${item.name}*\n`;
+        msg += `   ${item.sizeDisplay} · ${item.concentration}\n`;
+        msg += `   Qty: ${item.quantity} × ${(item.priceMinor / 100).toFixed(0)} QAR = *${itemTotal} QAR*\n\n`;
+      });
+
+      msg += `*Estimated Subtotal:* ${(subtotalMinor / 100).toFixed(0)} QAR\n`;
+      msg += `_(Excludes delivery charge. Final total and timing will be confirmed by LUMÈRA LUXE)_\n\n`;
+      msg += `Please confirm product availability, delivery charges, and payment instructions. Thank you!`;
+
+      const phone = siteConfig.whatsappNumber.replace(/[^0-9]/g, '');
+      const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+
+      window.open(waUrl, '_blank');
+    });
+  }
+
+  // Copy Order Summary Fallback
+  const btnCopy = document.getElementById('btn-copy-order');
+  if (btnCopy) {
+    btnCopy.addEventListener('click', () => {
+      const items = getHydratedCart();
+      if (!items.length) return;
+
+      const nameInput = document.getElementById('order-customer-name') as HTMLInputElement;
+      const areaInput = document.getElementById('order-delivery-area') as HTMLInputElement;
+
+      const customerName = nameInput ? nameInput.value.trim() : '';
+      const deliveryArea = areaInput ? areaInput.value.trim() : '';
+      const subtotalMinor = items.reduce((sum, it) => sum + it.priceMinor * it.quantity, 0);
+
+      let summary = `LUMÈRA LUXE — Order Request\n`;
+      if (customerName) summary += `Customer: ${customerName}\n`;
+      if (deliveryArea) summary += `Area: ${deliveryArea} (Qatar)\n`;
+      summary += `\nItems:\n`;
+      items.forEach((item, idx) => {
+        summary += `${idx + 1}. ${item.brand} - ${item.name} (${item.sizeDisplay}, ${item.concentration}) x ${item.quantity} = ${((item.priceMinor * item.quantity) / 100).toFixed(0)} QAR\n`;
+      });
+      summary += `\nEstimated Subtotal: ${(subtotalMinor / 100).toFixed(0)} QAR\n`;
+
+      navigator.clipboard.writeText(summary).then(() => {
+        showToast('Order summary copied to clipboard');
+      });
+    });
+  }
+
+  // Initial load sync
+  updateBagUI();
+</script>

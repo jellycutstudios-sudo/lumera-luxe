@@ -1,0 +1,529 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import productsData from '../../data/products.json';
+import { siteConfig } from '../../data/site';
+
+export async function getStaticPaths() {
+  return productsData.map((product) => ({
+    params: { slug: product.slug },
+    props: { product }
+  }));
+}
+
+const { product } = Astro.props;
+
+// Find 3-4 related products sharing brand or scent families
+const relatedProducts = productsData
+  .filter(
+    (p) =>
+      p.id !== product.id &&
+      (p.brand === product.brand ||
+        p.scentFamilies.some((f) => product.scentFamilies.includes(f)))
+  )
+  .slice(0, 4);
+
+// Schema.org Product structured data
+const productSchema = {
+  '@context': 'https://schema.org/',
+  '@type': 'Product',
+  name: product.fullName,
+  image: `https://lumeraluxe.qa${product.image}`,
+  description: product.description,
+  brand: {
+    '@type': 'Brand',
+    name: product.brand
+  },
+  offers: {
+    '@type': 'Offer',
+    priceCurrency: product.currency,
+    price: (product.priceMinor / 100).toFixed(0),
+    availability: 'https://schema.org/InStock',
+    seller: {
+      '@type': 'Organization',
+      name: siteConfig.brandName
+    }
+  }
+};
+---
+
+<BaseLayout
+  title={`${product.fullName} · ${product.sizeDisplay} — LUMÈRA LUXE`}
+  description={product.description}
+  image={product.image}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(productSchema)} />
+
+  <article class="pdp-container container">
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol class="breadcrumb-list">
+        <li><a href="/">Home</a></li>
+        <li class="breadcrumb-separator">/</li>
+        <li><a href="/shop/">Collection</a></li>
+        <li class="breadcrumb-separator">/</li>
+        <li><a href={`/shop/?brand=${encodeURIComponent(product.brand)}`}>{product.brand}</a></li>
+        <li class="breadcrumb-separator">/</li>
+        <li aria-current="page">{product.name}</li>
+      </ol>
+    </nav>
+
+    <div class="pdp-grid">
+      <!-- Media Gallery -->
+      <div class="pdp-media-wrap">
+        <div class="pdp-media-frame">
+          <img
+            src={product.image}
+            alt={`${product.fullName} bottle photograph`}
+            class="pdp-main-image"
+            width="500"
+            height="625"
+            loading="eager"
+            id="pdp-image"
+          />
+        </div>
+      </div>
+
+      <!-- Product Information -->
+      <div class="pdp-info">
+        <span class="pdp-brand">{product.brand}</span>
+        <h1 class="pdp-title">{product.name}</h1>
+        <p class="pdp-variant-details">{product.sizeDisplay} · {product.concentration}</p>
+
+        <div class="pdp-price-wrap">
+          <span class="pdp-price">{product.priceDisplay}</span>
+          <span class="pdp-availability-badge">
+            <span class="status-dot"></span>
+            Availability confirmed on WhatsApp
+          </span>
+        </div>
+
+        <p class="pdp-description">{product.description}</p>
+
+        <!-- Scent Profile Details -->
+        <div class="pdp-notes-box">
+          <h2 class="pdp-notes-title">Fragrance Profile</h2>
+          
+          <div class="pdp-family-tags">
+            {product.scentFamilies.map((fam) => (
+              <span class="badge badge-accent">{fam}</span>
+            ))}
+          </div>
+
+          <div class="pdp-key-notes">
+            <span class="key-notes-label">Key Scent Notes:</span>
+            <ul class="key-notes-list">
+              {product.keyNotes.map((note) => (
+                <li class="note-pill">{note}</li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <!-- Add to Bag CTA -->
+        <div class="pdp-cta-block" id="pdp-cta-trigger">
+          <button
+            type="button"
+            class="btn btn-primary btn-block btn-pdp-add"
+            data-action="add-to-bag"
+            data-id={product.id}
+            data-name={product.name}
+            data-brand={product.brand}
+            data-size={product.sizeDisplay}
+            data-concentration={product.concentration}
+            data-price={product.priceMinor}
+            data-image={product.image}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+            Add to Bag — {product.priceDisplay}
+          </button>
+
+          <a
+            href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(`Hello LUMÈRA LUXE, I am interested in inquiring about ${product.fullName} (${product.sizeDisplay}, ${product.concentration}).`)}`}
+            class="btn btn-secondary btn-block"
+            target="_blank"
+            rel="noopener"
+          >
+            Inquire directly on WhatsApp
+          </a>
+        </div>
+
+        <!-- Client Guarantees -->
+        <div class="pdp-assurances">
+          <div class="assurance-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+            <span>100% Guaranteed Genuine & Verified Quality</span>
+          </div>
+          <div class="assurance-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+              <rect x="1" y="3" width="15" height="13"></rect>
+              <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+              <circle cx="5.5" cy="18.5" r="2.5"></circle>
+              <circle cx="18.5" cy="18.5" r="2.5"></circle>
+            </svg>
+            <span>Doha & Qatar Doorstep Delivery</span>
+          </div>
+          <div class="assurance-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <span>Personal advice & payment confirmation via WhatsApp</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related Fragrances -->
+    {relatedProducts.length > 0 && (
+      <section class="related-section">
+        <div class="section-header">
+          <div>
+            <span class="section-eyebrow">Olfactory Harmonies</span>
+            <h2 class="section-heading">You May Also Appreciate</h2>
+          </div>
+        </div>
+        <div class="grid-products">
+          {relatedProducts.map((p) => (
+            <ProductCard product={p} />
+          ))}
+        </div>
+      </section>
+    )}
+  </article>
+
+  <!-- Mobile Sticky Add to Bag Bar -->
+  <div class="mobile-sticky-bar" id="mobile-sticky-bar" hidden>
+    <div class="mobile-sticky-inner">
+      <div class="mobile-sticky-info">
+        <span class="mobile-sticky-name">{product.name}</span>
+        <span class="mobile-sticky-price">{product.priceDisplay}</span>
+      </div>
+      <button
+        class="btn btn-primary btn-sm btn-sticky-add"
+        data-action="add-to-bag"
+        data-id={product.id}
+        data-name={product.name}
+        data-brand={product.brand}
+        data-size={product.sizeDisplay}
+        data-concentration={product.concentration}
+        data-price={product.priceMinor}
+        data-image={product.image}
+      >
+        Add to Bag
+      </button>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .pdp-container {
+    padding-top: 1.5rem;
+    padding-bottom: 5rem;
+  }
+
+  .breadcrumb {
+    margin-bottom: 2rem;
+    font-size: 0.8125rem;
+    color: var(--color-text-light);
+  }
+
+  .breadcrumb-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .breadcrumb-separator {
+    color: var(--color-border);
+  }
+
+  .breadcrumb-list a:hover {
+    color: var(--color-accent);
+  }
+
+  .pdp-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    align-items: start;
+    margin-bottom: 5rem;
+  }
+
+  @media (min-width: 860px) {
+    .pdp-grid {
+      grid-template-columns: 1.15fr 1fr;
+      gap: 4rem;
+    }
+  }
+
+  /* Media Frame */
+  .pdp-media-wrap {
+    position: sticky;
+    top: 96px;
+  }
+
+  .pdp-media-frame {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    aspect-ratio: 4 / 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(2rem, 5vw, 4rem);
+  }
+
+  .pdp-main-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 16px 30px rgba(0, 0, 0, 0.08));
+    transition: transform 300ms ease;
+  }
+
+  .pdp-main-image:hover {
+    transform: scale(1.03);
+  }
+
+  /* Product Info */
+  .pdp-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pdp-brand {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .pdp-title {
+    font-size: var(--text-4xl);
+    line-height: 1.15;
+    color: var(--color-text-main);
+    margin-bottom: 0.5rem;
+  }
+
+  .pdp-variant-details {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .pdp-price-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 1.75rem;
+  }
+
+  .pdp-price {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+  }
+
+  .pdp-availability-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    background-color: var(--color-surface);
+    padding: 0.35rem 0.65rem;
+    border-radius: var(--border-radius-sm);
+  }
+
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: #25D366;
+  }
+
+  .pdp-description {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--color-text-muted);
+    margin-bottom: 2rem;
+  }
+
+  /* Notes Box */
+  .pdp-notes-box {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .pdp-notes-title {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-main);
+    margin-bottom: 1rem;
+  }
+
+  .pdp-family-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .key-notes-label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--color-text-light);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .key-notes-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .note-pill {
+    font-size: 0.8125rem;
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border);
+    padding: 0.25rem 0.65rem;
+    border-radius: var(--border-radius-sm);
+    color: var(--color-text-main);
+  }
+
+  /* CTA */
+  .pdp-cta-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .btn-pdp-add {
+    font-size: 0.95rem;
+    padding: 1.1rem;
+  }
+
+  /* Assurances */
+  .pdp-assurances {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .assurance-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+  }
+
+  .assurance-item svg {
+    color: var(--color-accent);
+    flex-shrink: 0;
+  }
+
+  /* Related Section */
+  .related-section {
+    padding-top: 4rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  /* Mobile Sticky Bar */
+  .mobile-sticky-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--color-border);
+    padding: 0.75rem 1rem;
+    padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+    z-index: 40;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
+  }
+
+  @media (min-width: 860px) {
+    .mobile-sticky-bar {
+      display: none !important;
+    }
+  }
+
+  .mobile-sticky-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .mobile-sticky-info {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .mobile-sticky-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mobile-sticky-price {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+  }
+
+  .btn-sticky-add {
+    min-height: 40px;
+    padding: 0.5rem 1.25rem;
+    flex-shrink: 0;
+  }
+</style>
+
+<script>
+  // Mobile sticky bar observer
+  const trigger = document.getElementById('pdp-cta-trigger');
+  const stickyBar = document.getElementById('mobile-sticky-bar');
+
+  if (trigger && stickyBar) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          // Show sticky bar only when original button is scrolled out of viewport
+          stickyBar.hidden = entry.isIntersecting;
+        });
+      },
+      { threshold: 0 }
+    );
+    observer.observe(trigger);
+  }
+</script>

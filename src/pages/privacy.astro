@@ -1,0 +1,132 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../data/site';
+---
+
+<BaseLayout
+  title={`Privacy Policy — ${siteConfig.brandName}`}
+  description="How LUMÈRA LUXE handles your data, respects your privacy, and safeguards your personal correspondence."
+>
+  <div class="policy-page">
+    <header class="policy-header">
+      <div class="container text-center">
+        <span class="eyebrow">Data & Trust</span>
+        <h1 class="policy-title">Privacy Policy</h1>
+        <p class="policy-lead">
+          We honor your privacy and believe in total transparency regarding your personal information.
+        </p>
+      </div>
+    </header>
+
+    <div class="container policy-body-container">
+      <div class="policy-content">
+        <section class="policy-section">
+          <h2 class="policy-section-heading">1. Overview</h2>
+          <p>
+            At LUMÈRA LUXE, we prioritize privacy and personal discretion. Our storefront operates on a static, privacy-first model designed to eliminate unnecessary data harvesting.
+          </p>
+        </section>
+
+        <section class="policy-section">
+          <h2 class="policy-section-heading">2. Browser Storage & Shopping Bag</h2>
+          <p>
+            When you add fragrances to your shopping bag, we store only product identifiers and selected quantities in your browser’s local storage (<code>localStorage</code>). We do not persist credit card data, bank details, or sensitive personal credentials on our web servers.
+          </p>
+        </section>
+
+        <section class="policy-section">
+          <h2 class="policy-section-heading">3. WhatsApp Communications</h2>
+          <p>
+            When you initiate an order inquiry by tapping <em>Request via WhatsApp</em>, your selected items and optional contact details are passed into your own WhatsApp application via an encrypted link. Your correspondence takes place directly within WhatsApp’s end-to-end encrypted messaging service.
+          </p>
+          <p>
+            We use this information solely to verify inventory, calculate delivery fees, and coordinate delivery within Qatar. We never sell, rent, or distribute your phone number or order history to commercial brokers or third-party advertisers.
+          </p>
+        </section>
+
+        <section class="policy-section">
+          <h2 class="policy-section-heading">4. Contact & Inquiries</h2>
+          <p>
+            If you have questions regarding our data practices or wish to request deletion of past WhatsApp correspondence, please contact our concierge at <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .policy-header {
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    padding: clamp(3rem, 6vw, 4.5rem) 0;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-accent);
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .policy-title {
+    font-size: var(--text-4xl);
+    color: var(--color-text-main);
+    margin-bottom: 0.75rem;
+  }
+
+  .policy-lead {
+    font-size: 1.1rem;
+    color: var(--color-text-muted);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .policy-body-container {
+    padding-top: clamp(2.5rem, 5vw, 4rem);
+    padding-bottom: 5rem;
+  }
+
+  .policy-content {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .policy-section {
+    margin-bottom: 3rem;
+  }
+
+  .policy-section-heading {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    margin-bottom: 1rem;
+    color: var(--color-text-main);
+  }
+
+  .policy-section p {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+    color: var(--color-text-muted);
+  }
+
+  .policy-content code {
+    background-color: var(--color-surface);
+    padding: 0.2rem 0.4rem;
+    border-radius: var(--border-radius-sm);
+    font-size: 0.9em;
+    color: var(--color-accent);
+  }
+
+  .policy-content a {
+    color: var(--color-accent);
+    text-decoration: underline;
+  }
+</style>

@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Page Not Found — LUMÈRA LUXE"
+  description="The page you are seeking could not be located. Return to our fragrance collection or connect with our concierge."
+>
+  <div class="notfound-page">
+    <div class="container text-center notfound-container">
+      <span class="eyebrow">404 Error</span>
+      <h1 class="notfound-title">Scent Not Located</h1>
+      <p class="notfound-lead">
+        The fragrance page or destination you are seeking might have been relocated or updated in our boutique catalogue.
+      </p>
+      <div class="notfound-actions">
+        <a href="/shop/" class="btn btn-primary">Browse All Fragrances</a>
+        <a href="/" class="btn btn-secondary">Return Home</a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .notfound-page {
+    padding: clamp(5rem, 10vw, 8rem) 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50vh;
+  }
+
+  .notfound-container {
+    max-width: 580px;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .eyebrow {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-accent);
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .notfound-title {
+    font-size: var(--text-4xl);
+    margin-bottom: 1rem;
+    color: var(--color-text-main);
+  }
+
+  .notfound-lead {
+    font-size: 1.1rem;
+    color: var(--color-text-muted);
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+  }
+
+  .notfound-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+</style>

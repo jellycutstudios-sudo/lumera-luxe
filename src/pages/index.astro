@@ -1,0 +1,634 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProductCard from '../components/ProductCard.astro';
+import productsData from '../data/products.json';
+import { siteConfig } from '../data/site';
+
+// Select 4 representative featured items that have confirmed variants
+const featuredProducts = productsData.filter((p) => p.featured).slice(0, 4);
+
+// Scent families with active products
+const scentCategories = [
+  {
+    name: 'Floral & Rose',
+    slug: 'floral',
+    description: 'Delicate bouquets of May rose, jasmine sambac, and orange blossom.',
+    count: productsData.filter((p) => p.scentFamilies.some((f) => f.toLowerCase().includes('floral'))).length
+  },
+  {
+    name: 'Oriental & Amber',
+    slug: 'amber',
+    description: 'Warm, magnetic accords of rich vanilla, benzoin, and golden amber.',
+    count: productsData.filter((p) => p.scentFamilies.some((f) => f.toLowerCase().includes('amber') || f.toLowerCase().includes('oriental'))).length
+  },
+  {
+    name: 'Woody & Musk',
+    slug: 'woody',
+    description: 'Sophisticated trails of creamy sandalwood, cedar, and velvety cashmere.',
+    count: productsData.filter((p) => p.scentFamilies.some((f) => f.toLowerCase().includes('woody') || f.toLowerCase().includes('musk'))).length
+  },
+  {
+    name: 'Fresh & Citrus',
+    slug: 'fresh',
+    description: 'Sparkling Amalfi lemon, crushed mint leaves, and crisp orchard fruits.',
+    count: productsData.filter((p) => p.scentFamilies.some((f) => f.toLowerCase().includes('fresh') || f.toLowerCase().includes('fruity'))).length
+  }
+];
+---
+
+<BaseLayout>
+  <!-- 1. Editorial Hero -->
+  <section class="hero-section">
+    <div class="container hero-container">
+      <div class="hero-content">
+        <span class="hero-eyebrow">Doha, Qatar · Niche & Designer Fragrances</span>
+        <h1 class="hero-title">{siteConfig.brandTagline}</h1>
+        <p class="hero-subtitle">
+          {siteConfig.brandDescription}
+        </p>
+
+        <div class="hero-actions">
+          <a href="/shop/" class="btn btn-primary">
+            Explore Fragrances
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+          <a href="/our-story/" class="hero-secondary-link">Our Story</a>
+        </div>
+
+        <div class="hero-pillars-preview">
+          <div class="pillar-mini">
+            <span class="pillar-bullet"></span>
+            <span>100% Genuine Concentrates</span>
+          </div>
+          <div class="pillar-mini">
+            <span class="pillar-bullet"></span>
+            <span>Qatar Doorstep Delivery</span>
+          </div>
+          <div class="pillar-mini">
+            <span class="pillar-bullet"></span>
+            <span>Personal WhatsApp Concierge</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-card-frame">
+          <img
+            src="/assets/products/boucheron-quatre-en-bleu.png"
+            alt="Boucheron Quatre en Bleu Eau de Parfum"
+            class="hero-product-img"
+            width="447"
+            height="447"
+            loading="eager"
+          />
+          <div class="hero-badge-overlay">
+            <span class="hero-badge-title">Boucheron</span>
+            <span class="hero-badge-sub">Quatre en Bleu EDP · 100ml</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. Selected Fragrances -->
+  <section class="section collection-preview-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <span class="section-eyebrow">Curated Selection</span>
+          <h2 class="section-heading">Discover the Collection</h2>
+        </div>
+        <a href="/shop/" class="section-link">
+          View all fragrances ({productsData.length})
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </a>
+      </div>
+
+      <div class="grid-products">
+        {featuredProducts.map((product) => (
+          <ProductCard product={product} priority={true} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Explore by Scent Family -->
+  <section class="section scent-families-section">
+    <div class="container">
+      <div class="section-header center-header">
+        <span class="section-eyebrow">Olfactory Journeys</span>
+        <h2 class="section-heading">Explore by Scent Family</h2>
+        <p class="section-subtext">Find the fragrance profile that complements your personality and presence.</p>
+      </div>
+
+      <div class="families-grid">
+        {scentCategories.map((cat) => (
+          <a href={`/shop/?search=${encodeURIComponent(cat.slug)}`} class="family-card">
+            <div class="family-card-inner">
+              <span class="family-count">{cat.count} Fragrances</span>
+              <h3 class="family-title">{cat.name}</h3>
+              <p class="family-desc">{cat.description}</p>
+              <span class="family-explore-btn">
+                Browse Scents
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. Brand Story Introduction -->
+  <section class="section story-teaser-section">
+    <div class="container story-teaser-container">
+      <div class="story-teaser-visual">
+        <div class="story-image-wrap">
+          <img
+            src="/assets/products/dolce-gabbana-devotion.png"
+            alt="Dolce and Gabbana Devotion luxury perfume"
+            class="story-img"
+            loading="lazy"
+            width="447"
+            height="447"
+          />
+        </div>
+      </div>
+      <div class="story-teaser-content">
+        <span class="section-eyebrow">The Boutique Philosophy</span>
+        <h2 class="story-heading">A Quiet Boutique in the Heart of Qatar</h2>
+        <p class="story-paragraph">
+          At LUMÈRA LUXE, we believe exquisite fragrance is an intimate form of self-expression, not an unreachable luxury. Founded in Doha, we hand-curate verified designer and niche creations so you never have to compromise between authentic quality and fair pricing.
+        </p>
+        <p class="story-paragraph">
+          Every bottle is carefully sourced, personally verified for concentration and provenance, and dispatched with dedicated concierge care.
+        </p>
+        <div class="story-actions">
+          <a href="/our-story/" class="btn btn-secondary">Read Our Story</a>
+          <a href={`https://wa.me/${siteConfig.whatsappNumber}`} class="btn btn-primary" target="_blank" rel="noopener">
+            Speak to a Fragrance Advisor
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Our Promise -->
+  <section class="section promise-section">
+    <div class="container">
+      <div class="promise-grid">
+        {siteConfig.promises.map((p) => (
+          <div class="promise-card">
+            <div class="promise-icon-wrap">
+              <span class="promise-accent-bar"></span>
+            </div>
+            <h3 class="promise-title">{p.title}</h3>
+            <p class="promise-desc">{p.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. Personal Concierge Assistance -->
+  <section class="section concierge-banner-section">
+    <div class="container">
+      <div class="concierge-banner">
+        <div class="concierge-banner-content">
+          <span class="concierge-tag">Personal Consultation</span>
+          <h2 class="concierge-heading">Need Guidance Choosing Your Signature Scent?</h2>
+          <p class="concierge-text">
+            Tell us about the notes you adore or the occasion you are celebrating. Our Doha-based fragrance consultant will recommend the ideal bottle and arrange swift doorstep delivery.
+          </p>
+          <a
+            href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent("Hello LUMÈRA LUXE, I would like personal advice in choosing a fragrance.")}`}
+            class="btn btn-primary btn-concierge"
+            target="_blank"
+            rel="noopener"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12.031 2C6.495 2 2 6.495 2 12.031c0 1.77.462 3.498 1.341 5.022L2 22l5.093-1.336A10.007 10.007 0 0 0 12.031 22C17.567 22 22 17.505 22 12.031 22 6.495 17.567 2 12.031 2zm5.879 14.195c-.244.686-1.42 1.314-1.956 1.385-.514.068-1.163.097-3.708-.958-3.04-1.258-4.996-4.34-5.148-4.542-.152-.202-1.233-1.64-1.233-3.128 0-1.488.777-2.22 1.052-2.525.275-.305.6-.381.8-.381.2 0 .4 0 .576.01.187.01.438-.071.686.525.257.619.876 2.143.952 2.296.076.153.127.33.025.534-.102.204-.153.33-.305.508-.152.178-.32.396-.457.533-.153.153-.312.32-.134.626.178.305.792 1.306 1.698 2.112 1.166 1.037 2.148 1.358 2.453 1.51.305.153.483.128.66-.076.178-.204.762-.89 965-1.195.204-.305.407-.254.686-.153.28.102 1.777.838 2.082.99.305.153.508.229.584.356.076.127.076.737-.168 1.423z"/>
+            </svg>
+            Chat with Our Fragrance Concierge
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Hero Section */
+  .hero-section {
+    padding-top: clamp(2.5rem, 5vw, 4.5rem);
+    padding-bottom: clamp(3rem, 6vw, 5rem);
+    border-bottom: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+  }
+
+  .hero-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    align-items: center;
+  }
+
+  @media (min-width: 860px) {
+    .hero-container {
+      grid-template-columns: 1.25fr 1fr;
+      gap: 4rem;
+    }
+  }
+
+  .hero-eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-accent);
+    margin-bottom: 1rem;
+  }
+
+  .hero-title {
+    font-size: var(--text-hero);
+    margin-bottom: 1.25rem;
+    color: var(--color-text-main);
+  }
+
+  .hero-subtitle {
+    font-size: clamp(1.05rem, 2vw, 1.25rem);
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    margin-bottom: 2rem;
+    max-width: 540px;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-secondary-link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-main);
+    border-bottom: 1px solid var(--color-text-main);
+    padding-bottom: 2px;
+  }
+
+  .hero-secondary-link:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+  }
+
+  .hero-pillars-preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .pillar-mini {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+  }
+
+  .pillar-bullet {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--color-accent);
+  }
+
+  .hero-visual {
+    display: flex;
+    justify-content: center;
+  }
+
+  .hero-card-frame {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    aspect-ratio: 1 / 1;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem;
+    box-shadow: 0 16px 40px rgba(37, 33, 30, 0.04);
+  }
+
+  .hero-product-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.08));
+  }
+
+  .hero-badge-overlay {
+    position: absolute;
+    bottom: 1.25rem;
+    left: 1.25rem;
+    right: 1.25rem;
+    background-color: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--border-radius-sm);
+    padding: 0.75rem 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero-badge-title {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+  }
+
+  .hero-badge-sub {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
+  /* Section Header Standards */
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 2.5rem;
+  }
+
+  .section-header.center-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .section-eyebrow {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .section-heading {
+    font-size: var(--text-3xl);
+    color: var(--color-text-main);
+  }
+
+  .section-subtext {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    margin-top: 0.5rem;
+  }
+
+  .section-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-accent);
+  }
+
+  .section-link:hover {
+    color: var(--color-accent-hover);
+  }
+
+  /* Scent Families Grid */
+  .families-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  @media (min-width: 640px) {
+    .families-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .families-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .family-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    padding: 1.75rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    transition: all var(--transition-base);
+  }
+
+  .family-card:hover {
+    border-color: var(--color-accent);
+    background-color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+  }
+
+  .family-count {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+    display: block;
+  }
+
+  .family-title {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-text-main);
+  }
+
+  .family-desc {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    line-height: 1.55;
+    margin-bottom: 1.5rem;
+  }
+
+  .family-explore-btn {
+    margin-top: auto;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-main);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  /* Story Teaser */
+  .story-teaser-section {
+    background-color: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .story-teaser-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  @media (min-width: 860px) {
+    .story-teaser-container {
+      grid-template-columns: 1fr 1.25fr;
+      gap: 4rem;
+    }
+  }
+
+  .story-image-wrap {
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    padding: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1 / 1;
+  }
+
+  .story-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .story-heading {
+    font-size: var(--text-3xl);
+    margin-bottom: 1.25rem;
+  }
+
+  .story-paragraph {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+    color: var(--color-text-muted);
+  }
+
+  .story-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  /* Promises Section */
+  .promise-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .promise-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+    }
+  }
+
+  .promise-card {
+    border-left: 2px solid var(--color-accent);
+    padding-left: 1.5rem;
+  }
+
+  .promise-title {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--color-text-main);
+  }
+
+  .promise-desc {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+  }
+
+  /* Concierge Banner */
+  .concierge-banner {
+    background-color: var(--color-text-main);
+    color: #FFFFFF;
+    border-radius: var(--border-radius-md);
+    padding: clamp(2.5rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3rem);
+    text-align: center;
+  }
+
+  .concierge-banner-content {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .concierge-tag {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #E3DBD2;
+    margin-bottom: 1rem;
+    display: inline-block;
+  }
+
+  .concierge-heading {
+    font-size: var(--text-3xl);
+    color: #FFFFFF;
+    margin-bottom: 1.25rem;
+  }
+
+  .concierge-text {
+    font-size: 1.05rem;
+    color: #E3DBD2;
+    line-height: 1.65;
+    margin-bottom: 2rem;
+  }
+
+  .btn-concierge {
+    background-color: #25D366;
+    border-color: #25D366;
+    color: #FFFFFF;
+  }
+
+  .btn-concierge:hover {
+    background-color: #1EBE5D;
+    border-color: #1EBE5D;
+  }
+</style>
