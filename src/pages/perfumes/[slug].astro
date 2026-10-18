@@ -149,7 +149,7 @@ const productSchema = {
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
               </svg>
-              <span>BUY NOW — <span id="pdp-btn-amount">{product.priceDisplay}</span></span>
+              <span>BUY NOW · <span id="pdp-btn-amount">{product.priceDisplay}</span></span>
             </a>
           </div>
 
@@ -286,6 +286,44 @@ const productSchema = {
       </section>
     )}
   </article>
+
+  <!-- Mobile Sticky Dual-Action Bar (reveals only when scrolled past the in-page CTA; hides near footer) -->
+  <aside class="pdp-sticky-bar" id="pdp-sticky-bar" aria-label="Quick Purchase Actions">
+    <div class="pdp-sticky-inner">
+      <button
+        type="button"
+        class="btn-sticky-add-bag"
+        id="btn-sticky-add-bag"
+        data-action="add-to-bag"
+        data-id={product.id}
+        data-name={product.name}
+        data-brand={product.brand}
+        data-size={product.sizeDisplay}
+        data-concentration={product.concentration}
+        data-price={product.priceMinor}
+        data-image={product.image}
+      >
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        <span>Add to Bag</span>
+      </button>
+
+      <a
+        href={`/checkout/?product=${product.slug}&qty=1`}
+        class="btn-sticky-buy-now"
+        id="btn-sticky-buy-now"
+        data-slug={product.slug}
+      >
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+        </svg>
+        <span>BUY NOW · <span id="pdp-sticky-amount">{product.priceDisplay}</span></span>
+      </a>
+    </div>
+  </aside>
 
   <!-- Image Lightbox Modal -->
   <div class="image-lightbox-backdrop" id="image-lightbox" hidden>
@@ -686,6 +724,11 @@ const productSchema = {
     cursor: pointer;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
     transition: all var(--transition-fast);
+    white-space: nowrap;
+  }
+
+  .btn-buy-now-main span {
+    white-space: nowrap;
   }
 
   .btn-buy-now-main:hover {
@@ -878,9 +921,40 @@ const productSchema = {
       margin-bottom: 1.75rem;
     }
 
+    .pdp-action-primary-row {
+      gap: 0.5rem;
+    }
+
+    .pdp-qty-wrapper {
+      padding: 0 0.15rem;
+      flex-shrink: 0;
+    }
+
+    .pdp-qty-btn {
+      width: 32px;
+      font-size: 1.15rem;
+    }
+
+    .pdp-qty-display {
+      min-width: 24px;
+      font-size: 0.9375rem;
+    }
+
     .btn-buy-now-main {
       min-height: 48px;
-      font-size: 0.875rem;
+      padding: 0.75rem 0.85rem;
+      font-size: 0.8125rem;
+      letter-spacing: 0.03em;
+      gap: 0.45rem;
+      white-space: nowrap;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .btn-buy-now-main svg {
+      width: 15px;
+      height: 15px;
+      flex-shrink: 0;
     }
 
     .btn-add-bag-secondary {
@@ -896,6 +970,100 @@ const productSchema = {
     .related-section {
       padding-top: 2.5rem;
     }
+  }
+
+  /* Mobile Sticky Dual-Action Bar */
+  .pdp-sticky-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-top: 1px solid var(--color-border);
+    padding: 0.65rem 1rem;
+    padding-bottom: calc(0.65rem + env(safe-area-inset-bottom, 0px));
+    z-index: 99;
+    box-shadow: 0 -6px 24px rgba(0, 0, 0, 0.08);
+    transform: translateY(115%);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), opacity 220ms ease, visibility 260ms;
+    pointer-events: none;
+  }
+
+  .pdp-sticky-bar.is-visible {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  @media (min-width: 860px) {
+    .pdp-sticky-bar {
+      display: none !important;
+    }
+  }
+
+  .pdp-sticky-inner {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .btn-sticky-add-bag {
+    flex: 1;
+    min-height: 46px;
+    padding: 0.65rem 0.75rem;
+    background-color: #FFFFFF;
+    color: var(--color-text-main);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-sticky-add-bag:active {
+    background-color: var(--color-surface);
+  }
+
+  .btn-sticky-buy-now {
+    flex: 1.2;
+    min-height: 46px;
+    padding: 0.65rem 0.85rem;
+    background-color: var(--color-text-main);
+    color: #FFFFFF;
+    text-decoration: none;
+    border: 1px solid var(--color-text-main);
+    border-radius: var(--border-radius-sm);
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    cursor: pointer;
+    white-space: nowrap;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    transition: all var(--transition-fast);
+  }
+
+  .btn-sticky-buy-now:active {
+    background-color: #000000;
   }
 
   /* Lightbox */
@@ -961,8 +1129,13 @@ const productSchema = {
   const qtyDecBtn = document.getElementById('pdp-qty-dec');
   const qtyIncBtn = document.getElementById('pdp-qty-inc');
   const btnAmountEl = document.getElementById('pdp-btn-amount');
+  const stickyAmountEl = document.getElementById('pdp-sticky-amount');
   const buyNowBtn = document.getElementById('btn-pdp-buy-now');
+  const stickyBuyBtn = document.getElementById('btn-sticky-buy-now');
   const pdpAddBtn = document.getElementById('pdp-main-add-btn');
+  const stickyAddBtn = document.getElementById('btn-sticky-add-bag');
+  const stickyBar = document.getElementById('pdp-sticky-bar');
+  const ctaTrigger = document.getElementById('pdp-cta-trigger');
 
   const productSlug = buyNowBtn?.getAttribute('data-slug') || '';
   const unitPriceMinor = pdpAddBtn ? Number(pdpAddBtn.getAttribute('data-price') || 0) : 0;
@@ -972,8 +1145,10 @@ const productSchema = {
     const totalMinor = unitPriceMinor * currentQty;
     const formatted = `${(totalMinor / 100).toFixed(0)} QAR`;
     if (btnAmountEl) btnAmountEl.textContent = formatted;
+    if (stickyAmountEl) stickyAmountEl.textContent = formatted;
     const checkoutUrl = `/checkout/?product=${encodeURIComponent(productSlug)}&qty=${currentQty}`;
     if (buyNowBtn) buyNowBtn.setAttribute('href', checkoutUrl);
+    if (stickyBuyBtn) stickyBuyBtn.setAttribute('href', checkoutUrl);
   }
 
   qtyDecBtn?.addEventListener('click', () => {
@@ -997,32 +1172,53 @@ const productSchema = {
   }
 
   buyNowBtn?.addEventListener('click', goToCheckout);
+  stickyBuyBtn?.addEventListener('click', goToCheckout);
 
-  // Add to Bag from PDP
-  pdpAddBtn?.addEventListener('click', () => {
-    const id = pdpAddBtn.getAttribute('data-id');
-    if (!id) return;
+  // Sync custom quantity to localStorage for Add to Bag
+  function syncPdpQuantity() {
+    const id = pdpAddBtn?.getAttribute('data-id');
+    if (!id || currentQty <= 1) return;
     try {
       const data = localStorage.getItem('lumera_bag_v1');
       const items: { id: string; quantity: number }[] = data ? JSON.parse(data) : [];
-      const existing = items.find((it) => it.id === id);
-      if (existing) {
-        existing.quantity += (currentQty - 1);
-      } else {
-        setTimeout(() => {
-          const updated = JSON.parse(localStorage.getItem('lumera_bag_v1') || '[]');
-          const it = updated.find((x: any) => x.id === id);
-          if (it) {
-            it.quantity = currentQty;
-            localStorage.setItem('lumera_bag_v1', JSON.stringify(updated));
-            window.dispatchEvent(new Event('storage'));
-          }
-        }, 10);
+      const item = items.find((x) => x.id === id);
+      if (item) {
+        item.quantity += (currentQty - 1);
+        localStorage.setItem('lumera_bag_v1', JSON.stringify(items));
+        window.dispatchEvent(new Event('storage'));
       }
-    } catch (e) {
-      console.error(e);
+    } catch (e) {}
+  }
+
+  pdpAddBtn?.addEventListener('click', () => setTimeout(syncPdpQuantity, 10));
+  stickyAddBtn?.addEventListener('click', () => setTimeout(syncPdpQuantity, 10));
+
+  // Mobile Sticky Bar Visibility:
+  // 1. Only reveals after user has scrolled down past the in-page Buy Now button
+  // 2. Automatically hides when scrolling back up near the in-page Buy Now button
+  // 3. Automatically hides when reaching the bottom (footer)
+  function handleStickyScroll() {
+    if (!stickyBar || !buyNowBtn) return;
+    const btnRect = buyNowBtn.getBoundingClientRect();
+    const footer = document.querySelector('footer');
+    const footerRect = footer ? footer.getBoundingClientRect() : null;
+
+    // Has user scrolled past the in-page Buy Now CTA?
+    const isPastCta = btnRect.bottom < 0;
+
+    // Is the user near the bottom of the page (footer entering the viewport)?
+    const isAtBottom = footerRect ? footerRect.top <= (window.innerHeight + 20) : false;
+
+    if (isPastCta && !isAtBottom) {
+      stickyBar.classList.add('is-visible');
+    } else {
+      stickyBar.classList.remove('is-visible');
     }
-  });
+  }
+
+  window.addEventListener('scroll', handleStickyScroll, { passive: true });
+  window.addEventListener('resize', handleStickyScroll, { passive: true });
+  handleStickyScroll();
 
   // Lightbox Zoom logic
   const mediaFrame = document.getElementById('pdp-media-frame');
