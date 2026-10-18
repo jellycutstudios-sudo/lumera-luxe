@@ -14,25 +14,25 @@ const categories = [
   {
     label: 'Perfume Collection',
     href: '/shop/',
-    img: '/assets/products/boucheron-quatre-en-bleu.png',
+    img: '/assets/products/boucheron-quatre-en-bleu.webp',
     alt: 'LUMÈRA LUXE Perfume'
   },
   {
     label: 'Amber & Oriental',
     href: '/shop/?family=oriental',
-    img: '/assets/products/dolce-gabbana-devotion.png',
+    img: '/assets/products/dolce-gabbana-devotion.webp',
     alt: 'Amber and Oriental Fragrances'
   },
   {
     label: 'Floral & Rose',
     href: '/shop/?family=floral',
-    img: '/assets/products/carolina-herrera-ch-women.png',
+    img: '/assets/products/carolina-herrera-ch-women.webp',
     alt: 'Floral Fragrances'
   },
   {
     label: 'Woody & Fresh',
     href: '/shop/?family=woody',
-    img: '/assets/products/chanel-n-5.png',
+    img: '/assets/products/chanel-n-5.webp',
     alt: 'Woody and Fresh Scent Notes'
   }
 ];
@@ -45,7 +45,7 @@ const categories = [
       <div class="container">
         <div class="hero-editorial-stage">
           <img
-            src="/assets/chanel-n5-hero.png"
+            src="/assets/chanel-n5-hero.webp"
             alt="A quiet N°5 perfume ritual — LUMÈRA LUXE Haute Parfumerie"
             class="hero-editorial-image"
             loading="eager"
@@ -113,8 +113,8 @@ const categories = [
 
         <div class="grid-products">
           {
-            selectedScents.slice(0, 4).map((product) => (
-              <ProductCard product={product} />
+            selectedScents.slice(0, 4).map((product, idx) => (
+              <ProductCard product={product} priority={idx < 2} />
             ))
           }
         </div>
@@ -159,7 +159,7 @@ const categories = [
           <div class="about-media-col">
             <div class="about-image-frame">
               <img
-                src="/assets/editorial-gift-boxes.jpg"
+                src="/assets/editorial-gift-boxes.webp"
                 alt="LUMÈRA LUXE bespoke luxury fragrance packaging"
                 class="about-editorial-img"
                 loading="lazy"
@@ -399,7 +399,7 @@ const categories = [
     position: relative;
     width: 100%;
     background-color: #F5F4F0;
-    background-image: url('/assets/concierge-banner-bg.jpg');
+    background-image: url('/assets/concierge-banner-bg.webp');
     background-size: cover;
     background-position: center;
     padding: clamp(3.5rem, 6vw, 5.5rem) clamp(1.5rem, 4vw, 3rem);

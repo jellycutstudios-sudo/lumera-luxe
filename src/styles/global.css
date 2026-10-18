@@ -1,7 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap');
+/* Fonts imported in BaseLayout for non-blocking parallel loading */
 
 :root {
-  /* Minimalist Luxury Palette with Logo Cognac & Champagne Gold */
   --color-bg: #FFFFFF;
   --color-surface: #FAF8F5;          /* Warm cashmere alabaster */
   --color-surface-subtle: #F5F1EB;   /* Soft warm neutral */

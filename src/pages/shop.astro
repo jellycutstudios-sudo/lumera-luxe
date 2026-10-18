@@ -95,8 +95,8 @@ const brands = Array.from(new Set(productsData.map((p) => p.brand))).sort();
 
       <!-- Products Grid -->
       <div class="grid-products" id="catalogue-grid">
-        {productsData.map((product) => (
-          <ProductCard product={product} />
+        {productsData.map((product, idx) => (
+          <ProductCard product={product} priority={idx < 4} />
         ))}
       </div>
 
