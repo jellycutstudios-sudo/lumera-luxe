@@ -101,10 +101,30 @@ const productSchema = {
 
         <div class="pdp-price-wrap">
           <span class="pdp-price">{product.priceDisplay}</span>
+          {product.stickerPriceMinor > product.priceMinor && (
+            <span class="pdp-sticker-price">{(product.stickerPriceMinor / 100).toFixed(0)} QAR</span>
+            <span class="pdp-save-badge">Save {((product.stickerPriceMinor - product.priceMinor) / 100).toFixed(0)} QAR</span>
+          )}
           <span class="pdp-availability-badge">
             <span class="status-dot"></span>
             Availability confirmed on WhatsApp
           </span>
+        </div>
+
+        <!-- Luxury Quick Highlights Bar -->
+        <div class="pdp-specs-row">
+          <div class="pdp-spec-chip">
+            <span class="spec-label">TYPE</span>
+            <span class="spec-val">{product.concentration}</span>
+          </div>
+          <div class="pdp-spec-chip">
+            <span class="spec-label">VOLUME</span>
+            <span class="spec-val">{product.sizeDisplay}</span>
+          </div>
+          <div class="pdp-spec-chip">
+            <span class="spec-label">FAMILY</span>
+            <span class="spec-val">{product.scentFamilies[0]}</span>
+          </div>
         </div>
 
         <p class="pdp-description">{product.description}</p>
@@ -194,7 +214,10 @@ const productSchema = {
 
         <!-- Scent Profile Details (Below Action Block) -->
         <div class="pdp-notes-box">
-          <h2 class="pdp-notes-title">Fragrance Profile</h2>
+          <div class="pdp-notes-header-row">
+            <h2 class="pdp-notes-title">Fragrance Profile & Notes</h2>
+            <span class="pdp-notes-badge">Haute Parfumerie</span>
+          </div>
           
           <div class="pdp-family-tags">
             {product.scentFamilies.map((fam) => (
@@ -210,6 +233,13 @@ const productSchema = {
               ))}
             </ul>
           </div>
+
+          {product.rawNotes && (
+            <div class="pdp-raw-notes-wrap">
+              <span class="key-notes-label">Full Olfactory Accord:</span>
+              <p class="pdp-raw-notes-text">{product.rawNotes}</p>
+            </div>
+          )}
         </div>
 
         <!-- Client Guarantees -->
@@ -223,7 +253,7 @@ const productSchema = {
           <div class="assurance-item">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
               <rect x="1" y="3" width="15" height="13"></rect>
-              <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+              <polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon>
               <circle cx="5.5" cy="18.5" r="2.5"></circle>
               <circle cx="18.5" cy="18.5" r="2.5"></circle>
             </svg>
@@ -257,25 +287,6 @@ const productSchema = {
     )}
   </article>
 
-  <!-- Mobile Sticky Buy Now Bar -->
-  <div class="mobile-sticky-bar" id="mobile-sticky-bar" hidden>
-    <div class="mobile-sticky-inner">
-      <div class="mobile-sticky-info">
-        <span class="mobile-sticky-name">{product.name}</span>
-        <span class="mobile-sticky-price">{product.priceDisplay}</span>
-      </div>
-      <a
-        href={`/checkout/?product=${product.slug}&qty=1`}
-        class="btn-sticky-buy-now"
-        id="btn-sticky-buy-now"
-      >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12.031 2C6.495 2 2 6.495 2 12.031c0 1.77.462 3.498 1.341 5.022L2 22l5.093-1.336A10.007 10.007 0 0 0 12.031 22C17.567 22 22 17.505 22 12.031 22 6.495 17.567 2 12.031 2zm5.879 14.195c-.244.686-1.42 1.314-1.956 1.385-.514.068-1.163.097-3.708-.958-3.04-1.258-4.996-4.34-5.148-4.542-.152-.202-1.233-1.64-1.233-3.128 0-1.488.777-2.22 1.052-2.525.275-.305.6-.381.8-.381.2 0 .4 0 .576.01.187.01.438-.071.686.525.257.619.876 2.143.952 2.296.076.153.127.33.025.534-.102.204-.153.33-.305.508-.152.178-.32.396-.457.533-.153.153-.312.32-.134.626.178.305.792 1.306 1.698 2.112 1.166 1.037 2.148 1.358 2.453 1.51.305.153.483.128.66-.076.178-.204.762-.89 965-1.195.204-.305.407-.254.686-.153.28.102 1.777.838 2.082.99.305.153.508.229.584.356.076.127.076.737-.168 1.423z"/>
-        </svg>
-        <span>BUY NOW</span>
-      </a>
-    </div>
-  </div>
   <!-- Image Lightbox Modal -->
   <div class="image-lightbox-backdrop" id="image-lightbox" hidden>
     <div class="image-lightbox-content">
@@ -440,6 +451,25 @@ const productSchema = {
     color: var(--color-text-main);
   }
 
+  .pdp-sticker-price {
+    font-size: 1.125rem;
+    color: var(--color-text-light);
+    text-decoration: line-through;
+  }
+
+  .pdp-save-badge {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #15803d;
+    background-color: #dcfce7;
+    padding: 0.25rem 0.55rem;
+    border-radius: var(--border-radius-sm);
+  }
+
   .pdp-availability-badge {
     display: inline-flex;
     align-items: center;
@@ -459,6 +489,47 @@ const productSchema = {
     background-color: #25D366;
   }
 
+  /* Quick Specifications Row */
+  .pdp-specs-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    padding: 0.85rem 1rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    margin-bottom: 1.75rem;
+  }
+
+  .pdp-spec-chip {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 0;
+  }
+
+  .pdp-spec-chip:not(:last-child) {
+    border-right: 1px solid var(--color-border);
+    padding-right: 0.5rem;
+  }
+
+  .pdp-spec-chip .spec-label {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--color-text-light);
+    text-transform: uppercase;
+  }
+
+  .pdp-spec-chip .spec-val {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   .pdp-description {
     font-size: 1.05rem;
     line-height: 1.7;
@@ -475,6 +546,14 @@ const productSchema = {
     margin-bottom: 2rem;
   }
 
+  .pdp-notes-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
   .pdp-notes-title {
     font-family: var(--font-body);
     font-size: 0.8125rem;
@@ -482,7 +561,18 @@ const productSchema = {
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--color-text-main);
-    margin-bottom: 1rem;
+    margin-bottom: 0;
+  }
+
+  .pdp-notes-badge {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    background-color: rgba(184, 134, 11, 0.08);
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--border-radius-sm);
   }
 
   .pdp-family-tags {
@@ -515,6 +605,19 @@ const productSchema = {
     padding: 0.25rem 0.65rem;
     border-radius: var(--border-radius-sm);
     color: var(--color-text-main);
+  }
+
+  .pdp-raw-notes-wrap {
+    margin-top: 1rem;
+    padding-top: 0.875rem;
+    border-top: 1px dashed var(--color-border);
+  }
+
+  .pdp-raw-notes-text {
+    font-size: 0.84375rem;
+    line-height: 1.6;
+    color: var(--color-text-main);
+    font-style: italic;
   }
 
   /* Luxury Action Block */
@@ -712,70 +815,87 @@ const productSchema = {
     border-top: 1px solid var(--color-border);
   }
 
-  /* Mobile Sticky Bar */
-  .mobile-sticky-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: rgba(255, 255, 255, 0.96);
-    backdrop-filter: blur(10px);
-    border-top: 1px solid var(--color-border);
-    padding: 0.75rem 1rem;
-    padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
-    z-index: 40;
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
-  }
-
-  @media (min-width: 860px) {
-    .mobile-sticky-bar {
-      display: none !important;
+  /* Mobile Layout Spacing & Optimization */
+  @media (max-width: 859px) {
+    .pdp-container {
+      padding-top: 1rem;
+      padding-bottom: 3.5rem;
     }
-  }
 
-  .mobile-sticky-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-  }
+    .breadcrumb {
+      margin-bottom: 1.25rem;
+      font-size: 0.75rem;
+    }
 
-  .mobile-sticky-info {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
+    .pdp-grid {
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
 
-  .mobile-sticky-name {
-    font-size: 0.875rem;
-    font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+    .pdp-media-frame {
+      aspect-ratio: 16 / 11;
+      max-height: 290px;
+      padding: 1.25rem;
+    }
 
-  .mobile-sticky-price {
-    font-size: 0.8125rem;
-    color: var(--color-text-muted);
-  }
+    .pdp-brand {
+      margin-bottom: 0.35rem;
+    }
 
-  .btn-sticky-buy-now {
-    min-height: 42px;
-    padding: 0.5rem 1.25rem;
-    background-color: #25D366;
-    color: #FFFFFF;
-    text-decoration: none;
-    border: none;
-    border-radius: var(--border-radius-sm);
-    font-size: 0.8125rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    cursor: pointer;
-    flex-shrink: 0;
-    box-shadow: 0 2px 8px rgba(37, 211, 102, 0.3);
+    .pdp-title {
+      font-size: 1.75rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .pdp-variant-details {
+      font-size: 0.9375rem;
+      margin-bottom: 1rem;
+    }
+
+    .pdp-price-wrap {
+      gap: 0.75rem;
+      padding-bottom: 1.15rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .pdp-price {
+      font-size: 1.5rem;
+    }
+
+    .pdp-specs-row {
+      margin-bottom: 1.25rem;
+      padding: 0.75rem 0.85rem;
+    }
+
+    .pdp-description {
+      font-size: 0.9375rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    .pdp-action-block {
+      gap: 0.75rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .btn-buy-now-main {
+      min-height: 48px;
+      font-size: 0.875rem;
+    }
+
+    .btn-add-bag-secondary {
+      min-height: 44px;
+      font-size: 0.8125rem;
+    }
+
+    .pdp-notes-box {
+      padding: 1.25rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .related-section {
+      padding-top: 2.5rem;
+    }
   }
 
   /* Lightbox */
@@ -835,22 +955,6 @@ const productSchema = {
 </style>
 
 <script>
-  // Mobile sticky bar observer
-  const trigger = document.getElementById('pdp-cta-trigger');
-  const stickyBar = document.getElementById('mobile-sticky-bar');
-
-  if (trigger && stickyBar) {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          stickyBar.hidden = entry.isIntersecting;
-        });
-      },
-      { threshold: 0.1 }
-    );
-    observer.observe(trigger);
-  }
-
   // Quantity handling
   let currentQty = 1;
   const qtyValEl = document.getElementById('pdp-qty-val');
@@ -858,7 +962,6 @@ const productSchema = {
   const qtyIncBtn = document.getElementById('pdp-qty-inc');
   const btnAmountEl = document.getElementById('pdp-btn-amount');
   const buyNowBtn = document.getElementById('btn-pdp-buy-now');
-  const stickyBuyBtn = document.getElementById('btn-sticky-buy-now');
   const pdpAddBtn = document.getElementById('pdp-main-add-btn');
 
   const productSlug = buyNowBtn?.getAttribute('data-slug') || '';
@@ -871,7 +974,6 @@ const productSchema = {
     if (btnAmountEl) btnAmountEl.textContent = formatted;
     const checkoutUrl = `/checkout/?product=${encodeURIComponent(productSlug)}&qty=${currentQty}`;
     if (buyNowBtn) buyNowBtn.setAttribute('href', checkoutUrl);
-    if (stickyBuyBtn) stickyBuyBtn.setAttribute('href', checkoutUrl);
   }
 
   qtyDecBtn?.addEventListener('click', () => {
@@ -895,7 +997,6 @@ const productSchema = {
   }
 
   buyNowBtn?.addEventListener('click', goToCheckout);
-  stickyBuyBtn?.addEventListener('click', goToCheckout);
 
   // Add to Bag from PDP
   pdpAddBtn?.addEventListener('click', () => {
