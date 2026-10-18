@@ -1,11 +1,20 @@
 ---
 import { siteConfig } from '../data/site';
+import productsData from '../data/products.json';
+
+const currentPath = Astro.url.pathname;
 ---
 
 <header class="site-header" id="main-header">
   <div class="container header-container">
     <!-- Mobile Menu Toggle -->
-    <button class="mobile-toggle" id="menu-toggle-btn" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="primary-nav">
+    <button
+      class="mobile-toggle"
+      id="menu-toggle-btn"
+      aria-label="Toggle navigation menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
       <span class="hamburger-line"></span>
       <span class="hamburger-line"></span>
       <span class="hamburger-line"></span>
@@ -13,31 +22,80 @@ import { siteConfig } from '../data/site';
 
     <!-- Brand Logo -->
     <a href="/" class="brand-link" aria-label="LUMÈRA LUXE Home">
-      <img src="/assets/lumera-logo.svg" alt="LUMÈRA LUXE" class="brand-logo" width="180" height="32" />
+      <img
+        src="/assets/lumera-logo.svg"
+        alt="LUMÈRA LUXE"
+        class="brand-logo"
+        width="170"
+        height="30"
+      />
     </a>
 
     <!-- Desktop Navigation -->
     <nav class="primary-nav" id="primary-nav" aria-label="Primary navigation">
       <ul class="nav-list">
-        {siteConfig.navigation.map((item) => (
-          <li class="nav-item">
-            <a href={item.href} class="nav-link">{item.label}</a>
-          </li>
-        ))}
+        {
+          siteConfig.navigation.map((item) => {
+            const isActive =
+              currentPath === item.href ||
+              (item.href !== '/' && currentPath.startsWith(item.href));
+            return (
+              <li class="nav-item">
+                <a
+                  href={item.href}
+                  class:list={['nav-link', { active: isActive }]}
+                  aria-current={isActive ? 'page' : undefined}
+                >
+                  {item.label}
+                </a>
+              </li>
+            );
+          })
+        }
       </ul>
     </nav>
 
-    <!-- Header Actions (Search & Bag) -->
+    <!-- Header Actions -->
     <div class="header-actions">
-      <a href="/shop/" class="action-btn" aria-label="Search fragrances">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <!-- Quick Search Trigger -->
+      <button
+        class="action-btn"
+        id="open-search-modal-btn"
+        aria-label="Search fragrances"
+        title="Search catalogue"
+      >
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-      </a>
+      </button>
 
-      <button class="action-btn bag-btn" id="open-bag-btn" aria-label="View shopping bag" aria-haspopup="dialog">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <!-- Shopping Bag Trigger -->
+      <button
+        class="action-btn bag-btn"
+        id="open-bag-btn"
+        aria-label="View shopping bag"
+        aria-haspopup="dialog"
+      >
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
           <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
           <line x1="3" y1="6" x2="21" y2="6"></line>
           <path d="M16 10a4 4 0 0 1-8 0"></path>
@@ -51,17 +109,60 @@ import { siteConfig } from '../data/site';
   <div class="mobile-menu" id="mobile-menu" hidden>
     <div class="container mobile-menu-inner">
       <ul class="mobile-nav-list">
-        {siteConfig.navigation.map((item) => (
-          <li>
-            <a href={item.href} class="mobile-nav-link">{item.label}</a>
-          </li>
-        ))}
+        {
+          siteConfig.navigation.map((item) => (
+            <li>
+              <a href={item.href} class="mobile-nav-link">
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
       </ul>
       <div class="mobile-menu-footer">
-        <p class="mobile-concierge-note">Qatar Concierge Service</p>
-        <a href={`https://wa.me/${siteConfig.whatsappNumber}`} class="btn btn-primary btn-block" target="_blank" rel="noopener">
-          WhatsApp Assistance
+        <p class="mobile-concierge-note">Doha Concierge Assistance</p>
+        <a
+          href={`https://wa.me/${siteConfig.whatsappNumber}`}
+          class="btn btn-primary btn-block"
+          target="_blank"
+          rel="noopener"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.031 2C6.495 2 2 6.495 2 12.031c0 1.77.462 3.498 1.341 5.022L2 22l5.093-1.336A10.007 10.007 0 0 0 12.031 22C17.567 22 22 17.505 22 12.031 22 6.495 17.567 2 12.031 2zm5.879 14.195c-.244.686-1.42 1.314-1.956 1.385-.514.068-1.163.097-3.708-.958-3.04-1.258-4.996-4.34-5.148-4.542-.152-.202-1.233-1.64-1.233-3.128 0-1.488.777-2.22 1.052-2.525.275-.305.6-.381.8-.381.2 0 .4 0 .576.01.187.01.438-.071.686.525.257.619.876 2.143.952 2.296.076.153.127.33.025.534-.102.204-.153.33-.305.508-.152.178-.32.396-.457.533-.153.153-.312.32-.134.626.178.305.792 1.306 1.698 2.112 1.166 1.037 2.148 1.358 2.453 1.51.305.153.483.128.66-.076.178-.204.762-.89 965-1.195.204-.305.407-.254.686-.153.28.102 1.777.838 2.082.99.305.153.508.229.584.356.076.127.076.737-.168 1.423z"/>
+          </svg>
+          Chat with Fragrance Advisor
         </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Luxury Quick Search Modal Overlay -->
+  <div class="search-modal-backdrop" id="search-modal" hidden>
+    <div class="search-modal-card" role="dialog" aria-modal="true" aria-label="Search Fragrances">
+      <div class="search-modal-header">
+        <div class="search-modal-input-wrap">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input
+            type="search"
+            id="quick-search-input"
+            class="quick-search-field"
+            placeholder="Search by brand, scent, or note (e.g. Chanel, Rose, Vanilla)..."
+            autocomplete="off"
+          />
+        </div>
+        <button class="search-close-btn" id="close-search-modal-btn" aria-label="Close search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="search-modal-results" id="quick-search-results">
+        <p class="search-modal-hint">Start typing to explore our 25 curated luxury perfumes...</p>
       </div>
     </div>
   </div>
@@ -73,11 +174,17 @@ import { siteConfig } from '../data/site';
     top: 0;
     z-index: 50;
     height: 72px;
-    background-color: rgba(250, 248, 244, 0.95);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background-color: rgba(250, 248, 244, 0.94);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--color-border);
-    transition: background-color var(--transition-fast);
+    transition: height var(--transition-base), box-shadow var(--transition-base), background-color var(--transition-base);
+  }
+
+  .site-header.scrolled {
+    height: 64px;
+    box-shadow: 0 4px 20px rgba(37, 33, 30, 0.05);
+    background-color: rgba(250, 248, 244, 0.98);
   }
 
   .header-container {
@@ -85,12 +192,17 @@ import { siteConfig } from '../data/site';
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
+    gap: 1.5rem;
   }
 
   .brand-link {
     display: flex;
     align-items: center;
+    transition: opacity var(--transition-fast);
+  }
+
+  .brand-link:hover {
+    opacity: 0.85;
   }
 
   .brand-logo {
@@ -101,7 +213,7 @@ import { siteConfig } from '../data/site';
 
   @media (min-width: 768px) {
     .brand-logo {
-      height: 32px;
+      height: 30px;
     }
   }
 
@@ -119,38 +231,44 @@ import { siteConfig } from '../data/site';
     display: flex;
     align-items: center;
     list-style: none;
-    gap: 2rem;
+    gap: 2.25rem;
   }
 
   .nav-link {
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     font-weight: 500;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
     color: var(--color-text-main);
     text-transform: uppercase;
     position: relative;
-    padding-bottom: 4px;
+    padding: 0.25rem 0;
   }
 
   .nav-link::after {
     content: '';
     position: absolute;
-    bottom: 0;
+    bottom: -2px;
     left: 0;
     width: 0%;
     height: 1.5px;
     background-color: var(--color-accent);
-    transition: width var(--transition-fast);
+    transition: width var(--transition-base);
   }
 
-  .nav-link:hover::after {
+  .nav-link:hover::after,
+  .nav-link.active::after {
     width: 100%;
+  }
+
+  .nav-link.active {
+    color: var(--color-accent);
+    font-weight: 600;
   }
 
   .header-actions {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.5rem;
   }
 
   .action-btn {
@@ -161,7 +279,7 @@ import { siteConfig } from '../data/site';
     height: 44px;
     border-radius: var(--border-radius-sm);
     color: var(--color-text-main);
-    transition: background-color var(--transition-fast), color var(--transition-fast);
+    transition: all var(--transition-fast);
     position: relative;
   }
 
@@ -172,20 +290,24 @@ import { siteConfig } from '../data/site';
 
   .bag-count {
     position: absolute;
-    top: 6px;
+    top: 5px;
     right: 4px;
-    min-width: 18px;
-    height: 18px;
+    min-width: 19px;
+    height: 19px;
     padding: 0 4px;
-    border-radius: 9px;
+    border-radius: 10px;
     background-color: var(--color-accent);
     color: #FFFFFF;
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 700;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: transform var(--transition-fast);
+  }
+
+  .bag-count.bump {
+    transform: scale(1.3);
   }
 
   .mobile-toggle {
@@ -212,15 +334,15 @@ import { siteConfig } from '../data/site';
     transition: all var(--transition-fast);
   }
 
-  /* Mobile Dropdown */
+  /* Mobile Menu */
   .mobile-menu {
     position: absolute;
-    top: 72px;
+    top: 100%;
     left: 0;
     right: 0;
     background-color: var(--color-bg);
     border-bottom: 1px solid var(--color-border);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.08);
   }
 
   .mobile-menu-inner {
@@ -256,13 +378,163 @@ import { siteConfig } from '../data/site';
     margin-bottom: 0.75rem;
   }
 
-  .btn-block {
+  /* Search Modal */
+  .search-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(37, 33, 30, 0.5);
+    backdrop-filter: blur(6px);
+    z-index: 100;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: clamp(2rem, 10vh, 5rem);
+    padding-left: 1rem;
+    padding-right: 1rem;
+    animation: fadeIn 200ms ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .search-modal-card {
     width: 100%;
+    max-width: 600px;
+    background-color: #FFFFFF;
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+  }
+
+  .search-modal-header {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--color-border);
+    gap: 0.75rem;
+  }
+
+  .search-modal-input-wrap {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--color-text-light);
+  }
+
+  .quick-search-field {
+    width: 100%;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    border: none;
+    outline: none;
+    color: var(--color-text-main);
+    background: transparent;
+  }
+
+  .search-close-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-muted);
+    border-radius: var(--border-radius-sm);
+  }
+
+  .search-close-btn:hover {
+    background-color: var(--color-surface);
+    color: var(--color-text-main);
+  }
+
+  .search-modal-results {
+    max-height: 420px;
+    overflow-y: auto;
+    padding: 1rem 1.25rem;
+  }
+
+  .search-modal-hint {
+    font-size: 0.875rem;
+    color: var(--color-text-light);
+    text-align: center;
+    padding: 2rem 0;
+  }
+
+  :global(.search-result-item) {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 0.5rem;
+    border-radius: var(--border-radius-sm);
+    transition: background-color var(--transition-fast);
+  }
+
+  :global(.search-result-item:hover) {
+    background-color: var(--color-surface);
+  }
+
+  :global(.search-result-thumb) {
+    width: 48px;
+    height: 60px;
+    background-color: var(--color-surface-subtle);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    flex-shrink: 0;
+  }
+
+  :global(.search-result-thumb img) {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  :global(.search-result-info) {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  :global(.search-result-brand) {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--color-text-light);
+  }
+
+  :global(.search-result-name) {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+  }
+
+  :global(.search-result-price) {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-accent);
   }
 </style>
 
 <script>
-  // Mobile menu interactive toggle
+  import productsData from '../data/products.json';
+
+  // Scroll header elevation
+  const header = document.getElementById('main-header');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 20) {
+      header?.classList.add('scrolled');
+    } else {
+      header?.classList.remove('scrolled');
+    }
+  });
+
+  // Mobile menu toggle
   const toggleBtn = document.getElementById('menu-toggle-btn');
   const mobileMenu = document.getElementById('mobile-menu');
 
@@ -272,13 +544,97 @@ import { siteConfig } from '../data/site';
       toggleBtn.setAttribute('aria-expanded', String(!isExpanded));
       mobileMenu.hidden = isExpanded;
     });
-
-    // Close on navigation click
-    mobileMenu.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        mobileMenu.hidden = true;
-        toggleBtn.setAttribute('aria-expanded', 'false');
-      });
-    });
   }
+
+  // Quick Search Modal Logic
+  const openSearchBtn = document.getElementById('open-search-modal-btn');
+  const searchModal = document.getElementById('search-modal');
+  const closeSearchBtn = document.getElementById('close-search-modal-btn');
+  const searchInput = document.getElementById('quick-search-input') as HTMLInputElement;
+  const searchResults = document.getElementById('quick-search-results');
+
+  function openSearch() {
+    if (searchModal) {
+      searchModal.hidden = false;
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => searchInput?.focus(), 50);
+    }
+  }
+
+  function closeSearch() {
+    if (searchModal) {
+      searchModal.hidden = true;
+      document.body.style.overflow = '';
+      if (searchInput) searchInput.value = '';
+      if (searchResults) {
+        searchResults.innerHTML = '<p class="search-modal-hint">Start typing to explore our 25 curated luxury perfumes...</p>';
+      }
+    }
+  }
+
+  openSearchBtn?.addEventListener('click', openSearch);
+  closeSearchBtn?.addEventListener('click', closeSearch);
+
+  searchModal?.addEventListener('click', (e) => {
+    if (e.target === searchModal) closeSearch();
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && searchModal && !searchModal.hidden) {
+      closeSearch();
+    }
+    // CMD+K or CTRL+K quick shortcut
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      openSearch();
+    }
+  });
+
+  searchInput?.addEventListener('input', () => {
+    const q = searchInput.value.trim().toLowerCase();
+    if (!q) {
+      if (searchResults) {
+        searchResults.innerHTML = '<p class="search-modal-hint">Start typing to explore our 25 curated luxury perfumes...</p>';
+      }
+      return;
+    }
+
+    const matches = productsData.filter(
+      (p) =>
+        p.name.toLowerCase().includes(q) ||
+        p.brand.toLowerCase().includes(q) ||
+        p.rawNotes.toLowerCase().includes(q) ||
+        p.scentFamilies.some((f) => f.toLowerCase().includes(q))
+    ).slice(0, 6);
+
+    if (!searchResults) return;
+
+    if (!matches.length) {
+      searchResults.innerHTML = `
+        <div style="text-align: center; padding: 2rem 0; color: var(--color-text-muted);">
+          <p>No perfumes found for "${q}"</p>
+          <a href="/shop/" style="color: var(--color-accent); font-weight: 500; font-size: 0.85rem; margin-top: 0.5rem; display: inline-block;">View entire collection</a>
+        </div>
+      `;
+      return;
+    }
+
+    searchResults.innerHTML = matches
+      .map(
+        (p) => `
+        <a href="/perfumes/${p.slug}/" class="search-result-item">
+          <div class="search-result-thumb">
+            <img src="${p.image}" alt="${p.brand} ${p.name}" />
+          </div>
+          <div class="search-result-info">
+            <span class="search-result-brand">${p.brand}</span>
+            <span class="search-result-name">${p.name}</span>
+            <span style="font-size: 0.75rem; color: var(--color-text-light);">${p.sizeDisplay} · ${p.concentration}</span>
+          </div>
+          <span class="search-result-price">${p.priceDisplay}</span>
+        </a>
+      `
+      )
+      .join('');
+  });
 </script>

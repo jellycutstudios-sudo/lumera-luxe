@@ -81,11 +81,21 @@ const allFamilies = Array.from(
         </div>
       </div>
 
-      <!-- Active Filter Status & Count -->
+      <!-- Price Quick Filter Chips -->
+      <div class="price-chips-row">
+        <span class="price-chips-label">Price Range:</span>
+        <button type="button" class="price-chip active" data-price-range="all">All Prices</button>
+        <button type="button" class="price-chip" data-price-range="under-250">Under 250 QAR</button>
+        <button type="button" class="price-chip" data-price-range="250-350">250 – 350 QAR</button>
+        <button type="button" class="price-chip" data-price-range="over-350">350+ QAR</button>
+      </div>
+
+      <!-- Active Filter Status & Badges -->
       <div class="catalogue-status-bar">
         <span id="results-count" class="results-count">
           Showing <strong>{productsData.length}</strong> fragrances
         </span>
+        <div class="active-filter-tags" id="active-tags-container"></div>
       </div>
 
       <!-- Products Grid -->
@@ -246,12 +256,88 @@ const allFamilies = Array.from(
     border-color: var(--color-text-main);
   }
 
+  /* Price Chips Row */
+  .price-chips-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.25rem;
+  }
+
+  .price-chips-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-light);
+    margin-right: 0.25rem;
+  }
+
+  .price-chip {
+    font-size: 0.8125rem;
+    padding: 0.35rem 0.75rem;
+    border-radius: 20px;
+    border: 1px solid var(--color-border);
+    background-color: #FFFFFF;
+    color: var(--color-text-muted);
+    transition: all var(--transition-fast);
+  }
+
+  .price-chip:hover {
+    border-color: var(--color-accent);
+    color: var(--color-text-main);
+  }
+
+  .price-chip.active {
+    background-color: var(--color-text-main);
+    color: #FFFFFF;
+    border-color: var(--color-text-main);
+  }
+
   .catalogue-status-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
     padding-bottom: 1.5rem;
     border-bottom: 1px solid var(--color-border-subtle);
     margin-bottom: 2rem;
     font-size: 0.875rem;
     color: var(--color-text-muted);
+  }
+
+  .active-filter-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  :global(.filter-tag) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    padding: 0.2rem 0.55rem;
+    border-radius: 12px;
+    color: var(--color-text-main);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  :global(.filter-tag:hover) {
+    background-color: var(--color-accent-light);
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  :global(.filter-tag-remove) {
+    font-weight: 700;
+    font-size: 0.7rem;
   }
 
   /* Zero Results */
@@ -308,6 +394,10 @@ const allFamilies = Array.from(
   const countEl = document.getElementById('results-count');
   const gridEl = document.getElementById('catalogue-grid');
   const zeroEl = document.getElementById('zero-results');
+  const tagsContainer = document.getElementById('active-tags-container');
+  const priceChips = document.querySelectorAll('.price-chip');
+
+  let activePriceRange = 'all';
 
   // Read URL params
   const urlParams = new URLSearchParams(window.location.search);
@@ -318,6 +408,74 @@ const allFamilies = Array.from(
   if (searchInput && initialSearch) searchInput.value = initialSearch;
   if (brandSelect && initialBrand) brandSelect.value = initialBrand;
   if (familySelect && initialFamily) familySelect.value = initialFamily;
+
+  priceChips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      priceChips.forEach((c) => c.classList.remove('active'));
+      chip.classList.add('active');
+      activePriceRange = chip.getAttribute('data-price-range') || 'all';
+      filterAndSortProducts();
+    });
+  });
+
+  function renderActiveTags(q: string, brand: string, family: string) {
+    if (!tagsContainer) return;
+    const tags: { label: string; clear: () => void }[] = [];
+
+    if (q) {
+      tags.push({
+        label: `Search: "${q}"`,
+        clear: () => {
+          if (searchInput) searchInput.value = '';
+          filterAndSortProducts();
+        }
+      });
+    }
+
+    if (brand) {
+      tags.push({
+        label: `Brand: ${brand}`,
+        clear: () => {
+          if (brandSelect) brandSelect.value = '';
+          filterAndSortProducts();
+        }
+      });
+    }
+
+    if (family) {
+      tags.push({
+        label: `Family: ${family}`,
+        clear: () => {
+          if (familySelect) familySelect.value = '';
+          filterAndSortProducts();
+        }
+      });
+    }
+
+    if (activePriceRange !== 'all') {
+      const chipEl = document.querySelector(`.price-chip[data-price-range="${activePriceRange}"]`);
+      tags.push({
+        label: chipEl?.textContent || 'Price Filter',
+        clear: () => {
+          priceChips.forEach((c) => c.classList.remove('active'));
+          document.querySelector('.price-chip[data-price-range="all"]')?.classList.add('active');
+          activePriceRange = 'all';
+          filterAndSortProducts();
+        }
+      });
+    }
+
+    tagsContainer.innerHTML = tags
+      .map(
+        (t, idx) =>
+          `<span class="filter-tag" data-tag-idx="${idx}">${t.label} <span class="filter-tag-remove">✕</span></span>`
+      )
+      .join('');
+
+    tags.forEach((t, idx) => {
+      tagsContainer.querySelector(`[data-tag-idx="${idx}"]`)?.addEventListener('click', t.clear);
+    });
+  }
 
   function filterAndSortProducts() {
     const q = searchInput?.value.trim().toLowerCase() || '';
@@ -346,7 +504,13 @@ const allFamilies = Array.from(
         !selectedFamily ||
         prod.scentFamilies.some((f) => f.toLowerCase().includes(selectedFamily));
 
-      if (matchesSearch && matchesBrand && matchesFamily) {
+      const priceQar = prod.priceMinor / 100;
+      let matchesPrice = true;
+      if (activePriceRange === 'under-250') matchesPrice = priceQar < 250;
+      if (activePriceRange === '250-350') matchesPrice = priceQar >= 250 && priceQar <= 350;
+      if (activePriceRange === 'over-350') matchesPrice = priceQar > 350;
+
+      if (matchesSearch && matchesBrand && matchesFamily && matchesPrice) {
         card.style.display = '';
         visibleCount++;
       } else {
@@ -369,6 +533,8 @@ const allFamilies = Array.from(
       sortedCards.forEach((c) => gridEl.appendChild(c));
     }
 
+    renderActiveTags(q, selectedBrand, selectedFamily);
+
     // Update status
     if (countEl) {
       countEl.innerHTML = `Showing <strong>${visibleCount}</strong> fragrance${visibleCount === 1 ? '' : 's'}`;
@@ -390,6 +556,9 @@ const allFamilies = Array.from(
     if (brandSelect) brandSelect.value = '';
     if (familySelect) familySelect.value = '';
     if (sortSelect) sortSelect.value = 'featured';
+    priceChips.forEach((c) => c.classList.remove('active'));
+    document.querySelector('.price-chip[data-price-range="all"]')?.classList.add('active');
+    activePriceRange = 'all';
     filterAndSortProducts();
   }
 
