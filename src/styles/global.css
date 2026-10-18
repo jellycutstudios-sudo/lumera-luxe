@@ -433,12 +433,20 @@ button {
 .category-image-frame {
   width: 100% !important;
   aspect-ratio: 4 / 5 !important;
-  background-color: #F7F6F4 !important;
+  background-color: #FFFFFF !important;
+  border: 1px solid #ECEAE5 !important;
+  border-radius: var(--border-radius-sm) !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  padding: clamp(1.25rem, 3vw, 2.5rem) !important;
+  padding: clamp(1rem, 2.5vw, 2.25rem) !important;
   margin-bottom: 0.85rem !important;
+  transition: all var(--transition-fast) !important;
+}
+
+.category-item:hover .category-image-frame {
+  border-color: #D2CDC5 !important;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04) !important;
 }
 
 .category-img {

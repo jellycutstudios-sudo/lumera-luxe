@@ -308,12 +308,20 @@ const categories = [
   .category-image-frame {
     width: 100%;
     aspect-ratio: 4 / 5;
-    background-color: #F7F6F4;
+    background-color: #FFFFFF;
+    border: 1px solid #ECEAE5;
+    border-radius: var(--border-radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: clamp(1.25rem, 3vw, 2.5rem);
+    padding: clamp(1rem, 2.5vw, 2.25rem);
     margin-bottom: 0.85rem;
+    transition: all var(--transition-fast);
+  }
+
+  .category-item:hover .category-image-frame {
+    border-color: #D2CDC5;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
   }
 
   .category-img {
