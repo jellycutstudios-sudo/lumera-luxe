@@ -9,6 +9,10 @@ export interface SiteConfig {
   whatsappDisplay: string;
   email: string;
   instagramHandle: string;
+  instagramUrl?: string;
+  tiktokHandle?: string;
+  tiktokUrl?: string;
+  whatsappUrl?: string;
   navigation: { label: string; href: string }[];
   promises: { title: string; description: string; icon: string }[];
 }
@@ -24,6 +28,10 @@ export const siteConfig: SiteConfig = {
   whatsappDisplay: '+974 6667 5166',
   email: 'concierge@lumeraluxe.qa',
   instagramHandle: '@lumeraluxe.qa',
+  instagramUrl: 'https://instagram.com/lumeraluxe.qa',
+  tiktokHandle: '@lumeraluxe.qa',
+  tiktokUrl: 'https://tiktok.com/@lumeraluxe.qa',
+  whatsappUrl: 'https://wa.me/97466675166',
   navigation: [
     { label: 'Shop', href: '/shop/' },
     { label: 'About', href: '/our-story/' },

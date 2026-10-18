@@ -1,0 +1,595 @@
+---
+import { siteConfig } from '../data/site';
+import productsData from '../data/products.json';
+---
+
+<!-- Mobile Navigation Drawer Overlay (Root Level, outside header) -->
+<div class="mobile-nav-backdrop" id="mobile-nav-backdrop" hidden></div>
+
+<aside
+  class="mobile-nav-drawer"
+  id="mobile-nav-drawer"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Navigation Menu"
+  hidden
+>
+  <!-- Top Bar: Logo & Close Button -->
+  <div class="mobile-drawer-top">
+    <a href="/" class="mobile-drawer-brand" aria-label="LUMÈRA LUXE Home">
+      <img
+        src="/assets/lumera-logo.svg"
+        alt="LUMÈRA LUXE"
+        class="mobile-drawer-logo"
+        width="135"
+        height="22"
+      />
+    </a>
+    <button
+      class="mobile-drawer-close"
+      id="mobile-nav-close-btn"
+      aria-label="Close navigation menu"
+    >
+      <svg
+        width="22"
+        height="22"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Search Trigger Bar -->
+  <div class="mobile-drawer-search-row">
+    <button class="mobile-search-btn-trigger" id="mobile-drawer-search-trigger">
+      <svg
+        width="17"
+        height="17"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <circle cx="11" cy="11" r="7.5"></circle>
+        <line x1="21" y1="21" x2="16.5" y2="16.5"></line>
+      </svg>
+      <span>Search 25 luxury fragrances...</span>
+    </button>
+  </div>
+
+  <!-- Scrollable Navigation Content -->
+  <div class="mobile-drawer-scroll">
+    <!-- Section 1: Fragrance Collection -->
+    <div class="nav-section-block">
+      <span class="nav-section-eyebrow">Fragrance Collection</span>
+      <ul class="nav-link-list">
+        <li>
+          <a href="/shop/" class="nav-row-link">
+            <span class="row-icon">
+              <!-- Perfume Bottle Line Icon -->
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="5" y="8" width="14" height="13" rx="2"></rect>
+                <path d="M10 2h4v3h-4z"></path>
+                <line x1="12" y1="5" x2="12" y2="8"></line>
+              </svg>
+            </span>
+            <span class="row-title">All Perfumes ({productsData.length})</span>
+            <span class="row-arrow">→</span>
+          </a>
+        </li>
+        <li>
+          <a href="/shop/?family=oriental" class="nav-row-link">
+            <span class="row-icon">
+              <!-- Warm Radiant Flame Line Icon -->
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2c1 4 5 7 5 12a7 7 0 1 1-14 0c0-4 3-7 4-10 1 3 3 5 5 5-2-4 0-7 0-7z"></path>
+              </svg>
+            </span>
+            <span class="row-title">Amber & Oriental</span>
+          </a>
+        </li>
+        <li>
+          <a href="/shop/?family=floral" class="nav-row-link">
+            <span class="row-icon">
+              <!-- Flower Blossom Line Icon -->
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M12 2a4 4 0 0 1 4 4c0 3-4 6-4 6s-4-3-4-6a4 4 0 0 1 4-4z"></path>
+                <path d="M12 22a4 4 0 0 1-4-4c0-3 4-6 4-6s4 3 4 6a4 4 0 0 1-4 4z"></path>
+                <path d="M2 12a4 4 0 0 1 4-4c3 0 6 4 6 4s-3 4-6 4a4 4 0 0 1-4-4z"></path>
+                <path d="M22 12a4 4 0 0 1-4 4c-3 0-6-4-6-4s3-4 6-4a4 4 0 0 1 4 4z"></path>
+              </svg>
+            </span>
+            <span class="row-title">Floral & Rose</span>
+          </a>
+        </li>
+        <li>
+          <a href="/shop/?family=woody" class="nav-row-link">
+            <span class="row-icon">
+              <!-- Botanical Leaf Line Icon -->
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+                <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+              </svg>
+            </span>
+            <span class="row-title">Woody & Fresh</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Section 2: Maison & Client Service -->
+    <div class="nav-section-block">
+      <span class="nav-section-eyebrow">The Maison</span>
+      <ul class="nav-link-list">
+        <li>
+          <a href="/our-story/" class="nav-row-link">
+            <span class="row-icon">
+              <!-- Open Journal Line Icon -->
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+              </svg>
+            </span>
+            <span class="row-title">Our Story & Craft</span>
+          </a>
+        </li>
+        <li>
+          <a href="/delivery-returns/" class="nav-row-link">
+            <span class="row-icon">
+              <!-- Delivery Courier Van Line Icon -->
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="3" width="15" height="13"></rect>
+                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                <circle cx="18.5" cy="18.5" r="2.5"></circle>
+              </svg>
+            </span>
+            <span class="row-title">Qatar Priority Delivery</span>
+          </a>
+        </li>
+        <li>
+          <a href="/contact/" class="nav-row-link">
+            <span class="row-icon">
+              <!-- Compass Location Line Icon -->
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
+              </svg>
+            </span>
+            <span class="row-title">Contact & Concierge</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Section 3: Official Social Channels (WhatsApp, TikTok, Instagram) -->
+    <div class="nav-section-block">
+      <span class="nav-section-eyebrow">Connect & Social</span>
+      <div class="social-channels-grid">
+        <!-- WhatsApp Concierge -->
+        <a
+          href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent("Hello LUMÈRA LUXE, I would like assistance with fragrance selection.")}`}
+          class="social-channel-card whatsapp-card"
+          target="_blank"
+          rel="noopener"
+        >
+          <div class="channel-icon-wrap whatsapp-color">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12.031 2C6.495 2 2 6.495 2 12.031c0 1.77.462 3.498 1.341 5.022L2 22l5.093-1.336A10.007 10.007 0 0 0 12.031 22C17.567 22 22 17.505 22 12.031 22 6.495 17.567 2 12.031 2zm5.879 14.195c-.244.686-1.42 1.314-1.956 1.385-.514.068-1.163.097-3.708-.958-3.04-1.258-4.996-4.34-5.148-4.542-.152-.202-1.233-1.64-1.233-3.128 0-1.488.777-2.22 1.052-2.525.275-.305.6-.381.8-.381.2 0 .4 0 .576.01.187.01.438-.071.686.525.257.619.876 2.143.952 2.296.076.153.127.33.025.534-.102.204-.153.33-.305.508-.152.178-.32.396-.457.533-.153.153-.312.32-.134.626.178.305.792 1.306 1.698 2.112 1.166 1.037 2.148 1.358 2.453 1.51.305.153.483.128.66-.076.178-.204.762-.89 965-1.195.204-.305.407-.254.686-.153.28.102 1.777.838 2.082.99.305.153.508.229.584.356.076.127.076.737-.168 1.423z"/>
+            </svg>
+          </div>
+          <div class="channel-info">
+            <span class="channel-name">WhatsApp Concierge</span>
+            <span class="channel-handle">+974 6667 5166</span>
+          </div>
+          <span class="channel-status-dot" title="Online in Qatar"></span>
+        </a>
+
+        <!-- Instagram -->
+        <a
+          href={siteConfig.instagramUrl || "https://instagram.com/lumeraluxe.qa"}
+          class="social-channel-card"
+          target="_blank"
+          rel="noopener"
+        >
+          <div class="channel-icon-wrap">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </div>
+          <div class="channel-info">
+            <span class="channel-name">Instagram</span>
+            <span class="channel-handle">{siteConfig.instagramHandle || "@lumeraluxe.qa"}</span>
+          </div>
+          <span class="channel-arrow">↗</span>
+        </a>
+
+        <!-- TikTok -->
+        <a
+          href={siteConfig.tiktokUrl || "https://tiktok.com/@lumeraluxe.qa"}
+          class="social-channel-card"
+          target="_blank"
+          rel="noopener"
+        >
+          <div class="channel-icon-wrap">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
+            </svg>
+          </div>
+          <div class="channel-info">
+            <span class="channel-name">TikTok</span>
+            <span class="channel-handle">{siteConfig.tiktokHandle || "@lumeraluxe.qa"}</span>
+          </div>
+          <span class="channel-arrow">↗</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Location Stamp -->
+  <div class="mobile-drawer-bottom">
+    <span class="bottom-stamp">Doha, Qatar · Genuine Luxury Guaranteed</span>
+  </div>
+</aside>
+
+<style>
+  [hidden] {
+    display: none !important;
+  }
+
+  .mobile-nav-backdrop[hidden],
+  .mobile-nav-drawer[hidden] {
+    display: none !important;
+  }
+
+  /* Full Screen Backdrop */
+  .mobile-nav-backdrop {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(26, 24, 22, 0.45);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 998;
+    animation: drawerFadeIn 220ms ease;
+  }
+
+  /* Full Luxury Sliding Panel (Pure White, 100% Opaque) */
+  .mobile-nav-drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 380px;
+    background-color: #FFFFFF !important;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 10px 0 40px rgba(0, 0, 0, 0.15);
+    animation: drawerSlideLeft 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes drawerSlideLeft {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes drawerFadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  /* Top Bar */
+  .mobile-drawer-top {
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.25rem;
+    border-bottom: 1px solid var(--color-border);
+    background-color: #FFFFFF;
+    flex-shrink: 0;
+  }
+
+  .mobile-drawer-logo {
+    height: 22px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .mobile-drawer-close {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-main);
+    background: transparent;
+    border: none;
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+  }
+
+  .mobile-drawer-close:hover {
+    background-color: var(--color-surface);
+  }
+
+  /* Search Trigger Button Row */
+  .mobile-drawer-search-row {
+    padding: 0.85rem 1.25rem;
+    border-bottom: 1px solid var(--color-border-subtle);
+    background-color: #FFFFFF;
+    flex-shrink: 0;
+  }
+
+  .mobile-search-btn-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    padding: 0.65rem 0.85rem;
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+    font-family: var(--font-body);
+    cursor: pointer;
+    text-align: left;
+    transition: border-color var(--transition-fast);
+  }
+
+  .mobile-search-btn-trigger:hover {
+    border-color: var(--color-text-main);
+    color: var(--color-text-main);
+  }
+
+  /* Scrollable Navigation Body */
+  .mobile-drawer-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.25rem;
+    background-color: #FFFFFF;
+  }
+
+  .nav-section-block {
+    margin-bottom: 1.75rem;
+  }
+
+  .nav-section-eyebrow {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-light);
+    margin-bottom: 0.5rem;
+    padding-left: 0.25rem;
+  }
+
+  .nav-link-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .nav-row-link {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.65rem 0.65rem;
+    border-radius: var(--border-radius-sm);
+    color: var(--color-text-main);
+    text-decoration: none;
+    transition: background-color var(--transition-fast);
+  }
+
+  .nav-row-link:hover {
+    background-color: var(--color-surface);
+  }
+
+  .row-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    background-color: var(--color-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-main);
+    flex-shrink: 0;
+  }
+
+  .nav-row-link:hover .row-icon {
+    background-color: #FFFFFF;
+    color: var(--color-accent);
+  }
+
+  .row-title {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-text-main);
+    flex: 1;
+  }
+
+  .row-arrow {
+    font-size: 0.875rem;
+    color: var(--color-text-light);
+  }
+
+  /* Social Channels Grid */
+  .social-channels-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .social-channel-card {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.65rem 0.85rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    background-color: #FFFFFF;
+    text-decoration: none;
+    color: var(--color-text-main);
+    transition: all var(--transition-fast);
+  }
+
+  .social-channel-card:hover {
+    border-color: var(--color-text-main);
+    background-color: var(--color-surface);
+  }
+
+  .whatsapp-card {
+    border-color: rgba(37, 211, 102, 0.3);
+    background-color: rgba(37, 211, 102, 0.04);
+  }
+
+  .whatsapp-card:hover {
+    border-color: #25D366;
+    background-color: rgba(37, 211, 102, 0.08);
+  }
+
+  .channel-icon-wrap {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: var(--color-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-main);
+    flex-shrink: 0;
+  }
+
+  .whatsapp-color {
+    background-color: #25D366;
+    color: #FFFFFF;
+  }
+
+  .channel-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .channel-name {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-main);
+  }
+
+  .channel-handle {
+    font-size: 0.6875rem;
+    color: var(--color-text-muted);
+  }
+
+  .channel-arrow {
+    font-size: 0.875rem;
+    color: var(--color-text-light);
+  }
+
+  .channel-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #25D366;
+    box-shadow: 0 0 0 2px rgba(37, 211, 102, 0.25);
+  }
+
+  /* Bottom Location Stamp */
+  .mobile-drawer-bottom {
+    padding: 0.85rem 1.25rem;
+    border-top: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .bottom-stamp {
+    font-size: 0.625rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-light);
+  }
+</style>
+
+<script>
+  // Root-Level Mobile Drawer Controller
+  const backdrop = document.getElementById('mobile-nav-backdrop');
+  const drawer = document.getElementById('mobile-nav-drawer');
+  const openBtn = document.getElementById('menu-toggle-btn');
+  const closeBtn = document.getElementById('mobile-nav-close-btn');
+  const searchTrigger = document.getElementById('mobile-drawer-search-trigger');
+
+  function openDrawer() {
+    if (backdrop) backdrop.hidden = false;
+    if (drawer) drawer.hidden = false;
+    if (openBtn) openBtn.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDrawer() {
+    if (backdrop) backdrop.hidden = true;
+    if (drawer) drawer.hidden = true;
+    if (openBtn) openBtn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  if (openBtn) openBtn.addEventListener('click', openDrawer);
+  if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+  if (backdrop) backdrop.addEventListener('click', closeDrawer);
+
+  // Quick Search trigger from inside drawer
+  if (searchTrigger) {
+    searchTrigger.addEventListener('click', () => {
+      closeDrawer();
+      const openSearchBtn = document.getElementById('open-search-modal-btn');
+      if (openSearchBtn) openSearchBtn.click();
+    });
+  }
+
+  // Close on Escape
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && drawer && !drawer.hidden) {
+      closeDrawer();
+    }
+  });
+
+  // Close on internal link click
+  drawer?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      closeDrawer();
+    });
+  });
+</script>
