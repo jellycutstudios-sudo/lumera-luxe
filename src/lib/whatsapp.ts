@@ -14,6 +14,7 @@ export interface CartItem {
 export interface CustomerDeliveryInfo {
   fullName: string;
   phone: string;
+  email?: string;
   address: string;
   city: string;
   notes?: string;
@@ -22,7 +23,7 @@ export interface CustomerDeliveryInfo {
 
 export function formatWhatsAppOrderMessage(
   items: CartItem[],
-  customerInfo?: CustomerDeliveryInfo | { name?: string; deliveryArea?: string; notes?: string }
+  customerInfo?: CustomerDeliveryInfo | { name?: string; deliveryArea?: string; notes?: string; email?: string }
 ): string {
   const dateStr = new Date().toLocaleDateString('en-GB', {
     day: 'numeric',
@@ -45,6 +46,7 @@ export function formatWhatsAppOrderMessage(
   if (customerInfo) {
     const fullName = ('fullName' in customerInfo ? customerInfo.fullName : customerInfo.name) || '';
     const phone = ('phone' in customerInfo ? customerInfo.phone : '') || '';
+    const email = ('email' in customerInfo ? customerInfo.email : '') || '';
     const address = ('address' in customerInfo ? customerInfo.address : customerInfo.deliveryArea) || '';
     const city = ('city' in customerInfo ? customerInfo.city : '') || 'Doha';
     const notes = customerInfo.notes || '';
@@ -53,6 +55,7 @@ export function formatWhatsAppOrderMessage(
     message += `📍 *CUSTOMER & DELIVERY DETAILS:*\n`;
     if (fullName) message += `• *Customer:* ${fullName.trim()}\n`;
     if (phone) message += `• *Phone / WhatsApp:* ${phone.trim()}\n`;
+    if (email && email.trim()) message += `• *Email:* ${email.trim()}\n`;
     if (address) message += `• *Delivery Address:* ${address.trim()}\n`;
     if (city) message += `• *City / Municipality:* ${city.trim()} (Qatar)\n`;
     message += `• *Payment Method:* ${payment.trim()}\n`;

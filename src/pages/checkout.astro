@@ -99,7 +99,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
             <div class="card-header-clean">
               <div>
                 <h2 class="card-title">Delivery Details</h2>
-                <span class="card-subtitle">Quick 3-step address for your doorstep courier</span>
+                <span class="card-subtitle">Contact and address for your doorstep courier</span>
               </div>
             </div>
 
@@ -135,7 +135,21 @@ const description = `Complete your luxury fragrance order with doorstep delivery
                 <span class="field-err-msg" id="phone-err">Please enter your 8-digit mobile number</span>
               </div>
 
-              <!-- Field 3: Delivery Address & Area in Qatar -->
+              <!-- Field 3: Email Address (Optional) -->
+              <div class="form-field">
+                <label for="checkout-email" class="field-label">
+                  Email Address <span class="optional-tag">(Optional)</span>
+                </label>
+                <input
+                  type="email"
+                  id="checkout-email"
+                  class="form-input"
+                  placeholder="e.g. fatima@example.com (for order updates)"
+                  autocomplete="email"
+                />
+              </div>
+
+              <!-- Field 4: Delivery Address & Area in Qatar -->
               <div class="form-field">
                 <label for="checkout-address" class="field-label">Delivery Address in Qatar <span class="req">*</span></label>
                 <input
@@ -420,6 +434,15 @@ const description = `Complete your luxury fragrance order with doorstep delivery
 
   .field-label .req {
     color: #DC2626;
+  }
+
+  .field-label .optional-tag {
+    font-size: 0.6875rem;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: normal;
+    color: var(--color-text-light);
+    margin-left: 0.35rem;
   }
 
   .form-input {
@@ -919,6 +942,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
   // 3. Hydrate customer inputs from localStorage
   const nameInput = document.getElementById('checkout-name') as HTMLInputElement;
   const phoneInput = document.getElementById('checkout-phone') as HTMLInputElement;
+  const emailInput = document.getElementById('checkout-email') as HTMLInputElement;
   const addressInput = document.getElementById('checkout-address') as HTMLInputElement;
 
   try {
@@ -927,6 +951,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
       const data = JSON.parse(saved);
       if (nameInput && data.fullName) nameInput.value = data.fullName;
       if (phoneInput && data.phone) phoneInput.value = data.phone;
+      if (emailInput && data.email) emailInput.value = data.email;
       if (addressInput && data.address) addressInput.value = data.address;
     }
   } catch {}
@@ -937,6 +962,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
 
     const nameVal = nameInput ? nameInput.value.trim() : '';
     const phoneVal = phoneInput ? phoneInput.value.trim() : '';
+    const emailVal = emailInput ? emailInput.value.trim() : '';
     const addressVal = addressInput ? addressInput.value.trim() : '';
 
     let hasError = false;
@@ -982,6 +1008,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
         JSON.stringify({
           fullName: nameVal,
           phone: phoneVal,
+          email: emailVal,
           address: addressVal
         })
       );
@@ -1000,6 +1027,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
     const customer = {
       fullName: nameVal,
       phone: phoneVal.startsWith('+') ? phoneVal : `+974 ${phoneVal}`,
+      email: emailVal,
       address: addressVal,
       city: 'Qatar'
     };
