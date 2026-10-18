@@ -18,129 +18,28 @@ const description = `Complete your luxury fragrance order with doorstep delivery
           </svg>
           <span>Continue Shopping</span>
         </a>
-        <span class="checkout-step-badge">DIRECT WHATSAPP CHECKOUT</span>
+        <span class="checkout-step-badge">Direct WhatsApp Order</span>
       </nav>
 
       <div class="checkout-heading-wrap">
         <h1 class="checkout-heading">Delivery & Order Confirmation</h1>
-        <p class="checkout-subheading">Enter your delivery address in Qatar. Your order is confirmed directly with our boutique on WhatsApp.</p>
+        <p class="checkout-subheading">Enter your delivery details in Qatar. Your order is confirmed directly with our boutique on WhatsApp.</p>
       </div>
 
       <!-- Checkout Content Split Grid -->
       <div class="checkout-grid" id="checkout-main-grid">
-        <!-- Left Column: Delivery Address Form -->
-        <div class="checkout-form-column">
-          <div class="checkout-card">
-            <div class="card-header-row">
-              <div class="step-num-badge">1</div>
-              <div>
-                <h2 class="card-title">Delivery Details</h2>
-                <p class="card-subtitle">Doorstep courier delivery across Doha and all Qatar municipalities.</p>
-              </div>
-            </div>
-
-            <form id="checkout-order-form" class="checkout-form" onsubmit="return false;" novalidate>
-              <div class="form-row">
-                <div class="form-field">
-                  <label for="checkout-name" class="field-label">Full Name <span class="req">*</span></label>
-                  <input
-                    type="text"
-                    id="checkout-name"
-                    class="form-input"
-                    placeholder="e.g. Fatima Al-Kuwari"
-                    autocomplete="name"
-                    required
-                  />
-                  <span class="field-err-msg" id="name-err">Please enter your full name</span>
-                </div>
-
-                <div class="form-field">
-                  <label for="checkout-phone" class="field-label">WhatsApp Mobile <span class="req">*</span></label>
-                  <div class="phone-input-group">
-                    <span class="phone-country-code">🇶🇦 +974</span>
-                    <input
-                      type="tel"
-                      id="checkout-phone"
-                      class="form-input phone-input"
-                      placeholder="e.g. 5512 3456"
-                      autocomplete="tel"
-                      required
-                    />
-                  </div>
-                  <span class="field-err-msg" id="phone-err">Please enter your 8-digit mobile number</span>
-                </div>
-              </div>
-
-              <div class="form-field full-width">
-                <label for="checkout-address" class="field-label">Delivery Address in Qatar <span class="req">*</span></label>
-                <input
-                  type="text"
-                  id="checkout-address"
-                  class="form-input"
-                  placeholder="Street name, Villa/Building number, Zone"
-                  autocomplete="street-address"
-                  required
-                />
-                <span class="field-err-msg" id="address-err">Please enter your delivery street or villa</span>
-              </div>
-
-              <div class="form-row">
-                <div class="form-field">
-                  <label for="checkout-city" class="field-label">Municipality / Area</label>
-                  <div class="select-container">
-                    <select id="checkout-city" class="form-input form-select">
-                      <option value="Doha" selected>Doha (الدوحة)</option>
-                      <option value="Lusail">Lusail (لوسيل)</option>
-                      <option value="The Pearl">The Pearl (اللؤلؤة)</option>
-                      <option value="West Bay">West Bay (الخليج الغربي)</option>
-                      <option value="Al Rayyan">Al Rayyan (الريان)</option>
-                      <option value="Al Wakrah">Al Wakrah (الوكرة)</option>
-                      <option value="Al Daayen">Al Daayen (الظعاين)</option>
-                      <option value="Umm Salal">Umm Salal (أم صلال)</option>
-                      <option value="Al Khor">Al Khor (الخور)</option>
-                      <option value="Al Shahaniya">Al Shahaniya (الشحانية)</option>
-                      <option value="Other Area in Qatar">Other Area in Qatar</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div class="form-field">
-                  <label for="checkout-notes" class="field-label">Delivery Notes (Optional)</label>
-                  <input
-                    type="text"
-                    id="checkout-notes"
-                    class="form-input"
-                    placeholder="e.g. Call before arrival, gate code"
-                  />
-                </div>
-              </div>
-
-              <!-- Payment Method Notice -->
-              <div class="payment-method-box">
-                <div class="payment-icon-wrap">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
-                    <rect x="2" y="5" width="20" height="14" rx="2"></rect>
-                    <line x1="2" y1="10" x2="22" y2="10"></line>
-                  </svg>
-                </div>
-                <div class="payment-text-wrap">
-                  <strong class="payment-title">Payment upon Doorstep Delivery</strong>
-                  <p class="payment-desc">Pay safely with Cash or Credit/Debit Card when your parcel arrives. Zero advance payment required.</p>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-
-        <!-- Right Column: Order Summary & WhatsApp CTA -->
+        <!-- Order Summary Column (Renders at top on mobile for instant clarity) -->
         <div class="checkout-summary-column">
           <div class="checkout-card summary-card">
-            <div class="card-header-row">
-              <div class="step-num-badge">2</div>
+            <div class="card-header-clean">
               <div>
                 <h2 class="card-title">Order Summary</h2>
-                <p class="card-subtitle"><span id="summary-items-count">1</span> fragrance(s) selected</p>
+                <span class="card-subtitle"><span id="summary-items-count">1</span> fragrance selected</span>
               </div>
+              <span class="delivery-status-chip">
+                <span class="status-dot"></span>
+                In Stock · Qatar
+              </span>
             </div>
 
             <!-- Items List -->
@@ -148,7 +47,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
               <!-- Rendered via JS -->
             </ul>
 
-            <!-- Calculation Lines -->
+            <!-- Calculation Breakdown -->
             <div class="summary-breakdown">
               <div class="breakdown-row">
                 <span>Subtotal</span>
@@ -164,38 +63,144 @@ const description = `Complete your luxury fragrance order with doorstep delivery
               </div>
             </div>
 
-            <!-- Big Green WhatsApp Button -->
-            <button type="button" class="btn-checkout-whatsapp" id="btn-submit-order">
+            <!-- Desktop Primary Submit Button -->
+            <button type="button" class="btn-checkout-whatsapp desktop-only-btn" id="btn-submit-order-desktop">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12.031 2C6.495 2 2 6.495 2 12.031c0 1.77.462 3.498 1.341 5.022L2 22l5.093-1.336A10.007 10.007 0 0 0 12.031 22C17.567 22 22 17.505 22 12.031 22 6.495 17.567 2 12.031 2zm5.879 14.195c-.244.686-1.42 1.314-1.956 1.385-.514.068-1.163.097-3.708-.958-3.04-1.258-4.996-4.34-5.148-4.542-.152-.202-1.233-1.64-1.233-3.128 0-1.488.777-2.22 1.052-2.525.275-.305.6-.381.8-.381.2 0 .4 0 .576.01.187.01.438-.071.686.525.257.619.876 2.143.952 2.296.076.153.127.33.025.534-.102.204-.153.33-.305.508-.152.178-.32.396-.457.533-.153.153-.312.32-.134.626.178.305.792 1.306 1.698 2.112 1.166 1.037 2.148 1.358 2.453 1.51.305.153.483.128.66-.076.178-.204.762-.89 965-1.195.204-.305.407-.254.686-.153.28.102 1.777.838 2.082.99.305.153.508.229.584.356.076.127.076.737-.168 1.423z"/>
               </svg>
-              <span>BUY NOW VIA WHATSAPP</span>
+              <span>CONFIRM ORDER ON WHATSAPP — <span class="btn-total-amount">0 QAR</span></span>
             </button>
 
-            <!-- Guarantees List -->
-            <div class="checkout-assurances">
+            <!-- Trust Assurances (Desktop) -->
+            <div class="checkout-assurances desktop-only-assurances">
               <div class="assurance-point">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                 </svg>
-                <span>100% Genuine & Authentic Fragrance Guarantee</span>
+                <span>100% Genuine Fragrance Guarantee</span>
               </div>
               <div class="assurance-point">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <rect x="1" y="3" width="15" height="13"></rect>
                   <polygon points="16 8 20 8 23 11 23 16 16 8"></polygon>
                   <circle cx="5.5" cy="18.5" r="2.5"></circle>
                   <circle cx="18.5" cy="18.5" r="2.5"></circle>
                 </svg>
-                <span>Fast Doorstep Delivery in Doha & Qatar</span>
+                <span>Free Doorstep Delivery across Qatar</span>
               </div>
               <div class="assurance-point">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                 </svg>
-                <span>Personal Confirmation & Tracking via WhatsApp</span>
+                <span>Personal Confirmation & Advice on WhatsApp</span>
               </div>
             </div>
+          </div>
+        </div>
+
+        <!-- Delivery Address Form Column -->
+        <div class="checkout-form-column">
+          <div class="checkout-card form-card">
+            <div class="card-header-clean">
+              <div>
+                <h2 class="card-title">Delivery Details</h2>
+                <span class="card-subtitle">Quick 3-step address for your doorstep courier</span>
+              </div>
+            </div>
+
+            <form id="checkout-order-form" class="checkout-form" onsubmit="return false;" novalidate>
+              <!-- Field 1: Full Name -->
+              <div class="form-field">
+                <label for="checkout-name" class="field-label">Full Name <span class="req">*</span></label>
+                <input
+                  type="text"
+                  id="checkout-name"
+                  class="form-input"
+                  placeholder="e.g. Fatima Al-Kuwari"
+                  autocomplete="name"
+                  required
+                />
+                <span class="field-err-msg" id="name-err">Please enter your full name</span>
+              </div>
+
+              <!-- Field 2: WhatsApp Mobile -->
+              <div class="form-field">
+                <label for="checkout-phone" class="field-label">WhatsApp Mobile <span class="req">*</span></label>
+                <div class="phone-input-group">
+                  <span class="phone-country-code">🇶🇦 +974</span>
+                  <input
+                    type="tel"
+                    id="checkout-phone"
+                    class="form-input phone-input"
+                    placeholder="e.g. 5512 3456"
+                    autocomplete="tel"
+                    required
+                  />
+                </div>
+                <span class="field-err-msg" id="phone-err">Please enter your 8-digit mobile number</span>
+              </div>
+
+              <!-- Field 3: Delivery Address & Area in Qatar -->
+              <div class="form-field">
+                <label for="checkout-address" class="field-label">Delivery Address in Qatar <span class="req">*</span></label>
+                <input
+                  type="text"
+                  id="checkout-address"
+                  class="form-input"
+                  placeholder="e.g. The Pearl, Tower 12 / Lusail / Al Waab, Villa 24"
+                  autocomplete="street-address"
+                  required
+                />
+                <span class="field-err-msg" id="address-err">Please enter your delivery area, street or building</span>
+              </div>
+
+              <!-- Payment Reassurance Notice -->
+              <div class="payment-method-box">
+                <div class="payment-icon-wrap">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                    <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                    <line x1="2" y1="10" x2="22" y2="10"></line>
+                  </svg>
+                </div>
+                <div class="payment-text-wrap">
+                  <strong class="payment-title">Payment upon Doorstep Delivery</strong>
+                  <p class="payment-desc">Pay safely with Cash or Card upon arrival. Zero advance payment required.</p>
+                </div>
+              </div>
+
+              <!-- Mobile Primary Submit Button (Sits right after delivery fields!) -->
+              <button type="button" class="btn-checkout-whatsapp mobile-only-btn" id="btn-submit-order-mobile">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12.031 2C6.495 2 2 6.495 2 12.031c0 1.77.462 3.498 1.341 5.022L2 22l5.093-1.336A10.007 10.007 0 0 0 12.031 22C17.567 22 22 17.505 22 12.031 22 6.495 17.567 2 12.031 2zm5.879 14.195c-.244.686-1.42 1.314-1.956 1.385-.514.068-1.163.097-3.708-.958-3.04-1.258-4.996-4.34-5.148-4.542-.152-.202-1.233-1.64-1.233-3.128 0-1.488.777-2.22 1.052-2.525.275-.305.6-.381.8-.381.2 0 .4 0 .576.01.187.01.438-.071.686.525.257.619.876 2.143.952 2.296.076.153.127.33.025.534-.102.204-.153.33-.305.508-.152.178-.32.396-.457.533-.153.153-.312.32-.134.626.178.305.792 1.306 1.698 2.112 1.166 1.037 2.148 1.358 2.453 1.51.305.153.483.128.66-.076.178-.204.762-.89 965-1.195.204-.305.407-.254.686-.153.28.102 1.777.838 2.082.99.305.153.508.229.584.356.076.127.076.737-.168 1.423z"/>
+                </svg>
+                <span>CONFIRM ORDER ON WHATSAPP — <span class="btn-total-amount">0 QAR</span></span>
+              </button>
+
+              <!-- Trust Assurances (Mobile - placed right under the button) -->
+              <div class="checkout-assurances mobile-only-assurances">
+                <div class="assurance-point">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                  </svg>
+                  <span>100% Genuine Fragrance Guarantee</span>
+                </div>
+                <div class="assurance-point">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="1" y="3" width="15" height="13"></rect>
+                    <polygon points="16 8 20 8 23 11 23 16 16 8"></polygon>
+                    <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                    <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                  </svg>
+                  <span>Free Doorstep Delivery across Qatar</span>
+                </div>
+                <div class="assurance-point">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                  </svg>
+                  <span>Personal Confirmation & Advice on WhatsApp</span>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -221,19 +226,19 @@ const description = `Complete your luxury fragrance order with doorstep delivery
   .checkout-page {
     background-color: var(--color-surface);
     min-height: 80vh;
-    padding-top: clamp(1.5rem, 3vw, 2.5rem);
-    padding-bottom: clamp(4rem, 6vw, 6rem);
+    padding-top: clamp(1.25rem, 2.5vw, 2rem);
+    padding-bottom: clamp(3.5rem, 5vw, 5rem);
   }
 
   .checkout-container {
-    max-width: 1100px;
+    max-width: 1040px;
   }
 
   .checkout-nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.25rem;
   }
 
   .checkout-back-link {
@@ -251,9 +256,9 @@ const description = `Complete your luxury fragrance order with doorstep delivery
   }
 
   .checkout-step-badge {
-    font-size: 0.625rem;
+    font-size: 0.6875rem;
     font-weight: 700;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--color-accent);
     background-color: var(--color-surface-subtle);
@@ -262,109 +267,169 @@ const description = `Complete your luxury fragrance order with doorstep delivery
   }
 
   .checkout-heading-wrap {
-    margin-bottom: 2rem;
+    margin-bottom: 1.75rem;
   }
 
   .checkout-heading {
     font-family: var(--font-display);
-    font-size: clamp(1.75rem, 3.5vw, 2.35rem);
+    font-size: clamp(1.6rem, 3vw, 2.15rem);
     font-weight: 600;
     color: var(--color-text-main);
     letter-spacing: -0.02em;
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.25rem;
   }
 
   .checkout-subheading {
     font-size: 0.875rem;
     color: var(--color-text-muted);
-    max-width: 600px;
+    max-width: 580px;
     line-height: 1.5;
   }
 
+  /* Grid Layout */
   .checkout-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1.75rem;
+    gap: 1.25rem;
     align-items: start;
   }
 
   @media (min-width: 900px) {
     .checkout-grid {
-      grid-template-columns: 1.35fr 1fr;
-      gap: 2.5rem;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 2rem;
+    }
+
+    .checkout-form-column {
+      order: 1;
+    }
+
+    .checkout-summary-column {
+      order: 2;
+      position: sticky;
+      top: 96px;
+    }
+
+    .mobile-only-btn,
+    .mobile-only-assurances {
+      display: none !important;
+    }
+
+    .desktop-only-btn,
+    .desktop-only-assurances {
+      display: flex !important;
     }
   }
 
+  @media (max-width: 899px) {
+    .checkout-summary-column {
+      order: 1;
+    }
+
+    .checkout-form-column {
+      order: 2;
+    }
+
+    .desktop-only-btn,
+    .desktop-only-assurances {
+      display: none !important;
+    }
+
+    .mobile-only-btn {
+      display: flex !important;
+    }
+
+    .mobile-only-assurances {
+      display: flex !important;
+      margin-top: 1.25rem;
+    }
+
+    .summary-card {
+      padding: 1rem 1.15rem;
+    }
+
+    .summary-card .card-header-clean {
+      padding-bottom: 0.65rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .summary-card .checkout-items-list {
+      padding-bottom: 0.65rem;
+      margin-bottom: 0.65rem;
+      gap: 0.4rem;
+    }
+
+    .summary-card .summary-breakdown {
+      margin-bottom: 0;
+      gap: 0.4rem;
+    }
+
+    .summary-card .breakdown-row.total-row {
+      padding-top: 0.5rem;
+    }
+  }
+
+  /* Cards */
   .checkout-card {
     background-color: #FFFFFF;
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius-md);
-    padding: clamp(1.25rem, 2.5vw, 2rem);
+    padding: clamp(1.15rem, 2.25vw, 1.75rem);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
   }
 
-  .card-header-row {
+  .card-header-clean {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 0.875rem;
-    padding-bottom: 1.25rem;
-    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1.25rem;
     border-bottom: 1px solid var(--color-border-subtle);
-  }
-
-  .step-num-badge {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background-color: var(--color-text-main);
-    color: #FFFFFF;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.875rem;
-    font-weight: 700;
-    flex-shrink: 0;
   }
 
   .card-title {
     font-family: var(--font-body);
-    font-size: 1.125rem;
+    font-size: 1.0625rem;
     font-weight: 600;
     color: var(--color-text-main);
     margin-bottom: 0.15rem;
   }
 
   .card-subtitle {
-    font-size: 0.78125rem;
+    font-size: 0.75rem;
     color: var(--color-text-muted);
   }
 
+  .delivery-status-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: #15803D;
+    background-color: #DCFCE7;
+    padding: 0.2rem 0.55rem;
+    border-radius: var(--border-radius-sm);
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #16A34A;
+  }
+
+  /* Form */
   .checkout-form {
     display: flex;
     flex-direction: column;
-    gap: 1.2rem;
-  }
-
-  .form-row {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-
-  @media (min-width: 600px) {
-    .form-row {
-      grid-template-columns: 1fr 1fr;
-    }
+    gap: 1.1rem;
   }
 
   .form-field {
     display: flex;
     flex-direction: column;
     gap: 0.35rem;
-  }
-
-  .form-field.full-width {
-    width: 100%;
   }
 
   .field-label {
@@ -449,28 +514,15 @@ const description = `Complete your luxury fragrance order with doorstep delivery
     box-shadow: none;
   }
 
-  .select-container {
-    position: relative;
-  }
-
-  .form-select {
-    appearance: none;
-    cursor: pointer;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%231A1816' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 1rem center;
-    padding-right: 2.5rem;
-  }
-
+  /* Payment Notice */
   .payment-method-box {
     display: flex;
-    gap: 0.875rem;
+    gap: 0.75rem;
     align-items: flex-start;
-    padding: 0.95rem 1.15rem;
+    padding: 0.85rem 1rem;
     background-color: var(--color-surface);
     border: 1px solid var(--color-border-subtle);
     border-radius: var(--border-radius-sm);
-    margin-top: 0.5rem;
   }
 
   .payment-icon-wrap {
@@ -492,29 +544,29 @@ const description = `Complete your luxury fragrance order with doorstep delivery
     line-height: 1.4;
   }
 
-  /* Summary Card */
+  /* Items List in Summary */
   .checkout-items-list {
     list-style: none;
     display: flex;
     flex-direction: column;
     gap: 0.875rem;
-    padding-bottom: 1.25rem;
-    margin-bottom: 1.25rem;
+    padding-bottom: 1.15rem;
+    margin-bottom: 1.15rem;
     border-bottom: 1px solid var(--color-border-subtle);
-    max-height: 380px;
+    max-height: 340px;
     overflow-y: auto;
   }
 
   :global(.checkout-item-row) {
     display: flex;
     align-items: center;
-    gap: 0.875rem;
-    padding: 0.5rem 0;
+    gap: 0.75rem;
+    padding: 0.35rem 0;
   }
 
   :global(.checkout-item-thumb-box) {
-    width: 52px;
-    height: 52px;
+    width: 48px;
+    height: 48px;
     background-color: #FFFFFF;
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius-sm);
@@ -522,7 +574,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    padding: 4px;
+    padding: 3px;
   }
 
   :global(.checkout-item-thumb) {
@@ -547,7 +599,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
   }
 
   :global(.checkout-item-title) {
-    font-size: 0.84375rem;
+    font-size: 0.8125rem;
     font-weight: 600;
     color: var(--color-text-main);
     white-space: nowrap;
@@ -569,12 +621,12 @@ const description = `Complete your luxury fragrance order with doorstep delivery
   }
 
   :global(.checkout-qty-btn) {
-    width: 28px;
-    height: 28px;
+    width: 26px;
+    height: 26px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: var(--color-text-main);
     cursor: pointer;
   }
@@ -584,31 +636,32 @@ const description = `Complete your luxury fragrance order with doorstep delivery
   }
 
   :global(.checkout-qty-num) {
-    min-width: 22px;
+    min-width: 20px;
     text-align: center;
     font-size: 0.8125rem;
     font-weight: 600;
   }
 
   :global(.checkout-item-price) {
-    font-size: 0.875rem;
+    font-size: 0.84375rem;
     font-weight: 700;
     color: var(--color-text-main);
-    min-width: 70px;
+    min-width: 65px;
     text-align: right;
   }
 
+  /* Summary Breakdown */
   .summary-breakdown {
     display: flex;
     flex-direction: column;
-    gap: 0.65rem;
-    margin-bottom: 1.5rem;
+    gap: 0.55rem;
+    margin-bottom: 1.25rem;
   }
 
   .breakdown-row {
     display: flex;
     justify-content: space-between;
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     color: var(--color-text-muted);
   }
 
@@ -618,11 +671,12 @@ const description = `Complete your luxury fragrance order with doorstep delivery
   }
 
   .free-badge {
-    color: #10B981;
+    color: #15803D;
+    font-weight: 600;
   }
 
   .breakdown-row.total-row {
-    font-size: 1.15rem;
+    font-size: 1rem;
     font-weight: 700;
     color: var(--color-text-main);
     padding-top: 0.75rem;
@@ -631,30 +685,29 @@ const description = `Complete your luxury fragrance order with doorstep delivery
 
   .total-val {
     color: var(--color-text-main);
-    font-size: 1.25rem;
+    font-size: 1.15rem;
   }
 
   /* Big WhatsApp Submit Button */
   .btn-checkout-whatsapp {
     width: 100%;
-    min-height: 54px;
-    padding: 0.95rem 1.5rem;
+    min-height: 52px;
+    padding: 0.85rem 1.25rem;
     background-color: #25D366;
     color: #FFFFFF;
     border: none;
     border-radius: var(--border-radius-sm);
     font-family: var(--font-body);
-    font-size: 0.9375rem;
+    font-size: 0.84375rem;
     font-weight: 700;
     letter-spacing: 0.04em;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.75rem;
+    gap: 0.65rem;
     cursor: pointer;
     box-shadow: 0 4px 16px rgba(37, 211, 102, 0.28);
     transition: all var(--transition-fast);
-    margin-bottom: 1.5rem;
   }
 
   .btn-checkout-whatsapp:hover {
@@ -667,10 +720,19 @@ const description = `Complete your luxury fragrance order with doorstep delivery
     transform: translateY(0);
   }
 
+  .desktop-only-btn {
+    margin-bottom: 1.25rem;
+  }
+
+  .mobile-only-btn {
+    margin-top: 0.5rem;
+  }
+
+  /* Assurances */
   .checkout-assurances {
     display: flex;
     flex-direction: column;
-    gap: 0.65rem;
+    gap: 0.55rem;
     padding-top: 1rem;
     border-top: 1px solid var(--color-border-subtle);
   }
@@ -678,8 +740,8 @@ const description = `Complete your luxury fragrance order with doorstep delivery
   .assurance-point {
     display: flex;
     align-items: center;
-    gap: 0.65rem;
-    font-size: 0.75rem;
+    gap: 0.55rem;
+    font-size: 0.71875rem;
     color: var(--color-text-muted);
   }
 
@@ -805,6 +867,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
     const countEl = document.getElementById('summary-items-count');
     const subtotalEl = document.getElementById('summary-subtotal');
     const totalEl = document.getElementById('summary-total');
+    const btnAmountEls = document.querySelectorAll('.btn-total-amount');
 
     if (!checkoutItems.length) {
       if (mainGrid) mainGrid.hidden = true;
@@ -822,6 +885,9 @@ const description = `Complete your luxury fragrance order with doorstep delivery
 
     if (subtotalEl) subtotalEl.textContent = formattedTotal;
     if (totalEl) totalEl.textContent = formattedTotal;
+    btnAmountEls.forEach((el) => {
+      el.textContent = formattedTotal;
+    });
 
     if (listEl) {
       listEl.innerHTML = checkoutItems
@@ -837,9 +903,9 @@ const description = `Complete your luxury fragrance order with doorstep delivery
             <span class="checkout-item-specs">${item.sizeDisplay} · ${item.concentration}</span>
           </div>
           <div class="checkout-item-qty-control">
-            <button type="button" class="checkout-qty-btn" data-action="dec" data-id="${item.id}">−</button>
+            <button type="button" class="checkout-qty-btn" data-action="dec" data-id="${item.id}" aria-label="Decrease quantity">−</button>
             <span class="checkout-qty-num">${item.quantity}</span>
-            <button type="button" class="checkout-qty-btn" data-action="inc" data-id="${item.id}">+</button>
+            <button type="button" class="checkout-qty-btn" data-action="inc" data-id="${item.id}" aria-label="Increase quantity">+</button>
           </div>
           <span class="checkout-item-price">${((item.priceMinor * item.quantity) / 100).toFixed(0)} QAR</span>
         </li>
@@ -875,8 +941,6 @@ const description = `Complete your luxury fragrance order with doorstep delivery
   const nameInput = document.getElementById('checkout-name') as HTMLInputElement;
   const phoneInput = document.getElementById('checkout-phone') as HTMLInputElement;
   const addressInput = document.getElementById('checkout-address') as HTMLInputElement;
-  const citySelect = document.getElementById('checkout-city') as HTMLSelectElement;
-  const notesInput = document.getElementById('checkout-notes') as HTMLInputElement;
 
   try {
     const saved = localStorage.getItem(STORAGE_CUSTOMER_KEY);
@@ -885,21 +949,16 @@ const description = `Complete your luxury fragrance order with doorstep delivery
       if (nameInput && data.fullName) nameInput.value = data.fullName;
       if (phoneInput && data.phone) phoneInput.value = data.phone;
       if (addressInput && data.address) addressInput.value = data.address;
-      if (citySelect && data.city) citySelect.value = data.city;
-      if (notesInput && data.notes) notesInput.value = data.notes;
     }
   } catch {}
 
   // 4. Submit Order to WhatsApp
-  const submitBtn = document.getElementById('btn-submit-order');
-  submitBtn?.addEventListener('click', () => {
+  function submitOrder() {
     if (!checkoutItems.length) return;
 
     const nameVal = nameInput ? nameInput.value.trim() : '';
     const phoneVal = phoneInput ? phoneInput.value.trim() : '';
     const addressVal = addressInput ? addressInput.value.trim() : '';
-    const cityVal = citySelect ? citySelect.value : 'Doha';
-    const notesVal = notesInput ? notesInput.value.trim() : '';
 
     let hasError = false;
 
@@ -937,16 +996,14 @@ const description = `Complete your luxury fragrance order with doorstep delivery
 
     if (hasError) return;
 
-    // Save customer details
+    // Save customer details for returning visit
     try {
       localStorage.setItem(
         STORAGE_CUSTOMER_KEY,
         JSON.stringify({
           fullName: nameVal,
           phone: phoneVal,
-          address: addressVal,
-          city: cityVal,
-          notes: notesVal
+          address: addressVal
         })
       );
     } catch {}
@@ -965,8 +1022,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
       fullName: nameVal,
       phone: phoneVal.startsWith('+') ? phoneVal : `+974 ${phoneVal}`,
       address: addressVal,
-      city: cityVal,
-      notes: notesVal
+      city: 'Qatar'
     };
 
     const msg = formatWhatsAppOrderMessage(items, customer);
@@ -977,7 +1033,12 @@ const description = `Complete your luxury fragrance order with doorstep delivery
     if (!win || win.closed || typeof win.closed === 'undefined') {
       window.location.href = waUrl;
     }
-  });
+  }
+
+  const submitDesktopBtn = document.getElementById('btn-submit-order-desktop');
+  const submitMobileBtn = document.getElementById('btn-submit-order-mobile');
+  submitDesktopBtn?.addEventListener('click', submitOrder);
+  submitMobileBtn?.addEventListener('click', submitOrder);
 
   // Initialize
   loadCheckoutItems();
