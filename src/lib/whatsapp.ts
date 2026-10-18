@@ -48,7 +48,7 @@ export function formatWhatsAppOrderMessage(
     const address = ('address' in customerInfo ? customerInfo.address : customerInfo.deliveryArea) || '';
     const city = ('city' in customerInfo ? customerInfo.city : '') || 'Doha';
     const notes = customerInfo.notes || '';
-    const payment = ('paymentMethod' in customerInfo ? customerInfo.paymentMethod : '') || 'Cash or Card on Delivery';
+    const payment = ('paymentMethod' in customerInfo ? customerInfo.paymentMethod : '') || 'Payment Link via WhatsApp';
 
     message += `📍 *CUSTOMER & DELIVERY DETAILS:*\n`;
     if (fullName) message += `• *Customer:* ${fullName.trim()}\n`;
@@ -71,7 +71,7 @@ export function formatWhatsAppOrderMessage(
 
   message += `━━━━━━━━━━━━━━━━━━━━━\n`;
   message += `💰 *TOTAL AMOUNT:* *${subtotalQar} QAR*\n`;
-  message += `🚚 *DELIVERY:* Express Courier in Qatar (Cash / Card on Delivery)\n\n`;
+  message += `🚚 *DELIVERY:* Express Courier in Qatar (Payment via WhatsApp)\n\n`;
   message += `Please confirm product availability and dispatch window. Thank you!`;
 
   return message;
