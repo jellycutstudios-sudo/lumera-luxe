@@ -261,14 +261,14 @@ import { siteConfig } from '../data/site';
     gap: 1.25rem;
   }
 
-  .bag-item-card {
+  :global(.bag-item-card) {
     display: flex;
     gap: 1rem;
     padding-bottom: 1.25rem;
     border-bottom: 1px solid var(--color-border-subtle);
   }
 
-  .bag-item-img-wrap {
+  :global(.bag-item-img-wrap) {
     width: 72px;
     height: 90px;
     background-color: var(--color-surface-subtle);
@@ -280,19 +280,21 @@ import { siteConfig } from '../data/site';
     flex-shrink: 0;
   }
 
-  .bag-item-img {
+  :global(.bag-item-img) {
     max-width: 100%;
     max-height: 100%;
+    width: auto;
+    height: auto;
     object-fit: contain;
   }
 
-  .bag-item-details {
+  :global(.bag-item-details) {
     flex: 1;
     display: flex;
     flex-direction: column;
   }
 
-  .bag-item-brand {
+  :global(.bag-item-brand) {
     font-size: 0.7rem;
     text-transform: uppercase;
     font-weight: 600;
@@ -300,28 +302,28 @@ import { siteConfig } from '../data/site';
     color: var(--color-text-light);
   }
 
-  .bag-item-name {
+  :global(.bag-item-name) {
     font-family: var(--font-display);
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     font-weight: 600;
     color: var(--color-text-main);
     margin-bottom: 0.15rem;
   }
 
-  .bag-item-meta {
+  :global(.bag-item-meta) {
     font-size: 0.75rem;
     color: var(--color-text-muted);
     margin-bottom: 0.65rem;
   }
 
-  .bag-item-bottom {
+  :global(.bag-item-bottom) {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-top: auto;
   }
 
-  .bag-qty-controls {
+  :global(.bag-qty-controls) {
     display: flex;
     align-items: center;
     border: 1px solid var(--color-border);
@@ -329,7 +331,7 @@ import { siteConfig } from '../data/site';
     background-color: #FFFFFF;
   }
 
-  .bag-qty-btn {
+  :global(.bag-qty-btn) {
     width: 28px;
     height: 28px;
     display: flex;
@@ -339,14 +341,14 @@ import { siteConfig } from '../data/site';
     color: var(--color-text-main);
   }
 
-  .bag-qty-val {
+  :global(.bag-qty-val) {
     min-width: 24px;
     text-align: center;
     font-size: 0.8125rem;
     font-weight: 600;
   }
 
-  .bag-item-price {
+  :global(.bag-item-price) {
     font-size: 0.95rem;
     font-weight: 600;
     color: var(--color-text-main);
