@@ -5,7 +5,7 @@ import productsData from '../data/products.json';
 import { siteConfig } from '../data/site';
 
 // Select representative items
-const heroShowcase = productsData[1]; // Boucheron Quatre en Bleu
+const heroShowcase = productsData.find((p) => p.slug === 'chanel-n-5') || productsData[0];
 const selectedScents = productsData.filter((p) => p.featured);
 const curatedGrid = productsData.slice(4, 12);
 
@@ -45,13 +45,13 @@ const categories = [
       <div class="container">
         <div class="hero-editorial-stage">
           <img
-            src="/assets/lumera-hero-editorial.jpg"
-            alt="LUMÈRA LUXE Haute Parfumerie Campaign"
+            src="/assets/chanel-n5-hero.png"
+            alt="A quiet N°5 perfume ritual — LUMÈRA LUXE Haute Parfumerie"
             class="hero-editorial-image"
             loading="eager"
             fetchpriority="high"
-            width="1440"
-            height="810"
+            width="1448"
+            height="1086"
           />
 
           <!-- Floating Frosted Quick-Shop Card (Bottom Right) -->
