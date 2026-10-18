@@ -57,36 +57,77 @@ import { siteConfig } from '../data/site';
 
   <!-- Bag Drawer Footer -->
   <div class="bag-drawer-footer" id="bag-footer" hidden>
-    <!-- Optional Customer Context -->
-    <div class="customer-fields">
-      <div class="field-group">
-        <label for="order-customer-name" class="field-label">Your Name (Optional)</label>
-        <input type="text" id="order-customer-name" class="field-input" placeholder="e.g. Fatima" />
+    <!-- Direct Delivery Address Section -->
+    <div class="bag-delivery-section">
+      <div class="bag-section-title-wrap">
+        <span class="bag-section-badge">DELIVERY IN QATAR</span>
+        <h4 class="bag-section-title">Delivery Address & Details</h4>
       </div>
-      <div class="field-group">
-        <label for="order-delivery-area" class="field-label">Delivery Area (Qatar)</label>
-        <input type="text" id="order-delivery-area" class="field-input" placeholder="e.g. West Bay, Lusail, The Pearl" />
+
+      <div class="bag-form-grid">
+        <div class="bag-field-group">
+          <label for="bag-order-name" class="bag-field-label">Full Name <span class="req">*</span></label>
+          <input type="text" id="bag-order-name" class="bag-field-input" placeholder="e.g. Fatima Al-Kuwari" required />
+          <span class="bag-field-err" id="bag-name-err">Please enter your name</span>
+        </div>
+
+        <div class="bag-field-group">
+          <label for="bag-order-phone" class="bag-field-label">WhatsApp Mobile <span class="req">*</span></label>
+          <div class="bag-phone-wrap">
+            <span class="bag-phone-prefix">🇶🇦 +974</span>
+            <input type="tel" id="bag-order-phone" class="bag-field-input bag-phone-input" placeholder="5512 3456" required />
+          </div>
+          <span class="bag-field-err" id="bag-phone-err">Please enter mobile number</span>
+        </div>
+
+        <div class="bag-field-group full-width">
+          <label for="bag-order-address" class="bag-field-label">Delivery Address <span class="req">*</span></label>
+          <input type="text" id="bag-order-address" class="bag-field-input" placeholder="Street, Villa/Building No, Zone" required />
+          <span class="bag-field-err" id="bag-address-err">Please enter your delivery street / villa</span>
+        </div>
+
+        <div class="bag-field-group">
+          <label for="bag-order-city" class="bag-field-label">Municipality / Area</label>
+          <select id="bag-order-city" class="bag-field-input bag-select">
+            <option value="Doha" selected>Doha (الدوحة)</option>
+            <option value="Lusail">Lusail (لوسيل)</option>
+            <option value="The Pearl">The Pearl (اللؤلؤة)</option>
+            <option value="West Bay">West Bay (الخليج الغربي)</option>
+            <option value="Al Rayyan">Al Rayyan (الريان)</option>
+            <option value="Al Wakrah">Al Wakrah (الوكرة)</option>
+            <option value="Al Daayen">Al Daayen (الظعاين)</option>
+            <option value="Umm Salal">Umm Salal (أم صلال)</option>
+            <option value="Al Khor">Al Khor (الخور)</option>
+            <option value="Al Shahaniya">Al Shahaniya (الشحانية)</option>
+            <option value="Other Area in Qatar">Other Area in Qatar</option>
+          </select>
+        </div>
+
+        <div class="bag-field-group">
+          <label for="bag-order-notes" class="bag-field-label">Notes (Optional)</label>
+          <input type="text" id="bag-order-notes" class="bag-field-input" placeholder="e.g. Call before arrival" />
+        </div>
       </div>
     </div>
 
     <!-- Pricing Summary -->
     <div class="bag-summary">
       <div class="summary-row">
-        <span>Estimated Subtotal</span>
+        <span>Total Amount</span>
         <span class="summary-val" id="bag-subtotal-val">0 QAR</span>
       </div>
-      <p class="delivery-disclaimer">
-        Delivery fee and availability are confirmed personally on WhatsApp.
-      </p>
+      <div class="bag-payment-notice">
+        <span>💵 Cash or Card upon Doorstep Delivery in Qatar</span>
+      </div>
     </div>
 
     <!-- Checkout Actions -->
     <div class="bag-actions">
       <button class="btn btn-primary btn-block btn-whatsapp-checkout" id="btn-whatsapp-order">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
           <path d="M12.031 2C6.495 2 2 6.495 2 12.031c0 1.77.462 3.498 1.341 5.022L2 22l5.093-1.336A10.007 10.007 0 0 0 12.031 22C17.567 22 22 17.505 22 12.031 22 6.495 17.567 2 12.031 2zm5.879 14.195c-.244.686-1.42 1.314-1.956 1.385-.514.068-1.163.097-3.708-.958-3.04-1.258-4.996-4.34-5.148-4.542-.152-.202-1.233-1.64-1.233-3.128 0-1.488.777-2.22 1.052-2.525.275-.305.6-.381.8-.381.2 0 .4 0 .576.01.187.01.438-.071.686.525.257.619.876 2.143.952 2.296.076.153.127.33.025.534-.102.204-.153.33-.305.508-.152.178-.32.396-.457.533-.153.153-.312.32-.134.626.178.305.792 1.306 1.698 2.112 1.166 1.037 2.148 1.358 2.453 1.51.305.153.483.128.66-.076.178-.204.762-.89 965-1.195.204-.305.407-.254.686-.153.28.102 1.777.838 2.082.99.305.153.508.229.584.356.076.127.076.737-.168 1.423z"/>
         </svg>
-        Request via WhatsApp
+        <span>BUY NOW VIA WHATSAPP</span>
       </button>
 
       <button class="btn btn-secondary btn-block btn-sm" id="btn-copy-order">
@@ -377,52 +418,142 @@ import { siteConfig } from '../data/site';
     margin-bottom: 1.25rem;
   }
 
-  .field-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
+  /* Bag Delivery Section */
+  .bag-delivery-section {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    padding: 0.85rem;
+    margin-bottom: 1rem;
   }
 
-  .field-label {
-    font-size: 0.7rem;
+  .bag-section-title-wrap {
+    margin-bottom: 0.65rem;
+  }
+
+  .bag-section-badge {
+    font-size: 0.5625rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.15rem;
+  }
+
+  .bag-section-title {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+  }
+
+  .bag-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+
+  .bag-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .bag-field-group.full-width {
+    grid-column: span 2;
+  }
+
+  .bag-field-label {
+    font-size: 0.6875rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.03em;
     color: var(--color-text-muted);
   }
 
-  .field-input {
+  .bag-field-label .req {
+    color: #DC2626;
+  }
+
+  .bag-field-input {
     font-family: var(--font-body);
-    font-size: 0.8125rem;
-    padding: 0.5rem 0.65rem;
+    font-size: 0.78125rem;
+    padding: 0.45rem 0.6rem;
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius-sm);
     background-color: #FFFFFF;
     color: var(--color-text-main);
+    width: 100%;
   }
 
-  .field-input:focus {
+  .bag-field-input:focus {
     outline: none;
-    border-color: var(--color-accent);
+    border-color: var(--color-text-main);
+  }
+
+  .bag-field-input.input-error {
+    border-color: #DC2626;
+    background-color: #FEF2F2;
+  }
+
+  .bag-field-err {
+    display: none;
+    font-size: 0.65rem;
+    color: #DC2626;
+  }
+
+  .bag-field-err.visible {
+    display: block;
+  }
+
+  .bag-phone-wrap {
+    display: flex;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    background-color: #FFFFFF;
+    overflow: hidden;
+  }
+
+  .bag-phone-wrap:focus-within {
+    border-color: var(--color-text-main);
+  }
+
+  .bag-phone-prefix {
+    background-color: var(--color-surface-subtle);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    padding: 0 0.4rem;
+    display: flex;
+    align-items: center;
+    border-right: 1px solid var(--color-border);
+    white-space: nowrap;
+  }
+
+  .bag-phone-input {
+    border: none;
+    border-radius: 0;
+  }
+
+  .bag-select {
+    cursor: pointer;
   }
 
   .bag-summary {
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
   }
 
   .summary-row {
     display: flex;
     justify-content: space-between;
-    font-size: 1.1rem;
-    font-weight: 600;
+    font-size: 1.05rem;
+    font-weight: 700;
     color: var(--color-text-main);
     margin-bottom: 0.25rem;
   }
 
-  .delivery-disclaimer {
-    font-size: 0.75rem;
-    color: var(--color-text-light);
-    line-height: 1.4;
+  .bag-payment-notice {
+    font-size: 0.71875rem;
+    color: var(--color-text-muted);
   }
 
   .bag-actions {
@@ -435,13 +566,21 @@ import { siteConfig } from '../data/site';
     background-color: #25D366;
     border-color: #25D366;
     color: #FFFFFF;
-    font-weight: 600;
+    font-weight: 700;
+    min-height: 48px;
+    font-size: 0.875rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.28);
   }
 
   .btn-whatsapp-checkout:hover {
     background-color: #1EBE5D;
     border-color: #1EBE5D;
     color: #FFFFFF;
+    transform: translateY(-1px);
   }
 
   /* Toast Notification */
@@ -484,6 +623,7 @@ import { siteConfig } from '../data/site';
 <script>
   import productsData from '../data/products.json';
   import { siteConfig } from '../data/site';
+  import { formatWhatsAppOrderMessage } from '../lib/whatsapp';
 
   interface CartStorageItem {
     id: string;
@@ -617,6 +757,7 @@ import { siteConfig } from '../data/site';
     if (drawer) drawer.hidden = false;
     document.body.style.overflow = 'hidden';
     updateBagUI();
+    hydrateCustomerFields();
   }
 
   function closeBag() {
@@ -723,44 +864,115 @@ import { siteConfig } from '../data/site';
     });
   }
 
-  // WhatsApp Order Submission
+  // WhatsApp Order Submission with Customer & Delivery Details
   const btnWhatsApp = document.getElementById('btn-whatsapp-order');
   if (btnWhatsApp) {
     btnWhatsApp.addEventListener('click', () => {
       const items = getHydratedCart();
       if (!items.length) return;
 
-      const nameInput = document.getElementById('order-customer-name') as HTMLInputElement;
-      const areaInput = document.getElementById('order-delivery-area') as HTMLInputElement;
+      const nameInput = document.getElementById('bag-order-name') as HTMLInputElement;
+      const phoneInput = document.getElementById('bag-order-phone') as HTMLInputElement;
+      const addressInput = document.getElementById('bag-order-address') as HTMLInputElement;
+      const citySelect = document.getElementById('bag-order-city') as HTMLSelectElement;
+      const notesInput = document.getElementById('bag-order-notes') as HTMLInputElement;
 
       const customerName = nameInput ? nameInput.value.trim() : '';
-      const deliveryArea = areaInput ? areaInput.value.trim() : '';
+      const phoneVal = phoneInput ? phoneInput.value.trim() : '';
+      const addressVal = addressInput ? addressInput.value.trim() : '';
+      const cityVal = citySelect ? citySelect.value : 'Doha';
+      const notesVal = notesInput ? notesInput.value.trim() : '';
 
-      const subtotalMinor = items.reduce((sum, it) => sum + it.priceMinor * it.quantity, 0);
+      let hasError = false;
 
-      let msg = `*LUMÈRA LUXE — Fragrance Order Request*\n\n`;
-      if (customerName) msg += `*Customer:* ${customerName}\n`;
-      if (deliveryArea) msg += `*Delivery Area:* ${deliveryArea} (Qatar)\n`;
-      if (customerName || deliveryArea) msg += `\n`;
+      const nameErr = document.getElementById('bag-name-err');
+      const phoneErr = document.getElementById('bag-phone-err');
+      const addrErr = document.getElementById('bag-address-err');
 
-      msg += `*Selected Fragrances:*\n`;
-      items.forEach((item, idx) => {
-        const itemTotal = ((item.priceMinor * item.quantity) / 100).toFixed(0);
-        msg += `${idx + 1}. *${item.brand} — ${item.name}*\n`;
-        msg += `   ${item.sizeDisplay} · ${item.concentration}\n`;
-        msg += `   Qty: ${item.quantity} × ${(item.priceMinor / 100).toFixed(0)} QAR = *${itemTotal} QAR*\n\n`;
-      });
+      nameInput?.classList.remove('input-error');
+      phoneInput?.classList.remove('input-error');
+      addressInput?.classList.remove('input-error');
+      nameErr?.classList.remove('visible');
+      phoneErr?.classList.remove('visible');
+      addrErr?.classList.remove('visible');
 
-      msg += `*Estimated Subtotal:* ${(subtotalMinor / 100).toFixed(0)} QAR\n`;
-      msg += `_(Excludes delivery charge. Final total and timing will be confirmed by LUMÈRA LUXE)_\n\n`;
-      msg += `Please confirm product availability, delivery charges, and payment instructions. Thank you!`;
+      if (!customerName) {
+        nameInput?.classList.add('input-error');
+        nameErr?.classList.add('visible');
+        if (!hasError) nameInput?.focus();
+        hasError = true;
+      }
 
+      if (!phoneVal || phoneVal.replace(/[^0-9]/g, '').length < 7) {
+        phoneInput?.classList.add('input-error');
+        phoneErr?.classList.add('visible');
+        if (!hasError) phoneInput?.focus();
+        hasError = true;
+      }
+
+      if (!addressVal) {
+        addressInput?.classList.add('input-error');
+        addrErr?.classList.add('visible');
+        if (!hasError) addressInput?.focus();
+        hasError = true;
+      }
+
+      if (hasError) return;
+
+      // Save to localStorage
+      try {
+        localStorage.setItem(
+          'lumera_customer_v1',
+          JSON.stringify({
+            fullName: customerName,
+            phone: phoneVal,
+            address: addressVal,
+            city: cityVal,
+            notes: notesVal
+          })
+        );
+      } catch {}
+
+      const customer = {
+        fullName: customerName,
+        phone: phoneVal.startsWith('+') ? phoneVal : `+974 ${phoneVal}`,
+        address: addressVal,
+        city: cityVal,
+        notes: notesVal
+      };
+
+      const msg = formatWhatsAppOrderMessage(items, customer);
       const phone = siteConfig.whatsappNumber.replace(/[^0-9]/g, '');
       const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
 
-      window.open(waUrl, '_blank');
+      const win = window.open(waUrl, '_blank');
+      if (!win || win.closed || typeof win.closed === 'undefined') {
+        window.location.href = waUrl;
+      }
     });
   }
+
+  // Populate saved customer details into bag fields
+  function hydrateCustomerFields() {
+    try {
+      const saved = localStorage.getItem('lumera_customer_v1');
+      if (saved) {
+        const data = JSON.parse(saved);
+        const nameInput = document.getElementById('bag-order-name') as HTMLInputElement;
+        const phoneInput = document.getElementById('bag-order-phone') as HTMLInputElement;
+        const addressInput = document.getElementById('bag-order-address') as HTMLInputElement;
+        const citySelect = document.getElementById('bag-order-city') as HTMLSelectElement;
+        const notesInput = document.getElementById('bag-order-notes') as HTMLInputElement;
+
+        if (nameInput && data.fullName) nameInput.value = data.fullName;
+        if (phoneInput && data.phone) phoneInput.value = data.phone;
+        if (addressInput && data.address) addressInput.value = data.address;
+        if (citySelect && data.city) citySelect.value = data.city;
+        if (notesInput && data.notes) notesInput.value = data.notes;
+      }
+    } catch {}
+  }
+  hydrateCustomerFields();
 
   // Copy Order Summary Fallback
   const btnCopy = document.getElementById('btn-copy-order');
@@ -769,21 +981,26 @@ import { siteConfig } from '../data/site';
       const items = getHydratedCart();
       if (!items.length) return;
 
-      const nameInput = document.getElementById('order-customer-name') as HTMLInputElement;
-      const areaInput = document.getElementById('order-delivery-area') as HTMLInputElement;
+      const nameInput = document.getElementById('bag-order-name') as HTMLInputElement;
+      const phoneInput = document.getElementById('bag-order-phone') as HTMLInputElement;
+      const addressInput = document.getElementById('bag-order-address') as HTMLInputElement;
+      const citySelect = document.getElementById('bag-order-city') as HTMLSelectElement;
 
       const customerName = nameInput ? nameInput.value.trim() : '';
-      const deliveryArea = areaInput ? areaInput.value.trim() : '';
+      const phoneVal = phoneInput ? phoneInput.value.trim() : '';
+      const addressVal = addressInput ? addressInput.value.trim() : '';
+      const cityVal = citySelect ? citySelect.value : 'Doha';
       const subtotalMinor = items.reduce((sum, it) => sum + it.priceMinor * it.quantity, 0);
 
       let summary = `LUMÈRA LUXE — Order Request\n`;
       if (customerName) summary += `Customer: ${customerName}\n`;
-      if (deliveryArea) summary += `Area: ${deliveryArea} (Qatar)\n`;
+      if (phoneVal) summary += `Phone: ${phoneVal}\n`;
+      if (addressVal) summary += `Address: ${addressVal}, ${cityVal}\n`;
       summary += `\nItems:\n`;
       items.forEach((item, idx) => {
         summary += `${idx + 1}. ${item.brand} - ${item.name} (${item.sizeDisplay}, ${item.concentration}) x ${item.quantity} = ${((item.priceMinor * item.quantity) / 100).toFixed(0)} QAR\n`;
       });
-      summary += `\nEstimated Subtotal: ${(subtotalMinor / 100).toFixed(0)} QAR\n`;
+      summary += `\nTotal: ${(subtotalMinor / 100).toFixed(0)} QAR (Cash/Card on Delivery)\n`;
 
       navigator.clipboard.writeText(summary).then(() => {
         showToast('Order summary copied to clipboard');

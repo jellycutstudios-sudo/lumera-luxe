@@ -8,16 +8,28 @@ export interface CartItem {
   concentration: string;
   priceMinor: number;
   quantity: number;
+  image?: string;
+}
+
+export interface CustomerDeliveryInfo {
+  fullName: string;
+  phone: string;
+  address: string;
+  city: string;
+  notes?: string;
+  paymentMethod?: string;
 }
 
 export function formatWhatsAppOrderMessage(
   items: CartItem[],
-  customerInfo?: { name?: string; deliveryArea?: string; notes?: string }
+  customerInfo?: CustomerDeliveryInfo | { name?: string; deliveryArea?: string; notes?: string }
 ): string {
   const dateStr = new Date().toLocaleDateString('en-GB', {
     day: 'numeric',
     month: 'short',
-    year: 'numeric'
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
   });
 
   const subtotalMinor = items.reduce(
@@ -26,40 +38,48 @@ export function formatWhatsAppOrderMessage(
   );
   const subtotalQar = (subtotalMinor / 100).toFixed(0);
 
-  let message = `*LUMÈRA LUXE — Fragrance Order Request*\n`;
-  message += `_Date: ${dateStr}_\n\n`;
+  let message = `⚜️ *LUMÈRA LUXE — NEW ORDER* ⚜️\n`;
+  message += `_Placed: ${dateStr}_\n`;
+  message += `━━━━━━━━━━━━━━━━━━━━━\n\n`;
 
-  if (customerInfo?.name) {
-    message += `*Customer:* ${customerInfo.name.trim()}\n`;
-  }
-  if (customerInfo?.deliveryArea) {
-    message += `*Delivery Area:* ${customerInfo.deliveryArea.trim()} (Qatar)\n`;
-  }
-  if (customerInfo?.notes) {
-    message += `*Notes:* ${customerInfo.notes.trim()}\n`;
-  }
-  if (customerInfo?.name || customerInfo?.deliveryArea || customerInfo?.notes) {
-    message += `\n`;
+  if (customerInfo) {
+    const fullName = ('fullName' in customerInfo ? customerInfo.fullName : customerInfo.name) || '';
+    const phone = ('phone' in customerInfo ? customerInfo.phone : '') || '';
+    const address = ('address' in customerInfo ? customerInfo.address : customerInfo.deliveryArea) || '';
+    const city = ('city' in customerInfo ? customerInfo.city : '') || 'Doha';
+    const notes = customerInfo.notes || '';
+    const payment = ('paymentMethod' in customerInfo ? customerInfo.paymentMethod : '') || 'Cash or Card on Delivery';
+
+    message += `📍 *CUSTOMER & DELIVERY DETAILS:*\n`;
+    if (fullName) message += `• *Customer:* ${fullName.trim()}\n`;
+    if (phone) message += `• *Phone / WhatsApp:* ${phone.trim()}\n`;
+    if (address) message += `• *Delivery Address:* ${address.trim()}\n`;
+    if (city) message += `• *City / Municipality:* ${city.trim()} (Qatar)\n`;
+    message += `• *Payment Method:* ${payment.trim()}\n`;
+    if (notes && notes.trim()) message += `• *Delivery Notes:* ${notes.trim()}\n`;
+    message += `\n━━━━━━━━━━━━━━━━━━━━━\n\n`;
   }
 
-  message += `*Selected Fragrances:*\n`;
+  message += `🛍️ *PRODUCT DETAILS:*\n`;
   items.forEach((item, idx) => {
     const itemSubtotal = ((item.priceMinor * item.quantity) / 100).toFixed(0);
-    message += `${idx + 1}. *${item.brand} — ${item.name}*\n`;
-    message += `   ${item.sizeDisplay} · ${item.concentration}\n`;
-    message += `   Qty: ${item.quantity} × ${(item.priceMinor / 100).toFixed(0)} QAR = *${itemSubtotal} QAR*\n\n`;
+    message += `${idx + 1}. *${item.brand.toUpperCase()} — ${item.name.toUpperCase()}*\n`;
+    message += `   • Size & Type: ${item.sizeDisplay} · ${item.concentration}\n`;
+    message += `   • Quantity: ${item.quantity} × ${(item.priceMinor / 100).toFixed(0)} QAR\n`;
+    message += `   • Subtotal: *${itemSubtotal} QAR*\n\n`;
   });
 
-  message += `*Estimated Subtotal:* ${subtotalQar} QAR\n`;
-  message += `_(Excludes delivery charge. Final total and delivery time will be confirmed by LUMÈRA LUXE)_\n\n`;
-  message += `Please confirm product availability, delivery details, and payment instructions. Thank you!`;
+  message += `━━━━━━━━━━━━━━━━━━━━━\n`;
+  message += `💰 *TOTAL AMOUNT:* *${subtotalQar} QAR*\n`;
+  message += `🚚 *DELIVERY:* Express Courier in Qatar (Cash / Card on Delivery)\n\n`;
+  message += `Please confirm product availability and dispatch window. Thank you!`;
 
   return message;
 }
 
 export function generateWhatsAppLink(
   items: CartItem[],
-  customerInfo?: { name?: string; deliveryArea?: string; notes?: string }
+  customerInfo?: CustomerDeliveryInfo | { name?: string; deliveryArea?: string; notes?: string }
 ): string {
   const message = formatWhatsAppOrderMessage(items, customerInfo);
   const phone = siteConfig.whatsappNumber.replace(/[^0-9]/g, '');
