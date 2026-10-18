@@ -40,7 +40,92 @@ const categories = [
 
 <BaseLayout>
   <div class="minimal-storefront">
-    <!-- 1. CATEGORIES (Byredo Style Top Section) -->
+    <!-- HERO EDITORIAL (Byredo Reference Style) -->
+    <section class="hero-editorial-section">
+      <div class="container">
+        <div class="hero-editorial-stage">
+          <img
+            src="/assets/lumera-hero-editorial.jpg"
+            alt="LUMÈRA LUXE Haute Parfumerie Campaign"
+            class="hero-editorial-image"
+            loading="eager"
+            fetchpriority="high"
+            width="1440"
+            height="810"
+          />
+
+          <!-- Floating Frosted Quick-Shop Card (Bottom Right) -->
+          <aside class="hero-floating-card">
+            <a
+              href={`/perfumes/${heroShowcase.slug}/`}
+              class="hero-card-link"
+              aria-label={`View ${heroShowcase.name} details`}
+            >
+              <div class="hero-card-thumb-wrap">
+                <img
+                  src={heroShowcase.image}
+                  alt={heroShowcase.fullName}
+                  class="hero-card-thumb"
+                  width="68"
+                  height="80"
+                />
+              </div>
+              <div class="hero-card-meta">
+                <span class="hero-card-cat">PERFUME</span>
+                <h2 class="hero-card-title">{heroShowcase.name}</h2>
+                <span class="hero-card-price">{heroShowcase.priceDisplay}</span>
+                <span class="hero-card-size">{heroShowcase.sizeDisplay}</span>
+              </div>
+            </a>
+
+            <button
+              type="button"
+              class="hero-card-bag-btn"
+              data-action="add-to-bag"
+              data-id={heroShowcase.id}
+              data-name={heroShowcase.name}
+              data-brand={heroShowcase.brand}
+              data-size={heroShowcase.sizeDisplay}
+              data-concentration={heroShowcase.concentration}
+              data-price={heroShowcase.priceMinor}
+              data-image={heroShowcase.image}
+              aria-label={`Quick add ${heroShowcase.name} to bag`}
+              title="Add to Bag"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <path d="M16 10a4 4 0 0 1-8 0"></path>
+              </svg>
+            </button>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1. BESTSELLERS (Byredo 4-Column Showcase) -->
+    <section class="section-home">
+      <div class="container">
+        <div class="section-header-minimal">
+          <h2 class="section-title-minimal">Bestsellers</h2>
+          <a href="/shop/" class="see-all-link">See All</a>
+        </div>
+
+        <div class="grid-products">
+          {
+            selectedScents.slice(0, 4).map((product) => (
+              <ProductCard product={product} />
+            ))
+          }
+        </div>
+
+        <div class="bestsellers-indicator" aria-hidden="true">
+          <div class="bestsellers-indicator-bar"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. CATEGORIES (Byredo Style Scent Family Exploration) -->
     <section class="section-home">
       <div class="container">
         <div class="section-header-minimal">

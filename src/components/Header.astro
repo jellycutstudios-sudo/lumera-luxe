@@ -173,7 +173,7 @@ const currentPath = Astro.url.pathname;
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    gap: 1.5rem;
+    gap: clamp(0.75rem, 2vw, 1.5rem);
   }
 
   .brand-logo {

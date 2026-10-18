@@ -25,9 +25,8 @@ export const siteConfig: SiteConfig = {
   email: 'concierge@lumeraluxe.qa',
   instagramHandle: '@lumeraluxe.qa',
   navigation: [
-    { label: 'Home', href: '/' },
-    { label: 'Shop Fragrances', href: '/shop/' },
-    { label: 'Our Story', href: '/our-story/' },
+    { label: 'Shop', href: '/shop/' },
+    { label: 'About', href: '/our-story/' },
     { label: 'Contact', href: '/contact/' }
   ],
   promises: [

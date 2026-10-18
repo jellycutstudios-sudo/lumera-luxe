@@ -235,12 +235,174 @@ button {
 /* Minimal Storefront Sections */
 .minimal-storefront {
   width: 100%;
-  padding-top: clamp(2rem, 4vw, 3.5rem);
+  padding-top: clamp(0.75rem, 2vw, 1.5rem);
   padding-bottom: clamp(4rem, 6vw, 6rem);
 }
 
 .section-home {
   margin-bottom: clamp(4rem, 7vw, 6.5rem);
+}
+
+/* Hero Editorial Section (Byredo Reference Style) */
+.hero-editorial-section {
+  margin-bottom: clamp(3.5rem, 6vw, 5.5rem);
+}
+
+.hero-editorial-stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  max-height: 720px;
+  min-height: 420px;
+  overflow: hidden;
+  background-color: #E6EBF0;
+}
+
+@media (max-width: 768px) {
+  .hero-editorial-stage {
+    aspect-ratio: 4 / 3;
+    min-height: 380px;
+  }
+}
+
+.hero-editorial-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 25%;
+  display: block;
+}
+
+/* Floating Frosted Quick-Shop Card */
+.hero-floating-card {
+  position: absolute;
+  bottom: clamp(1rem, 3vw, 2.5rem);
+  right: clamp(1rem, 3vw, 2.5rem);
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  padding: 0.85rem 1.15rem;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+  transition: transform var(--transition-base), background var(--transition-base);
+  max-width: calc(100% - 2rem);
+  z-index: 5;
+}
+
+.hero-floating-card:hover {
+  background: rgba(255, 255, 255, 0.96);
+  transform: translateY(-2px);
+}
+
+.hero-card-link {
+  display: flex;
+  align-items: center;
+  gap: 1.15rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.hero-card-thumb-wrap {
+  width: 68px;
+  height: 80px;
+  background-color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem;
+  flex-shrink: 0;
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.hero-card-thumb {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.hero-card-meta {
+  display: flex;
+  flex-direction: column;
+  padding-right: 1.25rem;
+  min-width: 130px;
+}
+
+.hero-card-cat {
+  font-family: var(--font-body);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text-light);
+  margin-bottom: 0.15rem;
+}
+
+.hero-card-title {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-main);
+  margin-bottom: 0.35rem;
+  line-height: 1.25;
+}
+
+.hero-card-price {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color-text-main);
+  margin-bottom: 0.15rem;
+}
+
+.hero-card-size {
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  color: var(--color-text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.hero-card-bag-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-main);
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.hero-card-bag-btn:hover {
+  background-color: var(--color-text-main);
+  color: #FFFFFF;
+  border-color: var(--color-text-main);
+}
+
+/* Bestsellers Indicator Bar */
+.bestsellers-indicator {
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-border);
+  margin-top: 1.75rem;
+  position: relative;
+}
+
+.bestsellers-indicator-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 25%;
+  height: 2px;
+  background-color: var(--color-text-main);
 }
 
 /* Categories Row: 4 Columns on Desktop */
