@@ -130,6 +130,15 @@ const currentPath = Astro.url.pathname;
 </header>
 
 <style>
+  [hidden] {
+    display: none !important;
+  }
+
+  .search-modal-backdrop[hidden],
+  .mobile-menu[hidden] {
+    display: none !important;
+  }
+
   .site-header {
     position: sticky;
     top: 0;

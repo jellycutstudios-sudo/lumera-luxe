@@ -103,6 +103,19 @@ import { siteConfig } from '../data/site';
 </div>
 
 <style>
+  [hidden] {
+    display: none !important;
+  }
+
+  .bag-drawer-backdrop[hidden],
+  .bag-drawer[hidden],
+  .toast-notification[hidden],
+  .bag-perk-banner[hidden],
+  .bag-empty-state[hidden],
+  .bag-drawer-footer[hidden] {
+    display: none !important;
+  }
+
   .bag-drawer-backdrop {
     position: fixed;
     inset: 0;
