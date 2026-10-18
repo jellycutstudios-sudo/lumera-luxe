@@ -4,178 +4,144 @@ import { siteConfig } from '../data/site';
 
 <footer class="site-footer">
   <div class="container">
-    <div class="footer-top">
-      <div class="footer-brand-col">
-        <a href="/" class="footer-logo-link" aria-label="LUMÈRA LUXE">
-          <img src="/assets/lumera-logo.svg" alt="LUMÈRA LUXE" class="footer-logo" width="160" height="28" />
+    <div class="footer-layout">
+      <!-- Left: Iconic Brand Wordmark & Copyright -->
+      <div class="footer-brand-side">
+        <a href="/" class="footer-wordmark-link" aria-label="LUMÈRA LUXE">
+          <img
+            src="/assets/lumera-logo.svg"
+            alt="LUMÈRA LUXE"
+            class="footer-logo-minimal"
+            width="180"
+            height="32"
+          />
         </a>
-        <p class="footer-tagline">{siteConfig.closingLine}</p>
-        <p class="footer-subtext">
-          Curated designer and niche fragrances in Qatar. Authentic concentrations, personal advice, and direct doorstep delivery.
+        <p class="footer-legal-copy">
+          &copy; {new Date().getFullYear()} {siteConfig.brandName}. Doha, Qatar.
         </p>
       </div>
 
-      <div class="footer-nav-col">
-        <h4 class="footer-heading">Boutique</h4>
-        <ul class="footer-links">
-          {siteConfig.navigation.map((item) => (
-            <li><a href={item.href}>{item.label}</a></li>
-          ))}
-        </ul>
-      </div>
+      <!-- Right: Minimalist 3-Column Navigation -->
+      <div class="footer-links-columns">
+        <div class="footer-col">
+          <h4 class="col-title">Shop</h4>
+          <ul class="col-list">
+            <li><a href="/shop/">All Fragrances</a></li>
+            <li><a href="/shop/?family=floral">Floral</a></li>
+            <li><a href="/shop/?family=oriental">Amber & Oriental</a></li>
+            <li><a href="/shop/?family=woody">Woody & Musk</a></li>
+            <li><a href="/shop/?family=fresh">Fresh & Citrus</a></li>
+          </ul>
+        </div>
 
-      <div class="footer-nav-col">
-        <h4 class="footer-heading">Client Care</h4>
-        <ul class="footer-links">
-          <li><a href="/delivery-returns/">Delivery & Returns</a></li>
-          <li><a href="/privacy/">Privacy Policy</a></li>
-          <li><a href="/contact/">Concierge Assistance</a></li>
-        </ul>
-      </div>
+        <div class="footer-col">
+          <h4 class="col-title">Follow Us</h4>
+          <ul class="col-list">
+            <li>
+              <a href={`https://wa.me/${siteConfig.whatsappNumber}`} target="_blank" rel="noopener">
+                WhatsApp Concierge
+              </a>
+            </li>
+            <li><a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a></li>
+            <li><a href="https://pinterest.com" target="_blank" rel="noopener">Pinterest</a></li>
+          </ul>
+        </div>
 
-      <div class="footer-contact-col">
-        <h4 class="footer-heading">Qatar Concierge</h4>
-        <p class="footer-contact-note">
-          Questions regarding scent profiles or custom requests? Our Doha team is available on WhatsApp.
-        </p>
-        <a href={`https://wa.me/${siteConfig.whatsappNumber}`} class="footer-whatsapp-link" target="_blank" rel="noopener">
-          <span class="whatsapp-dot"></span>
-          Connect via WhatsApp
-        </a>
+        <div class="footer-col">
+          <h4 class="col-title">Customer Care</h4>
+          <ul class="col-list">
+            <li><a href="/contact/">Concierge Contact</a></li>
+            <li><a href="/delivery-returns/">Delivery & Returns</a></li>
+            <li><a href="/privacy/">Privacy Policy</a></li>
+            <li><a href="/our-story/">Our Story</a></li>
+          </ul>
+        </div>
       </div>
-    </div>
-
-    <div class="footer-bottom">
-      <p class="copyright">
-        &copy; {new Date().getFullYear()} {siteConfig.brandName}. Doha, Qatar. All rights reserved.
-      </p>
-      <p class="footer-disclaimer">
-        All brand names and trademarks belong to their respective copyright holders.
-      </p>
     </div>
   </div>
 </footer>
 
 <style>
   .site-footer {
-    background-color: var(--color-surface);
+    background-color: #FFFFFF;
     border-top: 1px solid var(--color-border);
-    padding-top: clamp(3.5rem, 5vw, 5rem);
-    padding-bottom: 2.5rem;
+    padding-top: clamp(4rem, 7vw, 6rem);
+    padding-bottom: clamp(3rem, 5vw, 4.5rem);
     margin-top: auto;
   }
 
-  .footer-top {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-    margin-bottom: 3.5rem;
+  .footer-layout {
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
   }
 
-  @media (min-width: 768px) {
-    .footer-top {
-      grid-template-columns: 1.5fr 1fr 1fr 1.25fr;
-      gap: 2rem;
+  @media (min-width: 860px) {
+    .footer-layout {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 4rem;
     }
   }
 
-  .footer-logo {
-    height: 26px;
+  .footer-brand-side {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .footer-logo-minimal {
+    height: 30px;
     width: auto;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
   }
 
-  .footer-tagline {
-    font-family: var(--font-display);
-    font-size: 1.25rem;
-    font-style: italic;
-    color: var(--color-text-main);
-    margin-bottom: 0.75rem;
+  .footer-legal-copy {
+    font-size: 0.6875rem;
+    letter-spacing: 0.05em;
+    color: var(--color-text-light);
+    text-transform: uppercase;
   }
 
-  .footer-subtext {
-    font-size: 0.875rem;
-    color: var(--color-text-muted);
-    line-height: 1.6;
-    max-width: 320px;
+  .footer-links-columns {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2.5rem;
   }
 
-  .footer-heading {
+  @media (min-width: 640px) {
+    .footer-links-columns {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3.5rem;
+    }
+  }
+
+  .col-title {
     font-family: var(--font-body);
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
     color: var(--color-text-main);
     margin-bottom: 1.25rem;
   }
 
-  .footer-links {
+  .col-list {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.65rem;
   }
 
-  .footer-links a {
-    font-size: 0.875rem;
+  .col-list a {
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
     color: var(--color-text-muted);
-    transition: color var(--transition-fast);
+    text-transform: uppercase;
   }
 
-  .footer-links a:hover {
-    color: var(--color-accent);
-  }
-
-  .footer-contact-note {
-    font-size: 0.875rem;
-    color: var(--color-text-muted);
-    margin-bottom: 1rem;
-    line-height: 1.5;
-  }
-
-  .footer-whatsapp-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--color-accent);
-    padding: 0.5rem 0.85rem;
-    border: 1px solid rgba(166, 83, 45, 0.3);
-    border-radius: var(--border-radius-sm);
-    background-color: #FFFFFF;
-    transition: all var(--transition-fast);
-  }
-
-  .footer-whatsapp-link:hover {
-    background-color: var(--color-accent);
-    color: #FFFFFF;
-    border-color: var(--color-accent);
-  }
-
-  .whatsapp-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: #25D366;
-  }
-
-  .footer-bottom {
-    border-top: 1px solid var(--color-border);
-    padding-top: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    font-size: 0.8125rem;
-    color: var(--color-text-light);
-  }
-
-  @media (min-width: 768px) {
-    .footer-bottom {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-    }
+  .col-list a:hover {
+    color: var(--color-text-main);
   }
 </style>
