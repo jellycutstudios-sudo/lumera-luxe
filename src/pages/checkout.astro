@@ -12,11 +12,11 @@ const description = `Complete your luxury fragrance order with doorstep delivery
     <div class="container checkout-container">
       <!-- Breadcrumb / Header -->
       <nav class="checkout-nav" aria-label="Breadcrumb">
-        <a href="/shop/" class="checkout-back-link">
+        <a href="/shop/" class="checkout-back-link" id="checkout-back-link">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <polyline points="15 18 9 12 15 6"></polyline>
           </svg>
-          <span>Continue Shopping</span>
+          <span id="checkout-back-text">Back to Product</span>
         </a>
         <span class="checkout-step-badge">Direct WhatsApp Order</span>
       </nav>
@@ -830,11 +830,9 @@ const description = `Complete your luxury fragrance order with doorstep delivery
             quantity: Math.max(1, qtyParam)
           }
         ];
-        return;
       }
-    }
-
-    // Otherwise, load from localStorage cart
+    } else {
+      // Otherwise, load from localStorage cart
     try {
       const bagData = localStorage.getItem(STORAGE_BAG_KEY);
       const stored: { id: string; quantity: number }[] = bagData ? JSON.parse(bagData) : [];
@@ -858,6 +856,32 @@ const description = `Complete your luxury fragrance order with doorstep delivery
         .filter((it): it is CheckoutLineItem => it !== null);
     } catch {
       checkoutItems = [];
+    }
+  }
+
+  // Configure Back Link to return directly to product page
+    const backLink = document.getElementById('checkout-back-link') as HTMLAnchorElement;
+    const backText = document.getElementById('checkout-back-text');
+
+    if (checkoutItems.length === 1 && checkoutItems[0].slug) {
+      const targetSlug = checkoutItems[0].slug;
+      if (backLink) backLink.href = `/perfumes/${targetSlug}/`;
+      if (backText) backText.textContent = `Back to ${checkoutItems[0].name}`;
+    } else if (document.referrer && document.referrer.includes('/perfumes/')) {
+      if (backLink) backLink.href = document.referrer;
+      if (backText) backText.textContent = 'Back to Product';
+    } else {
+      if (backLink) backLink.href = '/shop/';
+      if (backText) backText.textContent = 'Continue Shopping';
+    }
+
+    if (backLink) {
+      backLink.addEventListener('click', (e) => {
+        if (window.history.length > 1 && document.referrer && document.referrer.includes('/perfumes/')) {
+          e.preventDefault();
+          window.history.back();
+        }
+      });
     }
   }
 
