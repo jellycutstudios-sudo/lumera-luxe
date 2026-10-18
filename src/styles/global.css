@@ -22,7 +22,7 @@
 
   /* Spacing */
   --content-max-width: 1320px;
-  --page-gutter: clamp(1.25rem, 4vw, 3rem);
+  --page-gutter: clamp(0.875rem, 3.5vw, 3rem);
   --space-section: clamp(4rem, 7vw, 7.5rem);
 
   /* Radius & Transitions */
@@ -216,19 +216,20 @@ button {
 /* Grids */
 .grid-products {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: clamp(1rem, 2vw, 1.75rem);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.75rem, 2vw, 1.75rem);
+  align-items: stretch;
 }
 
 @media (min-width: 768px) {
   .grid-products {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
 @media (min-width: 1024px) {
   .grid-products {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
@@ -408,14 +409,14 @@ button {
 /* Categories Row: 4 Columns on Desktop */
 .categories-row {
   display: grid !important;
-  grid-template-columns: repeat(2, 1fr) !important;
-  gap: clamp(1rem, 2vw, 1.75rem) !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: clamp(0.75rem, 2vw, 1.75rem) !important;
   width: 100% !important;
 }
 
 @media (min-width: 860px) {
   .categories-row {
-    grid-template-columns: repeat(4, 1fr) !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
   }
 }
 
@@ -432,14 +433,14 @@ button {
 
 .category-image-frame {
   width: 100% !important;
-  aspect-ratio: 4 / 5 !important;
+  aspect-ratio: 1 / 1 !important;
   background-color: #FFFFFF !important;
   border: 1px solid #ECEAE5 !important;
   border-radius: var(--border-radius-sm) !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  padding: clamp(1rem, 2.5vw, 2.25rem) !important;
+  padding: clamp(0.625rem, 1.8vw, 1.25rem) !important;
   margin-bottom: 0.85rem !important;
   transition: all var(--transition-fast) !important;
 }
@@ -535,8 +536,8 @@ button {
 
 .showcase-secondary-list {
   display: grid !important;
-  grid-template-columns: repeat(2, 1fr) !important;
-  gap: 1.5rem !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: clamp(0.75rem, 2vw, 1.5rem) !important;
 }
 
 .showcase-navigation-row {

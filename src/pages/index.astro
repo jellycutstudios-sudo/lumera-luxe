@@ -285,13 +285,13 @@ const categories = [
   /* 1. Categories Row (4 Borderless Columns) */
   .categories-row {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: clamp(1rem, 2vw, 1.75rem);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(0.75rem, 2vw, 1.75rem);
   }
 
   @media (min-width: 860px) {
     .categories-row {
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
 
@@ -307,14 +307,14 @@ const categories = [
 
   .category-image-frame {
     width: 100%;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 1 / 1;
     background-color: #FFFFFF;
     border: 1px solid #ECEAE5;
     border-radius: var(--border-radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: clamp(1rem, 2.5vw, 2.25rem);
+    padding: clamp(0.625rem, 1.8vw, 1.25rem);
     margin-bottom: 0.85rem;
     transition: all var(--transition-fast);
   }
@@ -490,8 +490,8 @@ const categories = [
 
   .showcase-secondary-list {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(0.75rem, 2vw, 1.5rem);
   }
 
   .showcase-navigation-row {
