@@ -1,0 +1,246 @@
+---
+import { siteConfig } from '../data/site';
+
+const currentPath = Astro.url.pathname;
+const isCheckout = currentPath.startsWith('/checkout');
+const isPdp = currentPath.startsWith('/perfumes/');
+---
+
+{
+  !isCheckout && (
+    <nav class:list={['mobile-bottom-nav', { 'hide-on-pdp': isPdp }]} aria-label="Mobile Navigation">
+      <div class="bottom-nav-container">
+        <!-- Tab 1: Home -->
+        <a
+          href="/"
+          class:list={['bottom-nav-item', { active: currentPath === '/' }]}
+          aria-label="Home"
+        >
+          <div class="bottom-nav-icon-wrap">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+          </div>
+          <span class="bottom-nav-label">Home</span>
+          {currentPath === '/' && <span class="active-gold-dot"></span>}
+        </a>
+
+        <!-- Tab 2: Fragrances / Shop -->
+        <a
+          href="/shop/"
+          class:list={['bottom-nav-item', { active: currentPath.startsWith('/shop') }]}
+          aria-label="Fragrances Collection"
+        >
+          <div class="bottom-nav-icon-wrap">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+          </div>
+          <span class="bottom-nav-label">Collection</span>
+          {currentPath.startsWith('/shop') && <span class="active-gold-dot"></span>}
+        </a>
+
+        <!-- Tab 3: Boutique Concierge (WhatsApp) -->
+        <a
+          href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent('Hello LUMÈRA LUXE boutique concierge, I would like personal guidance on your luxury fragrance collection.')}`}
+          class="bottom-nav-item concierge-tab"
+          target="_blank"
+          rel="noopener"
+          aria-label="WhatsApp Concierge"
+        >
+          <div class="bottom-nav-icon-wrap concierge-icon-wrap">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12.031 2C6.495 2 2 6.495 2 12.031c0 1.77.462 3.498 1.341 5.022L2 22l5.093-1.336A10.007 10.007 0 0 0 12.031 22C17.567 22 22 17.505 22 12.031 22 6.495 17.567 2 12.031 2zm5.879 14.195c-.244.686-1.42 1.314-1.956 1.385-.514.068-1.163.097-3.708-.958-3.04-1.258-4.996-4.34-5.148-4.542-.152-.202-1.233-1.64-1.233-3.128 0-1.488.777-2.22 1.052-2.525.275-.305.6-.381.8-.381.2 0 .4 0 .576.01.187.01.438-.071.686.525.257.619.876 2.143.952 2.296.076.153.127.33.025.534-.102.204-.153.33-.305.508-.152.178-.32.396-.457.533-.153.153-.312.32-.134.626.178.305.792 1.306 1.698 2.112 1.166 1.037 2.148 1.358 2.453 1.51.305.153.483.128.66-.076.178-.204.762-.89 965-1.195.204-.305.407-.254.686-.153.28.102 1.777.838 2.082.99.305.153.508.229.584.356.076.127.076.737-.168 1.423z"/>
+            </svg>
+          </div>
+          <span class="bottom-nav-label">Concierge</span>
+        </a>
+
+        <!-- Tab 4: Bag with dynamic badge -->
+        <button
+          type="button"
+          class="bottom-nav-item bag-nav-trigger"
+          id="bottom-nav-bag-btn"
+          aria-label="Open Shopping Bag"
+        >
+          <div class="bottom-nav-icon-wrap bag-wrap">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+            <span class="bottom-bag-pill" id="bottom-nav-bag-count">0</span>
+          </div>
+          <span class="bottom-nav-label">Bag</span>
+        </button>
+      </div>
+    </nav>
+  )
+}
+
+<style>
+  .mobile-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 90;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid var(--color-gold-border);
+    box-shadow: 0 -4px 20px rgba(24, 21, 19, 0.05);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), opacity 220ms ease;
+  }
+
+  /* Hide on desktop */
+  @media (min-width: 768px) {
+    .mobile-bottom-nav {
+      display: none !important;
+    }
+  }
+
+  /* On PDP, let the focused product purchase bar take bottom stage */
+  @media (max-width: 767px) {
+    .mobile-bottom-nav.hide-on-pdp {
+      display: none !important;
+    }
+  }
+
+  .bottom-nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 58px;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 0 0.5rem;
+  }
+
+  .bottom-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    height: 100%;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    position: relative;
+    transition: color var(--transition-fast), transform var(--transition-fast);
+    padding: 0.35rem 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .bottom-nav-item:active {
+    transform: scale(0.94);
+  }
+
+  .bottom-nav-item.active {
+    color: var(--color-brand-cognac);
+  }
+
+  .bottom-nav-icon-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    margin-bottom: 2px;
+  }
+
+  .bottom-nav-label {
+    font-family: var(--font-body);
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .active-gold-dot {
+    position: absolute;
+    bottom: 3px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--color-gold-shimmer);
+    box-shadow: 0 1px 4px var(--color-gold-glow);
+  }
+
+  /* Concierge highlight */
+  .concierge-icon-wrap {
+    color: #25D366;
+  }
+
+  /* Bag pill counter */
+  .bag-wrap {
+    position: relative;
+  }
+
+  .bottom-bag-pill {
+    position: absolute;
+    top: -4px;
+    right: -8px;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    background: var(--color-brand-cognac);
+    color: #FFFFFF;
+    font-size: 0.5625rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    box-shadow: 0 2px 6px var(--color-brand-cognac-glow);
+    transition: transform var(--transition-fast);
+  }
+
+  .bottom-nav-item.active .bottom-bag-pill {
+    background: var(--color-brand-cognac-dark);
+  }
+</style>
+
+<script>
+  // Sync Bag Counter and open drawer on mobile bottom nav click
+  function syncBottomNavBag() {
+    try {
+      const stored = localStorage.getItem('lumera_cart_v1');
+      const items = stored ? JSON.parse(stored) : [];
+      const totalCount = items.reduce((sum: number, it: any) => sum + (it.quantity || 1), 0);
+      const bottomCountEl = document.getElementById('bottom-nav-bag-count');
+      if (bottomCountEl) {
+        bottomCountEl.textContent = String(totalCount);
+        bottomCountEl.style.transform = 'scale(1.2)';
+        setTimeout(() => {
+          if (bottomCountEl) bottomCountEl.style.transform = 'scale(1)';
+        }, 160);
+      }
+    } catch {}
+  }
+
+  // Hook button click to open Bag Drawer
+  const bottomBagBtn = document.getElementById('bottom-nav-bag-btn');
+  if (bottomBagBtn) {
+    bottomBagBtn.addEventListener('click', () => {
+      // Trigger header bag button or dispatch event
+      const headerBagBtn = document.getElementById('open-bag-btn');
+      if (headerBagBtn) {
+        headerBagBtn.click();
+      }
+    });
+  }
+
+  // Initial sync & periodic update on storage changes
+  document.addEventListener('DOMContentLoaded', syncBottomNavBag);
+  window.addEventListener('storage', syncBottomNavBag);
+  window.addEventListener('cart-updated', syncBottomNavBag);
+  setInterval(syncBottomNavBag, 1000);
+</script>

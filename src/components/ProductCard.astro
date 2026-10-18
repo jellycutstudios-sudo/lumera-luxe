@@ -104,7 +104,7 @@ const { product, priority = false, isLarge = false } = Astro.props;
     width: 100%;
     aspect-ratio: 1 / 1;
     background-color: #FFFFFF;
-    border: 1px solid #ECEAE5;
+    border: 1px solid var(--color-border);
     border-radius: var(--border-radius-sm);
     display: flex;
     align-items: center;
@@ -116,8 +116,8 @@ const { product, priority = false, isLarge = false } = Astro.props;
   }
 
   .card-image-link:hover .card-image-surface {
-    border-color: #D2CDC5;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+    border-color: var(--color-gold);
+    box-shadow: 0 8px 24px var(--color-gold-glow);
   }
 
   .card-large .card-image-surface {
@@ -148,25 +148,27 @@ const { product, priority = false, isLarge = false } = Astro.props;
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.92);
+    background-color: rgba(255, 255, 255, 0.94);
     backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #1A1816;
+    color: var(--color-text-main);
     font-size: 1.1rem;
     line-height: 1;
     cursor: pointer;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    border: 1px solid var(--color-gold-border);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
     transition: all var(--transition-fast);
     z-index: 2;
   }
 
   .quick-add-btn:hover {
-    background-color: #1A1816;
+    background: var(--color-brand-gradient);
+    border-color: transparent;
     color: #FFFFFF;
-    transform: scale(1.08);
+    transform: scale(1.1);
+    box-shadow: 0 3px 10px var(--color-brand-cognac-glow);
   }
 
   .quick-add-btn.added-success {

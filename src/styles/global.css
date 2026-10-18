@@ -1,19 +1,38 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  /* Minimalist Luxury Palette */
+  /* Minimalist Luxury Palette with Logo Cognac & Champagne Gold */
   --color-bg: #FFFFFF;
-  --color-surface: #F7F6F4;
-  --color-surface-subtle: #F3F1ED;
+  --color-surface: #FAF8F5;          /* Warm cashmere alabaster */
+  --color-surface-subtle: #F5F1EB;   /* Soft warm neutral */
   --color-surface-card: #FFFFFF;
-  --color-text-main: #1A1816;
-  --color-text-muted: #55504A;
-  --color-text-light: #8E877F;
-  --color-accent: #A6532D;
-  --color-accent-hover: #8D4321;
-  --color-accent-light: #F7EFEA;
-  --color-border: #E8E5E0;
-  --color-border-subtle: #F0EDE8;
+  --color-text-main: #181513;        /* Deep espresso black */
+  --color-text-muted: #57524C;       /* Soft charcoal */
+  --color-text-light: #8F8880;       /* Muted warm grey */
+
+  /* Logo Cognac Palette (matches SVG logo gradient #D2632C -> #802201) */
+  --color-brand-cognac: #C85A24;
+  --color-brand-cognac-dark: #802201;
+  --color-brand-cognac-light: #FDF5F0;
+  --color-brand-cognac-glow: rgba(200, 90, 36, 0.22);
+  --color-brand-gradient: linear-gradient(135deg, #D2632C 0%, #802201 100%);
+
+  /* Aristocratic Champagne Gold */
+  --color-gold: #C5A059;
+  --color-gold-light: #FBF7EE;
+  --color-gold-dark: #9A7B38;
+  --color-gold-border: rgba(197, 160, 89, 0.38);
+  --color-gold-border-subtle: rgba(197, 160, 89, 0.18);
+  --color-gold-glow: rgba(197, 160, 89, 0.24);
+  --color-gold-shimmer: linear-gradient(135deg, #E2C285 0%, #C5A059 50%, #9A7B38 100%);
+
+  /* Accent Aliases */
+  --color-accent: #C85A24;
+  --color-accent-hover: #A54415;
+  --color-accent-light: #FDF5F0;
+
+  --color-border: #E8E3DC;
+  --color-border-subtle: #F2EEE8;
 
   /* Typography */
   --font-display: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -611,3 +630,50 @@ button {
   outline: 2px solid var(--color-text-main);
   outline-offset: 2px;
 }
+
+/* Luxury Theme Accents (Cognac & Champagne Gold) */
+.badge-gold {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-gold-dark);
+  background-color: var(--color-gold-light);
+  border: 1px solid var(--color-gold-border);
+  padding: 0.25rem 0.55rem;
+  border-radius: var(--border-radius-sm);
+}
+
+.badge-cognac {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  background: var(--color-brand-gradient);
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--border-radius-sm);
+  box-shadow: 0 2px 8px var(--color-brand-cognac-glow);
+}
+
+.gold-hairline {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+  width: 100%;
+  margin: 1.5rem 0;
+  opacity: 0.45;
+}
+
+/* Mobile Bottom Safe Spacing (when MobileBottomNav is mounted) */
+@media (max-width: 767px) {
+  body:not(.is-checkout-page) {
+    padding-bottom: 64px;
+  }
+}
+

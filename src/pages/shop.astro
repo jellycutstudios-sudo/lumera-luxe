@@ -276,7 +276,7 @@ const allFamilies = Array.from(
 
   .price-chip {
     font-size: 0.8125rem;
-    padding: 0.35rem 0.75rem;
+    padding: 0.35rem 0.85rem;
     border-radius: 20px;
     border: 1px solid var(--color-border);
     background-color: #FFFFFF;
@@ -285,14 +285,15 @@ const allFamilies = Array.from(
   }
 
   .price-chip:hover {
-    border-color: var(--color-accent);
-    color: var(--color-text-main);
+    border-color: var(--color-gold);
+    color: var(--color-brand-cognac);
   }
 
   .price-chip.active {
-    background-color: var(--color-text-main);
+    background: var(--color-brand-gradient);
     color: #FFFFFF;
-    border-color: var(--color-text-main);
+    border-color: transparent;
+    box-shadow: 0 2px 8px var(--color-brand-cognac-glow);
   }
 
   .catalogue-status-bar {
