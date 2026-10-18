@@ -20,8 +20,8 @@ export const siteConfig: SiteConfig = {
   closingLine: 'Elegance in Every Scent',
   location: 'Doha, Qatar',
   currency: 'QAR',
-  whatsappNumber: '97400000000', // Owner-verified number to be configured
-  whatsappDisplay: '+974 0000 0000',
+  whatsappNumber: '97466675166',
+  whatsappDisplay: '+974 6667 5166',
   email: 'concierge@lumeraluxe.qa',
   instagramHandle: '@lumeraluxe.qa',
   navigation: [
