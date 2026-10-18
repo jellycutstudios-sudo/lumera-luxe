@@ -68,7 +68,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12.031 2C6.495 2 2 6.495 2 12.031c0 1.77.462 3.498 1.341 5.022L2 22l5.093-1.336A10.007 10.007 0 0 0 12.031 22C17.567 22 22 17.505 22 12.031 22 6.495 17.567 2 12.031 2zm5.879 14.195c-.244.686-1.42 1.314-1.956 1.385-.514.068-1.163.097-3.708-.958-3.04-1.258-4.996-4.34-5.148-4.542-.152-.202-1.233-1.64-1.233-3.128 0-1.488.777-2.22 1.052-2.525.275-.305.6-.381.8-.381.2 0 .4 0 .576.01.187.01.438-.071.686.525.257.619.876 2.143.952 2.296.076.153.127.33.025.534-.102.204-.153.33-.305.508-.152.178-.32.396-.457.533-.153.153-.312.32-.134.626.178.305.792 1.306 1.698 2.112 1.166 1.037 2.148 1.358 2.453 1.51.305.153.483.128.66-.076.178-.204.762-.89 965-1.195.204-.305.407-.254.686-.153.28.102 1.777.838 2.082.99.305.153.508.229.584.356.076.127.076.737-.168 1.423z"/>
               </svg>
-              <span>CONFIRM ORDER ON WHATSAPP — <span class="btn-total-amount">0 QAR</span></span>
+              <span>Order on WhatsApp</span>
             </button>
 
             <!-- Trust Assurances (Desktop) -->
@@ -173,7 +173,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12.031 2C6.495 2 2 6.495 2 12.031c0 1.77.462 3.498 1.341 5.022L2 22l5.093-1.336A10.007 10.007 0 0 0 12.031 22C17.567 22 22 17.505 22 12.031 22 6.495 17.567 2 12.031 2zm5.879 14.195c-.244.686-1.42 1.314-1.956 1.385-.514.068-1.163.097-3.708-.958-3.04-1.258-4.996-4.34-5.148-4.542-.152-.202-1.233-1.64-1.233-3.128 0-1.488.777-2.22 1.052-2.525.275-.305.6-.381.8-.381.2 0 .4 0 .576.01.187.01.438-.071.686.525.257.619.876 2.143.952 2.296.076.153.127.33.025.534-.102.204-.153.33-.305.508-.152.178-.32.396-.457.533-.153.153-.312.32-.134.626.178.305.792 1.306 1.698 2.112 1.166 1.037 2.148 1.358 2.453 1.51.305.153.483.128.66-.076.178-.204.762-.89 965-1.195.204-.305.407-.254.686-.153.28.102 1.777.838 2.082.99.305.153.508.229.584.356.076.127.076.737-.168 1.423z"/>
                 </svg>
-                <span>CONFIRM ORDER ON WHATSAPP — <span class="btn-total-amount">0 QAR</span></span>
+                <span>Order on WhatsApp</span>
               </button>
 
               <!-- Trust Assurances (Mobile - placed right under the button) -->
@@ -698,9 +698,9 @@ const description = `Complete your luxury fragrance order with doorstep delivery
     border: none;
     border-radius: var(--border-radius-sm);
     font-family: var(--font-body);
-    font-size: 0.84375rem;
+    font-size: 0.9375rem;
     font-weight: 700;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.03em;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -708,6 +708,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
     cursor: pointer;
     box-shadow: 0 4px 16px rgba(37, 211, 102, 0.28);
     transition: all var(--transition-fast);
+    white-space: nowrap;
   }
 
   .btn-checkout-whatsapp:hover {
