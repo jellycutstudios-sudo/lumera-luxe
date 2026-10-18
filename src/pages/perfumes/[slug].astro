@@ -331,8 +331,14 @@ const productSchema = {
 
   /* Media Frame */
   .pdp-media-wrap {
-    position: sticky;
-    top: 96px;
+    position: relative;
+  }
+
+  @media (min-width: 860px) {
+    .pdp-media-wrap {
+      position: sticky;
+      top: 96px;
+    }
   }
 
   .pdp-media-frame {
