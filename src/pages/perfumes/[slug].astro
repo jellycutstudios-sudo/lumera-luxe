@@ -129,161 +129,34 @@ const productSchema = {
           </div>
         </div>
 
-        <!-- Express Direct Order & Delivery Address Section -->
-        <div class="pdp-buy-now-card" id="pdp-buy-now-card">
-          <div class="buy-now-card-header">
-            <div class="header-icon-wrap">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
-                <rect x="1" y="3" width="15" height="13"></rect>
-                <polygon points="16 8 20 8 23 11 23 16 16 8"></polygon>
-                <circle cx="5.5" cy="18.5" r="2.5"></circle>
-                <circle cx="18.5" cy="18.5" r="2.5"></circle>
-              </svg>
-            </div>
-            <div class="header-text-group">
-              <span class="delivery-badge">QATAR DOORSTEP DELIVERY</span>
-              <h2 class="buy-now-card-title">Direct Order & Delivery Details</h2>
-              <p class="buy-now-card-sub">Fill your delivery details below to confirm your order directly on WhatsApp.</p>
-            </div>
-          </div>
-
-          <form id="pdp-direct-order-form" class="buy-now-form" onsubmit="return false;" novalidate>
-            <div class="form-grid">
-              <div class="form-field">
-                <label for="pdp-order-name" class="field-label">Full Name <span class="required-star">*</span></label>
-                <input
-                  type="text"
-                  id="pdp-order-name"
-                  class="form-input"
-                  placeholder="e.g. Fatima Al-Kuwari"
-                  autocomplete="name"
-                  required
-                />
-                <span class="field-error-msg" id="pdp-name-error">Please enter your full name</span>
-              </div>
-
-              <div class="form-field">
-                <label for="pdp-order-phone" class="field-label">WhatsApp Mobile <span class="required-star">*</span></label>
-                <div class="phone-input-wrap">
-                  <span class="phone-prefix">🇶🇦 +974</span>
-                  <input
-                    type="tel"
-                    id="pdp-order-phone"
-                    class="form-input phone-input"
-                    placeholder="e.g. 5512 3456"
-                    autocomplete="tel"
-                    required
-                  />
-                </div>
-                <span class="field-error-msg" id="pdp-phone-error">Please enter your 8-digit mobile number</span>
-              </div>
-
-              <div class="form-field full-width">
-                <label for="pdp-order-address" class="field-label">Delivery Address in Qatar <span class="required-star">*</span></label>
-                <input
-                  type="text"
-                  id="pdp-order-address"
-                  class="form-input"
-                  placeholder="Street name, Villa/Building number, Zone"
-                  autocomplete="street-address"
-                  required
-                />
-                <span class="field-error-msg" id="pdp-address-error">Please enter your delivery street or villa</span>
-              </div>
-
-              <div class="form-field">
-                <label for="pdp-order-city" class="field-label">Municipality / Area</label>
-                <div class="select-wrap">
-                  <select id="pdp-order-city" class="form-input form-select">
-                    <option value="Doha" selected>Doha (الدوحة)</option>
-                    <option value="Lusail">Lusail (لوسيل)</option>
-                    <option value="The Pearl">The Pearl (اللؤلؤة)</option>
-                    <option value="West Bay">West Bay (الخليج الغربي)</option>
-                    <option value="Al Rayyan">Al Rayyan (الريان)</option>
-                    <option value="Al Wakrah">Al Wakrah (الوكرة)</option>
-                    <option value="Al Daayen">Al Daayen (الظعاين)</option>
-                    <option value="Umm Salal">Umm Salal (أم صلال)</option>
-                    <option value="Al Khor">Al Khor (الخور)</option>
-                    <option value="Al Shahaniya">Al Shahaniya (الشحانية)</option>
-                    <option value="Other Area in Qatar">Other Area in Qatar</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="form-field">
-                <label for="pdp-order-notes" class="field-label">Delivery Notes (Optional)</label>
-                <input
-                  type="text"
-                  id="pdp-order-notes"
-                  class="form-input"
-                  placeholder="e.g. Call before arrival, leave with security"
-                />
-              </div>
+        <!-- Luxury Action Block (Airy, Uncongested Byredo Aesthetic) -->
+        <div class="pdp-action-block" id="pdp-cta-trigger">
+          <div class="pdp-action-primary-row">
+            <!-- Quantity Selector -->
+            <div class="pdp-qty-wrapper">
+              <button type="button" class="pdp-qty-btn" id="pdp-qty-dec" aria-label="Decrease quantity">−</button>
+              <span class="pdp-qty-display" id="pdp-qty-val">1</span>
+              <button type="button" class="pdp-qty-btn" id="pdp-qty-inc" aria-label="Increase quantity">+</button>
             </div>
 
-            <!-- Order Summary & Quantity -->
-            <div class="order-summary-box">
-              <div class="summary-product-row">
-                <div class="summary-thumb-wrap">
-                  <img src={product.image} alt={product.fullName} class="summary-thumb" width="48" height="48" />
-                </div>
-                <div class="summary-details">
-                  <span class="summary-brand">{product.brand}</span>
-                  <strong class="summary-name">{product.name}</strong>
-                  <span class="summary-specs">{product.sizeDisplay} · {product.concentration}</span>
-                </div>
-                <div class="summary-qty-selector">
-                  <span class="qty-label">Qty:</span>
-                  <div class="pdp-qty-wrapper">
-                    <button type="button" class="pdp-qty-btn" id="pdp-qty-dec" aria-label="Decrease quantity">−</button>
-                    <span class="pdp-qty-display" id="pdp-qty-val">1</span>
-                    <button type="button" class="pdp-qty-btn" id="pdp-qty-inc" aria-label="Increase quantity">+</button>
-                  </div>
-                </div>
-              </div>
-
-              <div class="summary-pricing-row">
-                <div class="payment-method-pill">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <rect x="2" y="5" width="20" height="14" rx="2"></rect>
-                    <line x1="2" y1="10" x2="22" y2="10"></line>
-                  </svg>
-                  <span>Cash or Card upon Delivery</span>
-                </div>
-                <div class="summary-total-group">
-                  <span class="total-caption">Total to Pay:</span>
-                  <span class="total-amount" id="pdp-total-price">{product.priceDisplay}</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Primary Buy Now via WhatsApp CTA -->
-            <button
-              type="button"
-              class="btn-buy-now-whatsapp"
+            <!-- BUY NOW (Primary CTA -> Goes directly to /checkout/) -->
+            <a
+              href={`/checkout/?product=${product.slug}&qty=1`}
+              class="btn-buy-now-main"
               id="btn-pdp-buy-now"
-              data-id={product.id}
-              data-name={product.name}
-              data-brand={product.brand}
-              data-size={product.sizeDisplay}
-              data-concentration={product.concentration}
-              data-price={product.priceMinor}
-              data-image={product.image}
+              data-slug={product.slug}
             >
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12.031 2C6.495 2 2 6.495 2 12.031c0 1.77.462 3.498 1.341 5.022L2 22l5.093-1.336A10.007 10.007 0 0 0 12.031 22C17.567 22 22 17.505 22 12.031 22 6.495 17.567 2 12.031 2zm5.879 14.195c-.244.686-1.42 1.314-1.956 1.385-.514.068-1.163.097-3.708-.958-3.04-1.258-4.996-4.34-5.148-4.542-.152-.202-1.233-1.64-1.233-3.128 0-1.488.777-2.22 1.052-2.525.275-.305.6-.381.8-.381.2 0 .4 0 .576.01.187.01.438-.071.686.525.257.619.876 2.143.952 2.296.076.153.127.33.025.534-.102.204-.153.33-.305.508-.152.178-.32.396-.457.533-.153.153-.312.32-.134.626.178.305.792 1.306 1.698 2.112 1.166 1.037 2.148 1.358 2.453 1.51.305.153.483.128.66-.076.178-.204.762-.89 965-1.195.204-.305.407-.254.686-.153.28.102 1.777.838 2.082.99.305.153.508.229.584.356.076.127.076.737-.168 1.423z"/>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
               </svg>
-              <span>BUY NOW VIA WHATSAPP — <span id="pdp-btn-amount">{product.priceDisplay}</span></span>
-            </button>
-          </form>
-
-          <div class="or-divider">
-            <span class="or-text">OR SHOP MULTIPLE ITEMS</span>
+              <span>BUY NOW — <span id="pdp-btn-amount">{product.priceDisplay}</span></span>
+            </a>
           </div>
 
+          <!-- ADD TO BAG (Secondary CTA) -->
           <button
             type="button"
-            class="btn-add-to-bag-alt"
+            class="btn-add-bag-secondary"
             id="pdp-main-add-btn"
             data-action="add-to-bag"
             data-id={product.id}
@@ -299,8 +172,44 @@ const productSchema = {
               <line x1="3" y1="6" x2="21" y2="6"></line>
               <path d="M16 10a4 4 0 0 1-8 0"></path>
             </svg>
-            <span>Add to Bag (Combine Fragrances)</span>
+            <span>Add to Bag</span>
           </button>
+
+          <!-- Delivery Badge Note -->
+          <div class="pdp-delivery-badge-note">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+              <rect x="1" y="3" width="15" height="13"></rect>
+              <polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon>
+              <circle cx="5.5" cy="18.5" r="2.5"></circle>
+              <circle cx="18.5" cy="18.5" r="2.5"></circle>
+            </svg>
+            <span>Complimentary Qatar Delivery · Pay via Cash or Card on Arrival</span>
+          </div>
+
+          <div class="pdp-secondary-actions">
+            <a
+              href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(`Hello LUMÈRA LUXE, I am interested in inquiring about ${product.fullName} (${product.sizeDisplay}, ${product.concentration}).`)}`}
+              class="btn-inquire-link"
+              target="_blank"
+              rel="noopener"
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.031 2C6.495 2 2 6.495 2 12.031c0 1.77.462 3.498 1.341 5.022L2 22l5.093-1.336A10.007 10.007 0 0 0 12.031 22C17.567 22 22 17.505 22 12.031 22 6.495 17.567 2 12.031 2zm5.879 14.195c-.244.686-1.42 1.314-1.956 1.385-.514.068-1.163.097-3.708-.958-3.04-1.258-4.996-4.34-5.148-4.542-.152-.202-1.233-1.64-1.233-3.128 0-1.488.777-2.22 1.052-2.525.275-.305.6-.381.8-.381.2 0 .4 0 .576.01.187.01.438-.071.686.525.257.619.876 2.143.952 2.296.076.153.127.33.025.534-.102.204-.153.33-.305.508-.152.178-.32.396-.457.533-.153.153-.312.32-.134.626.178.305.792 1.306 1.698 2.112 1.166 1.037 2.148 1.358 2.453 1.51.305.153.483.128.66-.076.178-.204.762-.89 965-1.195.204-.305.407-.254.686-.153.28.102 1.777.838 2.082.99.305.153.508.229.584.356.076.127.076.737-.168 1.423z"/>
+              </svg>
+              <span>Inquire with Boutique Concierge</span>
+            </a>
+
+            <button type="button" class="btn-share-wa" id="btn-share-fragrance" title="Share with friends">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+              </svg>
+              <span>Share</span>
+            </button>
+          </div>
         </div>
 
         <!-- Client Guarantees -->
@@ -355,16 +264,16 @@ const productSchema = {
         <span class="mobile-sticky-name">{product.name}</span>
         <span class="mobile-sticky-price">{product.priceDisplay}</span>
       </div>
-      <button
+      <a
+        href={`/checkout/?product=${product.slug}&qty=1`}
         class="btn-sticky-buy-now"
         id="btn-sticky-buy-now"
-        type="button"
       >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
           <path d="M12.031 2C6.495 2 2 6.495 2 12.031c0 1.77.462 3.498 1.341 5.022L2 22l5.093-1.336A10.007 10.007 0 0 0 12.031 22C17.567 22 22 17.505 22 12.031 22 6.495 17.567 2 12.031 2zm5.879 14.195c-.244.686-1.42 1.314-1.956 1.385-.514.068-1.163.097-3.708-.958-3.04-1.258-4.996-4.34-5.148-4.542-.152-.202-1.233-1.64-1.233-3.128 0-1.488.777-2.22 1.052-2.525.275-.305.6-.381.8-.381.2 0 .4 0 .576.01.187.01.438-.071.686.525.257.619.876 2.143.952 2.296.076.153.127.33.025.534-.102.204-.153.33-.305.508-.152.178-.32.396-.457.533-.153.153-.312.32-.134.626.178.305.792 1.306 1.698 2.112 1.166 1.037 2.148 1.358 2.453 1.51.305.153.483.128.66-.076.178-.204.762-.89 965-1.195.204-.305.407-.254.686-.153.28.102 1.777.838 2.082.99.305.153.508.229.584.356.076.127.076.737-.168 1.423z"/>
         </svg>
         <span>BUY NOW</span>
-      </button>
+      </a>
     </div>
   </div>
   <!-- Image Lightbox Modal -->
@@ -600,259 +509,18 @@ const productSchema = {
     color: var(--color-text-main);
   }
 
-  /* Buy Now Direct Checkout Card */
-  .pdp-buy-now-card {
-    background-color: #FFFFFF;
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius-md);
-    padding: clamp(1.25rem, 2.5vw, 1.75rem);
+  /* Luxury Action Block */
+  .pdp-action-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
     margin-bottom: 2.25rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
   }
 
-  .buy-now-card-header {
+  .pdp-action-primary-row {
     display: flex;
-    gap: 0.875rem;
-    align-items: flex-start;
-    padding-bottom: 1rem;
-    margin-bottom: 1.25rem;
-    border-bottom: 1px solid var(--color-border-subtle);
-  }
-
-  .header-icon-wrap {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background-color: var(--color-surface);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-text-main);
-    flex-shrink: 0;
-  }
-
-  .delivery-badge {
-    display: inline-block;
-    font-size: 0.625rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    color: var(--color-accent);
-    text-transform: uppercase;
-    margin-bottom: 0.2rem;
-  }
-
-  .buy-now-card-title {
-    font-family: var(--font-body);
-    font-size: 1.05rem;
-    font-weight: 600;
-    color: var(--color-text-main);
-    margin-bottom: 0.2rem;
-    line-height: 1.3;
-  }
-
-  .buy-now-card-sub {
-    font-size: 0.78125rem;
-    color: var(--color-text-muted);
-    line-height: 1.4;
-  }
-
-  .buy-now-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .form-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 0.875rem;
-  }
-
-  @media (min-width: 640px) {
-    .form-grid {
-      grid-template-columns: 1fr 1fr;
-    }
-    .form-grid .full-width {
-      grid-column: span 2;
-    }
-  }
-
-  .form-field {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-  }
-
-  .field-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--color-text-main);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-
-  .required-star {
-    color: #DC2626;
-  }
-
-  .form-input {
-    width: 100%;
-    padding: 0.65rem 0.85rem;
-    font-family: var(--font-body);
-    font-size: 0.875rem;
-    background-color: #FFFFFF;
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius-sm);
-    color: var(--color-text-main);
-    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
-  }
-
-  .form-input:focus {
-    outline: none;
-    border-color: var(--color-text-main);
-    box-shadow: 0 0 0 1px var(--color-text-main);
-  }
-
-  .form-input.input-error {
-    border-color: #DC2626;
-    background-color: #FEF2F2;
-  }
-
-  .field-error-msg {
-    display: none;
-    font-size: 0.71875rem;
-    color: #DC2626;
-    font-weight: 500;
-  }
-
-  .field-error-msg.visible {
-    display: block;
-  }
-
-  .phone-input-wrap {
-    display: flex;
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius-sm);
-    background-color: #FFFFFF;
-    overflow: hidden;
-    transition: border-color var(--transition-fast);
-  }
-
-  .phone-input-wrap:focus-within {
-    border-color: var(--color-text-main);
-    box-shadow: 0 0 0 1px var(--color-text-main);
-  }
-
-  .phone-prefix {
-    background-color: var(--color-surface);
-    color: var(--color-text-main);
-    padding: 0 0.75rem;
-    display: flex;
-    align-items: center;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    border-right: 1px solid var(--color-border);
-    user-select: none;
-    white-space: nowrap;
-  }
-
-  .phone-input {
-    border: none;
-    border-radius: 0;
-  }
-
-  .phone-input:focus {
-    box-shadow: none;
-  }
-
-  .select-wrap {
-    position: relative;
-  }
-
-  .form-select {
-    appearance: none;
-    cursor: pointer;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%231A1816' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 0.85rem center;
-    padding-right: 2.2rem;
-  }
-
-  /* Order Summary Box inside Form */
-  .order-summary-box {
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border-subtle);
-    border-radius: var(--border-radius-sm);
-    padding: 0.875rem 1rem;
-    display: flex;
-    flex-direction: column;
     gap: 0.75rem;
-  }
-
-  .summary-product-row {
-    display: flex;
-    align-items: center;
-    gap: 0.875rem;
-  }
-
-  .summary-thumb-wrap {
-    width: 44px;
-    height: 44px;
-    background-color: #FFFFFF;
-    border: 1px solid var(--color-border);
-    border-radius: 2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    padding: 3px;
-  }
-
-  .summary-thumb {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-
-  .summary-details {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-  }
-
-  .summary-brand {
-    font-size: 0.625rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-text-light);
-  }
-
-  .summary-name {
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: var(--color-text-main);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .summary-specs {
-    font-size: 0.6875rem;
-    color: var(--color-text-muted);
-  }
-
-  .summary-qty-selector {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-  }
-
-  .qty-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--color-text-muted);
+    align-items: stretch;
   }
 
   .pdp-qty-wrapper {
@@ -861,16 +529,16 @@ const productSchema = {
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius-sm);
     background-color: #FFFFFF;
-    padding: 0 0.15rem;
+    padding: 0 0.25rem;
   }
 
   .pdp-qty-btn {
-    width: 32px;
-    height: 32px;
+    width: 38px;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.15rem;
+    font-size: 1.25rem;
     color: var(--color-text-main);
     cursor: pointer;
   }
@@ -880,57 +548,21 @@ const productSchema = {
   }
 
   .pdp-qty-display {
-    min-width: 26px;
+    min-width: 34px;
     text-align: center;
-    font-size: 0.875rem;
+    font-size: 1rem;
     font-weight: 600;
   }
 
-  .summary-pricing-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 0.6rem;
-    border-top: 1px solid var(--color-border);
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-
-  .payment-method-pill {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.71875rem;
-    color: var(--color-text-muted);
-    font-weight: 500;
-  }
-
-  .summary-total-group {
-    display: flex;
-    align-items: baseline;
-    gap: 0.5rem;
-  }
-
-  .total-caption {
-    font-size: 0.75rem;
-    color: var(--color-text-muted);
-  }
-
-  .total-amount {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: var(--color-text-main);
-    letter-spacing: -0.01em;
-  }
-
-  /* Big WhatsApp Buy Now CTA */
-  .btn-buy-now-whatsapp {
-    width: 100%;
+  /* Primary Buy Now Button */
+  .btn-buy-now-main {
+    flex: 1;
     min-height: 52px;
     padding: 0.875rem 1.5rem;
-    background-color: #25D366;
+    background-color: var(--color-text-main);
     color: #FFFFFF;
-    border: none;
+    text-decoration: none;
+    border: 1px solid var(--color-text-main);
     border-radius: var(--border-radius-sm);
     font-family: var(--font-body);
     font-size: 0.9375rem;
@@ -939,67 +571,109 @@ const productSchema = {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.75rem;
+    gap: 0.65rem;
     cursor: pointer;
-    box-shadow: 0 4px 14px rgba(37, 211, 102, 0.28);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
     transition: all var(--transition-fast);
   }
 
-  .btn-buy-now-whatsapp:hover {
-    background-color: #1EBE5D;
+  .btn-buy-now-main:hover {
+    background-color: #000000;
     transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
   }
 
-  .btn-buy-now-whatsapp:active {
-    transform: translateY(0);
-  }
-
-  .or-divider {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    margin: 0.875rem 0;
-  }
-
-  .or-divider::before,
-  .or-divider::after {
-    content: '';
-    flex: 1;
-    border-bottom: 1px solid var(--color-border);
-  }
-
-  .or-text {
-    padding: 0 0.85rem;
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    color: var(--color-text-light);
-  }
-
-  .btn-add-to-bag-alt {
+  /* Secondary Add to Bag Button */
+  .btn-add-bag-secondary {
     width: 100%;
-    min-height: 44px;
-    padding: 0.75rem 1.25rem;
-    background-color: transparent;
+    min-height: 48px;
+    padding: 0.75rem 1.5rem;
+    background-color: #FFFFFF;
+    color: var(--color-text-main);
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius-sm);
-    color: var(--color-text-main);
     font-family: var(--font-body);
-    font-size: 0.8125rem;
+    font-size: 0.875rem;
     font-weight: 600;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 0.65rem;
     cursor: pointer;
     transition: all var(--transition-fast);
   }
 
-  .btn-add-to-bag-alt:hover {
-    background-color: var(--color-surface);
+  .btn-add-bag-secondary:hover {
     border-color: var(--color-text-main);
+    background-color: var(--color-surface);
+  }
+
+  .pdp-delivery-badge-note {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    padding: 0.5rem 0.25rem 0;
+  }
+
+  .pdp-delivery-badge-note svg {
+    color: var(--color-accent);
+    flex-shrink: 0;
+  }
+
+  .pdp-secondary-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .btn-inquire-link {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    font-size: 0.78125rem;
+    font-weight: 500;
+    color: var(--color-text-main);
+    background-color: #FFFFFF;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-inquire-link svg {
+    color: #25D366;
+  }
+
+  .btn-inquire-link:hover {
+    border-color: #25D366;
+    color: #25D366;
+  }
+
+  .btn-share-wa {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.75rem 1.15rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    font-size: 0.78125rem;
+    font-weight: 500;
+    background-color: #FFFFFF;
+    color: var(--color-text-main);
+    transition: all var(--transition-fast);
+    cursor: pointer;
+  }
+
+  .btn-share-wa:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
   }
 
   /* Assurances */
@@ -1082,6 +756,7 @@ const productSchema = {
     padding: 0.5rem 1.25rem;
     background-color: #25D366;
     color: #FFFFFF;
+    text-decoration: none;
     border: none;
     border-radius: var(--border-radius-sm);
     font-size: 0.8125rem;
@@ -1152,13 +827,8 @@ const productSchema = {
 </style>
 
 <script>
-  import { siteConfig } from '../../data/site';
-  import { formatWhatsAppOrderMessage } from '../../lib/whatsapp';
-
-  const STORAGE_CUSTOMER_KEY = 'lumera_customer_v1';
-
   // Mobile sticky bar observer
-  const trigger = document.getElementById('pdp-buy-now-card');
+  const trigger = document.getElementById('pdp-cta-trigger');
   const stickyBar = document.getElementById('mobile-sticky-bar');
 
   if (trigger && stickyBar) {
@@ -1173,45 +843,27 @@ const productSchema = {
     observer.observe(trigger);
   }
 
-  // Load saved customer details from localStorage
-  const nameInput = document.getElementById('pdp-order-name') as HTMLInputElement;
-  const phoneInput = document.getElementById('pdp-order-phone') as HTMLInputElement;
-  const addressInput = document.getElementById('pdp-order-address') as HTMLInputElement;
-  const citySelect = document.getElementById('pdp-order-city') as HTMLSelectElement;
-  const notesInput = document.getElementById('pdp-order-notes') as HTMLInputElement;
-
-  try {
-    const savedCustomer = localStorage.getItem(STORAGE_CUSTOMER_KEY);
-    if (savedCustomer) {
-      const data = JSON.parse(savedCustomer);
-      if (nameInput && data.fullName) nameInput.value = data.fullName;
-      if (phoneInput && data.phone) phoneInput.value = data.phone;
-      if (addressInput && data.address) addressInput.value = data.address;
-      if (citySelect && data.city) citySelect.value = data.city;
-      if (notesInput && data.notes) notesInput.value = data.notes;
-    }
-  } catch (e) {
-    console.error('Failed to load saved customer details', e);
-  }
-
   // Quantity handling
   let currentQty = 1;
   const qtyValEl = document.getElementById('pdp-qty-val');
   const qtyDecBtn = document.getElementById('pdp-qty-dec');
   const qtyIncBtn = document.getElementById('pdp-qty-inc');
-  const totalPriceEl = document.getElementById('pdp-total-price');
   const btnAmountEl = document.getElementById('pdp-btn-amount');
   const buyNowBtn = document.getElementById('btn-pdp-buy-now');
+  const stickyBuyBtn = document.getElementById('btn-sticky-buy-now');
   const pdpAddBtn = document.getElementById('pdp-main-add-btn');
 
-  const unitPriceMinor = buyNowBtn ? Number(buyNowBtn.getAttribute('data-price') || 0) : 0;
+  const productSlug = buyNowBtn?.getAttribute('data-slug') || '';
+  const unitPriceMinor = pdpAddBtn ? Number(pdpAddBtn.getAttribute('data-price') || 0) : 0;
 
   function updatePrices() {
     if (qtyValEl) qtyValEl.textContent = String(currentQty);
     const totalMinor = unitPriceMinor * currentQty;
     const formatted = `${(totalMinor / 100).toFixed(0)} QAR`;
-    if (totalPriceEl) totalPriceEl.textContent = formatted;
     if (btnAmountEl) btnAmountEl.textContent = formatted;
+    const checkoutUrl = `/checkout/?product=${encodeURIComponent(productSlug)}&qty=${currentQty}`;
+    if (buyNowBtn) buyNowBtn.setAttribute('href', checkoutUrl);
+    if (stickyBuyBtn) stickyBuyBtn.setAttribute('href', checkoutUrl);
   }
 
   qtyDecBtn?.addEventListener('click', () => {
@@ -1228,114 +880,16 @@ const productSchema = {
     }
   });
 
-  // Sticky Buy Now smooth scroll
-  const stickyBuyBtn = document.getElementById('btn-sticky-buy-now');
-  stickyBuyBtn?.addEventListener('click', () => {
-    const card = document.getElementById('pdp-buy-now-card');
-    if (card) {
-      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      setTimeout(() => {
-        nameInput?.focus();
-      }, 500);
-    }
-  });
+  // Direct Buy Now -> Navigate straight to /checkout/
+  function goToCheckout() {
+    if (!productSlug) return;
+    window.location.href = `/checkout/?product=${encodeURIComponent(productSlug)}&qty=${currentQty}`;
+  }
 
-  // Buy Now via WhatsApp action
-  buyNowBtn?.addEventListener('click', () => {
-    const nameVal = nameInput ? nameInput.value.trim() : '';
-    const phoneVal = phoneInput ? phoneInput.value.trim() : '';
-    const addressVal = addressInput ? addressInput.value.trim() : '';
-    const cityVal = citySelect ? citySelect.value : 'Doha';
-    const notesVal = notesInput ? notesInput.value.trim() : '';
+  buyNowBtn?.addEventListener('click', goToCheckout);
+  stickyBuyBtn?.addEventListener('click', goToCheckout);
 
-    let hasError = false;
-
-    // Reset error states
-    const nameErr = document.getElementById('pdp-name-error');
-    const phoneErr = document.getElementById('pdp-phone-error');
-    const addrErr = document.getElementById('pdp-address-error');
-
-    nameInput?.classList.remove('input-error');
-    phoneInput?.classList.remove('input-error');
-    addressInput?.classList.remove('input-error');
-    nameErr?.classList.remove('visible');
-    phoneErr?.classList.remove('visible');
-    addrErr?.classList.remove('visible');
-
-    if (!nameVal) {
-      nameInput?.classList.add('input-error');
-      nameErr?.classList.add('visible');
-      if (!hasError) nameInput?.focus();
-      hasError = true;
-    }
-
-    if (!phoneVal || phoneVal.replace(/[^0-9]/g, '').length < 7) {
-      phoneInput?.classList.add('input-error');
-      phoneErr?.classList.add('visible');
-      if (!hasError) phoneInput?.focus();
-      hasError = true;
-    }
-
-    if (!addressVal) {
-      addressInput?.classList.add('input-error');
-      addrErr?.classList.add('visible');
-      if (!hasError) addressInput?.focus();
-      hasError = true;
-    }
-
-    if (hasError) return;
-
-    // Save to localStorage for convenience
-    try {
-      localStorage.setItem(
-        STORAGE_CUSTOMER_KEY,
-        JSON.stringify({
-          fullName: nameVal,
-          phone: phoneVal,
-          address: addressVal,
-          city: cityVal,
-          notes: notesVal
-        })
-      );
-    } catch {}
-
-    const id = buyNowBtn.getAttribute('data-id') || '';
-    const name = buyNowBtn.getAttribute('data-name') || '';
-    const brand = buyNowBtn.getAttribute('data-brand') || '';
-    const sizeDisplay = buyNowBtn.getAttribute('data-size') || '';
-    const concentration = buyNowBtn.getAttribute('data-concentration') || '';
-
-    const items = [
-      {
-        id,
-        name,
-        brand,
-        sizeDisplay,
-        concentration,
-        priceMinor: unitPriceMinor,
-        quantity: currentQty
-      }
-    ];
-
-    const customer = {
-      fullName: nameVal,
-      phone: phoneVal.startsWith('+') ? phoneVal : `+974 ${phoneVal}`,
-      address: addressVal,
-      city: cityVal,
-      notes: notesVal
-    };
-
-    const msg = formatWhatsAppOrderMessage(items, customer);
-    const phone = siteConfig.whatsappNumber.replace(/[^0-9]/g, '');
-    const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
-
-    const win = window.open(waUrl, '_blank');
-    if (!win || win.closed || typeof win.closed === 'undefined') {
-      window.location.href = waUrl;
-    }
-  });
-
-  // Modify Add to Bag from PDP to honor quantity
+  // Add to Bag from PDP
   pdpAddBtn?.addEventListener('click', () => {
     const id = pdpAddBtn.getAttribute('data-id');
     if (!id) return;
@@ -1344,7 +898,7 @@ const productSchema = {
       const items: { id: string; quantity: number }[] = data ? JSON.parse(data) : [];
       const existing = items.find((it) => it.id === id);
       if (existing) {
-        existing.quantity += (currentQty - 1); // since global listener adds 1
+        existing.quantity += (currentQty - 1);
       } else {
         setTimeout(() => {
           const updated = JSON.parse(localStorage.getItem('lumera_bag_v1') || '[]');
@@ -1399,3 +953,4 @@ const productSchema = {
     }
   });
 </script>
+

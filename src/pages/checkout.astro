@@ -1,0 +1,985 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import productsData from '../data/products.json';
+import { siteConfig } from '../data/site';
+
+const title = `Checkout — ${siteConfig.brandName}`;
+const description = `Complete your luxury fragrance order with doorstep delivery across Qatar.`;
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="checkout-page">
+    <div class="container checkout-container">
+      <!-- Breadcrumb / Header -->
+      <nav class="checkout-nav" aria-label="Breadcrumb">
+        <a href="/shop/" class="checkout-back-link">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+          <span>Continue Shopping</span>
+        </a>
+        <span class="checkout-step-badge">DIRECT WHATSAPP CHECKOUT</span>
+      </nav>
+
+      <div class="checkout-heading-wrap">
+        <h1 class="checkout-heading">Delivery & Order Confirmation</h1>
+        <p class="checkout-subheading">Enter your delivery address in Qatar. Your order is confirmed directly with our boutique on WhatsApp.</p>
+      </div>
+
+      <!-- Checkout Content Split Grid -->
+      <div class="checkout-grid" id="checkout-main-grid">
+        <!-- Left Column: Delivery Address Form -->
+        <div class="checkout-form-column">
+          <div class="checkout-card">
+            <div class="card-header-row">
+              <div class="step-num-badge">1</div>
+              <div>
+                <h2 class="card-title">Delivery Details</h2>
+                <p class="card-subtitle">Doorstep courier delivery across Doha and all Qatar municipalities.</p>
+              </div>
+            </div>
+
+            <form id="checkout-order-form" class="checkout-form" onsubmit="return false;" novalidate>
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="checkout-name" class="field-label">Full Name <span class="req">*</span></label>
+                  <input
+                    type="text"
+                    id="checkout-name"
+                    class="form-input"
+                    placeholder="e.g. Fatima Al-Kuwari"
+                    autocomplete="name"
+                    required
+                  />
+                  <span class="field-err-msg" id="name-err">Please enter your full name</span>
+                </div>
+
+                <div class="form-field">
+                  <label for="checkout-phone" class="field-label">WhatsApp Mobile <span class="req">*</span></label>
+                  <div class="phone-input-group">
+                    <span class="phone-country-code">🇶🇦 +974</span>
+                    <input
+                      type="tel"
+                      id="checkout-phone"
+                      class="form-input phone-input"
+                      placeholder="e.g. 5512 3456"
+                      autocomplete="tel"
+                      required
+                    />
+                  </div>
+                  <span class="field-err-msg" id="phone-err">Please enter your 8-digit mobile number</span>
+                </div>
+              </div>
+
+              <div class="form-field full-width">
+                <label for="checkout-address" class="field-label">Delivery Address in Qatar <span class="req">*</span></label>
+                <input
+                  type="text"
+                  id="checkout-address"
+                  class="form-input"
+                  placeholder="Street name, Villa/Building number, Zone"
+                  autocomplete="street-address"
+                  required
+                />
+                <span class="field-err-msg" id="address-err">Please enter your delivery street or villa</span>
+              </div>
+
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="checkout-city" class="field-label">Municipality / Area</label>
+                  <div class="select-container">
+                    <select id="checkout-city" class="form-input form-select">
+                      <option value="Doha" selected>Doha (الدوحة)</option>
+                      <option value="Lusail">Lusail (لوسيل)</option>
+                      <option value="The Pearl">The Pearl (اللؤلؤة)</option>
+                      <option value="West Bay">West Bay (الخليج الغربي)</option>
+                      <option value="Al Rayyan">Al Rayyan (الريان)</option>
+                      <option value="Al Wakrah">Al Wakrah (الوكرة)</option>
+                      <option value="Al Daayen">Al Daayen (الظعاين)</option>
+                      <option value="Umm Salal">Umm Salal (أم صلال)</option>
+                      <option value="Al Khor">Al Khor (الخور)</option>
+                      <option value="Al Shahaniya">Al Shahaniya (الشحانية)</option>
+                      <option value="Other Area in Qatar">Other Area in Qatar</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-field">
+                  <label for="checkout-notes" class="field-label">Delivery Notes (Optional)</label>
+                  <input
+                    type="text"
+                    id="checkout-notes"
+                    class="form-input"
+                    placeholder="e.g. Call before arrival, gate code"
+                  />
+                </div>
+              </div>
+
+              <!-- Payment Method Notice -->
+              <div class="payment-method-box">
+                <div class="payment-icon-wrap">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                    <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                    <line x1="2" y1="10" x2="22" y2="10"></line>
+                  </svg>
+                </div>
+                <div class="payment-text-wrap">
+                  <strong class="payment-title">Payment upon Doorstep Delivery</strong>
+                  <p class="payment-desc">Pay safely with Cash or Credit/Debit Card when your parcel arrives. Zero advance payment required.</p>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Right Column: Order Summary & WhatsApp CTA -->
+        <div class="checkout-summary-column">
+          <div class="checkout-card summary-card">
+            <div class="card-header-row">
+              <div class="step-num-badge">2</div>
+              <div>
+                <h2 class="card-title">Order Summary</h2>
+                <p class="card-subtitle"><span id="summary-items-count">1</span> fragrance(s) selected</p>
+              </div>
+            </div>
+
+            <!-- Items List -->
+            <ul class="checkout-items-list" id="checkout-items-list">
+              <!-- Rendered via JS -->
+            </ul>
+
+            <!-- Calculation Lines -->
+            <div class="summary-breakdown">
+              <div class="breakdown-row">
+                <span>Subtotal</span>
+                <span class="breakdown-val" id="summary-subtotal">0 QAR</span>
+              </div>
+              <div class="breakdown-row">
+                <span>Qatar Doorstep Courier</span>
+                <span class="breakdown-val free-badge">Free / Included</span>
+              </div>
+              <div class="breakdown-row total-row">
+                <span>Total to Pay upon Delivery</span>
+                <span class="breakdown-val total-val" id="summary-total">0 QAR</span>
+              </div>
+            </div>
+
+            <!-- Big Green WhatsApp Button -->
+            <button type="button" class="btn-checkout-whatsapp" id="btn-submit-order">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.031 2C6.495 2 2 6.495 2 12.031c0 1.77.462 3.498 1.341 5.022L2 22l5.093-1.336A10.007 10.007 0 0 0 12.031 22C17.567 22 22 17.505 22 12.031 22 6.495 17.567 2 12.031 2zm5.879 14.195c-.244.686-1.42 1.314-1.956 1.385-.514.068-1.163.097-3.708-.958-3.04-1.258-4.996-4.34-5.148-4.542-.152-.202-1.233-1.64-1.233-3.128 0-1.488.777-2.22 1.052-2.525.275-.305.6-.381.8-.381.2 0 .4 0 .576.01.187.01.438-.071.686.525.257.619.876 2.143.952 2.296.076.153.127.33.025.534-.102.204-.153.33-.305.508-.152.178-.32.396-.457.533-.153.153-.312.32-.134.626.178.305.792 1.306 1.698 2.112 1.166 1.037 2.148 1.358 2.453 1.51.305.153.483.128.66-.076.178-.204.762-.89 965-1.195.204-.305.407-.254.686-.153.28.102 1.777.838 2.082.99.305.153.508.229.584.356.076.127.076.737-.168 1.423z"/>
+              </svg>
+              <span>BUY NOW VIA WHATSAPP</span>
+            </button>
+
+            <!-- Guarantees List -->
+            <div class="checkout-assurances">
+              <div class="assurance-point">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+                <span>100% Genuine & Authentic Fragrance Guarantee</span>
+              </div>
+              <div class="assurance-point">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="1" y="3" width="15" height="13"></rect>
+                  <polygon points="16 8 20 8 23 11 23 16 16 8"></polygon>
+                  <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                  <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                </svg>
+                <span>Fast Doorstep Delivery in Doha & Qatar</span>
+              </div>
+              <div class="assurance-point">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <span>Personal Confirmation & Tracking via WhatsApp</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty State (if no product chosen and cart is empty) -->
+      <div class="checkout-empty-state" id="checkout-empty" hidden>
+        <div class="empty-icon-wrap">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+        </div>
+        <h2 class="empty-title">Your Order is Empty</h2>
+        <p class="empty-desc">Please choose a fragrance from our boutique to proceed with checkout.</p>
+        <a href="/shop/" class="btn btn-primary">Discover All Fragrances</a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .checkout-page {
+    background-color: var(--color-surface);
+    min-height: 80vh;
+    padding-top: clamp(1.5rem, 3vw, 2.5rem);
+    padding-bottom: clamp(4rem, 6vw, 6rem);
+  }
+
+  .checkout-container {
+    max-width: 1100px;
+  }
+
+  .checkout-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .checkout-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    transition: color var(--transition-fast);
+  }
+
+  .checkout-back-link:hover {
+    color: var(--color-accent);
+  }
+
+  .checkout-step-badge {
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    background-color: var(--color-surface-subtle);
+    padding: 0.25rem 0.65rem;
+    border-radius: var(--border-radius-sm);
+  }
+
+  .checkout-heading-wrap {
+    margin-bottom: 2rem;
+  }
+
+  .checkout-heading {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3.5vw, 2.35rem);
+    font-weight: 600;
+    color: var(--color-text-main);
+    letter-spacing: -0.02em;
+    margin-bottom: 0.35rem;
+  }
+
+  .checkout-subheading {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    max-width: 600px;
+    line-height: 1.5;
+  }
+
+  .checkout-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+    align-items: start;
+  }
+
+  @media (min-width: 900px) {
+    .checkout-grid {
+      grid-template-columns: 1.35fr 1fr;
+      gap: 2.5rem;
+    }
+  }
+
+  .checkout-card {
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    padding: clamp(1.25rem, 2.5vw, 2rem);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  }
+
+  .card-header-row {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  .step-num-badge {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background-color: var(--color-text-main);
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .card-title {
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+    margin-bottom: 0.15rem;
+  }
+
+  .card-subtitle {
+    font-size: 0.78125rem;
+    color: var(--color-text-muted);
+  }
+
+  .checkout-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  @media (min-width: 600px) {
+    .form-row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .form-field.full-width {
+    width: 100%;
+  }
+
+  .field-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-main);
+  }
+
+  .field-label .req {
+    color: #DC2626;
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 0.75rem 0.95rem;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    color: var(--color-text-main);
+    transition: all var(--transition-fast);
+  }
+
+  .form-input:focus {
+    outline: none;
+    border-color: var(--color-text-main);
+    box-shadow: 0 0 0 1px var(--color-text-main);
+  }
+
+  .form-input.input-error {
+    border-color: #DC2626;
+    background-color: #FEF2F2;
+  }
+
+  .field-err-msg {
+    display: none;
+    font-size: 0.71875rem;
+    color: #DC2626;
+    font-weight: 500;
+  }
+
+  .field-err-msg.visible {
+    display: block;
+  }
+
+  .phone-input-group {
+    display: flex;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    background-color: #FFFFFF;
+    overflow: hidden;
+    transition: all var(--transition-fast);
+  }
+
+  .phone-input-group:focus-within {
+    border-color: var(--color-text-main);
+    box-shadow: 0 0 0 1px var(--color-text-main);
+  }
+
+  .phone-country-code {
+    background-color: var(--color-surface);
+    color: var(--color-text-main);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    padding: 0 0.85rem;
+    display: flex;
+    align-items: center;
+    border-right: 1px solid var(--color-border);
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  .phone-input {
+    border: none;
+    border-radius: 0;
+  }
+
+  .phone-input:focus {
+    box-shadow: none;
+  }
+
+  .select-container {
+    position: relative;
+  }
+
+  .form-select {
+    appearance: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%231A1816' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    padding-right: 2.5rem;
+  }
+
+  .payment-method-box {
+    display: flex;
+    gap: 0.875rem;
+    align-items: flex-start;
+    padding: 0.95rem 1.15rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--border-radius-sm);
+    margin-top: 0.5rem;
+  }
+
+  .payment-icon-wrap {
+    color: var(--color-accent);
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .payment-title {
+    font-size: 0.8125rem;
+    color: var(--color-text-main);
+    display: block;
+    margin-bottom: 0.15rem;
+  }
+
+  .payment-desc {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+
+  /* Summary Card */
+  .checkout-items-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid var(--color-border-subtle);
+    max-height: 380px;
+    overflow-y: auto;
+  }
+
+  :global(.checkout-item-row) {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    padding: 0.5rem 0;
+  }
+
+  :global(.checkout-item-thumb-box) {
+    width: 52px;
+    height: 52px;
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 4px;
+  }
+
+  :global(.checkout-item-thumb) {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  :global(.checkout-item-info) {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  :global(.checkout-item-brand) {
+    font-size: 0.625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-light);
+  }
+
+  :global(.checkout-item-title) {
+    font-size: 0.84375rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  :global(.checkout-item-specs) {
+    font-size: 0.6875rem;
+    color: var(--color-text-muted);
+  }
+
+  :global(.checkout-item-qty-control) {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    background-color: #FFFFFF;
+  }
+
+  :global(.checkout-qty-btn) {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    color: var(--color-text-main);
+    cursor: pointer;
+  }
+
+  :global(.checkout-qty-btn:hover) {
+    color: var(--color-accent);
+  }
+
+  :global(.checkout-qty-num) {
+    min-width: 22px;
+    text-align: center;
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+
+  :global(.checkout-item-price) {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+    min-width: 70px;
+    text-align: right;
+  }
+
+  .summary-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .breakdown-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+  }
+
+  .breakdown-val {
+    font-weight: 600;
+    color: var(--color-text-main);
+  }
+
+  .free-badge {
+    color: #10B981;
+  }
+
+  .breakdown-row.total-row {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .total-val {
+    color: var(--color-text-main);
+    font-size: 1.25rem;
+  }
+
+  /* Big WhatsApp Submit Button */
+  .btn-checkout-whatsapp {
+    width: 100%;
+    min-height: 54px;
+    padding: 0.95rem 1.5rem;
+    background-color: #25D366;
+    color: #FFFFFF;
+    border: none;
+    border-radius: var(--border-radius-sm);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(37, 211, 102, 0.28);
+    transition: all var(--transition-fast);
+    margin-bottom: 1.5rem;
+  }
+
+  .btn-checkout-whatsapp:hover {
+    background-color: #1EBE5D;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 22px rgba(37, 211, 102, 0.35);
+  }
+
+  .btn-checkout-whatsapp:active {
+    transform: translateY(0);
+  }
+
+  .checkout-assurances {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border-subtle);
+  }
+
+  .assurance-point {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
+  .assurance-point svg {
+    color: var(--color-accent);
+    flex-shrink: 0;
+  }
+
+  /* Empty State */
+  .checkout-empty-state {
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    padding: 4rem 2rem;
+    text-align: center;
+    max-width: 500px;
+    margin: 3rem auto;
+  }
+
+  .empty-icon-wrap {
+    color: var(--color-text-light);
+    margin-bottom: 1.25rem;
+  }
+
+  .empty-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+    margin-bottom: 0.5rem;
+  }
+
+  .empty-desc {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    margin-bottom: 1.75rem;
+  }
+</style>
+
+<script>
+  import productsData from '../data/products.json';
+  import { siteConfig } from '../data/site';
+  import { formatWhatsAppOrderMessage, type CartItem } from '../lib/whatsapp';
+
+  const STORAGE_CUSTOMER_KEY = 'lumera_customer_v1';
+  const STORAGE_BAG_KEY = 'lumera_bag_v1';
+
+  interface CheckoutLineItem {
+    id: string;
+    slug: string;
+    name: string;
+    brand: string;
+    sizeDisplay: string;
+    concentration: string;
+    priceMinor: number;
+    priceDisplay: string;
+    image: string;
+    quantity: number;
+  }
+
+  let checkoutItems: CheckoutLineItem[] = [];
+
+  // 1. Determine items to checkout
+  function loadCheckoutItems() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const productSlug = urlParams.get('product');
+    const qtyParam = parseInt(urlParams.get('qty') || '1', 10);
+
+    if (productSlug) {
+      // Direct Single Product Buy Now
+      const match = productsData.find((p) => p.slug === productSlug || p.id === productSlug);
+      if (match) {
+        checkoutItems = [
+          {
+            id: match.id,
+            slug: match.slug,
+            name: match.name,
+            brand: match.brand,
+            sizeDisplay: match.sizeDisplay,
+            concentration: match.concentration,
+            priceMinor: match.priceMinor,
+            priceDisplay: match.priceDisplay,
+            image: match.image,
+            quantity: Math.max(1, qtyParam)
+          }
+        ];
+        return;
+      }
+    }
+
+    // Otherwise, load from localStorage cart
+    try {
+      const bagData = localStorage.getItem(STORAGE_BAG_KEY);
+      const stored: { id: string; quantity: number }[] = bagData ? JSON.parse(bagData) : [];
+      checkoutItems = stored
+        .map((it) => {
+          const match = productsData.find((p) => p.id === it.id);
+          if (!match) return null;
+          return {
+            id: match.id,
+            slug: match.slug,
+            name: match.name,
+            brand: match.brand,
+            sizeDisplay: match.sizeDisplay,
+            concentration: match.concentration,
+            priceMinor: match.priceMinor,
+            priceDisplay: match.priceDisplay,
+            image: match.image,
+            quantity: it.quantity
+          };
+        })
+        .filter((it): it is CheckoutLineItem => it !== null);
+    } catch {
+      checkoutItems = [];
+    }
+  }
+
+  // 2. Render summary UI
+  function renderCheckoutSummary() {
+    const mainGrid = document.getElementById('checkout-main-grid');
+    const emptyState = document.getElementById('checkout-empty');
+    const listEl = document.getElementById('checkout-items-list');
+    const countEl = document.getElementById('summary-items-count');
+    const subtotalEl = document.getElementById('summary-subtotal');
+    const totalEl = document.getElementById('summary-total');
+
+    if (!checkoutItems.length) {
+      if (mainGrid) mainGrid.hidden = true;
+      if (emptyState) emptyState.hidden = false;
+      return;
+    }
+
+    if (mainGrid) mainGrid.hidden = false;
+    if (emptyState) emptyState.hidden = true;
+
+    if (countEl) countEl.textContent = String(checkoutItems.length);
+
+    const subtotalMinor = checkoutItems.reduce((sum, it) => sum + it.priceMinor * it.quantity, 0);
+    const formattedTotal = `${(subtotalMinor / 100).toFixed(0)} QAR`;
+
+    if (subtotalEl) subtotalEl.textContent = formattedTotal;
+    if (totalEl) totalEl.textContent = formattedTotal;
+
+    if (listEl) {
+      listEl.innerHTML = checkoutItems
+        .map(
+          (item) => `
+        <li class="checkout-item-row" data-id="${item.id}">
+          <div class="checkout-item-thumb-box">
+            <img src="${item.image}" alt="${item.brand} ${item.name}" class="checkout-item-thumb" />
+          </div>
+          <div class="checkout-item-info">
+            <span class="checkout-item-brand">${item.brand}</span>
+            <strong class="checkout-item-title">${item.name}</strong>
+            <span class="checkout-item-specs">${item.sizeDisplay} · ${item.concentration}</span>
+          </div>
+          <div class="checkout-item-qty-control">
+            <button type="button" class="checkout-qty-btn" data-action="dec" data-id="${item.id}">−</button>
+            <span class="checkout-qty-num">${item.quantity}</span>
+            <button type="button" class="checkout-qty-btn" data-action="inc" data-id="${item.id}">+</button>
+          </div>
+          <span class="checkout-item-price">${((item.priceMinor * item.quantity) / 100).toFixed(0)} QAR</span>
+        </li>
+      `
+        )
+        .join('');
+
+      // Add listeners to +/- buttons
+      listEl.querySelectorAll('.checkout-qty-btn').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          const target = e.currentTarget as HTMLElement;
+          const id = target.getAttribute('data-id');
+          const action = target.getAttribute('data-action');
+          const it = checkoutItems.find((x) => x.id === id);
+          if (!it) return;
+
+          if (action === 'inc' && it.quantity < 10) {
+            it.quantity++;
+          } else if (action === 'dec') {
+            if (it.quantity > 1) {
+              it.quantity--;
+            } else {
+              checkoutItems = checkoutItems.filter((x) => x.id !== id);
+            }
+          }
+          renderCheckoutSummary();
+        });
+      });
+    }
+  }
+
+  // 3. Hydrate customer inputs from localStorage
+  const nameInput = document.getElementById('checkout-name') as HTMLInputElement;
+  const phoneInput = document.getElementById('checkout-phone') as HTMLInputElement;
+  const addressInput = document.getElementById('checkout-address') as HTMLInputElement;
+  const citySelect = document.getElementById('checkout-city') as HTMLSelectElement;
+  const notesInput = document.getElementById('checkout-notes') as HTMLInputElement;
+
+  try {
+    const saved = localStorage.getItem(STORAGE_CUSTOMER_KEY);
+    if (saved) {
+      const data = JSON.parse(saved);
+      if (nameInput && data.fullName) nameInput.value = data.fullName;
+      if (phoneInput && data.phone) phoneInput.value = data.phone;
+      if (addressInput && data.address) addressInput.value = data.address;
+      if (citySelect && data.city) citySelect.value = data.city;
+      if (notesInput && data.notes) notesInput.value = data.notes;
+    }
+  } catch {}
+
+  // 4. Submit Order to WhatsApp
+  const submitBtn = document.getElementById('btn-submit-order');
+  submitBtn?.addEventListener('click', () => {
+    if (!checkoutItems.length) return;
+
+    const nameVal = nameInput ? nameInput.value.trim() : '';
+    const phoneVal = phoneInput ? phoneInput.value.trim() : '';
+    const addressVal = addressInput ? addressInput.value.trim() : '';
+    const cityVal = citySelect ? citySelect.value : 'Doha';
+    const notesVal = notesInput ? notesInput.value.trim() : '';
+
+    let hasError = false;
+
+    const nameErr = document.getElementById('name-err');
+    const phoneErr = document.getElementById('phone-err');
+    const addrErr = document.getElementById('address-err');
+
+    nameInput?.classList.remove('input-error');
+    phoneInput?.classList.remove('input-error');
+    addressInput?.classList.remove('input-error');
+    nameErr?.classList.remove('visible');
+    phoneErr?.classList.remove('visible');
+    addrErr?.classList.remove('visible');
+
+    if (!nameVal) {
+      nameInput?.classList.add('input-error');
+      nameErr?.classList.add('visible');
+      if (!hasError) nameInput?.focus();
+      hasError = true;
+    }
+
+    if (!phoneVal || phoneVal.replace(/[^0-9]/g, '').length < 7) {
+      phoneInput?.classList.add('input-error');
+      phoneErr?.classList.add('visible');
+      if (!hasError) phoneInput?.focus();
+      hasError = true;
+    }
+
+    if (!addressVal) {
+      addressInput?.classList.add('input-error');
+      addrErr?.classList.add('visible');
+      if (!hasError) addressInput?.focus();
+      hasError = true;
+    }
+
+    if (hasError) return;
+
+    // Save customer details
+    try {
+      localStorage.setItem(
+        STORAGE_CUSTOMER_KEY,
+        JSON.stringify({
+          fullName: nameVal,
+          phone: phoneVal,
+          address: addressVal,
+          city: cityVal,
+          notes: notesVal
+        })
+      );
+    } catch {}
+
+    const items: CartItem[] = checkoutItems.map((it) => ({
+      id: it.id,
+      name: it.name,
+      brand: it.brand,
+      sizeDisplay: it.sizeDisplay,
+      concentration: it.concentration,
+      priceMinor: it.priceMinor,
+      quantity: it.quantity
+    }));
+
+    const customer = {
+      fullName: nameVal,
+      phone: phoneVal.startsWith('+') ? phoneVal : `+974 ${phoneVal}`,
+      address: addressVal,
+      city: cityVal,
+      notes: notesVal
+    };
+
+    const msg = formatWhatsAppOrderMessage(items, customer);
+    const phone = siteConfig.whatsappNumber.replace(/[^0-9]/g, '');
+    const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+
+    const win = window.open(waUrl, '_blank');
+    if (!win || win.closed || typeof win.closed === 'undefined') {
+      window.location.href = waUrl;
+    }
+  });
+
+  // Initialize
+  loadCheckoutItems();
+  renderCheckoutSummary();
+</script>
