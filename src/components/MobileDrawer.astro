@@ -14,14 +14,14 @@ import productsData from '../data/products.json';
   aria-label="Navigation Menu"
   hidden
 >
-  <!-- Top Bar: Logo & Close Button -->
+  <!-- Top Bar: Brand & Minimal Close Button -->
   <div class="mobile-drawer-top">
     <a href="/" class="mobile-drawer-brand" aria-label="LUMÈRA LUXE Home">
       <img
         src="/assets/lumera-logo.svg"
         alt="LUMÈRA LUXE"
         class="mobile-drawer-logo"
-        width="135"
+        width="130"
         height="22"
       />
     </a>
@@ -46,201 +46,84 @@ import productsData from '../data/products.json';
     </button>
   </div>
 
-  <!-- Search Trigger Bar -->
-  <div class="mobile-drawer-search-row">
-    <button class="mobile-search-btn-trigger" id="mobile-drawer-search-trigger">
-      <svg
-        width="17"
-        height="17"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.6"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <circle cx="11" cy="11" r="7.5"></circle>
-        <line x1="21" y1="21" x2="16.5" y2="16.5"></line>
-      </svg>
-      <span>Search 25 luxury fragrances...</span>
-    </button>
-  </div>
-
-  <!-- Scrollable Navigation Content -->
-  <div class="mobile-drawer-scroll">
-    <!-- Section 1: Fragrance Collection -->
-    <div class="nav-section-block">
-      <span class="nav-section-eyebrow">Fragrance Collection</span>
-      <ul class="nav-link-list">
-        <li>
-          <a href="/shop/" class="nav-row-link">
-            <span class="row-icon">
-              <!-- Perfume Bottle Line Icon -->
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="5" y="8" width="14" height="13" rx="2"></rect>
-                <path d="M10 2h4v3h-4z"></path>
-                <line x1="12" y1="5" x2="12" y2="8"></line>
+  <!-- Scrollable Minimal Content -->
+  <div class="mobile-drawer-content">
+    <nav class="drawer-nav-menu" aria-label="Mobile Navigation">
+      <!-- Group 1: Fragrance Collection -->
+      <div class="nav-group">
+        <span class="nav-group-eyebrow">Collection</span>
+        <ul class="nav-items-list">
+          <li>
+            <a href="/shop/" class="drawer-primary-link">
+              <span>All Fragrances</span>
+              <span class="drawer-count">({productsData.length})</span>
+            </a>
+          </li>
+          <li>
+            <button type="button" class="drawer-primary-link drawer-action-trigger" id="drawer-families-btn">
+              <span>Scent Families</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                <polyline points="9 18 15 12 9 6"></polyline>
               </svg>
-            </span>
-            <span class="row-title">All Perfumes ({productsData.length})</span>
-            <span class="row-arrow">→</span>
-          </a>
-        </li>
-        <li>
-          <a href="/shop/?family=oriental" class="nav-row-link">
-            <span class="row-icon">
-              <!-- Warm Radiant Flame Line Icon -->
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 2c1 4 5 7 5 12a7 7 0 1 1-14 0c0-4 3-7 4-10 1 3 3 5 5 5-2-4 0-7 0-7z"></path>
-              </svg>
-            </span>
-            <span class="row-title">Amber & Oriental</span>
-          </a>
-        </li>
-        <li>
-          <a href="/shop/?family=floral" class="nav-row-link">
-            <span class="row-icon">
-              <!-- Flower Blossom Line Icon -->
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="3"></circle>
-                <path d="M12 2a4 4 0 0 1 4 4c0 3-4 6-4 6s-4-3-4-6a4 4 0 0 1 4-4z"></path>
-                <path d="M12 22a4 4 0 0 1-4-4c0-3 4-6 4-6s4 3 4 6a4 4 0 0 1-4 4z"></path>
-                <path d="M2 12a4 4 0 0 1 4-4c3 0 6 4 6 4s-3 4-6 4a4 4 0 0 1-4-4z"></path>
-                <path d="M22 12a4 4 0 0 1-4 4c-3 0-6-4-6-4s3-4 6-4a4 4 0 0 1 4 4z"></path>
-              </svg>
-            </span>
-            <span class="row-title">Floral & Rose</span>
-          </a>
-        </li>
-        <li>
-          <a href="/shop/?family=woody" class="nav-row-link">
-            <span class="row-icon">
-              <!-- Botanical Leaf Line Icon -->
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
-                <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
-              </svg>
-            </span>
-            <span class="row-title">Woody & Fresh</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-
-    <!-- Section 2: Maison & Client Service -->
-    <div class="nav-section-block">
-      <span class="nav-section-eyebrow">The Maison</span>
-      <ul class="nav-link-list">
-        <li>
-          <a href="/our-story/" class="nav-row-link">
-            <span class="row-icon">
-              <!-- Open Journal Line Icon -->
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-              </svg>
-            </span>
-            <span class="row-title">Our Story & Craft</span>
-          </a>
-        </li>
-        <li>
-          <a href="/delivery-returns/" class="nav-row-link">
-            <span class="row-icon">
-              <!-- Delivery Courier Van Line Icon -->
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="1" y="3" width="15" height="13"></rect>
-                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
-                <circle cx="5.5" cy="18.5" r="2.5"></circle>
-                <circle cx="18.5" cy="18.5" r="2.5"></circle>
-              </svg>
-            </span>
-            <span class="row-title">Qatar Priority Delivery</span>
-          </a>
-        </li>
-        <li>
-          <a href="/contact/" class="nav-row-link">
-            <span class="row-icon">
-              <!-- Compass Location Line Icon -->
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
-              </svg>
-            </span>
-            <span class="row-title">Contact & Concierge</span>
-          </a>
-        </li>
-      </ul>
-    </div>
-
-    <!-- Section 3: Official Social Channels (WhatsApp, TikTok, Instagram) -->
-    <div class="nav-section-block">
-      <span class="nav-section-eyebrow">Connect & Social</span>
-      <div class="social-channels-grid">
-        <!-- WhatsApp Concierge -->
-        <a
-          href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent("Hello LUMÈRA LUXE, I would like assistance with fragrance selection.")}`}
-          class="social-channel-card whatsapp-card"
-          target="_blank"
-          rel="noopener"
-        >
-          <div class="channel-icon-wrap whatsapp-color">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12.031 2C6.495 2 2 6.495 2 12.031c0 1.77.462 3.498 1.341 5.022L2 22l5.093-1.336A10.007 10.007 0 0 0 12.031 22C17.567 22 22 17.505 22 12.031 22 6.495 17.567 2 12.031 2zm5.879 14.195c-.244.686-1.42 1.314-1.956 1.385-.514.068-1.163.097-3.708-.958-3.04-1.258-4.996-4.34-5.148-4.542-.152-.202-1.233-1.64-1.233-3.128 0-1.488.777-2.22 1.052-2.525.275-.305.6-.381.8-.381.2 0 .4 0 .576.01.187.01.438-.071.686.525.257.619.876 2.143.952 2.296.076.153.127.33.025.534-.102.204-.153.33-.305.508-.152.178-.32.396-.457.533-.153.153-.312.32-.134.626.178.305.792 1.306 1.698 2.112 1.166 1.037 2.148 1.358 2.453 1.51.305.153.483.128.66-.076.178-.204.762-.89 965-1.195.204-.305.407-.254.686-.153.28.102 1.777.838 2.082.99.305.153.508.229.584.356.076.127.076.737-.168 1.423z"/>
-            </svg>
-          </div>
-          <div class="channel-info">
-            <span class="channel-name">WhatsApp Concierge</span>
-            <span class="channel-handle">+974 6667 5166</span>
-          </div>
-          <span class="channel-status-dot" title="Online in Qatar"></span>
-        </a>
-
-        <!-- Instagram -->
-        <a
-          href={siteConfig.instagramUrl || "https://instagram.com/lumeraluxe.qa"}
-          class="social-channel-card"
-          target="_blank"
-          rel="noopener"
-        >
-          <div class="channel-icon-wrap">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-            </svg>
-          </div>
-          <div class="channel-info">
-            <span class="channel-name">Instagram</span>
-            <span class="channel-handle">{siteConfig.instagramHandle || "@lumeraluxe.qa"}</span>
-          </div>
-          <span class="channel-arrow">↗</span>
-        </a>
-
-        <!-- TikTok -->
-        <a
-          href={siteConfig.tiktokUrl || "https://tiktok.com/@lumeraluxe.qa"}
-          class="social-channel-card"
-          target="_blank"
-          rel="noopener"
-        >
-          <div class="channel-icon-wrap">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
-            </svg>
-          </div>
-          <div class="channel-info">
-            <span class="channel-name">TikTok</span>
-            <span class="channel-handle">{siteConfig.tiktokHandle || "@lumeraluxe.qa"}</span>
-          </div>
-          <span class="channel-arrow">↗</span>
-        </a>
+            </button>
+          </li>
+          <li>
+            <button type="button" class="drawer-primary-link drawer-action-trigger" id="drawer-open-wishlist-btn">
+              <span style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+                <span>Wishlist</span>
+              </span>
+              <span class="drawer-count" id="drawer-wishlist-count">(0)</span>
+            </button>
+          </li>
+        </ul>
       </div>
+
+      <!-- Group 2: The Maison -->
+      <div class="nav-group">
+        <span class="nav-group-eyebrow">The Maison</span>
+        <ul class="nav-items-list">
+          <li>
+            <a href="/our-story/" class="drawer-sub-link">Our Story & Craft</a>
+          </li>
+          <li>
+            <a href="/delivery-returns/" class="drawer-sub-link">Qatar Priority Delivery</a>
+          </li>
+          <li>
+            <a href="/contact/" class="drawer-sub-link">Contact & Concierge</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Refined Concierge / Support Card -->
+    <div class="drawer-support-box">
+      <button type="button" class="drawer-support-btn" id="drawer-support-modal-btn">
+        <div class="drawer-support-icon">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"></path>
+            <path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"></path>
+          </svg>
+        </div>
+        <div class="drawer-support-text">
+          <span class="support-title">Personal Scent Support</span>
+          <span class="support-subtitle">Consultation & order assistance</span>
+        </div>
+        <span class="drawer-support-arrow">→</span>
+      </button>
     </div>
   </div>
 
-  <!-- Bottom Location Stamp -->
+  <!-- Minimalist Bottom Bar -->
   <div class="mobile-drawer-bottom">
-    <span class="bottom-stamp">Doha, Qatar · Genuine Luxury Guaranteed</span>
+    <div class="drawer-socials">
+      <a href={siteConfig.instagramUrl} target="_blank" rel="noopener">Instagram</a>
+      <span class="social-dot">·</span>
+      <a href={siteConfig.tiktokUrl} target="_blank" rel="noopener">TikTok</a>
+    </div>
+    <span class="drawer-guarantee-note">Doha, Qatar · 100% Genuine Guaranteed</span>
   </div>
 </aside>
 
@@ -259,25 +142,25 @@ import productsData from '../data/products.json';
     position: fixed;
     inset: 0;
     background-color: rgba(26, 24, 22, 0.45);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
     z-index: 998;
     animation: drawerFadeIn 220ms ease;
   }
 
-  /* Full Luxury Sliding Panel (Pure White, 100% Opaque) */
+  /* Sliding Panel (Pure White, Quiet Luxury) */
   .mobile-nav-drawer {
     position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
     width: 100%;
-    max-width: 380px;
+    max-width: 340px;
     background-color: #FFFFFF !important;
     z-index: 999;
     display: flex;
     flex-direction: column;
-    box-shadow: 10px 0 40px rgba(0, 0, 0, 0.15);
+    box-shadow: 10px 0 40px rgba(0, 0, 0, 0.12);
     animation: drawerSlideLeft 280ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
@@ -301,25 +184,25 @@ import productsData from '../data/products.json';
 
   /* Top Bar */
   .mobile-drawer-top {
-    height: 64px;
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 1.25rem;
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border-subtle);
     background-color: #FFFFFF;
     flex-shrink: 0;
   }
 
   .mobile-drawer-logo {
-    height: 22px;
+    height: 20px;
     width: auto;
     object-fit: contain;
   }
 
   .mobile-drawer-close {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -335,222 +218,228 @@ import productsData from '../data/products.json';
     background-color: var(--color-surface);
   }
 
-  /* Search Trigger Button Row */
-  .mobile-drawer-search-row {
-    padding: 0.85rem 1.25rem;
-    border-bottom: 1px solid var(--color-border-subtle);
-    background-color: #FFFFFF;
-    flex-shrink: 0;
-  }
-
-  .mobile-search-btn-trigger {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 0.65rem;
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius-sm);
-    padding: 0.65rem 0.85rem;
-    color: var(--color-text-muted);
-    font-size: 0.75rem;
-    font-family: var(--font-body);
-    cursor: pointer;
-    text-align: left;
-    transition: border-color var(--transition-fast);
-  }
-
-  .mobile-search-btn-trigger:hover {
-    border-color: var(--color-text-main);
-    color: var(--color-text-main);
-  }
-
   /* Scrollable Navigation Body */
-  .mobile-drawer-scroll {
+  .mobile-drawer-content {
     flex: 1;
     overflow-y: auto;
-    padding: 1.25rem;
-    background-color: #FFFFFF;
+    -webkit-overflow-scrolling: touch;
+    padding: 1.5rem 1.25rem 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
-  .nav-section-block {
-    margin-bottom: 1.75rem;
+  .drawer-nav-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
   }
 
-  .nav-section-eyebrow {
+  .nav-group-eyebrow {
     display: block;
     font-family: var(--font-body);
     font-size: 0.625rem;
-    font-weight: 600;
-    letter-spacing: 0.12em;
+    font-weight: 700;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--color-text-light);
-    margin-bottom: 0.5rem;
-    padding-left: 0.25rem;
+    color: var(--color-accent);
+    margin-bottom: 0.65rem;
+    padding-left: 0.2rem;
   }
 
-  .nav-link-list {
+  .nav-items-list {
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 0.25rem;
+    gap: 0.15rem;
   }
 
-  .nav-row-link {
+  /* Primary Editorial Links */
+  .drawer-primary-link {
+    width: 100%;
     display: flex;
     align-items: center;
-    gap: 0.85rem;
-    padding: 0.65rem 0.65rem;
-    border-radius: var(--border-radius-sm);
-    color: var(--color-text-main);
-    text-decoration: none;
-    transition: background-color var(--transition-fast);
-  }
-
-  .nav-row-link:hover {
-    background-color: var(--color-surface);
-  }
-
-  .row-icon {
-    width: 28px;
-    height: 28px;
-    border-radius: 4px;
-    background-color: var(--color-surface);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-text-main);
-    flex-shrink: 0;
-  }
-
-  .nav-row-link:hover .row-icon {
-    background-color: #FFFFFF;
-    color: var(--color-accent);
-  }
-
-  .row-title {
-    font-size: 0.8125rem;
+    justify-content: space-between;
+    padding: 0.75rem 0.5rem;
+    font-family: var(--font-display);
+    font-size: 1.35rem;
     font-weight: 500;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
     color: var(--color-text-main);
-    flex: 1;
+    text-decoration: none;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: left;
+    transition: color var(--transition-fast), background-color var(--transition-fast);
+    -webkit-tap-highlight-color: transparent;
   }
 
-  .row-arrow {
-    font-size: 0.875rem;
+  .drawer-primary-link:hover,
+  .drawer-primary-link:active {
+    color: var(--color-brand-cognac);
+    background-color: var(--color-surface);
+  }
+
+  .drawer-count {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 500;
     color: var(--color-text-light);
+    letter-spacing: 0.02em;
   }
 
-  /* Social Channels Grid */
-  .social-channels-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+  .drawer-action-trigger svg {
+    color: var(--color-text-light);
+    transition: transform var(--transition-fast), color var(--transition-fast);
   }
 
-  .social-channel-card {
+  .drawer-action-trigger:hover svg {
+    transform: translateX(2px);
+    color: var(--color-brand-cognac);
+  }
+
+  /* Secondary Sub-Links */
+  .drawer-sub-link {
+    display: block;
+    padding: 0.6rem 0.5rem;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    border-radius: 6px;
+    transition: color var(--transition-fast), background-color var(--transition-fast);
+  }
+
+  .drawer-sub-link:hover,
+  .drawer-sub-link:active {
+    color: var(--color-text-main);
+    background-color: var(--color-surface);
+  }
+
+  /* Refined Concierge / Support Card */
+  .drawer-support-box {
+    margin-top: 2rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--color-border-subtle);
+  }
+
+  .drawer-support-btn {
+    width: 100%;
     display: flex;
     align-items: center;
     gap: 0.85rem;
-    padding: 0.65rem 0.85rem;
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius-sm);
-    background-color: #FFFFFF;
-    text-decoration: none;
-    color: var(--color-text-main);
+    padding: 0.85rem 1rem;
+    background-color: #FAF9F6;
+    border: 1px solid #ECEAE5;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: left;
     transition: all var(--transition-fast);
+    -webkit-tap-highlight-color: transparent;
   }
 
-  .social-channel-card:hover {
-    border-color: var(--color-text-main);
-    background-color: var(--color-surface);
+  .drawer-support-btn:hover,
+  .drawer-support-btn:active {
+    background-color: #FFFFFF;
+    border-color: var(--color-brand-cognac);
+    box-shadow: 0 4px 14px rgba(138, 74, 40, 0.08);
   }
 
-  .whatsapp-card {
-    border-color: rgba(37, 211, 102, 0.3);
-    background-color: rgba(37, 211, 102, 0.04);
-  }
-
-  .whatsapp-card:hover {
-    border-color: #25D366;
-    background-color: rgba(37, 211, 102, 0.08);
-  }
-
-  .channel-icon-wrap {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background-color: var(--color-surface);
+  .drawer-support-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: #FFFFFF;
+    border: 1px solid var(--color-border);
+    color: var(--color-brand-cognac);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--color-text-main);
     flex-shrink: 0;
   }
 
-  .whatsapp-color {
-    background-color: #25D366;
-    color: #FFFFFF;
-  }
-
-  .channel-info {
+  .drawer-support-text {
     flex: 1;
     display: flex;
     flex-direction: column;
+    gap: 0.15rem;
   }
 
-  .channel-name {
-    font-size: 0.75rem;
+  .support-title {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
     color: var(--color-text-main);
   }
 
-  .channel-handle {
+  .support-subtitle {
     font-size: 0.6875rem;
     color: var(--color-text-muted);
   }
 
-  .channel-arrow {
-    font-size: 0.875rem;
+  .drawer-support-arrow {
     color: var(--color-text-light);
+    font-size: 0.95rem;
+    transition: transform var(--transition-fast);
   }
 
-  .channel-status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: #25D366;
-    box-shadow: 0 0 0 2px rgba(37, 211, 102, 0.25);
+  .drawer-support-btn:hover .drawer-support-arrow {
+    transform: translateX(2px);
+    color: var(--color-brand-cognac);
   }
 
-  /* Bottom Location Stamp */
+  /* Minimalist Bottom Bar */
   .mobile-drawer-bottom {
-    padding: 0.85rem 1.25rem;
-    border-top: 1px solid var(--color-border);
-    background-color: var(--color-surface);
-    text-align: center;
+    padding: 1rem 1.25rem max(env(safe-area-inset-bottom, 1rem), 1rem);
+    border-top: 1px solid var(--color-border-subtle);
+    background-color: #FAF9F6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
     flex-shrink: 0;
   }
 
-  .bottom-stamp {
-    font-size: 0.625rem;
+  .drawer-socials {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .drawer-socials a {
+    font-size: 0.75rem;
     font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .drawer-socials a:hover {
+    color: var(--color-brand-cognac);
+  }
+
+  .social-dot {
+    font-size: 0.75rem;
+    color: var(--color-border);
+  }
+
+  .drawer-guarantee-note {
+    font-size: 0.6875rem;
     color: var(--color-text-light);
+    letter-spacing: 0.03em;
   }
 </style>
 
-<script>
-  // Root-Level Mobile Drawer Controller
-  const backdrop = document.getElementById('mobile-nav-backdrop');
-  const drawer = document.getElementById('mobile-nav-drawer');
-  const openBtn = document.getElementById('menu-toggle-btn');
-  const closeBtn = document.getElementById('mobile-nav-close-btn');
-  const searchTrigger = document.getElementById('mobile-drawer-search-trigger');
+<script is:inline>
+  // DOM Elements
+  var backdrop = document.getElementById('mobile-nav-backdrop');
+  var drawer = document.getElementById('mobile-nav-drawer');
+  var openBtn = document.getElementById('menu-toggle-btn');
+  var closeBtn = document.getElementById('mobile-nav-close-btn');
+  var familiesBtn = document.getElementById('drawer-families-btn');
+  var supportBtn = document.getElementById('drawer-support-modal-btn');
 
   function openDrawer() {
     if (backdrop) backdrop.hidden = false;
@@ -570,26 +459,58 @@ import productsData from '../data/products.json';
   if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
   if (backdrop) backdrop.addEventListener('click', closeDrawer);
 
-  // Quick Search trigger from inside drawer
-  if (searchTrigger) {
-    searchTrigger.addEventListener('click', () => {
+  // Scent Families button opens the Scent Families modal
+  if (familiesBtn) {
+    familiesBtn.addEventListener('click', function () {
       closeDrawer();
-      const openSearchBtn = document.getElementById('open-search-modal-btn');
-      if (openSearchBtn) openSearchBtn.click();
+      if (typeof window.openFamiliesModal === 'function') {
+        window.openFamiliesModal();
+      }
     });
   }
 
+  // Personal Scent Support button opens the Support modal
+  if (supportBtn) {
+    supportBtn.addEventListener('click', function () {
+      closeDrawer();
+      if (typeof window.openSupportModal === 'function') {
+        window.openSupportModal();
+      }
+    });
+  }
+
+  // Wishlist button opens Wishlist drawer
+  var drawerWishlistBtn = document.getElementById('drawer-open-wishlist-btn');
+  if (drawerWishlistBtn) {
+    drawerWishlistBtn.addEventListener('click', function () {
+      closeDrawer();
+    });
+  }
+
+  function syncDrawerWishlist() {
+    var countEl = document.getElementById('drawer-wishlist-count');
+    try {
+      var favs = JSON.parse(localStorage.getItem('lumera_favorites_v1') || '[]');
+      if (countEl) countEl.textContent = '(' + favs.length + ')';
+    } catch (e) {}
+  }
+  window.addEventListener('favorites-updated', syncDrawerWishlist);
+  window.addEventListener('focus', syncDrawerWishlist);
+  syncDrawerWishlist();
+
   // Close on Escape
-  window.addEventListener('keydown', (e) => {
+  window.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && drawer && !drawer.hidden) {
       closeDrawer();
     }
   });
 
   // Close on internal link click
-  drawer?.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => {
-      closeDrawer();
+  if (drawer) {
+    drawer.querySelectorAll('a').forEach(function (link) {
+      link.addEventListener('click', function () {
+        closeDrawer();
+      });
     });
-  });
+  }
 </script>

@@ -21,7 +21,7 @@ export interface Props {
 const { product, priority = false, isLarge = false } = Astro.props;
 ---
 
-<article class:list={['minimal-product-card', { 'card-large': isLarge }]} data-product-id={product.id}>
+<article class:list={['minimal-product-card', 'product-card', { 'card-large': isLarge }]} data-product-id={product.id}>
   <div class="card-media-wrapper">
     <a
       href={`/perfumes/${product.slug}/`}
@@ -41,7 +41,32 @@ const { product, priority = false, isLarge = false } = Astro.props;
       </div>
     </a>
 
-    <!-- Minimalist '+' Quick Add Button -->
+    <!-- Wishlist Favorite Heart Button in Top Left -->
+    <button
+      type="button"
+      class="card-fav-btn"
+      data-action="toggle-fav"
+      data-id={product.id}
+      aria-label={`Save ${product.brand} ${product.name} to wishlist`}
+      title="Save to Wishlist"
+    >
+      <svg
+        class="card-heart-icon"
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+      </svg>
+      <span class="sr-only">Save to Wishlist</span>
+    </button>
+
+    <!-- Minimalist '+' Quick Add Button in Top Right -->
     <button
       type="button"
       class="quick-add-btn"
@@ -138,6 +163,46 @@ const { product, priority = false, isLarge = false } = Astro.props;
     .card-image-link:hover .bottle-img {
       transform: scale(1.04);
     }
+  }
+
+  /* Wishlist Favorite Heart Button in Top Left */
+  .card-fav-btn {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8C867F;
+    cursor: pointer;
+    border: 1px solid var(--color-gold-border);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    transition: all var(--transition-fast);
+    z-index: 2;
+  }
+
+  .card-fav-btn:hover {
+    color: var(--color-brand-cognac);
+    background-color: #FFFFFF;
+    border-color: var(--color-brand-cognac);
+    transform: scale(1.1);
+  }
+
+  .card-fav-btn.is-active {
+    color: var(--color-brand-cognac);
+    background-color: #FFFFFF;
+    border-color: rgba(200, 90, 36, 0.4);
+    box-shadow: 0 2px 8px rgba(200, 90, 36, 0.2);
+  }
+
+  .card-fav-btn.is-active .card-heart-icon {
+    fill: var(--color-brand-cognac);
+    stroke: var(--color-brand-cognac);
   }
 
   /* Minimalist '+' Quick Add Button in Top Right */
@@ -283,3 +348,47 @@ const { product, priority = false, isLarge = false } = Astro.props;
     border-width: 0;
   }
 </style>
+
+<script>
+  import { getFavorites, toggleFavorite } from '../lib/favorites';
+
+  function syncCardFavStates() {
+    const favs = new Set(getFavorites());
+    document.querySelectorAll<HTMLElement>('.card-fav-btn').forEach((btn) => {
+      const id = btn.getAttribute('data-id');
+      if (id && favs.has(id)) {
+        btn.classList.add('is-active');
+        btn.setAttribute('aria-pressed', 'true');
+      } else {
+        btn.classList.remove('is-active');
+        btn.setAttribute('aria-pressed', 'false');
+      }
+    });
+  }
+
+  // Initial sync
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', syncCardFavStates);
+  } else {
+    syncCardFavStates();
+  }
+
+  // React to changes
+  window.addEventListener('favorites-updated', syncCardFavStates);
+  window.addEventListener('storage', syncCardFavStates);
+
+  // Click delegation
+  document.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLElement>('.card-fav-btn');
+    if (!btn) return;
+    e.preventDefault();
+    e.stopPropagation();
+
+    const id = btn.getAttribute('data-id');
+    if (id) {
+      const isNowFav = toggleFavorite(id);
+      btn.classList.toggle('is-active', isNowFav);
+      btn.setAttribute('aria-pressed', isNowFav ? 'true' : 'false');
+    }
+  });
+</script>

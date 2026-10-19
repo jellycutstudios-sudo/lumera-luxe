@@ -4,16 +4,19 @@ import { siteConfig } from '../data/site';
 ---
 
 <BaseLayout
-  title={`Privacy Policy — ${siteConfig.brandName}`}
+  title={`Privacy Policy — ${siteConfig.brandName} Doha`}
   description="How LUMÈRA LUXE handles your data, respects your privacy, and safeguards your personal correspondence."
 >
   <div class="policy-page">
     <header class="policy-header">
-      <div class="container text-center">
-        <span class="eyebrow">Data & Trust</span>
-        <h1 class="policy-title">Privacy Policy</h1>
+      <div class="container-narrow text-center">
+        <span class="eyebrow">Data & Discretion · Doha, Qatar</span>
+        <h1 class="policy-title">
+          Privacy & Client Discretion,<br />
+          <span class="title-italic">Guaranteed.</span>
+        </h1>
         <p class="policy-lead">
-          We honor your privacy and believe in total transparency regarding your personal information.
+          We honor your privacy and adhere to total discretion regarding your personal information.
         </p>
       </div>
     </header>
@@ -21,77 +24,125 @@ import { siteConfig } from '../data/site';
     <div class="container policy-body-container">
       <div class="policy-content">
         <section class="policy-section">
-          <h2 class="policy-section-heading">1. Overview</h2>
+          <div class="section-meta-header">
+            <span class="section-idx">01</span>
+            <h2 class="policy-section-heading">Overview & Ethos</h2>
+          </div>
           <p>
-            At LUMÈRA LUXE, we prioritize privacy and personal discretion. Our storefront operates on a static, privacy-first model designed to eliminate unnecessary data harvesting.
+            At LUMÈRA LUXE, personal privacy is an essential tenet of luxury. Our digital boutique is engineered on a privacy-first architecture, purposely avoiding invasive user trackers, data brokers, or advertising pixels.
           </p>
         </section>
 
         <section class="policy-section">
-          <h2 class="policy-section-heading">2. Browser Storage & Shopping Bag</h2>
+          <div class="section-meta-header">
+            <span class="section-idx">02</span>
+            <h2 class="policy-section-heading">Local Storage & Bag Selection</h2>
+          </div>
           <p>
-            When you add fragrances to your shopping bag, we store only product identifiers and selected quantities in your browser’s local storage (<code>localStorage</code>). We do not persist credit card data, bank details, or sensitive personal credentials on our web servers.
+            When you add flacons to your shopping bag, details are stored locally in your browser's private local storage (<code>localStorage</code>). We do not record or store financial payment details, banking credentials, or personal profiles on remote marketing servers.
           </p>
         </section>
 
         <section class="policy-section">
-          <h2 class="policy-section-heading">3. WhatsApp Communications</h2>
+          <div class="section-meta-header">
+            <span class="section-idx">03</span>
+            <h2 class="policy-section-heading">Encrypted WhatsApp Consultation</h2>
+          </div>
           <p>
-            When you initiate an order inquiry by tapping <em>Request via WhatsApp</em>, your selected items and optional contact details are passed into your own WhatsApp application via an encrypted link. Your correspondence takes place directly within WhatsApp’s end-to-end encrypted messaging service.
+            When you initiate an order inquiry via WhatsApp, your product selections and notes are transmitted directly into your personal WhatsApp application. Your communication is shielded by WhatsApp's end-to-end encryption.
           </p>
           <p>
-            We use this information solely to verify inventory, calculate delivery fees, and coordinate delivery within Qatar. We never sell, rent, or distribute your phone number or order history to commercial brokers or third-party advertisers.
+            We use your correspondence exclusively to verify inventory, calculate transparent courier rates, and deliver your parcel in Qatar. We never commercialize or share client phone numbers with third-party advertisers.
           </p>
         </section>
 
-        <section class="policy-section">
-          <h2 class="policy-section-heading">4. Contact & Inquiries</h2>
+        <section class="policy-section concierge-callout">
+          <div class="section-meta-header">
+            <span class="section-idx">04</span>
+            <h2 class="policy-section-heading">Client Inquiries</h2>
+          </div>
           <p>
-            If you have questions regarding our data practices or wish to request deletion of past WhatsApp correspondence, please contact our concierge at <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>.
+            If you have questions regarding data privacy or wish to request deletion of past communication records, connect with our boutique:
           </p>
-        </div>
+          <div class="concierge-links">
+            <a href={`mailto:${siteConfig.email}`} class="email-direct">
+              {siteConfig.email}
+            </a>
+            <a
+              href={`https://wa.me/${siteConfig.whatsappNumber}`}
+              class="btn btn-primary btn-sm"
+              target="_blank"
+              rel="noopener"
+            >
+              WhatsApp Concierge: {siteConfig.whatsappDisplay}
+            </a>
+          </div>
+        </section>
       </div>
     </div>
   </div>
 </BaseLayout>
 
 <style>
-  .policy-header {
-    background-color: var(--color-surface);
-    border-bottom: 1px solid var(--color-border);
-    padding: clamp(3rem, 6vw, 4.5rem) 0;
+  .policy-page {
+    background-color: var(--color-bg);
+    color: var(--color-text-main);
+  }
+
+  .container-narrow {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 var(--page-gutter);
   }
 
   .text-center {
     text-align: center;
   }
 
+  .policy-header {
+    background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-bg) 100%);
+    border-bottom: 1px solid var(--color-border-subtle);
+    padding: clamp(3.5rem, 6vw, 5.5rem) 0 clamp(2.5rem, 4vw, 4rem);
+  }
+
   .eyebrow {
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--color-accent);
-    margin-bottom: 0.75rem;
-    display: block;
+    letter-spacing: 0.18em;
+    color: var(--color-brand-cognac);
+    margin-bottom: 1rem;
+    display: inline-block;
   }
 
   .policy-title {
-    font-size: var(--text-4xl);
+    font-family: var(--font-serif);
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
     color: var(--color-text-main);
-    margin-bottom: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .title-italic {
+    font-style: italic;
+    color: var(--color-brand-cognac-dark);
   }
 
   .policy-lead {
-    font-size: 1.1rem;
+    font-size: clamp(0.95rem, 1.8vw, 1.125rem);
+    font-weight: 300;
+    line-height: 1.7;
     color: var(--color-text-muted);
-    max-width: 600px;
+    max-width: 580px;
     margin: 0 auto;
   }
 
   .policy-body-container {
-    padding-top: clamp(2.5rem, 5vw, 4rem);
-    padding-bottom: 5rem;
+    padding-top: clamp(2.5rem, 5vw, 4.5rem);
+    padding-bottom: 5.5rem;
   }
 
   .policy-content {
@@ -100,33 +151,81 @@ import { siteConfig } from '../data/site';
   }
 
   .policy-section {
-    margin-bottom: 3rem;
+    margin-bottom: 3.5rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  .policy-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .section-meta-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.85rem;
+    margin-bottom: 1.15rem;
+  }
+
+  .section-idx {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-brand-cognac);
+    opacity: 0.85;
   }
 
   .policy-section-heading {
-    font-family: var(--font-display);
-    font-size: 1.75rem;
-    margin-bottom: 1rem;
+    font-family: var(--font-serif);
+    font-size: clamp(1.4rem, 2.8vw, 1.85rem);
+    font-weight: 400;
     color: var(--color-text-main);
   }
 
   .policy-section p {
-    font-size: 1rem;
-    line-height: 1.7;
-    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    line-height: 1.75;
+    margin-bottom: 1.25rem;
     color: var(--color-text-muted);
   }
 
-  .policy-content code {
+  .policy-section p code {
+    font-family: var(--font-body);
+    font-size: 0.875em;
+    font-weight: 500;
     background-color: var(--color-surface);
-    padding: 0.2rem 0.4rem;
-    border-radius: var(--border-radius-sm);
-    font-size: 0.9em;
-    color: var(--color-accent);
+    padding: 0.15em 0.4em;
+    border: 1px solid var(--color-border);
+    border-radius: 3px;
   }
 
-  .policy-content a {
-    color: var(--color-accent);
+  .concierge-callout {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    padding: 2.25rem 2rem;
+  }
+
+  .concierge-links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1.25rem;
+  }
+
+  .email-direct {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-main);
     text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .email-direct:hover {
+    color: var(--color-brand-cognac);
   }
 </style>

@@ -8,77 +8,323 @@ const isPdp = currentPath.startsWith('/perfumes/');
 
 {
   !isCheckout && (
-    <nav class:list={['mobile-bottom-nav', { 'hide-on-pdp': isPdp }]} aria-label="Mobile Navigation">
-      <div class="bottom-nav-container">
-        <!-- Tab 1: Home -->
-        <a
-          href="/"
-          class:list={['bottom-nav-item', { active: currentPath === '/' }]}
-          aria-label="Home"
-        >
-          <div class="bottom-nav-icon-wrap">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-              <polyline points="9 22 9 12 15 12 15 22"></polyline>
-            </svg>
-          </div>
-          <span class="bottom-nav-label">Home</span>
-          {currentPath === '/' && <span class="active-gold-dot"></span>}
-        </a>
+    <>
+      <!-- Shared Bottom Modal Backdrop -->
+      <div id="nav-modal-backdrop" class="nav-modal-backdrop" aria-hidden="true"></div>
 
-        <!-- Tab 2: Fragrances / Shop -->
-        <a
-          href="/shop/"
-          class:list={['bottom-nav-item', { active: currentPath.startsWith('/shop') }]}
-          aria-label="Fragrances Collection"
-        >
-          <div class="bottom-nav-icon-wrap">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="3" width="7" height="7"></rect>
-              <rect x="14" y="3" width="7" height="7"></rect>
-              <rect x="14" y="14" width="7" height="7"></rect>
-              <rect x="3" y="14" width="7" height="7"></rect>
-            </svg>
-          </div>
-          <span class="bottom-nav-label">Collection</span>
-          {currentPath.startsWith('/shop') && <span class="active-gold-dot"></span>}
-        </a>
+      <!-- 1. SCENT FAMILIES BOTTOM MODAL -->
+      <aside
+        id="families-modal"
+        class="nav-bottom-sheet"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Olfactive Scent Families"
+      >
+        <div class="sheet-handle-wrap">
+          <div class="sheet-handle"></div>
+        </div>
 
-        <!-- Tab 3: Boutique Concierge (WhatsApp) -->
-        <a
-          href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent('Hello LUMÈRA LUXE boutique concierge, I would like personal guidance on your luxury fragrance collection.')}`}
-          class="bottom-nav-item concierge-tab"
-          target="_blank"
-          rel="noopener"
-          aria-label="WhatsApp Concierge"
-        >
-          <div class="bottom-nav-icon-wrap concierge-icon-wrap">
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12.031 2C6.495 2 2 6.495 2 12.031c0 1.77.462 3.498 1.341 5.022L2 22l5.093-1.336A10.007 10.007 0 0 0 12.031 22C17.567 22 22 17.505 22 12.031 22 6.495 17.567 2 12.031 2zm5.879 14.195c-.244.686-1.42 1.314-1.956 1.385-.514.068-1.163.097-3.708-.958-3.04-1.258-4.996-4.34-5.148-4.542-.152-.202-1.233-1.64-1.233-3.128 0-1.488.777-2.22 1.052-2.525.275-.305.6-.381.8-.381.2 0 .4 0 .576.01.187.01.438-.071.686.525.257.619.876 2.143.952 2.296.076.153.127.33.025.534-.102.204-.153.33-.305.508-.152.178-.32.396-.457.533-.153.153-.312.32-.134.626.178.305.792 1.306 1.698 2.112 1.166 1.037 2.148 1.358 2.453 1.51.305.153.483.128.66-.076.178-.204.762-.89 965-1.195.204-.305.407-.254.686-.153.28.102 1.777.838 2.082.99.305.153.508.229.584.356.076.127.076.737-.168 1.423z"/>
-            </svg>
+        <div class="sheet-header">
+          <div class="sheet-title-group">
+            <span class="sheet-kicker">Olfactive Classification</span>
+            <h2 class="sheet-title">Scent Families</h2>
           </div>
-          <span class="bottom-nav-label">Concierge</span>
-        </a>
+          <button
+            type="button"
+            class="sheet-close-btn"
+            id="families-modal-close-btn"
+            aria-label="Close scent families modal"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
 
-        <!-- Tab 4: Bag with dynamic badge -->
-        <button
-          type="button"
-          class="bottom-nav-item bag-nav-trigger"
-          id="bottom-nav-bag-btn"
-          aria-label="Open Shopping Bag"
-        >
-          <div class="bottom-nav-icon-wrap bag-wrap">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-              <line x1="3" y1="6" x2="21" y2="6"></line>
-              <path d="M16 10a4 4 0 0 1-8 0"></path>
-            </svg>
-            <span class="bottom-bag-pill" id="bottom-nav-bag-count">0</span>
+        <div class="sheet-content">
+          <div class="families-list">
+            <!-- 1. Floral & Rose -->
+            <a href="/shop/?family=floral" class="family-item-card" data-family="floral">
+              <div class="family-item-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="3"></circle>
+                  <path d="M12 2a3.5 3.5 0 0 0-3.5 3.5c0 2.5 3.5 5.5 3.5 5.5s3.5-3 3.5-5.5A3.5 3.5 0 0 0 12 2z"></path>
+                  <path d="M12 22a3.5 3.5 0 0 0 3.5-3.5c0-2.5-3.5-5.5-3.5-5.5s-3.5 3-3.5 5.5A3.5 3.5 0 0 0 12 22z"></path>
+                  <path d="M2 12a3.5 3.5 0 0 0 3.5 3.5c2.5 0 5.5-3.5 5.5-3.5S7.5 8.5 5.5 8.5A3.5 3.5 0 0 0 2 12z"></path>
+                  <path d="M22 12a3.5 3.5 0 0 0-3.5-3.5c-2.5 0-5.5 3.5-5.5 3.5s3.5 3.5 5.5 3.5A3.5 3.5 0 0 0 22 12z"></path>
+                </svg>
+              </div>
+              <div class="family-item-text">
+                <div class="family-item-headline">
+                  <span class="family-item-name">Floral & Rose</span>
+                  <span class="family-item-badge">Romantic</span>
+                </div>
+                <p class="family-item-desc">Damask Rose · Sambac Jasmine · French Peony · Neroli</p>
+              </div>
+              <svg class="family-item-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+
+            <!-- 2. Amber & Oriental -->
+            <a href="/shop/?family=oriental" class="family-item-card" data-family="oriental">
+              <div class="family-item-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path>
+                </svg>
+              </div>
+              <div class="family-item-text">
+                <div class="family-item-headline">
+                  <span class="family-item-name">Amber & Oriental</span>
+                  <span class="family-item-badge">Opulent</span>
+                </div>
+                <p class="family-item-desc">Warm Amber · Madagascar Vanilla · Frankincense · Spices</p>
+              </div>
+              <svg class="family-item-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+
+            <!-- 3. Woody & Earthy -->
+            <a href="/shop/?family=woody" class="family-item-card" data-family="woody">
+              <div class="family-item-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2L4 16h5v6h6v-6h5L12 2z"></path>
+                </svg>
+              </div>
+              <div class="family-item-text">
+                <div class="family-item-headline">
+                  <span class="family-item-name">Woody & Earthy</span>
+                  <span class="family-item-badge">Noble</span>
+                </div>
+                <p class="family-item-desc">Atlas Cedarwood · Sandalwood · Smoky Vetiver · Patchouli</p>
+              </div>
+              <svg class="family-item-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+
+            <!-- 4. Fresh & Citrus -->
+            <a href="/shop/?family=fresh" class="family-item-card" data-family="fresh">
+              <div class="family-item-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+                  <line x1="12" y1="9" x2="12" y2="15"></line>
+                  <line x1="9" y1="12" x2="15" y2="12"></line>
+                </svg>
+              </div>
+              <div class="family-item-text">
+                <div class="family-item-headline">
+                  <span class="family-item-name">Fresh & Citrus</span>
+                  <span class="family-item-badge">Crisp</span>
+                </div>
+                <p class="family-item-desc">Calabrian Bergamot · Sparkling Citrus · Aquatic Breeze</p>
+              </div>
+              <svg class="family-item-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
           </div>
-          <span class="bottom-nav-label">Bag</span>
-        </button>
-      </div>
-    </nav>
+
+          <div class="sheet-footer">
+            <a href="/shop/" class="btn-sheet-primary">
+              <span>View All Fragrances (25)</span>
+            </a>
+            <a href="/#scent-families" id="sheet-view-showcase" class="link-sheet-subtle">
+              <span>View Editorial Showcase on Homepage</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 2. BOUTIQUE SUPPORT MODAL (ORGANIZED WHATSAPP TEMPLATE) -->
+      <aside
+        id="support-modal"
+        class="nav-bottom-sheet"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Boutique Support and Concierge"
+      >
+        <div class="sheet-handle-wrap">
+          <div class="sheet-handle"></div>
+        </div>
+
+        <div class="sheet-header">
+          <div class="sheet-title-group">
+            <span class="sheet-kicker">Personal Concierge · Doha</span>
+            <h2 class="sheet-title">Boutique Support</h2>
+          </div>
+          <button
+            type="button"
+            class="sheet-close-btn"
+            id="support-modal-close-btn"
+            aria-label="Close support modal"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+
+        <div class="sheet-content">
+          <p class="support-intro-text">
+            Send us your inquiry and our fragrance specialist in Qatar will respond directly on WhatsApp within minutes.
+          </p>
+
+          <form id="support-inquiry-form" class="support-form" onsubmit="event.preventDefault(); window.sendSupportToWhatsApp();">
+            <!-- Topic Selector Chips -->
+            <div class="form-field-group">
+              <label class="form-field-label">How can we assist you?</label>
+              <div class="support-topic-chips" id="support-topic-chips">
+                <button type="button" class="topic-chip is-selected" data-topic="Fragrance Advice">Fragrance Advice</button>
+                <button type="button" class="topic-chip" data-topic="Order & Delivery">Order & Delivery</button>
+                <button type="button" class="topic-chip" data-topic="Perfume Stock">Perfume Stock</button>
+                <button type="button" class="topic-chip" data-topic="Luxury Gifting">Luxury Gifting</button>
+              </div>
+            </div>
+
+            <!-- Client Name -->
+            <div class="form-field-group">
+              <label for="support-name-input" class="form-field-label">Your Name</label>
+              <input
+                type="text"
+                id="support-name-input"
+                class="support-text-input"
+                placeholder="e.g. Fatima Al-Kuwari"
+                autocomplete="name"
+              />
+            </div>
+
+            <!-- Client Phone (Optional) -->
+            <div class="form-field-group">
+              <label for="support-phone-input" class="form-field-label">
+                WhatsApp Phone <span class="label-optional">(Optional)</span>
+              </label>
+              <input
+                type="tel"
+                id="support-phone-input"
+                class="support-text-input"
+                placeholder="+974 5555 1234"
+                autocomplete="tel"
+              />
+            </div>
+
+            <!-- Inquiry Details -->
+            <div class="form-field-group">
+              <label for="support-message-input" class="form-field-label">Your Message or Scent Preference</label>
+              <textarea
+                id="support-message-input"
+                class="support-textarea"
+                rows="3"
+                placeholder="Describe the notes you love, the occasion, or any specific questions about our collection..."
+              ></textarea>
+            </div>
+
+            <!-- Submit CTA Button -->
+            <div class="support-form-actions">
+              <button type="button" id="support-submit-btn" class="btn-support-whatsapp" onclick="window.sendSupportToWhatsApp()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"></path>
+                  <path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"></path>
+                </svg>
+                <span>Send to WhatsApp Concierge</span>
+              </button>
+              <span class="support-security-note">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                Opens WhatsApp with your pre-formatted luxury template
+              </span>
+            </div>
+          </form>
+        </div>
+      </aside>
+
+      <!-- 3. MOBILE BOTTOM NAVIGATION BAR -->
+      <nav class:list={['mobile-bottom-nav', { 'hide-on-pdp': isPdp }]} aria-label="Mobile Navigation">
+        <div class="bottom-nav-container">
+          <!-- Tab 1: Home -->
+          <a
+            href="/"
+            class:list={['bottom-nav-item', { active: currentPath === '/' }]}
+            aria-label="Home"
+            id="bottom-nav-home-link"
+          >
+            <div class="bottom-nav-icon-wrap">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"></path>
+                <polyline points="9 21 9 12 15 12 15 21"></polyline>
+              </svg>
+            </div>
+            <span class="bottom-nav-label">Home</span>
+            <span class="active-gold-dot nav-home-dot" style={currentPath === '/' ? '' : 'display: none;'}></span>
+          </a>
+
+          <!-- Tab 2: Fragrances Collection (Perfume Flacon Line Icon) -->
+          <a
+            href="/shop/"
+            class:list={['bottom-nav-item', { active: currentPath.startsWith('/shop') }]}
+            aria-label="Fragrances Collection"
+            id="bottom-nav-collection-link"
+          >
+            <div class="bottom-nav-icon-wrap">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="2" width="6" height="4" rx="0.5"></rect>
+                <line x1="8" y1="6" x2="16" y2="6"></line>
+                <rect x="5" y="8" width="14" height="13" rx="2"></rect>
+                <line x1="9" y1="13" x2="15" y2="13"></line>
+              </svg>
+            </div>
+            <span class="bottom-nav-label">Collection</span>
+            <span class="active-gold-dot nav-collection-dot" style={currentPath.startsWith('/shop') ? '' : 'display: none;'}></span>
+          </a>
+
+          <!-- Tab 3: Scent Families / Notes (Fragrance Droplet Icon) -->
+          <button
+            type="button"
+            class="bottom-nav-item"
+            aria-label="Explore Scent Families"
+            id="bottom-nav-families-btn"
+            aria-haspopup="dialog"
+            aria-expanded="false"
+          >
+            <div class="bottom-nav-icon-wrap">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+                <circle cx="12" cy="14" r="2.5"></circle>
+              </svg>
+            </div>
+            <span class="bottom-nav-label">Families</span>
+            <span class="active-gold-dot nav-families-dot" style="display: none;"></span>
+          </button>
+
+          <!-- Tab 4: Boutique Support (WhatsApp Line Icon & Support Form Modal) -->
+          <button
+            type="button"
+            class="bottom-nav-item support-tab"
+            id="bottom-nav-support-btn"
+            aria-label="Boutique Support"
+            aria-haspopup="dialog"
+            aria-expanded="false"
+          >
+            <div class="bottom-nav-icon-wrap">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"></path>
+                <path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"></path>
+              </svg>
+            </div>
+            <span class="bottom-nav-label">Support</span>
+          </button>
+        </div>
+      </nav>
+    </>
   )
 }
 
@@ -89,7 +335,7 @@ const isPdp = currentPath.startsWith('/perfumes/');
     left: 0;
     right: 0;
     z-index: 90;
-    background: rgba(255, 255, 255, 0.94);
+    background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-top: 1px solid var(--color-gold-border);
@@ -100,7 +346,9 @@ const isPdp = currentPath.startsWith('/perfumes/');
 
   /* Hide on desktop */
   @media (min-width: 768px) {
-    .mobile-bottom-nav {
+    .mobile-bottom-nav,
+    .nav-bottom-sheet,
+    .nav-modal-backdrop {
       display: none !important;
     }
   }
@@ -132,6 +380,9 @@ const isPdp = currentPath.startsWith('/perfumes/');
     color: var(--color-text-muted);
     text-decoration: none;
     position: relative;
+    background: transparent;
+    border: none;
+    cursor: pointer;
     transition: color var(--transition-fast), transform var(--transition-fast);
     padding: 0.35rem 0;
     -webkit-tap-highlight-color: transparent;
@@ -143,6 +394,10 @@ const isPdp = currentPath.startsWith('/perfumes/');
 
   .bottom-nav-item.active {
     color: var(--color-brand-cognac);
+  }
+
+  .bottom-nav-item:hover {
+    color: var(--color-text-main);
   }
 
   .bottom-nav-icon-wrap {
@@ -174,73 +429,613 @@ const isPdp = currentPath.startsWith('/perfumes/');
     box-shadow: 0 1px 4px var(--color-gold-glow);
   }
 
-  /* Concierge highlight */
-  .concierge-icon-wrap {
-    color: #25D366;
+  /* ==========================================================
+     SHARED LUXURY BOTTOM SHEET STYLING
+     ========================================================== */
+  .nav-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 998;
+    background: rgba(24, 21, 19, 0.55);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 280ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  /* Bag pill counter */
-  .bag-wrap {
-    position: relative;
+  .nav-modal-backdrop.is-open {
+    opacity: 1;
+    pointer-events: auto;
   }
 
-  .bottom-bag-pill {
-    position: absolute;
-    top: -4px;
-    right: -8px;
-    min-width: 16px;
-    height: 16px;
-    border-radius: 8px;
-    background: var(--color-brand-cognac);
-    color: #FFFFFF;
-    font-size: 0.5625rem;
+  .nav-bottom-sheet {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+    max-height: 88vh;
+    background: #FFFFFF;
+    border-radius: 20px 20px 0 0;
+    border-top: 1px solid var(--color-gold-border);
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.2);
+    transform: translateY(105%);
+    transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    padding-bottom: max(env(safe-area-inset-bottom, 1rem), 1rem);
+    overflow: hidden;
+    visibility: hidden;
+  }
+
+  .nav-bottom-sheet.is-open {
+    transform: translateY(0);
+    visibility: visible;
+  }
+
+  .sheet-handle-wrap {
+    display: flex;
+    justify-content: center;
+    padding: 0.75rem 0 0.25rem;
+    cursor: grab;
+  }
+
+  .sheet-handle {
+    width: 38px;
+    height: 4px;
+    background: #D8D4CC;
+    border-radius: 2px;
+  }
+
+  .sheet-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1.25rem 0.85rem;
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  .sheet-title-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sheet-kicker {
+    font-size: 0.65rem;
     font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 0.15rem;
+  }
+
+  .sheet-title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  .sheet-close-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 4px;
-    box-shadow: 0 2px 6px var(--color-brand-cognac-glow);
-    transition: transform var(--transition-fast);
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    background: #FFFFFF;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
   }
 
-  .bottom-nav-item.active .bottom-bag-pill {
-    background: var(--color-brand-cognac-dark);
+  .sheet-close-btn:hover {
+    background: var(--color-surface);
+    color: var(--color-text-main);
+  }
+
+  .sheet-content {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 1rem 1.25rem 0.5rem;
+  }
+
+  /* Families list cards */
+  .families-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .family-item-card {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.85rem 1rem;
+    background: #FAF9F6;
+    border: 1px solid #ECEAE5;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .family-item-card:hover,
+  .family-item-card:active {
+    background: #FFFFFF;
+    border-color: var(--color-brand-cognac);
+    box-shadow: 0 4px 14px rgba(138, 74, 40, 0.08);
+    transform: translateY(-1px);
+  }
+
+  .family-item-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: #FFFFFF;
+    border: 1px solid var(--color-border);
+    color: var(--color-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all var(--transition-fast);
+  }
+
+  .family-item-card:hover .family-item-icon {
+    background: var(--color-surface);
+    border-color: var(--color-brand-cognac);
+  }
+
+  .family-item-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .family-item-headline {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .family-item-name {
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+    letter-spacing: 0.01em;
+  }
+
+  .family-item-badge {
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-brand-cognac);
+    background: rgba(184, 134, 11, 0.1);
+    padding: 0.15rem 0.4rem;
+    border-radius: 4px;
+  }
+
+  .family-item-desc {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    line-height: 1.35;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .family-item-arrow {
+    color: var(--color-text-light);
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    transition: transform var(--transition-fast), color var(--transition-fast);
+  }
+
+  .family-item-card:hover .family-item-arrow {
+    transform: translateX(2px);
+    color: var(--color-brand-cognac);
+  }
+
+  .sheet-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--color-border-subtle);
+  }
+
+  .btn-sheet-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0.85rem;
+    background: var(--color-text-main);
+    color: #FFFFFF;
+    text-decoration: none;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: var(--border-radius-sm);
+    transition: all var(--transition-fast);
+  }
+
+  .btn-sheet-primary:hover {
+    background: #000000;
+  }
+
+  .link-sheet-subtle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    text-decoration: none;
+    padding: 0.35rem 0;
+    transition: color var(--transition-fast);
+  }
+
+  .link-sheet-subtle:hover {
+    color: var(--color-brand-cognac);
+  }
+
+  /* ==========================================================
+     SUPPORT MODAL & FORM STYLING
+     ========================================================== */
+  .support-intro-text {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    margin: 0 0 1rem;
+  }
+
+  .support-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .form-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .form-field-label {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+    letter-spacing: 0.02em;
+  }
+
+  .label-optional {
+    font-size: 0.6875rem;
+    color: var(--color-text-light);
+    font-weight: 400;
+  }
+
+  .support-topic-chips {
+    display: flex;
+    gap: 0.45rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 0.15rem;
+  }
+
+  .support-topic-chips::-webkit-scrollbar {
+    display: none;
+  }
+
+  .topic-chip {
+    white-space: nowrap;
+    padding: 0.4rem 0.8rem;
+    font-family: var(--font-body);
+    font-size: 0.71875rem;
+    font-weight: 500;
+    border-radius: 999px;
+    border: 1px solid var(--color-border);
+    background: #FAF9F6;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .topic-chip:hover {
+    border-color: var(--color-brand-cognac);
+    color: var(--color-text-main);
+  }
+
+  .topic-chip.is-selected {
+    background: var(--color-brand-cognac);
+    color: #FFFFFF;
+    border-color: var(--color-brand-cognac);
+    font-weight: 600;
+    box-shadow: 0 2px 8px var(--color-brand-cognac-glow);
+  }
+
+  .support-text-input,
+  .support-textarea {
+    width: 100%;
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    padding: 0.65rem 0.85rem;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background: #FFFFFF;
+    color: var(--color-text-main);
+    outline: none;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+
+  .support-text-input:focus,
+  .support-textarea:focus {
+    border-color: var(--color-brand-cognac);
+    box-shadow: 0 0 0 3px rgba(184, 134, 11, 0.12);
+  }
+
+  .support-textarea {
+    resize: none;
+    line-height: 1.45;
+  }
+
+  .support-form-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    margin-top: 0.5rem;
+  }
+
+  .btn-support-whatsapp {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    width: 100%;
+    padding: 0.95rem;
+    background: #128C7E;
+    color: #FFFFFF;
+    border: none;
+    border-radius: var(--border-radius-sm);
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(18, 140, 126, 0.25);
+    transition: all var(--transition-fast);
+  }
+
+  .btn-support-whatsapp:hover,
+  .btn-support-whatsapp:active {
+    background: #075E54;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(18, 140, 126, 0.35);
+  }
+
+  .support-security-note {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.6875rem;
+    color: var(--color-text-muted);
+    letter-spacing: 0.02em;
   }
 </style>
 
-<script>
-  // Sync Bag Counter and open drawer on mobile bottom nav click
-  function syncBottomNavBag() {
-    try {
-      const stored = localStorage.getItem('lumera_cart_v1');
-      const items = stored ? JSON.parse(stored) : [];
-      const totalCount = items.reduce((sum: number, it: any) => sum + (it.quantity || 1), 0);
-      const bottomCountEl = document.getElementById('bottom-nav-bag-count');
-      if (bottomCountEl) {
-        bottomCountEl.textContent = String(totalCount);
-        bottomCountEl.style.transform = 'scale(1.2)';
-        setTimeout(() => {
-          if (bottomCountEl) bottomCountEl.style.transform = 'scale(1)';
-        }, 160);
-      }
-    } catch {}
-  }
+<script is:inline define:vars={{ whatsappNumber: siteConfig.whatsappNumber }}>
+  // Active selected inquiry topic
+  var currentSupportTopic = 'Fragrance Advice';
 
-  // Hook button click to open Bag Drawer
-  const bottomBagBtn = document.getElementById('bottom-nav-bag-btn');
-  if (bottomBagBtn) {
-    bottomBagBtn.addEventListener('click', () => {
-      // Trigger header bag button or dispatch event
-      const headerBagBtn = document.getElementById('open-bag-btn');
-      if (headerBagBtn) {
-        headerBagBtn.click();
-      }
-    });
-  }
+  // Global modal state functions
+  window.openFamiliesModal = function () {
+    window.closeSupportModal();
+    var modal = document.getElementById('families-modal');
+    var backdrop = document.getElementById('nav-modal-backdrop');
+    var famBtn = document.getElementById('bottom-nav-families-btn');
+    if (modal) modal.classList.add('is-open');
+    if (backdrop) backdrop.classList.add('is-open');
+    if (famBtn) famBtn.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
 
-  // Initial sync & periodic update on storage changes
-  document.addEventListener('DOMContentLoaded', syncBottomNavBag);
-  window.addEventListener('storage', syncBottomNavBag);
-  window.addEventListener('cart-updated', syncBottomNavBag);
-  setInterval(syncBottomNavBag, 1000);
+  window.closeFamiliesModal = function () {
+    var modal = document.getElementById('families-modal');
+    var backdrop = document.getElementById('nav-modal-backdrop');
+    var famBtn = document.getElementById('bottom-nav-families-btn');
+    if (modal) modal.classList.remove('is-open');
+    if (famBtn) famBtn.classList.remove('active');
+    if (!document.getElementById('support-modal')?.classList.contains('is-open')) {
+      if (backdrop) backdrop.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+  };
+
+  window.toggleFamiliesModal = function (e) {
+    if (e && e.preventDefault) e.preventDefault();
+    var modal = document.getElementById('families-modal');
+    if (modal && modal.classList.contains('is-open')) {
+      window.closeFamiliesModal();
+    } else {
+      window.openFamiliesModal();
+    }
+  };
+
+  window.openSupportModal = function () {
+    window.closeFamiliesModal();
+    var modal = document.getElementById('support-modal');
+    var backdrop = document.getElementById('nav-modal-backdrop');
+    var supBtn = document.getElementById('bottom-nav-support-btn');
+    if (modal) modal.classList.add('is-open');
+    if (backdrop) backdrop.classList.add('is-open');
+    if (supBtn) supBtn.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closeSupportModal = function () {
+    var modal = document.getElementById('support-modal');
+    var backdrop = document.getElementById('nav-modal-backdrop');
+    var supBtn = document.getElementById('bottom-nav-support-btn');
+    if (modal) modal.classList.remove('is-open');
+    if (supBtn) supBtn.classList.remove('active');
+    if (!document.getElementById('families-modal')?.classList.contains('is-open')) {
+      if (backdrop) backdrop.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+  };
+
+  window.toggleSupportModal = function (e) {
+    if (e && e.preventDefault) e.preventDefault();
+    var modal = document.getElementById('support-modal');
+    if (modal && modal.classList.contains('is-open')) {
+      window.closeSupportModal();
+    } else {
+      window.openSupportModal();
+    }
+  };
+
+  window.closeAllNavModals = function () {
+    window.closeFamiliesModal();
+    window.closeSupportModal();
+  };
+
+  // Compile formatted WhatsApp message from support form
+  window.sendSupportToWhatsApp = function () {
+    var nameInput = document.getElementById('support-name-input');
+    var phoneInput = document.getElementById('support-phone-input');
+    var msgInput = document.getElementById('support-message-input');
+
+    var clientName = (nameInput && nameInput.value.trim()) || 'Client in Qatar';
+    var clientPhone = (phoneInput && phoneInput.value.trim()) || '';
+    var clientMsg = (msgInput && msgInput.value.trim()) || 'I would like personal assistance with fragrance selection and availability.';
+
+    var template =
+      '✨ *LUMÈRA LUXE — Boutique Support Inquiry* ✨\n' +
+      '━━━━━━━━━━━━━━━━━━━━━━\n' +
+      '📋 *Topic:* ' + currentSupportTopic + '\n' +
+      '👤 *Name:* ' + clientName + '\n' +
+      (clientPhone ? '📱 *Contact:* ' + clientPhone + '\n' : '') +
+      '\n💬 *Inquiry / Preferences:*\n' +
+      clientMsg + '\n' +
+      '━━━━━━━━━━━━━━━━━━━━━━\n' +
+      '📍 *Doha, Qatar* · Direct Boutique Concierge';
+
+    var encoded = encodeURIComponent(template);
+    var waUrl = 'https://wa.me/' + whatsappNumber + '?text=' + encoded;
+
+    window.closeSupportModal();
+    window.open(waUrl, '_blank', 'noopener,noreferrer');
+  };
+
+  // Event delegation to catch clicks anywhere on the document
+  document.addEventListener('click', function (e) {
+    var target = e.target;
+    if (!target) return;
+
+    // 1. Families bottom nav button
+    var famTrigger = target.closest('#bottom-nav-families-btn');
+    if (famTrigger) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.toggleFamiliesModal(e);
+      return;
+    }
+
+    // 2. Support bottom nav button
+    var supTrigger = target.closest('#bottom-nav-support-btn');
+    if (supTrigger) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.toggleSupportModal(e);
+      return;
+    }
+
+    // 3. Modal close buttons
+    if (target.closest('#families-modal-close-btn')) {
+      e.preventDefault();
+      window.closeFamiliesModal();
+      return;
+    }
+    if (target.closest('#support-modal-close-btn')) {
+      e.preventDefault();
+      window.closeSupportModal();
+      return;
+    }
+
+    // 4. Modal backdrop click to dismiss
+    if (target.id === 'nav-modal-backdrop') {
+      e.preventDefault();
+      window.closeAllNavModals();
+      return;
+    }
+
+    // 5. Topic chip selection inside Support modal
+    var topicChip = target.closest('.topic-chip');
+    if (topicChip) {
+      e.preventDefault();
+      var chips = document.querySelectorAll('.topic-chip');
+      chips.forEach(function (c) { c.classList.remove('is-selected'); });
+      topicChip.classList.add('is-selected');
+      currentSupportTopic = topicChip.getAttribute('data-topic') || 'Fragrance Advice';
+      return;
+    }
+
+    // 6. Family card click inside Families modal
+    var famCard = target.closest('.family-item-card');
+    if (famCard) {
+      var fam = famCard.getAttribute('data-family') || '';
+      var isShop = window.location.pathname.startsWith('/shop');
+
+      if (isShop && typeof window.setShopFamily === 'function') {
+        e.preventDefault();
+        window.setShopFamily(fam);
+        window.closeFamiliesModal();
+        return;
+      }
+      // Natural navigation to /shop/?family=...
+      window.closeFamiliesModal();
+      return;
+    }
+
+    // 7. Homepage showcase scroll link
+    var showcaseLink = target.closest('#sheet-view-showcase');
+    if (showcaseLink) {
+      var isHome = window.location.pathname === '/' || window.location.pathname === '';
+      if (isHome) {
+        e.preventDefault();
+        window.closeFamiliesModal();
+        var scSec = document.getElementById('scent-families');
+        if (scSec) {
+          var y = scSec.getBoundingClientRect().top + window.pageYOffset - 64;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+        return;
+      }
+    }
+  });
+
+  // Escape key dismisses modals
+  window.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      window.closeAllNavModals();
+    }
+  });
 </script>

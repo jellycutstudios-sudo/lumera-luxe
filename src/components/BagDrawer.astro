@@ -56,6 +56,7 @@ import { siteConfig } from '../data/site';
   </div>
 
   <!-- Bag Drawer Footer -->
+  <div class="bag-drawer-footer" id="bag-footer" hidden>
     <!-- Pricing Summary -->
     <div class="bag-summary">
       <div class="summary-row">
@@ -76,10 +77,6 @@ import { siteConfig } from '../data/site';
           <polyline points="12 5 19 12 12 19"></polyline>
         </svg>
       </a>
-
-      <button class="btn btn-secondary btn-block btn-sm" id="btn-copy-order">
-        Copy Fragrance Summary
-      </button>
     </div>
   </div>
 </aside>
@@ -356,135 +353,9 @@ import { siteConfig } from '../data/site';
 
   .bag-drawer-footer {
     border-top: 1px solid var(--color-border);
-    padding: 1.25rem 1.5rem;
+    padding: 1.25rem 1.5rem calc(1.25rem + env(safe-area-inset-bottom, 0px));
     background-color: var(--color-bg);
-  }
-
-  .customer-fields {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
-    margin-bottom: 1.25rem;
-  }
-
-  /* Bag Delivery Section */
-  .bag-delivery-section {
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius-sm);
-    padding: 0.85rem;
-    margin-bottom: 1rem;
-  }
-
-  .bag-section-title-wrap {
-    margin-bottom: 0.65rem;
-  }
-
-  .bag-section-badge {
-    font-size: 0.5625rem;
-    font-weight: 700;
-    color: var(--color-accent);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    display: block;
-    margin-bottom: 0.15rem;
-  }
-
-  .bag-section-title {
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: var(--color-text-main);
-  }
-
-  .bag-form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
-  }
-
-  .bag-field-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-  }
-
-  .bag-field-group.full-width {
-    grid-column: span 2;
-  }
-
-  .bag-field-label {
-    font-size: 0.6875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    color: var(--color-text-muted);
-  }
-
-  .bag-field-label .req {
-    color: #DC2626;
-  }
-
-  .bag-field-input {
-    font-family: var(--font-body);
-    font-size: 0.78125rem;
-    padding: 0.45rem 0.6rem;
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius-sm);
-    background-color: #FFFFFF;
-    color: var(--color-text-main);
-    width: 100%;
-  }
-
-  .bag-field-input:focus {
-    outline: none;
-    border-color: var(--color-text-main);
-  }
-
-  .bag-field-input.input-error {
-    border-color: #DC2626;
-    background-color: #FEF2F2;
-  }
-
-  .bag-field-err {
-    display: none;
-    font-size: 0.65rem;
-    color: #DC2626;
-  }
-
-  .bag-field-err.visible {
-    display: block;
-  }
-
-  .bag-phone-wrap {
-    display: flex;
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius-sm);
-    background-color: #FFFFFF;
-    overflow: hidden;
-  }
-
-  .bag-phone-wrap:focus-within {
-    border-color: var(--color-text-main);
-  }
-
-  .bag-phone-prefix {
-    background-color: var(--color-surface-subtle);
-    font-size: 0.6875rem;
-    font-weight: 600;
-    padding: 0 0.4rem;
-    display: flex;
-    align-items: center;
-    border-right: 1px solid var(--color-border);
-    white-space: nowrap;
-  }
-
-  .bag-phone-input {
-    border: none;
-    border-radius: 0;
-  }
-
-  .bag-select {
-    cursor: pointer;
+    flex-shrink: 0;
   }
 
   .bag-summary {
@@ -494,15 +365,17 @@ import { siteConfig } from '../data/site';
   .summary-row {
     display: flex;
     justify-content: space-between;
-    font-size: 1.05rem;
+    align-items: baseline;
+    font-size: 1rem;
     font-weight: 700;
     color: var(--color-text-main);
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.35rem;
   }
 
   .bag-payment-notice {
-    font-size: 0.71875rem;
+    font-size: 0.75rem;
     color: var(--color-text-muted);
+    line-height: 1.4;
   }
 
   .bag-actions {
@@ -518,11 +391,12 @@ import { siteConfig } from '../data/site';
     font-weight: 700;
     min-height: 48px;
     font-size: 0.875rem;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.05em;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
+    border-radius: var(--border-radius-sm);
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
     transition: all var(--transition-fast);
   }
@@ -573,8 +447,6 @@ import { siteConfig } from '../data/site';
 
 <script>
   import productsData from '../data/products.json';
-  import { siteConfig } from '../data/site';
-  import { formatWhatsAppOrderMessage } from '../lib/whatsapp';
 
   interface CartStorageItem {
     id: string;
@@ -628,7 +500,10 @@ import { siteConfig } from '../data/site';
 
     // Update header badges
     const headerCount = document.getElementById('header-bag-count');
-    if (headerCount) headerCount.textContent = String(totalCount);
+    if (headerCount) {
+      headerCount.textContent = String(totalCount);
+      headerCount.hidden = totalCount === 0;
+    }
 
     const drawerBadge = document.getElementById('bag-items-badge');
     if (drawerBadge) drawerBadge.textContent = `${totalCount} item${totalCount === 1 ? '' : 's'}`;
@@ -708,7 +583,6 @@ import { siteConfig } from '../data/site';
     if (drawer) drawer.hidden = false;
     document.body.style.overflow = 'hidden';
     updateBagUI();
-    hydrateCustomerFields();
   }
 
   function closeBag() {
@@ -736,12 +610,13 @@ import { siteConfig } from '../data/site';
     const id = target.getAttribute('data-id');
 
     if (action === 'add-to-bag' && id) {
+      const qtyToAdd = Math.max(1, parseInt(target.getAttribute('data-qty') || '1', 10));
       const items = getCartItems();
       const existing = items.find(it => it.id === id);
       if (existing) {
-        existing.quantity += 1;
+        existing.quantity += qtyToAdd;
       } else {
-        items.push({ id, quantity: 1 });
+        items.push({ id, quantity: qtyToAdd });
       }
       saveCartItems(items);
       showToast('Added to bag');
@@ -815,24 +690,14 @@ import { siteConfig } from '../data/site';
     });
   }
 
-  // Copy Order Summary Fallback
-  const btnCopy = document.getElementById('btn-copy-order');
-  if (btnCopy) {
-    btnCopy.addEventListener('click', () => {
-      const items = getHydratedCart();
-      if (!items.length) return;
-      const subtotalMinor = items.reduce((sum, it) => sum + it.priceMinor * it.quantity, 0);
+  const emptyShopLink = document.getElementById('empty-shop-link');
+  if (emptyShopLink) {
+    emptyShopLink.addEventListener('click', closeBag);
+  }
 
-      let summary = `LUMÈRA LUXE — Selected Fragrances\n\n`;
-      items.forEach((item, idx) => {
-        summary += `${idx + 1}. ${item.brand} - ${item.name} (${item.sizeDisplay}, ${item.concentration}) x ${item.quantity} = ${((item.priceMinor * item.quantity) / 100).toFixed(0)} QAR\n`;
-      });
-      summary += `\nTotal: ${(subtotalMinor / 100).toFixed(0)} QAR (Doorstep Delivery in Qatar)\n`;
-
-      navigator.clipboard.writeText(summary).then(() => {
-        showToast('Order summary copied to clipboard');
-      });
-    });
+  const checkoutBtn = document.getElementById('btn-drawer-checkout');
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener('click', closeBag);
   }
 
   // Initial load sync

@@ -6,7 +6,7 @@ const currentPath = Astro.url.pathname;
 
 <header class="site-header" id="main-header">
   <div class="container header-container">
-    <!-- Left: Mobile Menu Toggle / Desktop Nav Links -->
+    <!-- Left: Mobile Menu Toggle, Search & Desktop Nav Links -->
     <div class="header-left">
       <button
         class="mobile-toggle-btn"
@@ -15,8 +15,43 @@ const currentPath = Astro.url.pathname;
         aria-expanded="false"
         aria-controls="mobile-nav-drawer"
       >
-        <span class="line-icon-bar top-bar"></span>
-        <span class="line-icon-bar bottom-bar"></span>
+        <svg
+          class="hamburger-svg"
+          width="21"
+          height="21"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+        >
+          <line x1="3" y1="8" x2="21" y2="8"></line>
+          <line x1="3" y1="16" x2="21" y2="16"></line>
+        </svg>
+      </button>
+
+      <!-- Search Line Icon Button (Left Discovery Action) -->
+      <button
+        class="header-action-btn search-trigger"
+        id="open-search-modal-btn"
+        aria-label="Search fragrances"
+        title="Search fragrances"
+      >
+        <svg
+          class="header-line-icon"
+          width="19"
+          height="19"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="11" cy="11" r="7.5"></circle>
+          <line x1="21" y1="21" x2="16.5" y2="16.5"></line>
+        </svg>
+        <span class="action-label desktop-only">Search</span>
       </button>
 
       <nav class="primary-nav" id="primary-nav" aria-label="Primary navigation">
@@ -43,43 +78,45 @@ const currentPath = Astro.url.pathname;
       </nav>
     </div>
 
-    <!-- Center: Iconic Wordmark -->
+    <!-- Center: Iconic Wordmark (Optically Baseline-Centered) -->
     <div class="header-center">
       <a href="/" class="brand-link" aria-label="LUMÈRA LUXE Home">
         <img
           src="/assets/lumera-logo.svg"
           alt="LUMÈRA LUXE"
           class="brand-logo"
-          width="150"
-          height="26"
+          width="135"
+          height="24"
         />
       </a>
     </div>
 
-    <!-- Right: Premium Line Action Icons (Search & Bag) -->
+    <!-- Right: Commerce & Saved Icons (Wishlist & Bag) -->
     <div class="header-right">
-      <!-- Search Line Icon Button -->
+      <!-- Wishlist / Saved Fragrances Line Icon Button -->
       <button
-        class="header-action-btn search-trigger"
-        id="open-search-modal-btn"
-        aria-label="Search fragrances"
-        title="Search fragrances"
+        class="header-action-btn wishlist-trigger"
+        id="open-wishlist-btn"
+        aria-label="Wishlist / Saved Fragrances"
+        title="Saved Fragrances"
       >
-        <svg
-          class="header-line-icon"
-          width="19"
-          height="19"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.6"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <circle cx="11" cy="11" r="7.5"></circle>
-          <line x1="21" y1="21" x2="16.5" y2="16.5"></line>
-        </svg>
-        <span class="action-label desktop-only">Search</span>
+        <div class="wishlist-icon-frame">
+          <svg
+            class="header-line-icon wishlist-heart-icon"
+            width="19"
+            height="19"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+          <span class="bag-counter-pill wishlist-counter-pill" id="header-wishlist-count" hidden>0</span>
+        </div>
+        <span class="action-label desktop-only">Wishlist</span>
       </button>
 
       <!-- Shopping Bag Line Icon Button -->
@@ -106,14 +143,14 @@ const currentPath = Astro.url.pathname;
             <line x1="3" y1="6" x2="21" y2="6"></line>
             <path d="M16 10a4 4 0 0 1-8 0"></path>
           </svg>
-          <span class="bag-counter-pill" id="header-bag-count">0</span>
+          <span class="bag-counter-pill" id="header-bag-count" hidden>0</span>
         </div>
         <span class="action-label desktop-only">Bag</span>
       </button>
     </div>
   </div>
 
-  <!-- Minimalist Quick Search Modal Overlay -->
+  <!-- Luxury Quick Search Modal Overlay -->
   <div class="search-modal-backdrop" id="search-modal" hidden>
     <div class="search-modal-card" role="dialog" aria-modal="true" aria-label="Search Fragrances">
       <div class="search-modal-header">
@@ -124,9 +161,10 @@ const currentPath = Astro.url.pathname;
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          stroke-width="1.6"
+          stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
+          aria-hidden="true"
         >
           <circle cx="11" cy="11" r="7.5"></circle>
           <line x1="21" y1="21" x2="16.5" y2="16.5"></line>
@@ -135,16 +173,24 @@ const currentPath = Astro.url.pathname;
           type="search"
           id="quick-search-input"
           class="quick-search-field"
-          placeholder="SEARCH FRAGRANCES, BRANDS, OR NOTES..."
+          placeholder="Search perfumes, brands, or notes..."
           autocomplete="off"
+          aria-label="Search perfumes, brands, or notes"
         />
-        <button class="search-close-btn" id="close-search-modal-btn" aria-label="Close search">
+        <button type="button" class="search-clear-input-btn" id="search-clear-input-btn" aria-label="Clear search input" style="display: none;">
           ✕
+        </button>
+        <button type="button" class="search-close-btn" id="close-search-modal-btn" aria-label="Close search">
+          <span class="search-close-key" aria-hidden="true">ESC</span>
+          <svg class="search-close-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
         </button>
       </div>
 
       <div class="search-modal-results" id="quick-search-results">
-        <p class="search-modal-hint">Search across our 25 verified luxury perfumes...</p>
+        <!-- Injected via JavaScript (Initial Rich State or Dynamic Results) -->
       </div>
     </div>
   </div>
@@ -177,50 +223,86 @@ const currentPath = Astro.url.pathname;
     }
   }
 
-  /* 3-column header layout */
+  /* Header Layout */
   .header-container {
     height: 100%;
-    display: grid;
-    grid-template-columns: 44px 1fr 88px;
+    display: flex;
     align-items: center;
-  }
-
-  @media (min-width: 860px) {
-    .header-container {
-      grid-template-columns: 1fr auto 1fr;
-    }
+    justify-content: space-between;
+    position: relative;
+    padding-left: clamp(0.75rem, 3.5vw, 2rem);
+    padding-right: clamp(0.75rem, 3.5vw, 2rem);
   }
 
   .header-left {
     display: flex;
     align-items: center;
+    gap: 0.35rem;
+    z-index: 2;
   }
 
+  /* Centered Brand Logo with Precision Optical Baseline Correction */
   .header-center {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, calc(-50% - 2.5px));
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     text-align: center;
+    z-index: 1;
+    pointer-events: auto;
+  }
+
+  .brand-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    line-height: 1;
+  }
+
+  .brand-logo {
+    height: 19px;
+    max-width: 130px;
+    width: auto;
+    object-fit: contain;
+    display: block;
   }
 
   .header-right {
     display: flex;
-    justify-content: flex-end;
     align-items: center;
-    gap: clamp(0.75rem, 2vw, 1.5rem);
-  }
-
-  .brand-logo {
-    height: 20px;
-    max-width: 135px;
-    width: auto;
-    object-fit: contain;
+    justify-content: flex-end;
+    gap: 0.35rem;
+    z-index: 2;
   }
 
   @media (min-width: 860px) {
+    .header-container {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      position: static;
+      padding-left: 2rem;
+      padding-right: 2rem;
+    }
+
+    .header-left {
+      gap: 1.5rem;
+    }
+
+    .header-center {
+      position: static;
+      transform: translateY(-2px);
+    }
+
     .brand-logo {
-      height: 25px;
-      max-width: 165px;
+      height: 24px;
+      max-width: 160px;
+    }
+
+    .header-right {
+      gap: 1.25rem;
     }
   }
 
@@ -259,16 +341,25 @@ const currentPath = Astro.url.pathname;
 
   /* Minimalist 2-line Hamburger Button */
   .mobile-toggle-btn {
-    display: flex;
-    flex-direction: column;
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
-    gap: 6px;
     width: 36px;
     height: 36px;
-    padding: 6px;
+    padding: 0;
     background: transparent;
     border: none;
     cursor: pointer;
+    color: var(--color-text-main);
+    border-radius: 50%;
+    transition: opacity var(--transition-fast), background-color var(--transition-fast);
+    -webkit-tap-highlight-color: transparent;
+    flex-shrink: 0;
+  }
+
+  .mobile-toggle-btn:hover {
+    opacity: 0.7;
+    background-color: rgba(24, 21, 19, 0.04);
   }
 
   @media (min-width: 860px) {
@@ -277,29 +368,32 @@ const currentPath = Astro.url.pathname;
     }
   }
 
-  .line-icon-bar {
+  .hamburger-svg {
     display: block;
-    width: 20px;
-    height: 1.5px;
-    background-color: var(--color-text-main);
-    transition: transform var(--transition-fast), opacity var(--transition-fast);
+    color: var(--color-text-main);
   }
 
   /* Header Line Action Buttons */
   .header-action-btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.45rem;
     background: transparent;
     border: none;
-    padding: 0.4rem;
+    width: 36px;
+    height: 36px;
+    padding: 0;
     color: var(--color-text-main);
     cursor: pointer;
-    transition: opacity var(--transition-fast);
+    border-radius: 50%;
+    transition: opacity var(--transition-fast), background-color var(--transition-fast);
+    -webkit-tap-highlight-color: transparent;
   }
 
   .header-action-btn:hover {
-    opacity: 0.6;
+    opacity: 0.75;
+    background-color: rgba(24, 21, 19, 0.04);
   }
 
   .header-line-icon {
@@ -321,197 +415,679 @@ const currentPath = Astro.url.pathname;
   }
 
   @media (min-width: 860px) {
+    .header-action-btn {
+      width: auto;
+      height: auto;
+      padding: 0.4rem 0.5rem;
+      border-radius: 4px;
+    }
+
+    .header-action-btn:hover {
+      background-color: transparent;
+      opacity: 0.6;
+    }
+
     .desktop-only {
       display: inline-block;
     }
   }
 
-  /* Bag Icon & Badge */
-  .bag-icon-frame {
+  /* Bag & Wishlist Icon & Badge */
+  .bag-icon-frame,
+  .wishlist-icon-frame {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 22px;
+    height: 22px;
   }
 
-  .bag-counter-pill {
+  .bag-counter-pill,
+  .wishlist-counter-pill {
     position: absolute;
     top: -5px;
     right: -7px;
     min-width: 15px;
     height: 15px;
-    padding: 0 3px;
-    border-radius: 8px;
-    background: var(--color-brand-gradient);
+    padding: 0 3.5px;
+    border-radius: 999px;
+    background-color: var(--color-brand-cognac);
     color: #FFFFFF;
+    font-family: var(--font-body);
     font-size: 0.5625rem;
     font-weight: 700;
-    line-height: 15px;
-    text-align: center;
-    box-shadow: 0 2px 6px var(--color-brand-cognac-glow);
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px solid #FFFFFF;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    pointer-events: none;
+  }
+
+  .wishlist-heart-icon {
+    transition: all var(--transition-fast);
+  }
+
+  .wishlist-heart-icon.is-active {
+    color: var(--color-brand-cognac);
+    stroke: var(--color-brand-cognac);
+    fill: rgba(200, 90, 36, 0.14);
   }
 
   /* ===================================================
-     SEARCH MODAL OVERLAY
+     LUXURY SEARCH MODAL OVERLAY
      =================================================== */
   .search-modal-backdrop {
     position: fixed;
     inset: 0;
-    background-color: rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    z-index: 130;
+    background-color: rgba(18, 15, 13, 0.65);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 150;
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    padding-top: clamp(2rem, 10vh, 5rem);
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding: 0;
+    transition: opacity var(--transition-fast);
+  }
+
+  @media (min-width: 768px) {
+    .search-modal-backdrop {
+      padding-top: clamp(2rem, 8vh, 4.5rem);
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
   }
 
   .search-modal-card {
     width: 100%;
-    max-width: 620px;
+    max-width: 100%;
     background-color: #FFFFFF;
-    border: 1px solid var(--color-border);
-    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.22);
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    max-height: 92vh;
+    animation: searchModalSlideDown 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @media (min-width: 768px) {
+    .search-modal-card {
+      max-width: 660px;
+      border-radius: 16px;
+      border: 1px solid var(--color-border);
+      box-shadow: 0 25px 65px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(197, 160, 89, 0.18);
+      max-height: 82vh;
+    }
+  }
+
+  @keyframes searchModalSlideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-12px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .search-modal-header {
     display: flex;
     align-items: center;
-    padding: 1.15rem 1.25rem;
-    border-bottom: 1px solid var(--color-border);
+    padding: 0.95rem 1.15rem;
+    border-bottom: 1px solid var(--color-border-subtle);
     gap: 0.75rem;
+    background: #FFFFFF;
+    position: relative;
+  }
+
+  @media (min-width: 768px) {
+    .search-modal-header {
+      padding: 1.15rem 1.4rem;
+      gap: 0.85rem;
+    }
   }
 
   .search-header-icon {
-    color: var(--color-text-light);
+    color: var(--color-brand-cognac);
     flex-shrink: 0;
   }
 
   .quick-search-field {
     width: 100%;
     font-family: var(--font-body);
-    font-size: 0.8125rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
+    font-size: 0.9375rem;
+    font-weight: 400;
+    letter-spacing: 0.01em;
     border: none;
     outline: none;
     color: var(--color-text-main);
     background: transparent;
+    padding: 0;
+  }
+
+  .quick-search-field::-webkit-search-cancel-button,
+  .quick-search-field::-webkit-search-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+    display: none;
   }
 
   .quick-search-field::placeholder {
     color: var(--color-text-light);
+    font-weight: 400;
+  }
+
+  .search-clear-input-btn {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-light);
+    font-size: 0.7rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all var(--transition-fast);
+  }
+
+  .search-clear-input-btn:hover {
+    color: var(--color-text-main);
+    background: #ECE8E1;
   }
 
   .search-close-btn {
-    font-size: 1.1rem;
-    color: var(--color-text-light);
-    padding: 0.25rem 0.5rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.55rem;
     cursor: pointer;
-    background: transparent;
-    border: none;
-    line-height: 1;
-    transition: color var(--transition-fast);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    color: var(--color-text-muted);
+    font-size: 0.71875rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+    transition: all var(--transition-fast);
   }
 
   .search-close-btn:hover {
     color: var(--color-text-main);
+    border-color: var(--color-text-main);
+  }
+
+  .search-close-key {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .search-close-key {
+      display: inline-block;
+      font-size: 0.625rem;
+      font-family: monospace;
+      padding: 0.1rem 0.35rem;
+      background: #FFFFFF;
+      border: 1px solid var(--color-border);
+      border-radius: 4px;
+      color: var(--color-text-light);
+    }
   }
 
   .search-modal-results {
-    max-height: 380px;
+    flex: 1;
     overflow-y: auto;
-    padding: 0.75rem 1.25rem;
+    -webkit-overflow-scrolling: touch;
+    padding: 1rem 1.15rem 1.25rem;
   }
 
-  .search-modal-hint {
-    font-size: 0.75rem;
-    color: var(--color-text-light);
-    letter-spacing: 0.04em;
+  @media (min-width: 768px) {
+    .search-modal-results {
+      padding: 1.25rem 1.4rem 1.5rem;
+    }
+  }
+
+  /* Initial Rich View */
+  :global(.search-initial-view) {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  :global(.search-section) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  :global(.search-section-header) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  :global(.search-section-title) {
+    font-size: 0.6875rem;
+    font-weight: 700;
     text-transform: uppercase;
-    text-align: center;
-    padding: 1.5rem 0;
+    letter-spacing: 0.12em;
+    color: var(--color-text-light);
   }
 
+  :global(.search-section-link) {
+    font-size: 0.71875rem;
+    font-weight: 600;
+    color: var(--color-brand-cognac);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color var(--transition-fast);
+  }
+
+  :global(.search-section-link:hover) {
+    color: var(--color-brand-cognac-dark);
+  }
+
+  :global(.search-chips-row) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  :global(.search-suggestion-chip) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.75rem;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-text-main);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :global(.search-suggestion-chip:hover) {
+    border-color: var(--color-brand-cognac);
+    color: var(--color-brand-cognac);
+    background: #FFFFFF;
+    box-shadow: 0 2px 8px rgba(200, 90, 36, 0.1);
+  }
+
+  :global(.search-suggestion-chip.search-chip-primary) {
+    background: var(--color-brand-gradient);
+    color: #FFFFFF;
+    border: none;
+    font-weight: 600;
+  }
+
+  /* Curated Highlights */
+  :global(.search-highlight-list) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  :global(.search-highlight-item),
   :global(.search-result-item) {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    padding: 0.75rem 0.5rem;
-    border-bottom: 1px solid var(--color-border-subtle);
+    gap: 0.85rem;
+    padding: 0.6rem 0.65rem;
+    border-radius: var(--border-radius-sm);
     text-decoration: none;
     color: inherit;
-    transition: background-color var(--transition-fast);
+    transition: all var(--transition-fast);
+    border: 1px solid transparent;
   }
 
+  :global(.search-highlight-item:hover),
   :global(.search-result-item:hover) {
     background-color: var(--color-surface);
+    border-color: var(--color-border-subtle);
   }
 
-  :global(.search-result-thumb) {
-    width: 48px;
-    height: 58px;
-    background-color: var(--color-surface);
+  :global(.search-item-thumb) {
+    width: 44px;
+    height: 52px;
+    background-color: #FAF8F5;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 4px;
+    padding: 3px;
     flex-shrink: 0;
   }
 
-  :global(.search-result-thumb img) {
+  :global(.search-item-thumb img) {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
   }
 
-  :global(.search-result-info) {
+  :global(.search-item-info) {
     flex: 1;
+    min-width: 0;
     display: flex;
     flex-direction: column;
+    gap: 0.15rem;
   }
 
-  :global(.search-result-brand) {
-    font-size: 0.6875rem;
+  :global(.search-item-brand) {
+    font-size: 0.625rem;
     text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--color-brand-cognac);
+  }
+
+  :global(.search-item-name) {
+    font-size: 0.84rem;
     font-weight: 600;
+    color: var(--color-text-main);
+    letter-spacing: 0.015em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  :global(.search-item-meta) {
+    font-size: 0.6875rem;
     color: var(--color-text-light);
   }
 
-  :global(.search-result-name) {
-    font-size: 0.8125rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--color-text-main);
+  :global(.search-item-price-wrap) {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
   }
 
-  :global(.search-result-price) {
-    font-size: 0.8125rem;
-    font-weight: 500;
+  :global(.search-item-price) {
+    font-size: 0.84rem;
+    font-weight: 700;
     color: var(--color-text-main);
+    letter-spacing: 0.02em;
+  }
+
+  :global(.search-item-arrow) {
+    color: var(--color-text-light);
+    transition: transform var(--transition-fast);
+  }
+
+  :global(.search-highlight-item:hover .search-item-arrow),
+  :global(.search-result-item:hover .search-item-arrow) {
+    color: var(--color-brand-cognac);
+    transform: translateX(3px);
+  }
+
+  /* Scent Families Badges */
+  :global(.search-families-grid) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.45rem;
+  }
+
+  @media (min-width: 500px) {
+    :global(.search-families-grid) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  :global(.search-family-badge) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.55rem 0.65rem;
+    background: #FAF8F5;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    font-size: 0.71875rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    text-align: center;
+  }
+
+  :global(.search-family-badge:hover) {
+    background: #FFFFFF;
+    border-color: var(--color-brand-cognac);
+    color: var(--color-brand-cognac);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  /* Active Search Results */
+  :global(.search-results-wrapper) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  :global(.search-results-meta) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--color-border-subtle);
+    font-size: 0.71875rem;
+    color: var(--color-text-muted);
+  }
+
+  :global(.search-view-all-link) {
+    color: var(--color-brand-cognac);
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: color var(--transition-fast);
+  }
+
+  :global(.search-view-all-link:hover) {
+    text-decoration: underline;
+  }
+
+  :global(.search-results-list) {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  /* Zero State */
+  :global(.search-zero-state) {
+    text-align: center;
+    padding: 2.25rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  :global(.search-zero-icon) {
+    font-size: 1.75rem;
+    opacity: 0.6;
+    margin-bottom: 0.2rem;
+  }
+
+  :global(.search-zero-title) {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+    margin: 0;
+  }
+
+  :global(.search-zero-desc) {
+    font-size: 0.78125rem;
+    color: var(--color-text-muted);
+    max-width: 320px;
+    margin: 0 0 1rem 0;
+    line-height: 1.45;
+  }
+
+  :global(.search-zero-chips) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4rem;
   }
 </style>
 
 <script>
   import productsData from '../data/products.json';
+  import { getFavorites } from '../lib/favorites';
+
+  // Wishlist Badge Logic
+  function updateWishlistBadge() {
+    const badge = document.getElementById('header-wishlist-count');
+    const heartIcon = document.querySelector('.wishlist-heart-icon');
+    const favs = getFavorites();
+    const count = favs.length;
+    if (badge) {
+      badge.textContent = String(count);
+      badge.hidden = count === 0;
+    }
+    if (heartIcon) {
+      heartIcon.classList.toggle('is-active', count > 0);
+    }
+  }
+
+  window.addEventListener('favorites-updated', updateWishlistBadge);
+  // Also check on page load & tab focus
+  window.addEventListener('focus', updateWishlistBadge);
+  updateWishlistBadge();
+
+  // Bag Badge Logic
+  function updateBagBadge() {
+    const bagBadge = document.getElementById('header-bag-count');
+    try {
+      const data = localStorage.getItem('lumera_bag_v1');
+      const items = data ? JSON.parse(data) : [];
+      const count = items.reduce((sum: number, it: any) => sum + (it.quantity || 1), 0);
+      if (bagBadge) {
+        bagBadge.textContent = String(count);
+        bagBadge.hidden = count === 0;
+      }
+    } catch (e) {}
+  }
+
+  window.addEventListener('bag-updated', updateBagBadge);
+  window.addEventListener('storage', updateBagBadge);
+  window.addEventListener('focus', updateBagBadge);
+  updateBagBadge();
 
   // Quick Search Modal Logic
   const openSearchBtn = document.getElementById('open-search-modal-btn');
   const searchModal = document.getElementById('search-modal');
   const closeSearchBtn = document.getElementById('close-search-modal-btn');
   const searchInput = document.getElementById('quick-search-input') as HTMLInputElement;
+  const searchClearInputBtn = document.getElementById('search-clear-input-btn') as HTMLButtonElement;
   const searchResults = document.getElementById('quick-search-results');
+
+  // Curated Bestsellers for Initial View
+  const curatedBestsellers = productsData.filter((p) => p.featured).slice(0, 3);
+
+  function renderInitialSearchView() {
+    if (!searchResults) return;
+
+    searchResults.innerHTML = `
+      <div class="search-initial-view">
+        <!-- Popular Searches -->
+        <div class="search-section">
+          <div class="search-section-title">Trending Searches</div>
+          <div class="search-chips-row">
+            <button type="button" class="search-suggestion-chip" data-search-term="Iconista">Aigner Iconista</button>
+            <button type="button" class="search-suggestion-chip" data-search-term="Boucheron">Boucheron</button>
+            <button type="button" class="search-suggestion-chip" data-search-term="Rose">Rose & Floral</button>
+            <button type="button" class="search-suggestion-chip" data-search-term="Vanilla">Vanilla</button>
+            <button type="button" class="search-suggestion-chip" data-search-term="Under 250">Under 250 QAR</button>
+            <button type="button" class="search-suggestion-chip" data-search-term="Dolce & Gabbana">D&G</button>
+          </div>
+        </div>
+
+        <!-- Curated Highlights -->
+        <div class="search-section">
+          <div class="search-section-header">
+            <span class="search-section-title">Curated Bestsellers</span>
+            <a href="/shop/" class="search-section-link">View All Collection (${productsData.length}) →</a>
+          </div>
+          <div class="search-highlight-list">
+            ${curatedBestsellers
+              .map(
+                (p) => `
+              <a href="/perfumes/${p.slug}/" class="search-highlight-item">
+                <div class="search-item-thumb">
+                  <img src="${p.image}" alt="${p.brand} ${p.name}" loading="lazy" />
+                </div>
+                <div class="search-item-info">
+                  <span class="search-item-brand">${p.brand}</span>
+                  <span class="search-item-name">${p.name}</span>
+                  <span class="search-item-meta">${p.sizeDisplay} · ${p.concentration}</span>
+                </div>
+                <div class="search-item-price-wrap">
+                  <span class="search-item-price">${p.priceDisplay}</span>
+                  <svg class="search-item-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </div>
+              </a>
+            `
+              )
+              .join('')}
+          </div>
+        </div>
+
+        <!-- Scent Families Quick Filter -->
+        <div class="search-section">
+          <div class="search-section-title">Explore by Scent Family</div>
+          <div class="search-families-grid">
+            <a href="/shop/?family=floral" class="search-family-badge">🌸 Floral & Rose</a>
+            <a href="/shop/?family=oriental" class="search-family-badge">🔥 Amber & Oriental</a>
+            <a href="/shop/?family=woody" class="search-family-badge">🌲 Woody & Earthy</a>
+            <a href="/shop/?family=fresh" class="search-family-badge">🍋 Fresh Citrus</a>
+          </div>
+        </div>
+      </div>
+    `;
+
+    bindSuggestionChips();
+  }
+
+  function bindSuggestionChips() {
+    if (!searchResults) return;
+    const chips = searchResults.querySelectorAll<HTMLButtonElement>('[data-search-term]');
+    chips.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const term = btn.getAttribute('data-search-term') || '';
+        if (searchInput) {
+          searchInput.value = term;
+          searchInput.focus();
+          searchInput.dispatchEvent(new Event('input'));
+        }
+      });
+    });
+  }
 
   function openSearch() {
     if (searchModal) {
       searchModal.hidden = false;
       document.body.style.overflow = 'hidden';
-      setTimeout(() => searchInput?.focus(), 50);
+      if (!searchInput?.value.trim()) {
+        renderInitialSearchView();
+      }
+      setTimeout(() => searchInput?.focus(), 60);
     }
   }
 
@@ -520,14 +1096,22 @@ const currentPath = Astro.url.pathname;
       searchModal.hidden = true;
       document.body.style.overflow = '';
       if (searchInput) searchInput.value = '';
-      if (searchResults) {
-        searchResults.innerHTML = '<p class="search-modal-hint">Search across our 25 verified luxury perfumes...</p>';
-      }
+      if (searchClearInputBtn) searchClearInputBtn.style.display = 'none';
+      renderInitialSearchView();
     }
   }
 
   openSearchBtn?.addEventListener('click', openSearch);
   closeSearchBtn?.addEventListener('click', closeSearch);
+
+  searchClearInputBtn?.addEventListener('click', () => {
+    if (searchInput) {
+      searchInput.value = '';
+      searchInput.focus();
+      searchClearInputBtn.style.display = 'none';
+      renderInitialSearchView();
+    }
+  });
 
   searchModal?.addEventListener('click', (e) => {
     if (e.target === searchModal) closeSearch();
@@ -543,50 +1127,95 @@ const currentPath = Astro.url.pathname;
     }
   });
 
+  searchInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const q = searchInput.value.trim();
+      if (q) {
+        window.location.href = `/shop/?search=${encodeURIComponent(q)}`;
+      }
+    }
+  });
+
   searchInput?.addEventListener('input', () => {
     const q = searchInput.value.trim().toLowerCase();
+    if (searchClearInputBtn) {
+      searchClearInputBtn.style.display = q ? 'flex' : 'none';
+    }
+
     if (!q) {
-      if (searchResults) {
-        searchResults.innerHTML = '<p class="search-modal-hint">Search across our 25 verified luxury perfumes...</p>';
-      }
+      renderInitialSearchView();
       return;
     }
 
-    const matches = productsData.filter(
-      (p) =>
+    let matches = productsData.filter((p) => {
+      const isPriceQuery = q.includes('250') || q.includes('under') || q.includes('price');
+      let matchesPrice = false;
+      if (isPriceQuery && (q.includes('under') || q.includes('<') || q.includes('250'))) {
+        matchesPrice = p.priceMinor < 25000;
+      }
+
+      return (
         p.name.toLowerCase().includes(q) ||
         p.brand.toLowerCase().includes(q) ||
         p.rawNotes.toLowerCase().includes(q) ||
-        p.scentFamilies.some((f) => f.toLowerCase().includes(q))
-    ).slice(0, 6);
+        p.scentFamilies.some((f) => f.toLowerCase().includes(q)) ||
+        matchesPrice
+      );
+    }).slice(0, 8);
 
     if (!searchResults) return;
 
     if (!matches.length) {
       searchResults.innerHTML = `
-        <div style="text-align: center; padding: 2rem 0; color: var(--color-text-muted);">
-          <p style="font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.05em;">No perfumes match "${q}"</p>
+        <div class="search-zero-state">
+          <div class="search-zero-icon" aria-hidden="true">🔍</div>
+          <h4 class="search-zero-title">No fragrances found for "${q}"</h4>
+          <p class="search-zero-desc">Check your spelling, or explore these popular luxury selections.</p>
+          <div class="search-zero-chips">
+            <button type="button" class="search-suggestion-chip" data-search-term="Aigner">Aigner</button>
+            <button type="button" class="search-suggestion-chip" data-search-term="Boucheron">Boucheron</button>
+            <button type="button" class="search-suggestion-chip" data-search-term="Rose">Rose & Floral</button>
+            <a href="/shop/" class="search-suggestion-chip search-chip-primary">Browse All Fragrances</a>
+          </div>
         </div>
       `;
+      bindSuggestionChips();
       return;
     }
 
-    searchResults.innerHTML = matches
-      .map(
-        (p) => `
-        <a href="/perfumes/${p.slug}/" class="search-result-item">
-          <div class="search-result-thumb">
-            <img src="${p.image}" alt="${p.brand} ${p.name}" />
-          </div>
-          <div class="search-result-info">
-            <span class="search-result-brand">${p.brand}</span>
-            <span class="search-result-name">${p.name}</span>
-            <span style="font-size: 0.6875rem; color: var(--color-text-light); text-transform: uppercase;">${p.sizeDisplay} · ${p.concentration}</span>
-          </div>
-          <span class="search-result-price">${p.priceDisplay}</span>
-        </a>
-      `
-      )
-      .join('');
+    searchResults.innerHTML = `
+      <div class="search-results-wrapper">
+        <div class="search-results-meta">
+          <span>Found <strong>${matches.length}</strong> ${matches.length === 1 ? 'fragrance' : 'fragrances'}</span>
+          <a href="/shop/?search=${encodeURIComponent(q)}" class="search-view-all-link">
+            View all in Shop Collection →
+          </a>
+        </div>
+        <div class="search-results-list">
+          ${matches
+            .map(
+              (p) => `
+            <a href="/perfumes/${p.slug}/" class="search-result-item">
+              <div class="search-item-thumb">
+                <img src="${p.image}" alt="${p.brand} ${p.name}" loading="lazy" />
+              </div>
+              <div class="search-item-info">
+                <span class="search-item-brand">${p.brand}</span>
+                <span class="search-item-name">${p.name}</span>
+                <span class="search-item-meta">${p.sizeDisplay} · ${p.concentration}</span>
+              </div>
+              <div class="search-item-price-wrap">
+                <span class="search-item-price">${p.priceDisplay}</span>
+                <svg class="search-item-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </div>
+            </a>
+          `
+            )
+            .join('')}
+        </div>
+      </div>
+    `;
   });
 </script>

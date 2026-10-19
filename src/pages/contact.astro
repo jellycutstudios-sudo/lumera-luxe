@@ -4,16 +4,19 @@ import { siteConfig } from '../data/site';
 ---
 
 <BaseLayout
-  title={`Contact & Concierge — ${siteConfig.brandName}`}
+  title={`Contact & Concierge — ${siteConfig.brandName} Doha`}
   description="Connect with LUMÈRA LUXE in Doha, Qatar. Direct WhatsApp assistance for fragrance inquiries, recommendations, and delivery arrangements."
 >
   <div class="contact-page">
     <header class="contact-header">
-      <div class="container text-center">
-        <span class="eyebrow">Client Care</span>
-        <h1 class="contact-title">Connect with Our Concierge</h1>
+      <div class="container-narrow text-center">
+        <span class="eyebrow">Client Care · Doha, Qatar</span>
+        <h1 class="contact-title">
+          Direct Olfactory Consultation,<br />
+          <span class="title-italic">At Your Service.</span>
+        </h1>
         <p class="contact-lead">
-          We provide personalized consultation for perfume selections, special requests, and Qatar deliveries.
+          Whether seeking an intimate signature scent, inquiring about rare European flacons, or requesting same-day residence delivery in Qatar, our boutique team is at your disposal.
         </p>
       </div>
     </header>
@@ -22,55 +25,99 @@ import { siteConfig } from '../data/site';
       <div class="contact-grid">
         <!-- Direct Channels -->
         <div class="contact-cards">
-          <div class="contact-channel-card highlight-card">
-            <div class="channel-icon-wrap whatsapp-theme">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12.031 2C6.495 2 2 6.495 2 12.031c0 1.77.462 3.498 1.341 5.022L2 22l5.093-1.336A10.007 10.007 0 0 0 12.031 22C17.567 22 22 17.505 22 12.031 22 6.495 17.567 2 12.031 2zm5.879 14.195c-.244.686-1.42 1.314-1.956 1.385-.514.068-1.163.097-3.708-.958-3.04-1.258-4.996-4.34-5.148-4.542-.152-.202-1.233-1.64-1.233-3.128 0-1.488.777-2.22 1.052-2.525.275-.305.6-.381.8-.381.2 0 .4 0 .576.01.187.01.438-.071.686.525.257.619.876 2.143.952 2.296.076.153.127.33.025.534-.102.204-.153.33-.305.508-.152.178-.32.396-.457.533-.153.153-.312.32-.134.626.178.305.792 1.306 1.698 2.112 1.166 1.037 2.148 1.358 2.453 1.51.305.153.483.128.66-.076.178-.204.762-.89 965-1.195.204-.305.407-.254.686-.153.28.102 1.777.838 2.082.99.305.153.508.229.584.356.076.127.076.737-.168 1.423z"/>
+          <!-- WhatsApp Channel -->
+          <div class="channel-card highlight-channel">
+            <div class="channel-icon-wrap">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"></path>
+                <path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"></path>
               </svg>
             </div>
             <div class="channel-body">
+              <span class="channel-kicker">Immediate Assistance</span>
               <h2 class="channel-title">WhatsApp Concierge</h2>
               <p class="channel-desc">
-                Fastest response for perfume advice, immediate stock confirmation, and delivery updates.
+                Fastest response for personalized fragrance guidance, instant stock allocation, and same-day delivery coordination.
               </p>
-              <a
-                href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent("Hello LUMÈRA LUXE, I have a question about your fragrance boutique.")}`}
-                class="btn btn-primary btn-sm"
-                target="_blank"
-                rel="noopener"
-              >
-                Start WhatsApp Conversation
+              <div class="channel-action">
+                <a
+                  href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent("Hello LUMÈRA LUXE, I have an inquiry regarding your fragrance boutique.")}`}
+                  class="btn btn-primary btn-sm"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <span>Chat on WhatsApp</span>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </a>
+                <span class="response-note">Typically replies within minutes</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Email Channel -->
+          <div class="channel-card">
+            <div class="channel-icon-wrap">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+              </svg>
+            </div>
+            <div class="channel-body">
+              <span class="channel-kicker">Formal Inquiries</span>
+              <h2 class="channel-title">Private Inquiries & Gifting</h2>
+              <p class="channel-desc">
+                For corporate gifting, bespoke curation, and general boutique correspondence.
+              </p>
+              <a href={`mailto:${siteConfig.email}`} class="channel-link">
+                {siteConfig.email}
               </a>
             </div>
           </div>
 
-          <div class="contact-channel-card">
+          <!-- Location & Coverage -->
+          <div class="channel-card">
             <div class="channel-icon-wrap">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                <polyline points="22,6 12,13 2,6"></polyline>
-              </svg>
-            </div>
-            <div class="channel-body">
-              <h2 class="channel-title">Email Inquiries</h2>
-              <p class="channel-desc">For formal inquiries, gift consultations, or partnership requests.</p>
-              <a href={`mailto:${siteConfig.email}`} class="channel-link">{siteConfig.email}</a>
-            </div>
-          </div>
-
-          <div class="contact-channel-card">
-            <div class="channel-icon-wrap">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z"></path>
                 <circle cx="12" cy="10" r="3"></circle>
               </svg>
             </div>
             <div class="channel-body">
-              <h2 class="channel-title">Location & Service Area</h2>
+              <span class="channel-kicker">Territory</span>
+              <h2 class="channel-title">Doha & Nationwide Dispatch</h2>
               <p class="channel-desc">
-                Based in Doha, Qatar. Doorstep courier dispatch to Doha, Lusail, The Pearl, Al Wakrah, and across Qatar.
+                Dispatched directly across Doha, Lusail, The Pearl-Qatar, Al Rayyan, Al Wakrah, and all municipalities of Qatar.
               </p>
-              <span class="channel-location-badge">Doha, State of Qatar</span>
+              <div class="territory-tag">State of Qatar · Fast Courier</div>
+            </div>
+          </div>
+
+          <!-- Official Social Channels -->
+          <div class="channel-card">
+            <div class="channel-icon-wrap">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+              </svg>
+            </div>
+            <div class="channel-body">
+              <span class="channel-kicker">Digital Presence</span>
+              <h2 class="channel-title">Official Social Media</h2>
+              <p class="channel-desc">
+                Follow our fragrance curations, new European arrivals, and behind-the-scenes olfactory rituals in Doha.
+              </p>
+              <div class="social-links-pills">
+                <a href={siteConfig.instagramUrl} target="_blank" rel="noopener" class="social-pill">
+                  Instagram: {siteConfig.instagramHandle}
+                </a>
+                <a href={siteConfig.tiktokUrl} target="_blank" rel="noopener" class="social-pill">
+                  TikTok: {siteConfig.tiktokHandle}
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -78,26 +125,29 @@ import { siteConfig } from '../data/site';
         <!-- FAQ Note Box -->
         <div class="contact-faq-wrap">
           <div class="faq-box">
-            <h3 class="faq-box-title">How Our Boutique Operates</h3>
+            <div class="faq-box-header">
+              <span class="faq-box-kicker">Boutique Etiquette</span>
+              <h3 class="faq-box-title">Client Guidelines</h3>
+            </div>
             
             <div class="faq-item">
               <h4 class="faq-item-q">How do I place an order?</h4>
               <p class="faq-item-a">
-                Browse our curated collection, add your preferred fragrances to your bag, and tap <em>Request via WhatsApp</em>. Our team confirms exact availability, delivery fees, and sends payment instructions.
+                Browse our curated boutique, add your preferred fragrances to your bag, and select <em>Order via WhatsApp</em>. Our Doha concierge confirms bottle availability, verifies batch integrity, and coordinates delivery.
               </p>
             </div>
 
             <div class="faq-item">
-              <h4 class="faq-item-q">Are the perfumes 100% genuine?</h4>
+              <h4 class="faq-item-q">Are all fragrances authentic?</h4>
               <p class="faq-item-a">
-                Yes, completely. Every fragrance we stock is sourced through verified channels and examined for authentic batch codes, concentrations, and pristine packaging.
+                Without exception. Every flacon is sourced directly through verified European channels, carrying factory batch codes and sealed cellophane wrap.
               </p>
             </div>
 
             <div class="faq-item">
               <h4 class="faq-item-q">What are the delivery times in Qatar?</h4>
               <p class="faq-item-a">
-                Orders within Doha and surrounding municipalities are typically delivered within 24 to 48 hours of order confirmation.
+                Orders within Doha and surrounding municipalities are typically fulfilled within 24 to 48 hours. Urgent same-day delivery can be arranged upon request via WhatsApp.
               </p>
             </div>
           </div>
@@ -108,54 +158,77 @@ import { siteConfig } from '../data/site';
 </BaseLayout>
 
 <style>
-  .contact-header {
-    background-color: var(--color-surface);
-    border-bottom: 1px solid var(--color-border);
-    padding: clamp(3rem, 6vw, 4.5rem) 0;
+  .contact-page {
+    background-color: var(--color-bg);
+    color: var(--color-text-main);
+  }
+
+  .container-narrow {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 var(--page-gutter);
   }
 
   .text-center {
     text-align: center;
   }
 
+  .contact-header {
+    background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-bg) 100%);
+    border-bottom: 1px solid var(--color-border-subtle);
+    padding: clamp(3.5rem, 6vw, 5.5rem) 0 clamp(2.5rem, 4vw, 4rem);
+  }
+
   .eyebrow {
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--color-accent);
-    margin-bottom: 0.75rem;
-    display: block;
+    letter-spacing: 0.18em;
+    color: var(--color-brand-cognac);
+    margin-bottom: 1rem;
+    display: inline-block;
   }
 
   .contact-title {
-    font-size: var(--text-4xl);
+    font-family: var(--font-serif);
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
     color: var(--color-text-main);
-    margin-bottom: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .title-italic {
+    font-style: italic;
+    color: var(--color-brand-cognac-dark);
   }
 
   .contact-lead {
-    font-size: 1.1rem;
+    font-size: clamp(0.95rem, 1.8vw, 1.125rem);
+    font-weight: 300;
+    line-height: 1.7;
     color: var(--color-text-muted);
-    max-width: 600px;
+    max-width: 620px;
     margin: 0 auto;
   }
 
   .contact-container {
     padding-top: clamp(2.5rem, 5vw, 4.5rem);
-    padding-bottom: 5rem;
+    padding-bottom: 5.5rem;
   }
 
   .contact-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 3rem;
+    gap: 2.5rem;
   }
 
-  @media (min-width: 860px) {
+  @media (min-width: 880px) {
     .contact-grid {
-      grid-template-columns: 1.2fr 1fr;
-      gap: 4rem;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 3.5rem;
     }
   }
 
@@ -165,67 +238,98 @@ import { siteConfig } from '../data/site';
     gap: 1.5rem;
   }
 
-  .contact-channel-card {
-    background-color: #FFFFFF;
+  .channel-card {
+    background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius-sm);
     padding: 1.75rem 1.5rem;
     display: flex;
     gap: 1.25rem;
+    transition: border-color var(--transition-fast), transform var(--transition-fast);
   }
 
-  .contact-channel-card.highlight-card {
-    background-color: var(--color-surface);
-    border-color: rgba(166, 83, 45, 0.3);
+  .channel-card:hover {
+    border-color: var(--color-gold-border);
+  }
+
+  .channel-card.highlight-channel {
+    background: linear-gradient(135deg, var(--color-surface) 0%, #FFFFFF 100%);
+    border-color: var(--color-gold-border);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
   }
 
   .channel-icon-wrap {
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
     border-radius: var(--border-radius-sm);
     background-color: var(--color-surface-subtle);
-    color: var(--color-accent);
+    border: 1px solid var(--color-border);
+    color: var(--color-brand-cognac);
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
   }
 
-  .channel-icon-wrap.whatsapp-theme {
-    background-color: rgba(37, 211, 102, 0.12);
-    color: #25D366;
+  .channel-kicker {
+    font-size: 0.625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--color-brand-cognac);
+    margin-bottom: 0.35rem;
+    display: block;
   }
 
   .channel-title {
-    font-family: var(--font-display);
-    font-size: 1.35rem;
+    font-family: var(--font-serif);
+    font-size: 1.4rem;
+    font-weight: 500;
     color: var(--color-text-main);
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.5rem;
   }
 
   .channel-desc {
     font-size: 0.875rem;
     color: var(--color-text-muted);
-    line-height: 1.55;
+    line-height: 1.65;
     margin-bottom: 1rem;
   }
 
-  .channel-link {
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--color-accent);
-    border-bottom: 1px solid var(--color-accent);
-    padding-bottom: 2px;
+  .channel-action {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
   }
 
-  .channel-location-badge {
+  .channel-action .btn {
+    gap: 0.5rem;
+  }
+
+  .response-note {
+    font-size: 0.75rem;
+    color: var(--color-text-light);
+    font-style: italic;
+  }
+
+  .channel-link {
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    color: var(--color-brand-cognac);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  .territory-tag {
     display: inline-block;
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
     font-weight: 500;
-    color: var(--color-text-main);
-    background-color: var(--color-surface);
+    color: var(--color-text-muted);
+    background-color: #FFFFFF;
     border: 1px solid var(--color-border);
-    padding: 0.25rem 0.65rem;
+    padding: 0.3rem 0.75rem;
     border-radius: var(--border-radius-sm);
   }
 
@@ -234,15 +338,27 @@ import { siteConfig } from '../data/site';
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius-sm);
-    padding: 2rem 1.75rem;
+    padding: 2.25rem 1.75rem;
+  }
+
+  .faq-box-kicker {
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-brand-cognac);
+    display: block;
+    margin-bottom: 0.35rem;
   }
 
   .faq-box-title {
-    font-family: var(--font-display);
-    font-size: 1.5rem;
+    font-family: var(--font-serif);
+    font-size: 1.65rem;
+    font-weight: 400;
     margin-bottom: 1.5rem;
     padding-bottom: 0.75rem;
     border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-main);
   }
 
   .faq-item {
@@ -254,16 +370,46 @@ import { siteConfig } from '../data/site';
   }
 
   .faq-item-q {
-    font-family: var(--font-body);
-    font-size: 0.95rem;
-    font-weight: 600;
+    font-family: var(--font-serif);
+    font-size: 1.15rem;
+    font-weight: 500;
     color: var(--color-text-main);
-    margin-bottom: 0.35rem;
+    margin-bottom: 0.4rem;
   }
 
   .faq-item-a {
     font-size: 0.875rem;
     color: var(--color-text-muted);
-    line-height: 1.6;
+    line-height: 1.65;
+  }
+
+  .faq-item-a em {
+    font-style: italic;
+    color: var(--color-text-main);
+  }
+
+  .social-links-pills {
+    display: flex;
+    gap: 0.625rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+  }
+
+  .social-pill {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-brand-cognac);
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border);
+    padding: 0.35rem 0.75rem;
+    border-radius: var(--border-radius-sm);
+    transition: all var(--transition-fast);
+  }
+
+  .social-pill:hover {
+    border-color: var(--color-brand-cognac);
+    background-color: var(--color-surface);
   }
 </style>

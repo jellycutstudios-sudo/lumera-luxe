@@ -4,152 +4,723 @@ import { siteConfig } from '../data/site';
 ---
 
 <BaseLayout
-  title={`Delivery & Returns — ${siteConfig.brandName}`}
-  description="Transparent policies for delivery, cancellation, and returns across Qatar for LUMÈRA LUXE fragrance orders."
+  title={`Delivery & Returns — ${siteConfig.brandName} Doha`}
+  description="Transparent policies for delivery, order verification, and returns across Qatar for LUMÈRA LUXE fragrance patrons."
 >
-  <div class="policy-page">
-    <header class="policy-header">
-      <div class="container text-center">
-        <span class="eyebrow">Client Policies</span>
-        <h1 class="policy-title">Delivery & Returns Policy</h1>
+  <article class="policy-page">
+    <!-- Minimal Editorial Masthead -->
+    <header class="policy-masthead">
+      <div class="container-narrow text-center">
+        <span class="policy-kicker">Client Care · Doha, Qatar</span>
+        <h1 class="policy-headline">
+          Delivery & Returns,<br />
+          <span class="headline-italic">Handled with Discretion.</span>
+        </h1>
         <p class="policy-lead">
-          Clear, honest, and personal service for our Qatar fragrance clients.
+          Every flacon is individually verified, prepared in signature boutique packaging, and hand-delivered to your doorstep across Qatar.
         </p>
+        <div class="masthead-divider" aria-hidden="true">
+          <span class="divider-line"></span>
+          <span class="divider-seal">EST. DOHA</span>
+          <span class="divider-line"></span>
+        </div>
       </div>
     </header>
 
-    <div class="container policy-body-container">
-      <div class="policy-content">
-        <section class="policy-section">
-          <h2 class="policy-section-heading">1. Delivery Across Qatar</h2>
-          <p>
-            LUMÈRA LUXE offers courier doorstep delivery across the State of Qatar, including Doha, Lusail, The Pearl-Qatar, Al Rayyan, Al Wakrah, and surrounding areas.
-          </p>
-          <ul class="policy-list">
-            <li><strong>Delivery Charges:</strong> Delivery charges vary depending on municipality and delivery urgency. The exact charge will be communicated and confirmed during your WhatsApp order request prior to payment.</li>
-            <li><strong>Delivery Schedule:</strong> Standard deliveries are fulfilled within 24 to 48 hours following confirmation of your order and receipt verification.</li>
-            <li><strong>Special Requests:</strong> If you require same-day delivery or scheduled gifting delivery, please inform our concierge on WhatsApp during order submission.</li>
-          </ul>
-        </section>
-
-        <section class="policy-section">
-          <h2 class="policy-section-heading">2. Order Confirmation & Payment</h2>
-          <p>
-            Placing an order request on this website does not charge any card or complete a financial transaction. All order requests are reviewed by our team:
-          </p>
-          <ul class="policy-list">
-            <li>We verify current bottle stock and concentration integrity.</li>
-            <li>We calculate the final payable amount, including exact Qatar delivery fees.</li>
-            <li>We provide approved, verified payment instructions directly through the WhatsApp conversation.</li>
-            <li>Orders are dispatched once payment confirmation is verified.</li>
-          </ul>
-        </section>
-
-        <section class="policy-section">
-          <h2 class="policy-section-heading">3. Returns & Exchange Policy</h2>
-          <p>
-            Fragrances are intimate beauty products subject to strict hygienic and storage standards. To ensure safety and authenticity for all customers:
-          </p>
-          <ul class="policy-list">
-            <li><strong>Eligible Returns:</strong> Fragrances may be returned or exchanged within 3 days of delivery only if the product remains completely sealed in its original cellophane packaging, unused, and undamaged.</li>
-            <li><strong>Damaged or Incorrect Items:</strong> If you receive an incorrect fragrance variant or an item damaged in transit, contact our WhatsApp concierge within 24 hours with photographs of the item and courier receipt. We will replace or refund promptly.</li>
-            <li><strong>Opened Bottles:</strong> Due to hygiene and scent preservation considerations, opened or tested bottles cannot be returned or refunded unless an authentic defect is established.</li>
-          </ul>
-        </section>
-
-        <section class="policy-section">
-          <h2 class="policy-section-heading">4. Contact Concierge</h2>
-          <p>
-            Have a question or require assistance with an existing order request? Connect with us:
-          </p>
-          <p>
-            <strong>WhatsApp:</strong> <a href={`https://wa.me/${siteConfig.whatsappNumber}`} target="_blank" rel="noopener">{siteConfig.whatsappDisplay}</a><br />
-            <strong>Email:</strong> <a href={`mailto:${siteConfig.email}`}>{siteConfig.email}</a>
-          </p>
+    <div class="container policy-container">
+      <!-- 1. Quick Key Highlights (4 Hairline Metric Blocks) -->
+      <section class="highlights-grid" aria-label="Key Delivery Highlights">
+        <div class="highlight-item">
+          <span class="highlight-metric">24–48h</span>
+          <span class="highlight-title">Nationwide Delivery</span>
+          <p class="highlight-desc">Doorstep courier across all municipalities in Qatar.</p>
         </div>
-      </div>
+        <div class="highlight-item">
+          <span class="highlight-metric">Same-Day</span>
+          <span class="highlight-title">Priority Available</span>
+          <p class="highlight-desc">Direct rush dispatch arranged via WhatsApp concierge.</p>
+        </div>
+        <div class="highlight-item">
+          <span class="highlight-metric">100%</span>
+          <span class="highlight-title">Sealed & Inspected</span>
+          <p class="highlight-desc">Verified batch codes and climate-controlled storage.</p>
+        </div>
+        <div class="highlight-item">
+          <span class="highlight-metric">3 Days</span>
+          <span class="highlight-title">Return Privilege</span>
+          <p class="highlight-desc">Eligible for intact, unopened cellophane wrapping.</p>
+        </div>
+      </section>
+
+      <!-- 2. Section: Delivery Standards -->
+      <section class="policy-chapter">
+        <div class="chapter-header">
+          <span class="chapter-index">01</span>
+          <div>
+            <span class="chapter-kicker">Nationwide Logistics</span>
+            <h2 class="chapter-title">Doorstep Delivery Across Qatar</h2>
+          </div>
+        </div>
+
+        <div class="cards-grid">
+          <div class="service-card">
+            <div class="card-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+            </div>
+            <h3 class="card-title">Full Qatar Coverage</h3>
+            <p class="card-text">
+              We deliver to all residential and commercial addresses in Doha, Lusail, The Pearl-Qatar, Al Rayyan, Al Wakrah, Umm Salal, and all surrounding regions.
+            </p>
+          </div>
+
+          <div class="service-card">
+            <div class="card-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+              </svg>
+            </div>
+            <h3 class="card-title">Transparent Courier Rates</h3>
+            <p class="card-text">
+              Delivery fees are quoted transparently during your WhatsApp consultation before any payment is made. No unexpected courier markups or surcharges.
+            </p>
+          </div>
+
+          <div class="service-card">
+            <div class="card-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2" />
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+              </svg>
+            </div>
+            <h3 class="card-title">Signature Gift Packaging</h3>
+            <p class="card-text">
+              Every bottle is wrapped in our minimalist matte gift box tied with black ribbed grosgrain ribbon, accompanied by an enclosed presentation card.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. Section: 3-Step Order Protocol -->
+      <section class="policy-chapter">
+        <div class="chapter-header">
+          <span class="chapter-index">02</span>
+          <div>
+            <span class="chapter-kicker">Order Fulfillment</span>
+            <h2 class="chapter-title">The Three-Step Protocol</h2>
+          </div>
+        </div>
+
+        <div class="steps-flow">
+          <div class="step-card">
+            <span class="step-badge">Step 01</span>
+            <h3 class="step-title">Select & Request</h3>
+            <p class="step-text">
+              Add your chosen perfumes to your bag and tap <em>Order via WhatsApp</em>. Your selection is transmitted directly to our private boutique thread.
+            </p>
+          </div>
+
+          <div class="step-arrow" aria-hidden="true">→</div>
+
+          <div class="step-card">
+            <span class="step-badge">Step 02</span>
+            <h3 class="step-title">Inspection & Quote</h3>
+            <p class="step-text">
+              Our Doha team personally verifies the flacon's batch seal, calculates the exact courier fee, and provides secure payment instructions.
+            </p>
+          </div>
+
+          <div class="step-arrow" aria-hidden="true">→</div>
+
+          <div class="step-card">
+            <span class="step-badge">Step 03</span>
+            <h3 class="step-title">Discreet Delivery</h3>
+            <p class="step-text">
+              Upon payment acknowledgment, your package is prepared with temperature care and dispatched directly to your residence in Qatar.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. Section: Returns & Authenticity Safeguard -->
+      <section class="policy-chapter">
+        <div class="chapter-header">
+          <span class="chapter-index">03</span>
+          <div>
+            <span class="chapter-kicker">Client Protection</span>
+            <h2 class="chapter-title">Returns & Authenticity Standards</h2>
+          </div>
+        </div>
+
+        <div class="returns-grid">
+          <!-- Card 1: Eligible Returns -->
+          <div class="policy-box eligible-box">
+            <div class="policy-box-header">
+              <span class="status-pill status-eligible">Return Privilege</span>
+              <h3 class="policy-box-title">Sealed Flacons</h3>
+            </div>
+            <ul class="clean-check-list">
+              <li>
+                <span class="check-icon">✓</span>
+                <div>
+                  <strong>3-Day Privilege:</strong>
+                  <span>Returns or exchanges are honored within 3 days of delivery provided original cellophane remains completely intact.</span>
+                </div>
+              </li>
+              <li>
+                <span class="check-icon">✓</span>
+                <div>
+                  <strong>Transit Damage Protection:</strong>
+                  <span>Report any courier damage or incorrect flacon variant within 24 hours via WhatsApp with photos for an immediate replacement.</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Card 2: Protected / Non-returnable -->
+          <div class="policy-box protected-box">
+            <div class="policy-box-header">
+              <span class="status-pill status-protected">Quality Assurance</span>
+              <h3 class="policy-box-title">Opened Bottles</h3>
+            </div>
+            <ul class="clean-check-list">
+              <li>
+                <span class="check-icon info-icon">i</span>
+                <div>
+                  <strong>Hygienic Purity:</strong>
+                  <span>To guarantee that every bottle sold at LUMÈRA LUXE is 100% untampered and pure, opened or sprayed flacons cannot be returned.</span>
+                </div>
+              </li>
+              <li>
+                <span class="check-icon info-icon">i</span>
+                <div>
+                  <strong>Storage Guarantee:</strong>
+                  <span>All perfumes are kept in climate-regulated storage in Doha to preserve volatile top notes against Qatar's heat.</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. Section: Concierge Assistance -->
+      <section class="concierge-strip">
+        <div class="concierge-content text-center">
+          <span class="concierge-kicker">Need Immediate Assistance?</span>
+          <h2 class="concierge-title">Converse with Our Doha Team</h2>
+          <p class="concierge-text">
+            For specific delivery windows, special gift instructions, or scent recommendations, our team is available on WhatsApp.
+          </p>
+          <div class="concierge-actions">
+            <a
+              href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent("Hello LUMÈRA LUXE, I have an inquiry regarding delivery.")}`}
+              class="btn btn-primary btn-spacious"
+              target="_blank"
+              rel="noopener"
+            >
+              <span>WhatsApp Concierge</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+            <a href={`mailto:${siteConfig.email}`} class="concierge-email-link">
+              Email: {siteConfig.email}
+            </a>
+          </div>
+        </div>
+      </section>
     </div>
-  </div>
+  </article>
 </BaseLayout>
 
 <style>
-  .policy-header {
-    background-color: var(--color-surface);
-    border-bottom: 1px solid var(--color-border);
-    padding: clamp(3rem, 6vw, 4.5rem) 0;
+  .policy-page {
+    background-color: var(--color-bg);
+    color: var(--color-text-main);
+    overflow-x: hidden;
+  }
+
+  .container-narrow {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 var(--page-gutter);
   }
 
   .text-center {
     text-align: center;
   }
 
-  .eyebrow {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--color-accent);
-    margin-bottom: 0.75rem;
-    display: block;
+  /* --- 1. MASTHEAD --- */
+  .policy-masthead {
+    background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-bg) 100%);
+    border-bottom: 1px solid var(--color-border-subtle);
+    padding: clamp(3.5rem, 7vw, 5.5rem) 0 clamp(2.5rem, 5vw, 4rem);
   }
 
-  .policy-title {
-    font-size: var(--text-4xl);
+  .policy-kicker {
+    display: inline-block;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--color-brand-cognac);
+    margin-bottom: 1rem;
+  }
+
+  .policy-headline {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 5.5vw, 3.75rem);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
     color: var(--color-text-main);
-    margin-bottom: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .headline-italic {
+    font-style: italic;
+    color: var(--color-brand-cognac-dark);
   }
 
   .policy-lead {
-    font-size: 1.1rem;
+    font-size: clamp(0.95rem, 1.8vw, 1.125rem);
+    font-weight: 300;
+    line-height: 1.7;
     color: var(--color-text-muted);
-    max-width: 600px;
+    max-width: 580px;
+    margin: 0 auto 2.25rem;
+  }
+
+  .masthead-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    max-width: 280px;
     margin: 0 auto;
   }
 
-  .policy-body-container {
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background-color: var(--color-border);
+  }
+
+  .divider-seal {
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-text-light);
+  }
+
+  .policy-container {
     padding-top: clamp(2.5rem, 5vw, 4rem);
     padding-bottom: 5rem;
   }
 
-  .policy-content {
-    max-width: 760px;
-    margin: 0 auto;
+  /* --- 2. HIGHLIGHTS METRICS GRID --- */
+  .highlights-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: clamp(3.5rem, 6vw, 5rem);
+    padding: 1.5rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
   }
 
-  .policy-section {
-    margin-bottom: 3rem;
+  @media (min-width: 860px) {
+    .highlights-grid {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      padding: 2.25rem 2rem;
+    }
   }
 
-  .policy-section-heading {
-    font-family: var(--font-display);
-    font-size: 1.75rem;
-    margin-bottom: 1rem;
+  .highlight-item {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+  }
+
+  .highlight-metric {
+    font-family: var(--font-serif);
+    font-size: clamp(1.85rem, 3.5vw, 2.5rem);
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--color-brand-cognac);
+    margin-bottom: 0.5rem;
+  }
+
+  .highlight-title {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-text-main);
+    margin-bottom: 0.35rem;
+  }
+
+  .highlight-desc {
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  /* --- 3. CHAPTERS & HEADERS --- */
+  .policy-chapter {
+    margin-bottom: clamp(3.5rem, 6vw, 5rem);
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  .policy-chapter:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+
+  .chapter-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.25rem;
+    margin-bottom: clamp(1.75rem, 3vw, 2.5rem);
+  }
+
+  .chapter-index {
+    font-family: var(--font-serif);
+    font-size: 2.25rem;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--color-brand-cognac);
+    opacity: 0.8;
+  }
+
+  .chapter-kicker {
+    display: block;
+    font-size: 0.625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--color-text-light);
+    margin-bottom: 0.25rem;
+  }
+
+  .chapter-title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.65rem, 3vw, 2.25rem);
+    font-weight: 400;
+    line-height: 1.2;
     color: var(--color-text-main);
   }
 
-  .policy-section p {
-    font-size: 1rem;
-    line-height: 1.7;
-    margin-bottom: 1rem;
-    color: var(--color-text-muted);
+  /* --- 4. CARDS GRID --- */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
   }
 
-  .policy-list {
-    margin-left: 1.5rem;
-    margin-bottom: 1.5rem;
+  @media (min-width: 768px) {
+    .cards-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+  }
+
+  .service-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    padding: 1.75rem 1.5rem;
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
+    transition: border-color var(--transition-fast);
   }
 
-  .policy-list li {
-    font-size: 0.95rem;
-    color: var(--color-text-muted);
+  .service-card:hover {
+    border-color: var(--color-gold-border);
+  }
+
+  .card-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: var(--border-radius-sm);
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border);
+    color: var(--color-brand-cognac);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.25rem;
+  }
+
+  .card-title {
+    font-family: var(--font-serif);
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--color-text-main);
+  }
+
+  .card-text {
+    font-size: 0.875rem;
     line-height: 1.65;
+    color: var(--color-text-muted);
   }
 
-  .policy-content a {
-    color: var(--color-accent);
+  /* --- 5. STEPS FLOW --- */
+  .steps-flow {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    align-items: center;
+  }
+
+  @media (min-width: 860px) {
+    .steps-flow {
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      gap: 1rem;
+    }
+  }
+
+  .step-card {
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    padding: 1.75rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .step-badge {
+    font-size: 0.625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--color-brand-cognac);
+  }
+
+  .step-title {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--color-text-main);
+  }
+
+  .step-text {
+    font-size: 0.875rem;
+    line-height: 1.65;
+    color: var(--color-text-muted);
+  }
+
+  .step-text em {
+    font-style: italic;
+    color: var(--color-text-main);
+  }
+
+  .step-arrow {
+    display: none;
+    font-size: 1.25rem;
+    color: var(--color-text-light);
+    text-align: center;
+  }
+
+  @media (min-width: 860px) {
+    .step-arrow {
+      display: block;
+    }
+  }
+
+  /* --- 6. RETURNS & SAFEGUARD GRID --- */
+  .returns-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .returns-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  .policy-box {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    padding: 2rem 1.75rem;
+  }
+
+  .policy-box-header {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .status-pill {
+    align-self: flex-start;
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+  }
+
+  .status-eligible {
+    background-color: rgba(200, 90, 36, 0.1);
+    color: var(--color-brand-cognac);
+    border: 1px solid rgba(200, 90, 36, 0.25);
+  }
+
+  .status-protected {
+    background-color: #FFFFFF;
+    color: var(--color-text-muted);
+    border: 1px solid var(--color-border);
+  }
+
+  .policy-box-title {
+    font-family: var(--font-serif);
+    font-size: 1.45rem;
+    font-weight: 500;
+    color: var(--color-text-main);
+  }
+
+  .clean-check-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .clean-check-list li {
+    display: flex;
+    gap: 0.85rem;
+    align-items: flex-start;
+  }
+
+  .check-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: rgba(200, 90, 36, 0.12);
+    color: var(--color-brand-cognac);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 0.15rem;
+  }
+
+  .info-icon {
+    background-color: #FFFFFF;
+    color: var(--color-text-light);
+    border: 1px solid var(--color-border);
+    font-style: italic;
+    font-family: var(--font-serif);
+  }
+
+  .clean-check-list strong {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+    margin-bottom: 0.25rem;
+  }
+
+  .clean-check-list span {
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+  }
+
+  /* --- 7. CONCIERGE ASSISTANCE STRIP --- */
+  .concierge-strip {
+    background: linear-gradient(135deg, var(--color-surface) 0%, #FFFFFF 100%);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    padding: clamp(2.5rem, 5vw, 4rem) 1.5rem;
+    margin-top: clamp(3rem, 5vw, 4.5rem);
+  }
+
+  .concierge-kicker {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--color-brand-cognac);
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+
+  .concierge-title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.85rem, 3.5vw, 2.5rem);
+    font-weight: 400;
+    color: var(--color-text-main);
+    margin-bottom: 0.75rem;
+  }
+
+  .concierge-text {
+    font-size: 0.95rem;
+    line-height: 1.65;
+    color: var(--color-text-muted);
+    max-width: 520px;
+    margin: 0 auto 2rem;
+  }
+
+  .concierge-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-spacious {
+    padding: 0.9rem 2rem;
+    min-width: 220px;
+  }
+
+  .concierge-email-link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
     text-decoration: underline;
+    text-underline-offset: 4px;
+    transition: color var(--transition-fast);
+  }
+
+  .concierge-email-link:hover {
+    color: var(--color-brand-cognac);
+  }
+
+  @media (max-width: 520px) {
+    .concierge-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .btn-spacious {
+      width: 100%;
+      min-width: unset;
+    }
   }
 </style>

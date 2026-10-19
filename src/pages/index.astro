@@ -4,133 +4,149 @@ import ProductCard from '../components/ProductCard.astro';
 import productsData from '../data/products.json';
 import { siteConfig } from '../data/site';
 
-// Select representative items
-const heroShowcase = productsData.find((p) => p.slug === 'chanel-n-5') || productsData[0];
-const selectedScents = productsData.filter((p) => p.featured);
-const curatedGrid = productsData.slice(4, 12);
+// Hero Slides featuring LUMÈRA LUXE's own brand photography
+const heroSlides = [
+  {
+    id: 'floral',
+    image: '/assets/brand/hero-floral-collection.webp',
+    alt: 'LUMÈRA LUXE Floral flacons in morning light',
+    title: 'The Floral Anthology',
+    ctaText: 'Explore Collection',
+    ctaLink: '/shop/?family=floral'
+  },
+  {
+    id: 'oriental',
+    image: '/assets/brand/hero-rose-gold-trio.webp',
+    alt: 'LUMÈRA LUXE warm amber and rose gold flacons',
+    title: 'Warm Amber Reserve',
+    ctaText: 'Explore Collection',
+    ctaLink: '/shop/?family=oriental'
+  },
+  {
+    id: 'woody',
+    image: '/assets/brand/hero-dusk-collection.webp',
+    alt: 'LUMÈRA LUXE dusk flacons in golden hour glow',
+    title: 'The Nocturne Edit',
+    ctaText: 'Explore Collection',
+    ctaLink: '/shop/?family=woody'
+  }
+];
 
-// 4 Category representations
+const selectedScents = productsData.filter((p) => p.featured);
+
+// 4 Olfactive Category representations using LUMÈRA LUXE Brand Photography
 const categories = [
   {
-    label: 'Perfume Collection',
+    label: 'All Fragrances',
     href: '/shop/',
-    img: '/assets/products/boucheron-quatre-en-bleu.webp',
-    alt: 'LUMÈRA LUXE Perfume'
+    img: '/assets/brand/family-all-fragrances.webp',
+    alt: 'LUMÈRA LUXE Complete Fragrance Collection'
   },
   {
     label: 'Amber & Oriental',
     href: '/shop/?family=oriental',
-    img: '/assets/products/dolce-gabbana-devotion.webp',
-    alt: 'Amber and Oriental Fragrances'
+    img: '/assets/brand/family-amber-oriental.webp',
+    alt: 'LUMÈRA LUXE Amber and Oriental Fragrances'
   },
   {
     label: 'Floral & Rose',
     href: '/shop/?family=floral',
-    img: '/assets/products/carolina-herrera-ch-women.webp',
-    alt: 'Floral Fragrances'
+    img: '/assets/brand/family-floral-rose.webp',
+    alt: 'LUMÈRA LUXE Floral and Rose Fragrances'
   },
   {
     label: 'Woody & Fresh',
     href: '/shop/?family=woody',
-    img: '/assets/products/chanel-n-5.webp',
-    alt: 'Woody and Fresh Scent Notes'
+    img: '/assets/brand/family-woody-fresh.webp',
+    alt: 'LUMÈRA LUXE Woody and Fresh Fragrances'
   }
 ];
 ---
 
 <BaseLayout>
   <div class="minimal-storefront">
-    <!-- HERO EDITORIAL (Byredo Reference Style) -->
-    <section class="hero-editorial-section">
+    <!-- HERO EDITORIAL SLIDER (LUMÈRA LUXE Brand Photography) -->
+    <section class="hero-editorial-section" aria-label="Featured Collections Carousel">
       <div class="container">
-        <div class="hero-editorial-stage">
-          <img
-            src="/assets/chanel-n5-hero.webp"
-            alt="A quiet N°5 perfume ritual — LUMÈRA LUXE Haute Parfumerie"
-            class="hero-editorial-image"
-            loading="eager"
-            fetchpriority="high"
-            width="1448"
-            height="1086"
-          />
-
-          <!-- Floating Frosted Quick-Shop Card (Bottom Right) -->
-          <aside class="hero-floating-card">
-            <a
-              href={`/perfumes/${heroShowcase.slug}/`}
-              class="hero-card-link"
-              aria-label={`View ${heroShowcase.name} details`}
-            >
-              <div class="hero-card-thumb-wrap">
+        <div class="hero-editorial-stage" id="hero-slider" role="region" aria-roledescription="carousel" aria-label="LUMÈRA LUXE Collections">
+          <div class="hero-slides-track">
+            {heroSlides.map((slide, idx) => (
+              <a
+                href={slide.ctaLink}
+                class={`hero-slide ${idx === 0 ? 'is-active' : ''}`}
+                data-slide-index={idx}
+                role="group"
+                aria-roledescription="slide"
+                aria-label={`${idx + 1} of ${heroSlides.length}: ${slide.title}`}
+                aria-hidden={idx === 0 ? 'false' : 'true'}
+                tabindex={idx === 0 ? 0 : -1}
+              >
                 <img
-                  src={heroShowcase.image}
-                  alt={heroShowcase.fullName}
-                  class="hero-card-thumb"
-                  width="68"
-                  height="80"
+                  src={slide.image}
+                  alt={slide.alt}
+                  class="hero-slide-image"
+                  loading={idx === 0 ? 'eager' : 'lazy'}
+                  fetchpriority={idx === 0 ? 'high' : 'auto'}
+                  width="1800"
+                  height="1012"
                 />
-              </div>
-              <div class="hero-card-meta">
-                <span class="hero-card-cat">PERFUME</span>
-                <h2 class="hero-card-title">{heroShowcase.name}</h2>
-                <span class="hero-card-price">{heroShowcase.priceDisplay}</span>
-                <span class="hero-card-size">{heroShowcase.sizeDisplay}</span>
-              </div>
-            </a>
+              </a>
+            ))}
+          </div>
 
-            <button
-              type="button"
-              class="hero-card-bag-btn"
-              data-action="add-to-bag"
-              data-id={heroShowcase.id}
-              data-name={heroShowcase.name}
-              data-brand={heroShowcase.brand}
-              data-size={heroShowcase.sizeDisplay}
-              data-concentration={heroShowcase.concentration}
-              data-price={heroShowcase.priceMinor}
-              data-image={heroShowcase.image}
-              aria-label={`Quick add ${heroShowcase.name} to bag`}
-              title="Add to Bag"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <path d="M16 10a4 4 0 0 1-8 0"></path>
-              </svg>
-            </button>
+          <!-- Quiet Luxury Floating Island Card (Bottom Corner) -->
+          <aside class="hero-island-card" aria-label="Current Collection">
+            <div class="hero-island-meta">
+              {heroSlides.map((slide, idx) => (
+                <div class={`hero-meta-slide ${idx === 0 ? 'is-active' : ''}`} data-meta-index={idx}>
+                  <h1 class="hero-meta-title">{slide.title}</h1>
+                  <a href={slide.ctaLink} class="hero-meta-link">
+                    <span>{slide.ctaText}</span>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </a>
+                </div>
+              ))}
+            </div>
+
+            <div class="hero-island-controls">
+              <span class="hero-counter" id="hero-counter" aria-live="polite">01 / 03</span>
+              <div class="hero-arrow-duo">
+                <button
+                  type="button"
+                  class="hero-arrow-btn"
+                  id="hero-prev-btn"
+                  aria-label="Previous slide"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                  </svg>
+                </button>
+                <button
+                  type="button"
+                  class="hero-arrow-btn"
+                  id="hero-next-btn"
+                  aria-label="Next slide"
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </button>
+              </div>
+            </div>
           </aside>
         </div>
       </div>
     </section>
 
-    <!-- 1. BESTSELLERS (Byredo 4-Column Showcase) -->
-    <section class="section-home">
+    <!-- 1. SCENT FAMILIES (Olfactive Exploration) -->
+    <section class="section-home" id="scent-families" style="scroll-margin-top: 5rem;">
       <div class="container">
         <div class="section-header-minimal">
-          <h2 class="section-title-minimal">Bestsellers</h2>
-          <a href="/shop/" class="see-all-link">See All</a>
-        </div>
-
-        <div class="grid-products">
-          {
-            selectedScents.slice(0, 4).map((product, idx) => (
-              <ProductCard product={product} priority={idx < 2} />
-            ))
-          }
-        </div>
-
-        <div class="bestsellers-indicator" aria-hidden="true">
-          <div class="bestsellers-indicator-bar"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 2. CATEGORIES (Byredo Style Scent Family Exploration) -->
-    <section class="section-home">
-      <div class="container">
-        <div class="section-header-minimal">
-          <h2 class="section-title-minimal">Categories</h2>
-          <a href="/shop/" class="see-all-link">See All</a>
+          <h2 class="section-title-minimal">Scent Families</h2>
+          <a href="/shop/" class="see-all-link">Explore All</a>
         </div>
 
         <div class="categories-row">
@@ -148,19 +164,47 @@ const categories = [
       </div>
     </section>
 
-    <!-- 2. ABOUT US (Editorial Two-Column with Packaging Image) -->
+    <!-- 2. THE CURATED EDIT (Single Focused 4-Product Showcase) -->
     <section class="section-home">
       <div class="container">
         <div class="section-header-minimal">
-          <h2 class="section-title-minimal">About Us</h2>
+          <h2 class="section-title-minimal">Curated Fragrances</h2>
+          <a href="/shop/" class="see-all-link">See All ({productsData.length})</a>
+        </div>
+
+        <div class="grid-products">
+          {
+            selectedScents.slice(0, 4).map((product, idx) => (
+              <ProductCard product={product} priority={idx < 2} />
+            ))
+          }
+        </div>
+
+        <div class="curated-footer-cta">
+          <a href="/shop/" class="btn-luxury-explore">
+            <span>Explore Entire Collection</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. BRAND ETHOS & DOHA PACKAGING CRAFT -->
+    <section class="section-home">
+      <div class="container">
+        <div class="section-header-minimal">
+          <h2 class="section-title-minimal">The House</h2>
         </div>
 
         <div class="about-grid">
           <div class="about-media-col">
             <div class="about-image-frame">
               <img
-                src="/assets/editorial-gift-boxes.webp"
-                alt="LUMÈRA LUXE bespoke luxury fragrance packaging"
+                src="/assets/brand/brand-five-bottles.webp"
+                alt="LUMÈRA LUXE architectural perfume collection on stepped plinths"
                 class="about-editorial-img"
                 loading="lazy"
                 width="600"
@@ -180,92 +224,53 @@ const categories = [
               We believe perfume is an intimate art form—one that transcends language and borders. Each bottle becomes a personal reflection of identity, paired with hand-packed attention and discreet concierge delivery across Qatar.
             </p>
             <div class="about-action">
-              <a href="/our-story/" class="link-underline">Read More</a>
+              <a href="/our-story/" class="link-underline">Discover Our Story</a>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 3. CONCIERGE BANNER (Byredo Frosted Banner Style) -->
-    <section class="concierge-banner-section">
+    <!-- 4. QATAR CONCIERGE -->
+    <section class="concierge-section">
       <div class="container">
-        <div class="frosted-banner">
-          <div class="frosted-banner-content">
-            <h2 class="frosted-banner-title">
-              Connect with LUMÈRA LUXE Concierge
-            </h2>
-            <p class="frosted-banner-subtitle">
-              Personal scent consultations, availability confirmation, and priority courier delivery in Qatar.
-            </p>
+        <div class="concierge-card">
+          <span class="concierge-kicker">Maison Concierge · Doha</span>
+          <h2 class="concierge-title">Personal Scent Consultation</h2>
+          <p class="concierge-subtitle">
+            Need guidance selecting notes, finding a rare edition, or scheduling doorstep delivery in Qatar? Speak directly with our fragrance specialist.
+          </p>
 
-            <form
-              class="minimal-concierge-form"
-              onsubmit="event.preventDefault(); const val = document.getElementById('concierge-input').value; window.open('https://wa.me/97466675166?text=' + encodeURIComponent('Hello LUMÈRA LUXE, ' + (val ? val : 'I would like assistance with fragrance selection.')), '_blank');"
+          <!-- Minimalist 3-Pillar Badge Ribbon -->
+          <div class="concierge-badges-strip">
+            <span class="concierge-badge-pill">
+              <span class="badge-bullet"></span>
+              100% Verified Provenance
+            </span>
+            <span class="concierge-badge-pill">
+              <span class="badge-bullet"></span>
+              Doorstep Delivery in Qatar
+            </span>
+            <span class="concierge-badge-pill">
+              <span class="badge-bullet"></span>
+              Direct WhatsApp Guidance
+            </span>
+          </div>
+
+          <div class="concierge-cta-row">
+            <a
+              href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent('Hello LUMÈRA LUXE, I would like personal assistance choosing a fragrance from your curated collection.')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn-whatsapp-concierge"
             >
-              <div class="form-underline-wrap">
-                <input
-                  type="text"
-                  id="concierge-input"
-                  class="minimal-input"
-                  placeholder="ENTER YOUR FRAGRANCE PREFERENCE OR INQUIRY..."
-                  required
-                />
-                <button type="submit" class="minimal-submit-btn" aria-label="Send WhatsApp Inquiry">
-                  Request
-                </button>
-              </div>
-            </form>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M12.031 2C6.495 2 2 6.495 2 12.031c0 1.77.462 3.498 1.341 5.022L2 22l5.093-1.336A10.007 10.007 0 0 0 12.031 22C17.567 22 22 17.505 22 12.031 22 6.495 17.567 2 12.031 2zm5.879 14.195c-.244.686-1.42 1.314-1.956 1.385-.514.068-1.163.097-3.708-.958-3.04-1.258-4.996-4.34-5.148-4.542-.152-.202-1.233-1.64-1.233-3.128 0-1.488.777-2.22 1.052-2.525.275-.305.6-.381.8-.381.2 0 .4 0 .576.01.187.01.438-.071.686.525.257.619.876 2.143.952 2.296.076.153.127.33.025.534-.102.204-.153.33-.305.508-.152.178-.32.396-.457.533-.153.153-.312.32-.134.626.178.305.792 1.306 1.698 2.112 1.166 1.037 2.148 1.358 2.453 1.51.305.153.483.128.66-.076.178-.204.762-.89 965-1.195.204-.305.407-.254.686-.153.28.102 1.777.838 2.082.99.305.153.508.229.584.356.076.127.076.737-.168 1.423z"/>
+              </svg>
+              <span>Connect on WhatsApp</span>
+            </a>
+            <span class="concierge-note">Immediate response daily across Doha</span>
           </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 4. SELECTED FRAGRANCES (Asymmetric Byredo Showcase) -->
-    <section class="section-home">
-      <div class="container">
-        <div class="section-header-minimal">
-          <h2 class="section-title-minimal">Selected Fragrances</h2>
-          <a href="/shop/" class="see-all-link">See All</a>
-        </div>
-
-        <div class="asymmetric-showcase-grid">
-          <!-- Large Showcase Card on Left -->
-          <div class="showcase-primary">
-            <ProductCard product={heroShowcase} isLarge={true} priority={true} />
-          </div>
-
-          <!-- Secondary Grid on Right -->
-          <div class="showcase-secondary-list">
-            {
-              selectedScents.slice(0, 2).map((prod) => (
-                <div class="showcase-secondary-item">
-                  <ProductCard product={prod} />
-                </div>
-              ))
-            }
-
-            <div class="showcase-navigation-row">
-              <a href="/shop/" class="nav-arrow-btn" aria-label="Previous fragrances">←</a>
-              <a href="/shop/" class="nav-arrow-btn" aria-label="Next fragrances">→</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 5. COMPLETE COLLECTION PREVIEW -->
-    <section class="section-home">
-      <div class="container">
-        <div class="section-header-minimal">
-          <h2 class="section-title-minimal">Discover the Collection</h2>
-          <a href="/shop/" class="see-all-link">View All ({productsData.length})</a>
-        </div>
-
-        <div class="grid-products">
-          {curatedGrid.map((product) => (
-            <ProductCard product={product} />
-          ))}
         </div>
       </div>
     </section>
@@ -274,19 +279,19 @@ const categories = [
 
 <style>
   .minimal-storefront {
-    padding-top: clamp(2rem, 4vw, 3.5rem);
+    padding-top: clamp(1.5rem, 3vw, 2.5rem);
     padding-bottom: clamp(4rem, 6vw, 6rem);
   }
 
   .section-home {
-    margin-bottom: clamp(4rem, 7vw, 6.5rem);
+    margin-bottom: clamp(3.5rem, 6vw, 5.5rem);
   }
 
-  /* 1. Categories Row (4 Borderless Columns) */
+  /* Scent Families / Categories Row */
   .categories-row {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(0.75rem, 2vw, 1.75rem);
+    gap: clamp(0.85rem, 2vw, 1.75rem);
   }
 
   @media (min-width: 860px) {
@@ -298,54 +303,93 @@ const categories = [
   .category-item {
     display: flex;
     flex-direction: column;
-    transition: opacity var(--transition-fast);
+    text-decoration: none;
+    transition: transform var(--transition-fast);
   }
 
   .category-item:hover {
-    opacity: 0.75;
+    transform: translateY(-3px);
   }
 
   .category-image-frame {
     width: 100%;
     aspect-ratio: 1 / 1;
-    background-color: #FFFFFF;
+    background-color: #F7F6F4;
     border: 1px solid #ECEAE5;
     border-radius: var(--border-radius-sm);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: clamp(1rem, 2.5vw, 1.75rem);
+    overflow: hidden;
     margin-bottom: 0.85rem;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
     transition: all var(--transition-fast);
   }
 
   .category-item:hover .category-image-frame {
     border-color: #D2CDC5;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
   }
 
   .category-img {
-    max-width: 90%;
-    max-height: 90%;
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
+    display: block;
+    transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .category-item:hover .category-img {
+    transform: scale(1.05);
   }
 
   .category-caption {
     font-family: var(--font-body);
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-main);
+    transition: color var(--transition-fast);
+  }
+
+  .category-item:hover .category-caption {
+    color: var(--color-brand-cognac);
+  }
+
+  /* Curated Footer CTA */
+  .curated-footer-cta {
+    display: flex;
+    justify-content: center;
+    margin-top: clamp(2rem, 3.5vw, 3rem);
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .btn-luxury-explore {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--color-text-main);
+    text-decoration: none;
+    padding: 0.85rem 1.75rem;
+    border: 1px solid var(--color-text-main);
+    border-radius: var(--border-radius-sm);
+    transition: all var(--transition-fast);
   }
 
-  /* 2. About Us Two-Column */
+  .btn-luxury-explore:hover {
+    background-color: var(--color-text-main);
+    color: #FFFFFF;
+  }
+
+  /* About Us Two-Column */
   .about-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2.5rem;
+    gap: 2rem;
     align-items: center;
   }
 
@@ -359,8 +403,10 @@ const categories = [
   .about-image-frame {
     width: 100%;
     aspect-ratio: 1 / 1;
+    max-height: 520px;
     background-color: #F7F6F4;
     overflow: hidden;
+    border-radius: var(--border-radius-sm);
   }
 
   .about-editorial-img {
@@ -370,10 +416,10 @@ const categories = [
   }
 
   .about-editorial-heading {
-    font-family: var(--font-body);
-    font-size: clamp(1.1rem, 2vw, 1.4rem);
-    font-weight: 500;
-    line-height: 1.45;
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2.5vw, 1.65rem);
+    font-weight: 400;
+    line-height: 1.35;
     color: var(--color-text-main);
     margin-bottom: 1.5rem;
     letter-spacing: -0.01em;
@@ -390,127 +436,531 @@ const categories = [
     margin-top: 1.75rem;
   }
 
-  /* 3. Frosted Concierge Banner */
-  .concierge-banner-section {
-    margin-bottom: clamp(4rem, 7vw, 6.5rem);
-  }
-
-  .frosted-banner {
-    position: relative;
+  /* Qatar Concierge Section (Clean & Minimalist) */
+  .concierge-section {
+    margin-top: clamp(4.5rem, 8vw, 7rem);
+    margin-bottom: clamp(4.5rem, 8vw, 7rem);
     width: 100%;
-    background-color: #F5F4F0;
-    background-image: url('/assets/concierge-banner-bg.webp');
-    background-size: cover;
-    background-position: center;
-    padding: clamp(3.5rem, 6vw, 5.5rem) clamp(1.5rem, 4vw, 3rem);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  }
+
+  .concierge-card {
+    background-color: #FAF9F6;
+    border: 1px solid #ECEAE5;
+    border-radius: var(--border-radius-sm);
+    padding: clamp(2rem, 4vw, 3.25rem) clamp(1.25rem, 3.5vw, 2.5rem);
     text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
   }
 
-  .frosted-banner-content {
-    max-width: 580px;
-    background-color: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(8px);
-    padding: clamp(2rem, 4vw, 3rem);
-    border: 1px solid rgba(255, 255, 255, 0.6);
-  }
-
-  .frosted-banner-title {
+  .concierge-kicker {
+    display: inline-block;
     font-family: var(--font-body);
-    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-size: 0.6875rem;
     font-weight: 600;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--color-text-main);
-    margin-bottom: 0.75rem;
+    color: var(--color-brand-cognac);
+    margin-bottom: 0.6rem;
   }
 
-  .frosted-banner-subtitle {
-    font-size: 0.8125rem;
+  .concierge-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 2.5vw, 1.95rem);
+    font-weight: 400;
+    line-height: 1.25;
+    letter-spacing: 0.015em;
+    color: var(--color-text-main);
+    margin-bottom: 0.65rem;
+  }
+
+  .concierge-subtitle {
+    font-family: var(--font-body);
+    font-size: 0.84375rem;
     color: var(--color-text-muted);
     line-height: 1.6;
-    margin-bottom: 2rem;
+    max-width: 500px;
+    margin: 0 auto clamp(1.25rem, 2.5vw, 1.75rem);
   }
 
-  .minimal-concierge-form {
-    width: 100%;
-  }
-
-  .form-underline-wrap {
+  .concierge-badges-strip {
     display: flex;
     align-items: center;
-    border-bottom: 1px solid var(--color-text-main);
-    padding-bottom: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.65rem 1rem;
+    margin-bottom: clamp(1.35rem, 2.5vw, 1.85rem);
   }
 
-  .minimal-input {
-    flex: 1;
-    border: none;
-    outline: none;
-    background: transparent;
+  .concierge-badge-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-family: var(--font-body);
+    font-size: 0.71875rem;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+    color: var(--color-text-main);
+    background-color: #FFFFFF;
+    border: 1px solid #ECEAE5;
+    padding: 0.4rem 0.85rem;
+    border-radius: 9999px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
+  }
+
+  .badge-bullet {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: var(--color-brand-cognac);
+  }
+
+  .concierge-cta-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .btn-whatsapp-concierge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    background-color: var(--color-text-main);
+    color: #FFFFFF;
+    text-decoration: none;
     font-family: var(--font-body);
     font-size: 0.75rem;
+    font-weight: 700;
     letter-spacing: 0.08em;
-    color: var(--color-text-main);
-  }
-
-  .minimal-input::placeholder {
-    color: var(--color-text-light);
-  }
-
-  .minimal-submit-btn {
-    font-family: var(--font-body);
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--color-text-main);
-    padding-left: 1rem;
-    cursor: pointer;
+    padding: 0.85rem 1.85rem;
+    border-radius: var(--border-radius-sm);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    transition: all var(--transition-fast);
   }
 
-  .minimal-submit-btn:hover {
-    color: var(--color-accent);
+  .btn-whatsapp-concierge:hover {
+    background-color: #000000;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.14);
   }
 
-  /* 4. Asymmetrical Showcase Grid (Like "Candles" in Byredo) */
-  .asymmetric-showcase-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    align-items: start;
+  .concierge-note {
+    font-size: 0.6875rem;
+    color: var(--color-text-light);
+    letter-spacing: 0.02em;
   }
 
-  @media (min-width: 860px) {
-    .asymmetric-showcase-grid {
-      grid-template-columns: 1.4fr 1fr;
-      gap: 3.5rem;
+  /* ==========================================================================
+     HERO EDITORIAL SLIDER (Pure Luxury - Zero Dark Scrim, Clean Card UI)
+     ========================================================================== */
+  .hero-editorial-stage {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    max-height: 640px;
+    min-height: 440px;
+    overflow: hidden;
+    background-color: #F6F4F0;
+    border-radius: var(--border-radius-sm);
+    border: 1px solid #ECEAE5;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  }
+
+  @media (max-width: 768px) {
+    .hero-editorial-stage {
+      aspect-ratio: 4 / 3;
+      min-height: 380px;
+      max-height: 480px;
     }
   }
 
-  .showcase-secondary-list {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(0.75rem, 2vw, 1.5rem);
+  .hero-slides-track {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
   }
 
-  .showcase-navigation-row {
-    grid-column: 1 / -1;
+  .hero-slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 700ms;
+    pointer-events: none;
+    z-index: 1;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .hero-slide.is-active {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    z-index: 2;
+  }
+
+  .hero-slide-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 42%;
+    display: block;
+    filter: none;
+  }
+
+  /* Quiet Luxury Floating Island Card (Glassmorphism & Fixed Geometry) */
+  .hero-island-card {
+    position: absolute;
+    bottom: clamp(1.25rem, 2.5vw, 2.25rem);
+    left: clamp(1.25rem, 2.5vw, 2.25rem);
+    width: 480px;
+    max-width: calc(100% - 2.5rem);
+    height: 86px;
+    box-sizing: border-box;
     display: flex;
-    justify-content: flex-end;
+    align-items: center;
+    justify-content: space-between;
     gap: 1.5rem;
-    padding-top: 1rem;
+    padding: 0 clamp(1.15rem, 2vw, 1.5rem);
+    /* True Luxury Glassmorphism */
+    background: rgba(255, 255, 255, 0.70);
+    backdrop-filter: blur(20px) saturate(190%);
+    -webkit-backdrop-filter: blur(20px) saturate(190%);
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    border-radius: var(--border-radius-sm);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08),
+                inset 0 1px 1px rgba(255, 255, 255, 0.95),
+                inset 0 -1px 1px rgba(0, 0, 0, 0.03);
+    z-index: 10;
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
   }
 
-  .nav-arrow-btn {
-    font-size: 1.15rem;
+  .hero-island-card:hover {
+    background: rgba(255, 255, 255, 0.82);
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.12),
+                inset 0 1px 1px rgba(255, 255, 255, 1);
+    transform: translateY(-1px);
+  }
+
+  @media (max-width: 540px) {
+    .hero-island-card {
+      left: 0.65rem;
+      right: 0.65rem;
+      bottom: 0.65rem;
+      width: auto;
+      max-width: none;
+      height: 72px;
+      padding: 0 0.85rem;
+      gap: 0.65rem;
+    }
+
+    .hero-meta-title {
+      font-size: clamp(0.95rem, 3.8vw, 1.1rem);
+      margin: 0 0 0.15rem 0;
+    }
+
+    .hero-meta-link {
+      font-size: 0.625rem;
+      letter-spacing: 0.08em;
+      gap: 0.35rem;
+      white-space: nowrap;
+    }
+
+    .hero-island-controls {
+      padding-left: 0.65rem;
+      gap: 0.5rem;
+      height: 32px;
+    }
+
+    .hero-counter {
+      font-size: 0.625rem;
+      letter-spacing: 0.08em;
+    }
+
+    .hero-arrow-btn {
+      width: 28px;
+      height: 28px;
+    }
+
+    .hero-arrow-btn svg {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
+  .hero-island-meta {
+    position: relative;
+    flex: 1;
+    min-width: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .hero-meta-slide {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .hero-meta-slide.is-active {
+    display: flex;
+    animation: fadeInMeta 380ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes fadeInMeta {
+    from {
+      opacity: 0;
+      transform: translateY(3px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero-meta-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+    font-weight: 400;
+    letter-spacing: 0.015em;
     color: var(--color-text-main);
-    transition: transform var(--transition-fast);
+    margin: 0 0 0.25rem 0;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
-  .nav-arrow-btn:hover {
-    transform: translateX(2px);
+  .hero-meta-link {
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-brand-cognac);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    transition: all var(--transition-fast);
+    width: fit-content;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .hero-meta-link span {
+    white-space: nowrap;
+  }
+
+  .hero-meta-link svg {
+    flex-shrink: 0;
+  }
+
+  .hero-meta-link:hover {
+    color: var(--color-text-main);
+    gap: 0.65rem;
+  }
+
+  /* Controls (Counter & Hairline Arrows) */
+  .hero-island-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    flex-shrink: 0;
+    height: 38px;
+    padding-left: 1rem;
+    border-left: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .hero-counter {
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    color: var(--color-text-main);
+    font-variant-numeric: tabular-nums;
+    opacity: 0.72;
+  }
+
+  .hero-arrow-duo {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .hero-arrow-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.85);
+    color: var(--color-text-main);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+    transition: all var(--transition-fast);
+  }
+
+  .hero-arrow-btn:hover {
+    background-color: var(--color-text-main);
+    color: #FFFFFF;
+    border-color: var(--color-text-main);
+    transform: scale(1.06);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .hero-arrow-btn:active {
+    transform: scale(0.96);
+  }
+
+  .hero-arrow-btn:focus-visible {
+    outline: 2px solid var(--color-brand-cognac);
+    outline-offset: 2px;
   }
 </style>
+
+<script>
+  function initHeroSlider() {
+    const slider = document.getElementById('hero-slider');
+    if (!slider) return;
+
+    const slides = Array.from(slider.querySelectorAll<HTMLElement>('.hero-slide'));
+    const metaSlides = Array.from(slider.querySelectorAll<HTMLElement>('.hero-meta-slide'));
+    const counter = slider.querySelector<HTMLElement>('#hero-counter');
+    const prevBtn = slider.querySelector<HTMLButtonElement>('#hero-prev-btn');
+    const nextBtn = slider.querySelector<HTMLButtonElement>('#hero-next-btn');
+
+    if (slides.length <= 1) return;
+
+    let currentIndex = 0;
+    let timer: number | null = null;
+    const AUTOPLAY_DELAY = 6000;
+
+    function goToSlide(index: number) {
+      if (index < 0) index = slides.length - 1;
+      if (index >= slides.length) index = 0;
+      currentIndex = index;
+
+      slides.forEach((slide, idx) => {
+        const isActive = idx === currentIndex;
+        slide.classList.toggle('is-active', isActive);
+        slide.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+        slide.setAttribute('tabindex', isActive ? '0' : '-1');
+      });
+
+      metaSlides.forEach((meta, idx) => {
+        meta.classList.toggle('is-active', idx === currentIndex);
+      });
+
+      if (counter) {
+        counter.textContent = `0${currentIndex + 1} / 0${slides.length}`;
+      }
+    }
+
+    function nextSlide() {
+      goToSlide(currentIndex + 1);
+    }
+
+    function prevSlide() {
+      goToSlide(currentIndex - 1);
+    }
+
+    function startAutoplay() {
+      stopAutoplay();
+      timer = window.setInterval(nextSlide, AUTOPLAY_DELAY);
+    }
+
+    function stopAutoplay() {
+      if (timer !== null) {
+        clearInterval(timer);
+        timer = null;
+      }
+    }
+
+    nextBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      nextSlide();
+      startAutoplay();
+    });
+
+    prevBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      prevSlide();
+      startAutoplay();
+    });
+
+    slider.addEventListener('pointerenter', stopAutoplay);
+    slider.addEventListener('pointerleave', startAutoplay);
+    slider.addEventListener('focusin', stopAutoplay);
+    slider.addEventListener('focusout', startAutoplay);
+
+    slider.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') {
+        prevSlide();
+        startAutoplay();
+      } else if (e.key === 'ArrowRight') {
+        nextSlide();
+        startAutoplay();
+      }
+    });
+
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    slider.addEventListener('touchstart', (e) => {
+      const touch = e.changedTouches[0];
+      touchStartX = touch.clientX;
+      touchStartY = touch.clientY;
+      stopAutoplay();
+    }, { passive: true });
+
+    slider.addEventListener('touchend', (e) => {
+      const touch = e.changedTouches[0];
+      const diffX = touch.clientX - touchStartX;
+      const diffY = touch.clientY - touchStartY;
+
+      if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
+        if (diffX < 0) {
+          nextSlide();
+        } else {
+          prevSlide();
+        }
+      }
+      startAutoplay();
+    }, { passive: true });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        stopAutoplay();
+      } else {
+        startAutoplay();
+      }
+    });
+
+    startAutoplay();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHeroSlider);
+  } else {
+    initHeroSlider();
+  }
+  document.addEventListener('astro:page-load', initHeroSlider);
+</script>

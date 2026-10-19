@@ -4,260 +4,800 @@ import { siteConfig } from '../data/site';
 ---
 
 <BaseLayout
-  title={`Our Story — ${siteConfig.brandName}`}
-  description="The philosophy and heritage behind LUMÈRA LUXE. Hand-curating verified luxury fragrances for perfume connoisseurs across Qatar."
+  title={`Our Story — ${siteConfig.brandName} Doha`}
+  description="The philosophy, craftsmanship, and quiet dedication behind LUMÈRA LUXE. Curating verified, rare haute fragrances for connoisseurs across Qatar."
 >
-  <div class="story-page">
-    <header class="story-header">
-      <div class="container text-center">
-        <span class="eyebrow">The Boutique Philosophy</span>
-        <h1 class="story-title">Where Luxury Meets Affordability</h1>
+  <article class="story-page">
+    <!-- Minimal Editorial Masthead -->
+    <header class="story-masthead">
+      <div class="container-narrow text-center">
+        <span class="story-kicker">Maison LUMÈRA LUXE · Doha, Qatar</span>
+        <h1 class="story-headline">
+          The Art of Rare Scent,<br />
+          <span class="headline-italic">Distilled with Intimacy.</span>
+        </h1>
         <p class="story-lead">
-          Founded in Doha, Qatar, LUMÈRA LUXE was created with a clear and unwavering purpose: to bring the art of fine perfumery within graceful reach.
+          Founded in Doha from a quiet conviction: that genuine haute perfumery should never be obscured by mass-market markups, anonymous counters, or automated service.
         </p>
+        <div class="masthead-divider" aria-hidden="true">
+          <span class="divider-line"></span>
+          <span class="divider-seal">EST. DOHA</span>
+          <span class="divider-line"></span>
+        </div>
       </div>
     </header>
 
-    <div class="container story-content">
-      <section class="story-block">
-        <div class="story-text">
-          <h2 class="story-section-title">A Curated Approach to Scents</h2>
-          <p>
-            Fragrance is deeply personal. It lingers as a signature, evokes cherished memories, and defines everyday presence. Yet for too long, true luxury fragrance has been obscured by inflated markups and impersonal retail counters.
-          </p>
-          <p>
-            At LUMÈRA LUXE, we believe connoisseur-level fragrances should be accessible without sacrificing authenticity, concentration strength, or personal care. We carefully vet every bottle we bring to Qatar, guaranteeing that every concentrate—from radiant Eau de Toilette to rich Eau de Parfum—is 100% genuine.
-          </p>
+    <!-- Chapter I: The Vision & Flacon -->
+    <section class="story-chapter">
+      <div class="container">
+        <div class="chapter-grid">
+          <div class="chapter-text">
+            <span class="chapter-num">Chapter I</span>
+            <h2 class="chapter-title">The Rejection of Mass Retail</h2>
+            <div class="chapter-body">
+              <p>
+                Fragrance is deeply personal—an invisible signature, a quiet aura, and an indelible memory. Yet for decades, the world of fine fragrance has been dominated by inflated markups, impersonal department store counters, and questionable secondary markets.
+              </p>
+              <p>
+                LUMÈRA LUXE was born in Doha to offer a discreet, uncompromising alternative. We personally source and inspect verified flacons from European master perfumers, ensuring every concentrate—from radiant Eau de Parfum to concentrated Extrait—arrives in pristine, authentic condition.
+              </p>
+            </div>
+            <div class="chapter-meta">
+              <div class="meta-item">
+                <span class="meta-label">Origin</span>
+                <span class="meta-val">Grasse & Paris to Doha</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">Integrity</span>
+                <span class="meta-val">100% Sealed & Verified</span>
+              </div>
+            </div>
+          </div>
+          <div class="chapter-visual">
+            <div class="visual-frame">
+              <img
+                src="/assets/brand/story-flacon-elegance.webp"
+                alt="The signature LUMÈRA LUXE flacon resting on round limestone pedestal"
+                class="chapter-img"
+                width="800"
+                height="600"
+                loading="eager"
+              />
+              <span class="visual-caption">The signature LUMÈRA LUXE flacon in warm Doha morning light</span>
+            </div>
+          </div>
         </div>
-        <div class="story-visual">
-          <img
-            src="/assets/products/boucheron-quatre-en-bleu.webp"
-            alt="Authentic luxury bottle curated by LUMÈRA LUXE"
-            class="story-art-img"
-            loading="lazy"
-          />
-        </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="story-block reverse">
-        <div class="story-text">
-          <h2 class="story-section-title">Our Promise to Qatar</h2>
-          <p>
-            Operating directly from Doha, our concierge approach means you don't interact with automated bots or anonymous fulfillment centers. 
-          </p>
-          <p>
-            When you select a fragrance on our boutique, our local team confirms availability personally, prepares your order with meticulous attention, and provides seamless doorstep delivery across Qatar.
-          </p>
-          <div class="story-quote">
-            <p class="quote-text">
-              “Elegance is not about being noticed, it's about being remembered.”
+    <!-- Minimal Hairline Standards Strip (Quiet luxury, zero clunky cards) -->
+    <section class="standards-section">
+      <div class="container">
+        <div class="standards-header text-center">
+          <span class="standards-kicker">House Standards</span>
+          <h2 class="standards-title">Three Unwavering Tenets</h2>
+        </div>
+        <div class="standards-grid">
+          <div class="standard-item">
+            <span class="standard-index">01</span>
+            <h3 class="standard-name">Authentic Provenance</h3>
+            <p class="standard-desc">
+              Every bottle in our catalogue carries verified manufacturer batch codes. We partner exclusively with authorized European distributors, guaranteeing untampered concentrations and notes.
             </p>
-            <span class="quote-author">— The LUMÈRA LUXE Manifesto</span>
+          </div>
+          <div class="standard-item">
+            <span class="standard-index">02</span>
+            <h3 class="standard-name">Climate-Preserved Storage</h3>
+            <p class="standard-desc">
+              Qatar’s warmth requires special respect. Our collection is preserved in strict temperature-controlled storage, ensuring delicate olfactory volatile notes remain uncompromised.
+            </p>
+          </div>
+          <div class="standard-item">
+            <span class="standard-index">03</span>
+            <h3 class="standard-name">Personal Doha Concierge</h3>
+            <p class="standard-desc">
+              No chatbots, no automated queues. Connect directly on WhatsApp with genuine fragrance connoisseurs for tailored scent recommendations and same-day delivery updates.
+            </p>
           </div>
         </div>
-        <div class="story-visual">
-          <img
-            src="/assets/products/dolce-gabbana-devotion.webp"
-            alt="LUMÈRA LUXE perfume presentation"
-            class="story-art-img"
-            loading="lazy"
-          />
-        </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- Promises Recap -->
-      <section class="story-pillars-grid">
-        {siteConfig.promises.map((p) => (
-          <div class="pillar-card">
-            <h3 class="pillar-title">{p.title}</h3>
-            <p class="pillar-desc">{p.description}</p>
+    <!-- Chapter II: The Packaging & Presentation Ritual -->
+    <section class="story-chapter chapter-reverse">
+      <div class="container">
+        <div class="chapter-grid">
+          <div class="chapter-visual">
+            <div class="visual-frame">
+              <img
+                src="/assets/brand/story-packaging-ritual.webp"
+                alt="Signature LUMÈRA LUXE boutique gift box with black grosgrain ribbon on travertine"
+                class="chapter-img"
+                width="1024"
+                height="768"
+                loading="lazy"
+              />
+              <span class="visual-caption">Signature boutique gift box with hand-tied grosgrain ribbon</span>
+            </div>
           </div>
-        ))}
-      </section>
+          <div class="chapter-text">
+            <span class="chapter-num">Chapter II</span>
+            <h2 class="chapter-title">The Ritual of Presentation</h2>
+            <div class="chapter-body">
+              <p>
+                We believe the experience of fine perfumery begins the moment your parcel is received. Every flacon is hand-wrapped in our minimalist boutique packaging, secured with ribbed ribbon, and prepared as an exquisite gift—whether for someone cherished or for yourself.
+              </p>
+              <p>
+                Dispatched directly across Doha, Lusail, Al Rayyan, and all municipalities of Qatar, our local couriers handle every delivery with white-glove discretion and care.
+              </p>
+            </div>
+            <div class="delivery-badge-strip">
+              <div class="badge-pill">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 22s-8-4.5-8-11.8A8 8 0 0 1 12 2a8 8 0 0 1 8 8.2c0 7.3-8 11.8-8 11.8z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                <span>All Qatar Municipalities</span>
+              </div>
+              <div class="badge-pill">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+                <span>Same-Day & Next-Day</span>
+              </div>
+              <div class="badge-pill">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="4" width="20" height="16" rx="2" />
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
+                </svg>
+                <span>Gift Card Enclosed</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-      <div class="story-cta-box text-center">
-        <h2 class="cta-heading">Experience the Collection</h2>
-        <p class="cta-sub">Browse our verified fragrances or speak directly with our Doha concierge.</p>
-        <div class="cta-buttons">
-          <a href="/shop/" class="btn btn-primary">Explore Fragrances</a>
-          <a href={`https://wa.me/${siteConfig.whatsappNumber}`} class="btn btn-secondary" target="_blank" rel="noopener">
-            WhatsApp Concierge
+    <!-- Brand Flacon Visual Triptych (Editorial Showcase) -->
+    <section class="story-gallery-section" aria-label="Brand Visual Showcase">
+      <div class="container">
+        <div class="gallery-header text-center">
+          <span class="gallery-kicker">Flacon & Plinth</span>
+          <h2 class="gallery-title">The Art of the Vessel</h2>
+          <p class="gallery-lead">
+            Every curve, heavy glass base, and polished facet is conceived as an architectural object designed to endure on your dressing table.
+          </p>
+        </div>
+
+        <div class="gallery-grid">
+          <figure class="gallery-card">
+            <div class="gallery-frame">
+              <img
+                src="/assets/brand/hero-terracotta-showcase.webp"
+                alt="LUMÈRA LUXE architectural perfume showcase on warm terracotta plinths"
+                class="gallery-image"
+                loading="lazy"
+                width="600"
+                height="600"
+              />
+            </div>
+            <figcaption class="gallery-caption">
+              <span class="gallery-item-tag">I. Form & Weight</span>
+              <h3 class="gallery-item-title">Architectural Symmetry</h3>
+              <p class="gallery-item-desc">Hand-polished crystal glass cut with precision proportions.</p>
+            </figcaption>
+          </figure>
+
+          <figure class="gallery-card">
+            <div class="gallery-frame">
+              <img
+                src="/assets/brand/brand-plum-elegance.webp"
+                alt="LUMÈRA LUXE deep plum glass flacon on dark wood"
+                class="gallery-image"
+                loading="lazy"
+                width="600"
+                height="600"
+              />
+            </div>
+            <figcaption class="gallery-caption">
+              <span class="gallery-item-tag">II. Hue & Depth</span>
+              <h3 class="gallery-item-title">The Nocturne Flacon</h3>
+              <p class="gallery-item-desc">Tinted amethyst glass shielding sensitive natural volatile oils.</p>
+            </figcaption>
+          </figure>
+
+          <figure class="gallery-card">
+            <div class="gallery-frame">
+              <img
+                src="/assets/brand/hero-rose-gold-trio.webp"
+                alt="LUMÈRA LUXE amber trio on warm limestone blocks"
+                class="gallery-image"
+                loading="lazy"
+                width="600"
+                height="600"
+              />
+            </div>
+            <figcaption class="gallery-caption">
+              <span class="gallery-item-tag">III. The Reserve</span>
+              <h3 class="gallery-item-title">Warm Amber Trio</h3>
+              <p class="gallery-item-desc">Extrait-grade concentrations bottled for enduring 12-hour sillage.</p>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Editorial Pull Quote -->
+    <section class="story-quote-section">
+      <div class="container-narrow text-center">
+        <span class="quote-mark" aria-hidden="true">“</span>
+        <blockquote class="manifesto-quote">
+          Perfume is an invisible garment—a lingering presence that defines your memory long after you depart the room.
+        </blockquote>
+        <div class="quote-signoff" aria-hidden="true">
+          <span class="signoff-line"></span>
+          <span class="signoff-title">The LUMÈRA LUXE Philosophy</span>
+          <span class="signoff-line"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Minimal Boutique Invitation / CTA -->
+    <section class="story-invitation">
+      <div class="container-narrow text-center">
+        <span class="invitation-kicker">Experience LUMÈRA LUXE</span>
+        <h2 class="invitation-headline">Find Your Next Signature</h2>
+        <p class="invitation-lead">
+          Explore our hand-curated edit of verified flacons or converse directly with our Doha boutique concierge on WhatsApp.
+        </p>
+        <div class="invitation-actions">
+          <a href="/shop/" class="btn btn-primary btn-spacious">
+            Explore Collection
+          </a>
+          <a
+            href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent('Hello LUMÈRA LUXE, I would like personal assistance choosing a fragrance from your curated collection.')}`}
+            class="btn btn-secondary btn-spacious"
+            target="_blank"
+            rel="noopener"
+          >
+            Speak with Concierge
           </a>
         </div>
       </div>
-    </div>
-  </div>
+    </section>
+  </article>
 </BaseLayout>
 
 <style>
-  .story-header {
-    background-color: var(--color-surface);
-    border-bottom: 1px solid var(--color-border);
-    padding: clamp(3rem, 6vw, 5rem) 0;
+  .story-page {
+    background-color: var(--color-bg);
+    color: var(--color-text-main);
+    overflow-x: hidden;
+  }
+
+  .container-narrow {
+    width: 100%;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--page-gutter);
+    padding-right: var(--page-gutter);
   }
 
   .text-center {
     text-align: center;
   }
 
-  .eyebrow {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--color-accent);
-    margin-bottom: 0.75rem;
-    display: block;
+  /* --- 1. MASTHEAD --- */
+  .story-masthead {
+    background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-bg) 100%);
+    padding: clamp(3.5rem, 7vw, 6rem) 0 clamp(2.5rem, 5vw, 4.5rem);
+    border-bottom: 1px solid var(--color-border-subtle);
   }
 
-  .story-title {
-    font-size: var(--text-4xl);
+  .story-kicker {
+    display: inline-block;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--color-brand-cognac);
+    margin-bottom: 1rem;
+  }
+
+  .story-headline {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 5.5vw, 3.75rem);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: 0.01em;
     color: var(--color-text-main);
-    margin-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .headline-italic {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-brand-cognac-dark);
   }
 
   .story-lead {
-    font-size: clamp(1.1rem, 2vw, 1.25rem);
+    font-size: clamp(1rem, 2vw, 1.1875rem);
+    font-weight: 300;
+    line-height: 1.7;
     color: var(--color-text-muted);
-    max-width: 680px;
+    max-width: 620px;
+    margin: 0 auto 2.25rem;
+  }
+
+  .masthead-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    max-width: 280px;
     margin: 0 auto;
-    line-height: 1.6;
   }
 
-  .story-content {
-    padding-top: clamp(3rem, 5vw, 5rem);
-    padding-bottom: 5rem;
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background-color: var(--color-border);
   }
 
-  .story-block {
+  .divider-seal {
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-text-light);
+  }
+
+  /* --- 2. CHAPTER BLOCKS --- */
+  .story-chapter {
+    padding: clamp(3.5rem, 6vw, 5.5rem) 0;
+  }
+
+  .chapter-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2.5rem;
+    gap: clamp(2rem, 5vw, 4.5rem);
     align-items: center;
-    margin-bottom: clamp(3.5rem, 6vw, 6rem);
   }
 
-  @media (min-width: 860px) {
-    .story-block {
-      grid-template-columns: 1.25fr 1fr;
-      gap: 4.5rem;
+  @media (min-width: 880px) {
+    .chapter-grid {
+      grid-template-columns: 1.15fr 1fr;
     }
-    .story-block.reverse {
-      grid-template-columns: 1fr 1.25fr;
+
+    .chapter-reverse .chapter-grid {
+      grid-template-columns: 1fr 1.15fr;
     }
-    .story-block.reverse .story-text {
+
+    .chapter-reverse .chapter-text {
       order: 2;
     }
-    .story-block.reverse .story-visual {
+
+    .chapter-reverse .chapter-visual {
       order: 1;
     }
   }
 
-  .story-section-title {
-    font-size: var(--text-3xl);
-    margin-bottom: 1.25rem;
-  }
-
-  .story-text p {
-    font-size: 1.05rem;
-    line-height: 1.75;
-    margin-bottom: 1.25rem;
-  }
-
-  .story-visual {
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius-sm);
-    aspect-ratio: 1 / 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2.5rem;
-  }
-
-  .story-art-img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-  }
-
-  .story-quote {
-    background-color: var(--color-surface);
-    border-left: 3px solid var(--color-accent);
-    padding: 1.5rem;
-    margin-top: 1.5rem;
-    border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
-  }
-
-  .quote-text {
-    font-family: var(--font-display);
-    font-size: 1.35rem;
-    font-style: italic;
-    color: var(--color-text-main);
-    margin-bottom: 0.5rem !important;
-  }
-
-  .quote-author {
-    font-size: 0.8125rem;
+  .chapter-num {
+    display: inline-block;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-accent);
-  }
-
-  .story-pillars-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    margin-bottom: 5rem;
-  }
-
-  @media (min-width: 768px) {
-    .story-pillars-grid {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  .pillar-card {
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
-    padding: 2rem 1.5rem;
-    border-radius: var(--border-radius-sm);
-  }
-
-  .pillar-title {
-    font-family: var(--font-display);
-    font-size: 1.35rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .pillar-desc {
-    font-size: 0.875rem;
-    line-height: 1.6;
-    color: var(--color-text-muted);
-  }
-
-  .story-cta-box {
-    background-color: var(--color-surface-subtle);
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius-md);
-    padding: clamp(2.5rem, 5vw, 4rem) 1.5rem;
-  }
-
-  .cta-heading {
-    font-size: var(--text-3xl);
+    color: var(--color-brand-cognac);
     margin-bottom: 0.75rem;
   }
 
-  .cta-sub {
-    font-size: 1.05rem;
-    color: var(--color-text-muted);
-    margin-bottom: 2rem;
+  .chapter-title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.85rem, 3.5vw, 2.75rem);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--color-text-main);
+    margin-bottom: 1.25rem;
   }
 
-  .cta-buttons {
+  .chapter-body p {
+    font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+    line-height: 1.8;
+    color: var(--color-text-muted);
+    margin-bottom: 1.25rem;
+  }
+
+  .chapter-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .chapter-meta {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border-subtle);
+  }
+
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .meta-label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-text-light);
+  }
+
+  .meta-val {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-main);
+  }
+
+  .visual-frame {
+    position: relative;
+    border-radius: var(--border-radius-sm);
+    overflow: hidden;
+  }
+
+  .chapter-img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    display: block;
+    border-radius: var(--border-radius-sm);
+    border: 1px solid var(--color-border-subtle);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  }
+
+  .visual-caption {
+    display: block;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 0.8125rem;
+    color: var(--color-text-light);
+    margin-top: 0.75rem;
+    text-align: center;
+  }
+
+  /* Delivery Badges Strip */
+  .delivery-badge-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.625rem;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border-subtle);
+  }
+
+  .badge-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+  }
+
+  .badge-pill svg {
+    color: var(--color-brand-cognac);
+    flex-shrink: 0;
+  }
+
+  /* --- 3. STANDARDS SECTION (Hairline Minimal Strip) --- */
+  .standards-section {
+    background-color: var(--color-surface);
+    padding: clamp(3.5rem, 6vw, 5.5rem) 0;
+    border-top: 1px solid var(--color-border-subtle);
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  .standards-header {
+    margin-bottom: clamp(2.5rem, 4vw, 3.5rem);
+  }
+
+  .standards-kicker {
+    display: inline-block;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-brand-cognac);
+    margin-bottom: 0.5rem;
+  }
+
+  .standards-title {
+    font-family: var(--font-serif);
+    font-size: clamp(1.75rem, 3vw, 2.4rem);
+    font-weight: 400;
+    color: var(--color-text-main);
+  }
+
+  .standards-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .standards-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+    }
+  }
+
+  .standard-item {
+    position: relative;
+    padding-left: 0;
+  }
+
+  @media (max-width: 767px) {
+    .standard-item:not(:last-child) {
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--color-border);
+    }
+  }
+
+  .standard-index {
+    font-family: var(--font-serif);
+    font-size: 2.25rem;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1;
+    color: var(--color-brand-cognac);
+    opacity: 0.85;
+    display: block;
+    margin-bottom: 0.85rem;
+  }
+
+  .standard-name {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    font-weight: 500;
+    color: var(--color-text-main);
+    margin-bottom: 0.65rem;
+  }
+
+  .standard-desc {
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: var(--color-text-muted);
+  }
+
+  /* --- 4. EDITORIAL PULL QUOTE --- */
+  .story-quote-section {
+    padding: clamp(4rem, 8vw, 6.5rem) 0;
+    background-color: var(--color-bg);
+  }
+
+  .quote-mark {
+    font-family: var(--font-serif);
+    font-size: 4rem;
+    line-height: 1;
+    color: var(--color-brand-cognac);
+    opacity: 0.4;
+    display: block;
+    margin-bottom: -1rem;
+  }
+
+  .manifesto-quote {
+    font-family: var(--font-serif);
+    font-size: clamp(1.5rem, 3.2vw, 2.25rem);
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+    color: var(--color-text-main);
+    margin: 0 auto 2rem;
+    max-width: 680px;
+  }
+
+  .quote-signoff {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .signoff-line {
+    flex: 1;
+    height: 1px;
+    background-color: var(--color-border);
+  }
+
+  .signoff-title {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-text-light);
+  }
+
+  /* --- 5. MINIMAL INVITATION / CTA --- */
+  .story-invitation {
+    background-color: var(--color-surface);
+    border-top: 1px solid var(--color-border-subtle);
+    padding: clamp(3.5rem, 7vw, 5.5rem) 0;
+  }
+
+  .invitation-kicker {
+    display: inline-block;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-brand-cognac);
+    margin-bottom: 0.75rem;
+  }
+
+  .invitation-headline {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 4vw, 2.85rem);
+    font-weight: 400;
+    color: var(--color-text-main);
+    margin-bottom: 0.85rem;
+  }
+
+  .invitation-lead {
+    font-size: 1rem;
+    color: var(--color-text-muted);
+    max-width: 520px;
+    margin: 0 auto 2.25rem;
+    line-height: 1.6;
+  }
+
+  .invitation-actions {
     display: flex;
     justify-content: center;
     gap: 1rem;
     flex-wrap: wrap;
+  }
+
+  .btn-spacious {
+    padding: 0.95rem 2rem;
+    min-width: 200px;
+  }
+
+  @media (max-width: 520px) {
+    .invitation-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .btn-spacious {
+      width: 100%;
+      min-width: unset;
+    }
+  }
+
+  /* --- 3B. BRAND VISUAL SHOWCASE / OLFACTORY GALLERY --- */
+  .story-gallery-section {
+    padding: clamp(3.5rem, 7vw, 5.5rem) 0;
+    border-bottom: 1px solid var(--color-border-subtle);
+    background-color: var(--color-surface);
+  }
+
+  .gallery-header {
+    max-width: 620px;
+    margin: 0 auto clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .gallery-kicker {
+    display: inline-block;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--color-brand-cognac);
+    margin-bottom: 0.75rem;
+  }
+
+  .gallery-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.85rem, 3.5vw, 2.75rem);
+    font-weight: 400;
+    color: var(--color-text-main);
+    letter-spacing: 0.015em;
+    margin-bottom: 0.85rem;
+  }
+
+  .gallery-lead {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--color-text-muted);
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  @media (min-width: 768px) {
+    .gallery-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .gallery-card {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    background: #FFFFFF;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--border-radius-sm);
+    overflow: hidden;
+    transition: transform var(--transition-base), box-shadow var(--transition-base), border-color var(--transition-base);
+  }
+
+  .gallery-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.06);
+    border-color: #D2CDC5;
+  }
+
+  .gallery-frame {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background-color: #F7F6F4;
+  }
+
+  .gallery-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .gallery-card:hover .gallery-image {
+    transform: scale(1.04);
+  }
+
+  .gallery-caption {
+    padding: 1.35rem 1.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .gallery-item-tag {
+    font-family: var(--font-body);
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-brand-cognac);
+    margin-bottom: 0.4rem;
+  }
+
+  .gallery-item-title {
+    font-family: var(--font-display);
+    font-size: 1.125rem;
+    font-weight: 400;
+    letter-spacing: 0.015em;
+    color: var(--color-text-main);
+    margin-bottom: 0.45rem;
+  }
+
+  .gallery-item-desc {
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    color: var(--color-text-muted);
+    margin: 0;
   }
 </style>

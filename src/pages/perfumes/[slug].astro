@@ -55,217 +55,271 @@ const productSchema = {
   <script type="application/ld+json" set:html={JSON.stringify(productSchema)} />
 
   <article class="pdp-container container">
-    <!-- Breadcrumb -->
-    <nav class="breadcrumb" aria-label="Breadcrumb">
-      <ol class="breadcrumb-list">
-        <li><a href="/">Home</a></li>
-        <li class="breadcrumb-separator">/</li>
-        <li><a href="/shop/">Collection</a></li>
-        <li class="breadcrumb-separator">/</li>
-        <li><a href={`/shop/?brand=${encodeURIComponent(product.brand)}`}>{product.brand}</a></li>
-        <li class="breadcrumb-separator">/</li>
-        <li aria-current="page">{product.name}</li>
-      </ol>
+    <!-- Minimalist Haute Breadcrumb -->
+    <nav class="pdp-breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Home</a>
+      <span class="sep">/</span>
+      <a href="/shop/">Collection</a>
+      <span class="sep">/</span>
+      <a href={`/shop/?brand=${encodeURIComponent(product.brand)}`}>{product.brand}</a>
+      <span class="sep">/</span>
+      <span class="current" aria-current="page">{product.name}</span>
     </nav>
 
     <div class="pdp-grid">
-      <!-- Media Gallery with Zoom -->
+      <!-- Media Stage with Magnifier -->
       <div class="pdp-media-wrap">
-        <div class="pdp-media-frame" id="pdp-media-frame" title="Click to view full bottle artwork">
-          <button class="zoom-indicator-btn" id="btn-zoom-image" aria-label="Enlarge perfume photograph">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <div class="pdp-media-frame" id="pdp-media-frame" title="Click to view full bottle photograph">
+          <button class="pdp-zoom-btn" id="btn-zoom-image" aria-label="Enlarge perfume photograph">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
               <line x1="11" y1="8" x2="11" y2="14"></line>
               <line x1="8" y1="11" x2="14" y2="11"></line>
             </svg>
-            <span>Enlarge View</span>
+            <span class="zoom-label">Enlarge</span>
           </button>
+
           <img
             src={product.image}
-            alt={`${product.fullName} bottle photograph`}
+            alt={`${product.fullName} luxury perfume bottle`}
             class="pdp-main-image"
-            width="500"
-            height="625"
+            width="600"
+            height="600"
             loading="eager"
             fetchpriority="high"
             decoding="async"
             id="pdp-image"
           />
+
+          <!-- Authentic Batch Micro-Seal -->
+          <div class="pdp-seal-pill">
+            <span class="seal-dot"></span>
+            <span>Sealed European Stock</span>
+          </div>
         </div>
       </div>
 
-      <!-- Product Information -->
+      <!-- Product Information Tier -->
       <div class="pdp-info">
-        <span class="pdp-brand">{product.brand}</span>
-        <h1 class="pdp-title">{product.name}</h1>
-        <p class="pdp-variant-details">{product.sizeDisplay} · {product.concentration}</p>
-
-        <div class="pdp-price-wrap">
-          <span class="pdp-price">{product.priceDisplay}</span>
-          {product.stickerPriceMinor > product.priceMinor && (
-            <span class="pdp-sticker-price">{(product.stickerPriceMinor / 100).toFixed(0)} QAR</span>
-            <span class="pdp-save-badge">Save {((product.stickerPriceMinor - product.priceMinor) / 100).toFixed(0)} QAR</span>
-          )}
-          <span class="pdp-availability-badge">
-            <span class="status-dot"></span>
-            Availability confirmed on WhatsApp
-          </span>
+        <!-- Identity Tier -->
+        <div class="pdp-header-block">
+          <span class="pdp-brand">{product.brand}</span>
+          <h1 class="pdp-title">{product.name}</h1>
+          <p class="pdp-variant-details">{product.concentration} · {product.sizeDisplay}</p>
         </div>
 
-        <!-- Luxury Quick Highlights Bar -->
-        <div class="pdp-specs-row">
-          <div class="pdp-spec-chip">
-            <span class="spec-label">TYPE</span>
-            <span class="spec-val">{product.concentration}</span>
+        <!-- Luxury Price & Privilege Bar -->
+        <div class="pdp-price-row">
+          <div class="price-figures">
+            <span class="pdp-price">{product.priceDisplay}</span>
+            {product.stickerPriceMinor > product.priceMinor && (
+              <span class="pdp-sticker-price">{(product.stickerPriceMinor / 100).toFixed(0)} QAR</span>
+            )}
           </div>
-          <div class="pdp-spec-chip">
-            <span class="spec-label">VOLUME</span>
-            <span class="spec-val">{product.sizeDisplay}</span>
-          </div>
-          <div class="pdp-spec-chip">
-            <span class="spec-label">FAMILY</span>
-            <span class="spec-val">{product.scentFamilies[0]}</span>
+          <div class="pdp-curation-badge">
+            <span>Complimentary Qatar Delivery</span>
           </div>
         </div>
 
+        <!-- Olfactory Quick Highlights (Clean Hairline Spec Line) -->
+        <div class="pdp-specs-strip">
+          <div class="spec-cell">
+            <span class="spec-title">Type</span>
+            <span class="spec-value">{product.concentration}</span>
+          </div>
+          <div class="spec-cell">
+            <span class="spec-title">Volume</span>
+            <span class="spec-value">{product.sizeDisplay}</span>
+          </div>
+          <div class="spec-cell">
+            <span class="spec-title">Family</span>
+            <span class="spec-value">{product.scentFamilies[0]}</span>
+          </div>
+        </div>
+
+        <!-- Sensory Description -->
         <p class="pdp-description">{product.description}</p>
 
-        <!-- Luxury Action Block (Airy, Uncongested Byredo Aesthetic) -->
+        <!-- DUAL LUXURY ACTION BLOCK (High Priority For Mobile) -->
+        <!-- DUAL LUXURY ACTION BLOCK (High Priority For Mobile) -->
+        <!-- DUAL LUXURY ACTION BLOCK -->
         <div class="pdp-action-block" id="pdp-cta-trigger">
-          <div class="pdp-action-primary-row">
-            <!-- Quantity Selector -->
-            <div class="pdp-qty-wrapper">
-              <button type="button" class="pdp-qty-btn" id="pdp-qty-dec" aria-label="Decrease quantity">−</button>
-              <span class="pdp-qty-display" id="pdp-qty-val">1</span>
-              <button type="button" class="pdp-qty-btn" id="pdp-qty-inc" aria-label="Increase quantity">+</button>
+          <!-- Row 1: Quantity Stepper + Add to Bag -->
+          <div class="pdp-primary-action-row">
+            <div class="pdp-qty-stepper" aria-label="Select quantity">
+              <button type="button" class="qty-btn" id="pdp-qty-dec" aria-label="Decrease quantity">−</button>
+              <span class="qty-val" id="pdp-qty-val">1</span>
+              <button type="button" class="qty-btn" id="pdp-qty-inc" aria-label="Increase quantity">+</button>
             </div>
 
-            <!-- BUY NOW (Primary CTA -> Goes directly to /checkout/) -->
-            <a
-              href={`/checkout/?product=${product.slug}&qty=1`}
-              class="btn-buy-now-main"
-              id="btn-pdp-buy-now"
-              data-slug={product.slug}
+            <!-- ADD TO BAG (Spacious, elegant, single-line) -->
+            <button
+              type="button"
+              class="btn-pdp-add-bag btn-pdp-secondary-add"
+              id="pdp-main-add-btn"
+              data-action="add-to-bag"
+              data-id={product.id}
+              data-name={product.name}
+              data-brand={product.brand}
+              data-size={product.sizeDisplay}
+              data-concentration={product.concentration}
+              data-price={product.priceMinor}
+              data-image={product.image}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <path d="M16 10a4 4 0 0 1-8 0"></path>
               </svg>
-              <span>BUY NOW · <span id="pdp-btn-amount">{product.priceDisplay}</span></span>
-            </a>
+              <span>Add to Bag</span>
+            </button>
           </div>
 
-          <!-- ADD TO BAG (Secondary CTA) -->
+          <!-- Row 2: DIRECT BUY (Prominent instant purchase) -->
           <button
             type="button"
-            class="btn-add-bag-secondary"
-            id="pdp-main-add-btn"
-            data-action="add-to-bag"
-            data-id={product.id}
-            data-name={product.name}
-            data-brand={product.brand}
-            data-size={product.sizeDisplay}
-            data-concentration={product.concentration}
-            data-price={product.priceMinor}
-            data-image={product.image}
+            class="btn-pdp-direct-buy"
+            id="pdp-direct-buy-btn"
+            data-slug={product.slug}
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
-              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-              <line x1="3" y1="6" x2="21" y2="6"></line>
-              <path d="M16 10a4 4 0 0 1-8 0"></path>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
             </svg>
-            <span>Add to Bag</span>
+            <span>BUY · <span id="pdp-buy-amount">{product.priceDisplay}</span></span>
           </button>
 
-          <!-- Delivery Badge Note -->
-          <div class="pdp-delivery-badge-note">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
-              <rect x="1" y="3" width="15" height="13"></rect>
-              <polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon>
-              <circle cx="5.5" cy="18.5" r="2.5"></circle>
-              <circle cx="18.5" cy="18.5" r="2.5"></circle>
-            </svg>
-            <span>Complimentary Qatar Delivery · Direct WhatsApp Order</span>
-          </div>
-
-          <div class="pdp-secondary-actions">
+          <!-- Row 3: WhatsApp Concierge + Wishlist + Share -->
+          <div class="pdp-secondary-action-row">
             <a
-              href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(`Hello LUMÈRA LUXE, I am interested in inquiring about ${product.fullName} (${product.sizeDisplay}, ${product.concentration}).`)}`}
-              class="btn-inquire-link"
+              href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(`Hello LUMÈRA LUXE, I would like to order or inquire about ${product.fullName} (${product.sizeDisplay}, ${product.priceDisplay}).`)}`}
+              class="btn-pdp-whatsapp"
+              id="pdp-whatsapp-btn"
               target="_blank"
               rel="noopener"
+              aria-label="Order or inquire on WhatsApp"
             >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12.031 2C6.495 2 2 6.495 2 12.031c0 1.77.462 3.498 1.341 5.022L2 22l5.093-1.336A10.007 10.007 0 0 0 12.031 22C17.567 22 22 17.505 22 12.031 22 6.495 17.567 2 12.031 2zm5.879 14.195c-.244.686-1.42 1.314-1.956 1.385-.514.068-1.163.097-3.708-.958-3.04-1.258-4.996-4.34-5.148-4.542-.152-.202-1.233-1.64-1.233-3.128 0-1.488.777-2.22 1.052-2.525.275-.305.6-.381.8-.381.2 0 .4 0 .576.01.187.01.438-.071.686.525.257.619.876 2.143.952 2.296.076.153.127.33.025.534-.102.204-.153.33-.305.508-.152.178-.32.396-.457.533-.153.153-.312.32-.134.626.178.305.792 1.306 1.698 2.112 1.166 1.037 2.148 1.358 2.453 1.51.305.153.483.128.66-.076.178-.204.762-.89 965-1.195.204-.305.407-.254.686-.153.28.102 1.777.838 2.082.99.305.153.508.229.584.356.076.127.076.737-.168 1.423z"/>
               </svg>
-              <span>Inquire with Boutique Concierge</span>
+              <span>WhatsApp</span>
             </a>
 
-            <button type="button" class="btn-share-wa" id="btn-share-fragrance" title="Share with friends">
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <!-- Favorite / Wishlist Button -->
+            <button
+              type="button"
+              class="btn-pdp-fav"
+              id="btn-pdp-fav"
+              data-id={product.id}
+              aria-label={`Save ${product.brand} ${product.name} to wishlist`}
+              title="Save to Wishlist"
+            >
+              <svg class="pdp-heart-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+              </svg>
+            </button>
+
+            <button type="button" class="btn-pdp-share" id="btn-share-fragrance" aria-label="Share fragrance with friends" title="Share">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="18" cy="5" r="3"></circle>
                 <circle cx="6" cy="12" r="3"></circle>
                 <circle cx="18" cy="19" r="3"></circle>
                 <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
                 <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
               </svg>
-              <span>Share</span>
             </button>
+          </div>
+
+          <!-- Assurance Micro-Notice -->
+          <div class="pdp-micro-assurances">
+            <span>✓ Genuine Verified Batch</span>
+            <span class="micro-sep">·</span>
+            <span>Free Doorstep Delivery in Qatar</span>
+            <span class="micro-sep">·</span>
+            <span>Cash or Card on Delivery</span>
           </div>
         </div>
 
-        <!-- Scent Profile Details (Below Action Block) -->
-        <div class="pdp-notes-box">
-          <div class="pdp-notes-header-row">
-            <h2 class="pdp-notes-title">Fragrance Profile & Notes</h2>
-            <span class="pdp-notes-badge">Haute Parfumerie</span>
-          </div>
-          
-          <div class="pdp-family-tags">
-            {product.scentFamilies.map((fam) => (
-              <span class="badge badge-accent">{fam}</span>
-            ))}
+        <!-- Olfactory Composition & Notes (Haute Parfumerie Presentation) -->
+        <section class="pdp-composition-section">
+          <div class="composition-header">
+            <h2 class="composition-title">Olfactory Composition</h2>
+            <span class="composition-kicker">Haute Parfumerie</span>
           </div>
 
-          <div class="pdp-key-notes">
-            <span class="key-notes-label">Prominent Notes:</span>
-            <ul class="key-notes-list">
+          <div class="composition-families">
+            <span class="family-label">Scent Families:</span>
+            <div class="family-pills">
+              {product.scentFamilies.map((fam) => (
+                <span class="family-tag">{fam}</span>
+              ))}
+            </div>
+          </div>
+
+          <div class="composition-notes-block">
+            <span class="notes-heading">Prominent Notes:</span>
+            <ul class="notes-cloud">
               {product.keyNotes.map((note) => (
-                <li class="note-pill">{note}</li>
+                <li class="note-chip">
+                  <span class="note-pip"></span>
+                  <span>{note}</span>
+                </li>
               ))}
             </ul>
           </div>
 
           {product.rawNotes && (
-            <div class="pdp-raw-notes-wrap">
-              <span class="key-notes-label">Full Olfactory Accord:</span>
-              <p class="pdp-raw-notes-text">{product.rawNotes}</p>
+            <div class="composition-accord-wrap">
+              <span class="accord-label">Full Olfactory Accord:</span>
+              <p class="accord-text">{product.rawNotes}</p>
             </div>
           )}
-        </div>
+        </section>
 
-        <!-- Client Guarantees -->
-        <div class="pdp-assurances">
-          <div class="assurance-item">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
-            </svg>
-            <span>100% Guaranteed Genuine & Verified Quality</span>
+        <!-- Luxury Client Reassurances (3-Item Clean Strip) -->
+        <div class="pdp-guarantee-cards">
+          <div class="guarantee-row-item">
+            <div class="guarantee-icon">
+              <!-- Perfume Bottle Line Icon -->
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="9" y="2" width="6" height="4" rx="0.5"></rect>
+                <line x1="8" y1="6" x2="16" y2="6"></line>
+                <rect x="5" y="8" width="14" height="13" rx="2"></rect>
+                <line x1="9" y1="13" x2="15" y2="13"></line>
+              </svg>
+            </div>
+            <div class="guarantee-info">
+              <span class="guarantee-headline">100% Genuine Certified</span>
+              <span class="guarantee-subtext">Original sealed European batches with authentic sillage and concentration.</span>
+            </div>
           </div>
-          <div class="assurance-item">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
-              <rect x="1" y="3" width="15" height="13"></rect>
-              <polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon>
-              <circle cx="5.5" cy="18.5" r="2.5"></circle>
-              <circle cx="18.5" cy="18.5" r="2.5"></circle>
-            </svg>
-            <span>Doha & Qatar Doorstep Delivery</span>
+
+          <div class="guarantee-row-item">
+            <div class="guarantee-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="3" width="15" height="13"></rect>
+                <polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon>
+                <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                <circle cx="18.5" cy="18.5" r="2.5"></circle>
+              </svg>
+            </div>
+            <div class="guarantee-info">
+              <span class="guarantee-headline">Complimentary Doorstep Delivery</span>
+              <span class="guarantee-subtext">White-glove courier directly to your residence across Doha and all of Qatar.</span>
+            </div>
           </div>
-          <div class="assurance-item">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-            </svg>
-            <span>Personal advice & payment confirmation via WhatsApp</span>
+
+          <div class="guarantee-row-item">
+            <div class="guarantee-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"></path>
+                <path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"></path>
+              </svg>
+            </div>
+            <div class="guarantee-info">
+              <span class="guarantee-headline">Personal Fragrance Consultation</span>
+              <span class="guarantee-subtext">Direct WhatsApp advice on notes, gifting, and immediate stock reservation.</span>
+            </div>
           </div>
         </div>
       </div>
@@ -274,11 +328,9 @@ const productSchema = {
     <!-- Related Fragrances -->
     {relatedProducts.length > 0 && (
       <section class="related-section">
-        <div class="section-header">
-          <div>
-            <span class="section-eyebrow">Olfactory Harmonies</span>
-            <h2 class="section-heading">You May Also Appreciate</h2>
-          </div>
+        <div class="section-header-minimal">
+          <h2 class="section-title-minimal">You May Also Appreciate</h2>
+          <a href="/shop/" class="see-all-link">View Collection</a>
         </div>
         <div class="grid-products">
           {relatedProducts.map((p) => (
@@ -289,41 +341,62 @@ const productSchema = {
     )}
   </article>
 
-  <!-- Mobile Sticky Dual-Action Bar (reveals only when scrolled past the in-page CTA; hides near footer) -->
+  <!-- Mobile Floating Sticky Dual-Action Bar -->
   <aside class="pdp-sticky-bar" id="pdp-sticky-bar" aria-label="Quick Purchase Actions">
     <div class="pdp-sticky-inner">
-      <button
-        type="button"
-        class="btn-sticky-add-bag"
-        id="btn-sticky-add-bag"
-        data-action="add-to-bag"
-        data-id={product.id}
-        data-name={product.name}
-        data-brand={product.brand}
-        data-size={product.sizeDisplay}
-        data-concentration={product.concentration}
-        data-price={product.priceMinor}
-        data-image={product.image}
-      >
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
-          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-          <line x1="3" y1="6" x2="21" y2="6"></line>
-          <path d="M16 10a4 4 0 0 1-8 0"></path>
-        </svg>
-        <span>Add to Bag</span>
-      </button>
+      <div class="sticky-thumb-info">
+        <img src={product.image} alt={product.name} class="sticky-thumb-img" width="40" height="40" />
+        <div class="sticky-meta">
+          <span class="sticky-title">{product.name}</span>
+          <span class="sticky-price" id="pdp-sticky-amount">{product.priceDisplay}</span>
+        </div>
+      </div>
 
-      <a
-        href={`/checkout/?product=${product.slug}&qty=1`}
-        class="btn-sticky-buy-now"
-        id="btn-sticky-buy-now"
-        data-slug={product.slug}
-      >
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-        </svg>
-        <span>BUY NOW · <span id="pdp-sticky-amount">{product.priceDisplay}</span></span>
-      </a>
+      <div class="sticky-actions-wrap">
+        <button
+          type="button"
+          class="btn-sticky-fav"
+          id="btn-sticky-fav"
+          data-id={product.id}
+          aria-label="Save to Wishlist"
+          title="Save to Wishlist"
+        >
+          <svg class="sticky-heart-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+          </svg>
+        </button>
+
+        <button
+          type="button"
+          class="btn-sticky-add-bag"
+          id="btn-sticky-add-bag"
+          data-action="add-to-bag"
+          data-id={product.id}
+          data-name={product.name}
+          data-brand={product.brand}
+          data-size={product.sizeDisplay}
+          data-concentration={product.concentration}
+          data-price={product.priceMinor}
+          data-image={product.image}
+          aria-label="Add to Bag"
+          title="Add to Bag"
+        >
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+        </button>
+
+        <button
+          type="button"
+          class="btn-sticky-direct-buy"
+          id="btn-sticky-direct-buy"
+          data-slug={product.slug}
+        >
+          <span>BUY</span>
+        </button>
+      </div>
     </div>
   </aside>
 
@@ -339,44 +412,54 @@ const productSchema = {
 
 <style>
   .pdp-container {
-    padding-top: 1.5rem;
-    padding-bottom: 5rem;
+    padding-top: clamp(1rem, 2.5vw, 1.75rem);
+    padding-bottom: clamp(3.5rem, 6vw, 6rem);
   }
 
-  .breadcrumb {
-    margin-bottom: 2rem;
-    font-size: 0.8125rem;
-    color: var(--color-text-light);
-  }
-
-  .breadcrumb-list {
-    list-style: none;
+  /* Breadcrumb */
+  .pdp-breadcrumb {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: 0.5rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    color: var(--color-text-light);
+    margin-bottom: clamp(1.25rem, 2.5vw, 2rem);
   }
 
-  .breadcrumb-separator {
+  .pdp-breadcrumb a {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .pdp-breadcrumb a:hover {
+    color: var(--color-text-main);
+  }
+
+  .pdp-breadcrumb .sep {
     color: var(--color-border);
   }
 
-  .breadcrumb-list a:hover {
-    color: var(--color-accent);
+  .pdp-breadcrumb .current {
+    color: var(--color-text-main);
+    font-weight: 500;
   }
 
+  /* PDP Grid */
   .pdp-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2.5rem;
+    gap: 2rem;
     align-items: start;
-    margin-bottom: 5rem;
+    margin-bottom: clamp(3.5rem, 6vw, 5.5rem);
   }
 
   @media (min-width: 860px) {
     .pdp-grid {
       grid-template-columns: 1.15fr 1fr;
-      gap: 4rem;
+      gap: 4.5rem;
     }
   }
 
@@ -388,7 +471,7 @@ const productSchema = {
   @media (min-width: 860px) {
     .pdp-media-wrap {
       position: sticky;
-      top: 96px;
+      top: 90px;
     }
   }
 
@@ -401,49 +484,74 @@ const productSchema = {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: clamp(1.5rem, 3.5vw, 2.75rem);
+    padding: clamp(1rem, 2.5vw, 2rem);
     cursor: zoom-in;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.03);
     overflow: hidden;
   }
 
-  .zoom-indicator-btn {
+  .pdp-zoom-btn {
     position: absolute;
     top: 1rem;
     right: 1rem;
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    background-color: rgba(255, 255, 255, 0.92);
-    backdrop-filter: blur(4px);
-    border: 1px solid var(--color-border);
-    padding: 0.35rem 0.65rem;
+    letter-spacing: 0.06em;
+    background-color: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(8px);
+    border: 1px solid #ECEAE5;
+    padding: 0.4rem 0.75rem;
     border-radius: var(--border-radius-sm);
     color: var(--color-text-main);
     z-index: 2;
     transition: all var(--transition-fast);
   }
 
-  .zoom-indicator-btn:hover {
-    background-color: var(--color-accent);
-    border-color: var(--color-accent);
+  .pdp-zoom-btn:hover {
+    background-color: var(--color-text-main);
     color: #FFFFFF;
+  }
+
+  .pdp-seal-pill {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    background-color: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(8px);
+    border: 1px solid #ECEAE5;
+    padding: 0.35rem 0.65rem;
+    border-radius: var(--border-radius-sm);
+    color: var(--color-text-muted);
+  }
+
+  .seal-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--color-accent);
   }
 
   .pdp-main-image {
     width: 100%;
     height: 100%;
-    max-width: 92%;
-    max-height: 92%;
+    max-width: 95%;
+    max-height: 95%;
     object-fit: contain;
-    transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+    transition: transform 360ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .pdp-main-image:hover {
+  .pdp-media-frame:hover .pdp-main-image {
     transform: scale(1.035);
   }
 
@@ -453,116 +561,108 @@ const productSchema = {
     flex-direction: column;
   }
 
+  .pdp-header-block {
+    margin-bottom: 1.25rem;
+  }
+
   .pdp-brand {
-    font-size: 0.8125rem;
-    font-weight: 600;
+    font-size: 0.75rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.14em;
     color: var(--color-accent);
-    margin-bottom: 0.5rem;
+    display: block;
+    margin-bottom: 0.35rem;
   }
 
   .pdp-title {
-    font-size: var(--text-4xl);
-    line-height: 1.15;
+    font-family: var(--font-display);
+    font-size: clamp(1.85rem, 3.5vw, 2.5rem);
+    font-weight: 400;
+    line-height: 1.18;
+    letter-spacing: 0.015em;
     color: var(--color-text-main);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.35rem;
   }
 
   .pdp-variant-details {
-    font-size: 1rem;
+    font-size: 0.875rem;
     color: var(--color-text-muted);
-    margin-bottom: 1.5rem;
+    letter-spacing: 0.02em;
   }
 
-  .pdp-price-wrap {
+  /* Luxury Price Row */
+  .pdp-price-row {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    gap: 1rem;
-    padding-bottom: 1.5rem;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-bottom: 1.25rem;
     border-bottom: 1px solid var(--color-border);
-    margin-bottom: 1.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .price-figures {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
   }
 
   .pdp-price {
-    font-size: 1.75rem;
-    font-weight: 600;
+    font-size: clamp(1.4rem, 2.5vw, 1.75rem);
+    font-weight: 700;
     color: var(--color-text-main);
   }
 
   .pdp-sticker-price {
-    font-size: 1.125rem;
+    font-size: 1rem;
     color: var(--color-text-light);
     text-decoration: line-through;
   }
 
-  .pdp-save-badge {
-    display: inline-flex;
-    align-items: center;
+  .pdp-curation-badge {
     font-size: 0.6875rem;
-    font-weight: 700;
+    font-weight: 600;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #15803d;
-    background-color: #dcfce7;
-    padding: 0.25rem 0.55rem;
+    color: var(--color-accent);
+    background-color: var(--color-accent-light);
+    padding: 0.25rem 0.6rem;
     border-radius: var(--border-radius-sm);
   }
 
-  .pdp-availability-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--color-text-muted);
-    background-color: var(--color-surface);
-    padding: 0.35rem 0.65rem;
-    border-radius: var(--border-radius-sm);
-  }
-
-  .status-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background-color: #25D366;
-  }
-
-  /* Quick Specifications Row */
-  .pdp-specs-row {
+  /* Olfactory Specs Strip */
+  .pdp-specs-strip {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 0.75rem;
-    padding: 0.85rem 1rem;
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
+    border: 1px solid #ECEAE5;
     border-radius: var(--border-radius-sm);
-    margin-bottom: 1.75rem;
+    background-color: #FAF9F6;
+    margin-bottom: 1.5rem;
   }
 
-  .pdp-spec-chip {
+  .spec-cell {
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
-    min-width: 0;
+    padding: 0.65rem 0.85rem;
+    gap: 0.15rem;
   }
 
-  .pdp-spec-chip:not(:last-child) {
-    border-right: 1px solid var(--color-border);
-    padding-right: 0.5rem;
+  .spec-cell:not(:last-child) {
+    border-right: 1px solid #ECEAE5;
   }
 
-  .pdp-spec-chip .spec-label {
-    font-size: 0.6875rem;
+  .spec-title {
+    font-size: 0.625rem;
     font-weight: 700;
+    text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--color-text-light);
-    text-transform: uppercase;
   }
 
-  .pdp-spec-chip .spec-val {
-    font-size: 0.8125rem;
+  .spec-value {
+    font-size: 0.78125rem;
     font-weight: 600;
     color: var(--color-text-main);
     white-space: nowrap;
@@ -570,415 +670,422 @@ const productSchema = {
     text-overflow: ellipsis;
   }
 
+  /* Description */
   .pdp-description {
-    font-size: 1.05rem;
+    font-size: 0.875rem;
     line-height: 1.7;
     color: var(--color-text-muted);
-    margin-bottom: 2rem;
+    margin-bottom: 1.75rem;
   }
 
-  /* Notes Box */
-  .pdp-notes-box {
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-gold-border);
+  /* Action Block (Dual Luxury Action) */
+  .pdp-action-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1.25rem;
+    background-color: #FFFFFF;
+    border: 1px solid #ECEAE5;
+    border-radius: var(--border-radius-sm);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+    margin-bottom: 2.25rem;
+  }
+
+  .pdp-primary-action-row {
+    display: flex;
+    gap: 0.65rem;
+    align-items: stretch;
+  }
+
+  /* Quantity Stepper */
+  .pdp-qty-stepper {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    background-color: #FAF9F6;
+    flex-shrink: 0;
+  }
+
+  .qty-btn {
+    width: 38px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    color: var(--color-text-main);
+    cursor: pointer;
+    background: transparent;
+    border: none;
+    transition: color var(--transition-fast);
+  }
+
+  .qty-btn:hover {
+    color: var(--color-accent);
+  }
+
+  .qty-val {
+    min-width: 28px;
+    text-align: center;
+    font-size: 0.9375rem;
+    font-weight: 600;
+  }
+
+  /* Add to Bag (Row 1 - beside stepper) */
+  .btn-pdp-add-bag,
+  .btn-pdp-secondary-add {
+    flex: 1;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.75rem 1.25rem;
+    border: 1.5px solid var(--color-text-main);
+    border-radius: var(--border-radius-sm);
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-main);
+    background-color: #FFFFFF;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-pdp-add-bag:hover,
+  .btn-pdp-secondary-add:hover {
+    background-color: var(--color-text-main);
+    color: #FFFFFF;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  }
+
+  /* Primary Direct Buy Button (Row 2 - full width) */
+  .btn-pdp-direct-buy {
+    width: 100%;
+    min-height: 50px;
+    padding: 0.85rem 1.25rem;
+    background-color: #1A1A1A;
+    color: #FFFFFF;
+    border: none;
+    border-radius: var(--border-radius-sm);
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    cursor: pointer;
+    white-space: nowrap;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
+    transition: all var(--transition-fast);
+  }
+
+  .btn-pdp-direct-buy:hover {
+    background-color: #000000;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  }
+
+  .btn-pdp-direct-buy svg {
+    color: #E5C378;
+  }
+
+  /* Secondary Row (Row 3 - WhatsApp + Wishlist + Share) */
+  .pdp-secondary-action-row {
+    display: flex;
+    gap: 0.65rem;
+    align-items: center;
+  }
+
+  .btn-pdp-whatsapp {
+    flex: 1;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    font-size: 0.78125rem;
+    font-weight: 600;
+    color: var(--color-text-main);
+    background-color: #FAF9F6;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-pdp-whatsapp:hover {
+    border-color: var(--color-text-main);
+    background-color: #FFFFFF;
+  }
+
+  .btn-pdp-share {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    background-color: #FAF9F6;
+    color: var(--color-text-main);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-pdp-share:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .btn-pdp-fav {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    background-color: #FAF9F6;
+    color: var(--color-text-main);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-pdp-fav:hover {
+    border-color: var(--color-brand-cognac);
+    color: var(--color-brand-cognac);
+    transform: scale(1.05);
+  }
+
+  .btn-pdp-fav.is-active {
+    color: var(--color-brand-cognac);
+    border-color: rgba(200, 90, 36, 0.4);
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 8px rgba(200, 90, 36, 0.2);
+  }
+
+  .btn-pdp-fav.is-active .pdp-heart-icon {
+    fill: var(--color-brand-cognac);
+    stroke: var(--color-brand-cognac);
+  }
+
+  .pdp-micro-assurances {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    font-size: 0.6875rem;
+    color: var(--color-text-muted);
+    padding-top: 0.5rem;
+    border-top: 1px solid #ECEAE5;
+    text-align: center;
+  }
+
+  .micro-sep {
+    color: var(--color-border);
+  }
+
+  /* Composition Section */
+  .pdp-composition-section {
+    background-color: #FAF9F6;
+    border: 1px solid #ECEAE5;
     border-radius: var(--border-radius-sm);
     padding: 1.5rem;
     margin-bottom: 2rem;
   }
 
-  .pdp-notes-header-row {
+  .composition-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 0.75rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #ECEAE5;
   }
 
-  .pdp-notes-title {
+  .composition-title {
     font-family: var(--font-body);
     font-size: 0.8125rem;
-    font-weight: 600;
-    text-transform: uppercase;
+    font-weight: 700;
     letter-spacing: 0.08em;
+    text-transform: uppercase;
     color: var(--color-text-main);
-    margin-bottom: 0;
+    margin: 0;
   }
 
-  .pdp-notes-badge {
-    font-size: 0.6875rem;
-    font-weight: 600;
+  .composition-kicker {
+    font-size: 0.625rem;
+    font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--color-gold-dark);
-    background-color: var(--color-gold-light);
-    border: 1px solid var(--color-gold-border);
-    padding: 0.25rem 0.6rem;
+    color: var(--color-accent);
+  }
+
+  .composition-families {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .family-label {
+    font-size: 0.71875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-light);
+  }
+
+  .family-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .family-tag {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    background-color: var(--color-accent-light);
+    color: var(--color-accent);
+    padding: 0.2rem 0.55rem;
     border-radius: var(--border-radius-sm);
   }
 
-  .pdp-family-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+  .composition-notes-block {
     margin-bottom: 1rem;
   }
 
-  .key-notes-label {
+  .notes-heading {
     display: block;
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
     color: var(--color-text-light);
     margin-bottom: 0.5rem;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
   }
 
-  .key-notes-list {
+  .notes-cloud {
     list-style: none;
     display: flex;
     flex-wrap: wrap;
     gap: 0.4rem;
   }
 
-  .note-pill {
-    font-size: 0.8125rem;
-    background-color: #FFFFFF;
-    border: 1px solid var(--color-border);
-    padding: 0.25rem 0.65rem;
-    border-radius: var(--border-radius-sm);
-    color: var(--color-text-main);
-    transition: all var(--transition-fast);
-  }
-
-  .note-pill:hover {
-    border-color: var(--color-gold);
-    color: var(--color-brand-cognac);
-  }
-
-  .pdp-raw-notes-wrap {
-    margin-top: 1rem;
-    padding-top: 0.875rem;
-    border-top: 1px dashed var(--color-border);
-  }
-
-  .pdp-raw-notes-text {
-    font-size: 0.84375rem;
-    line-height: 1.6;
-    color: var(--color-text-main);
-    font-style: italic;
-  }
-
-  /* Luxury Action Block */
-  .pdp-action-block {
-    display: flex;
-    flex-direction: column;
-    gap: 0.875rem;
-    margin-bottom: 2.25rem;
-  }
-
-  .pdp-action-primary-row {
-    display: flex;
-    gap: 0.75rem;
-    align-items: stretch;
-  }
-
-  .pdp-qty-wrapper {
-    display: flex;
-    align-items: center;
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius-sm);
-    background-color: #FFFFFF;
-    padding: 0 0.25rem;
-  }
-
-  .pdp-qty-btn {
-    width: 38px;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.25rem;
-    color: var(--color-text-main);
-    cursor: pointer;
-  }
-
-  .pdp-qty-btn:hover {
-    color: var(--color-accent);
-  }
-
-  .pdp-qty-display {
-    min-width: 34px;
-    text-align: center;
-    font-size: 1rem;
-    font-weight: 600;
-  }
-
-  /* Primary Buy Now Button */
-  .btn-buy-now-main {
-    flex: 1;
-    min-height: 52px;
-    padding: 0.875rem 1.5rem;
-    background: var(--color-brand-gradient);
-    color: #FFFFFF;
-    text-decoration: none;
-    border: none;
-    border-radius: var(--border-radius-sm);
-    font-family: var(--font-body);
-    font-size: 0.9375rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.65rem;
-    cursor: pointer;
-    box-shadow: 0 4px 16px var(--color-brand-cognac-glow);
-    transition: all var(--transition-fast);
-    white-space: nowrap;
-  }
-
-  .btn-buy-now-main span {
-    white-space: nowrap;
-  }
-
-  .btn-buy-now-main:hover {
-    background-color: #000000;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
-  }
-
-  /* Secondary Add to Bag Button */
-  .btn-add-bag-secondary {
-    width: 100%;
-    min-height: 48px;
-    padding: 0.75rem 1.5rem;
-    background-color: #FFFFFF;
-    color: var(--color-text-main);
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius-sm);
-    font-family: var(--font-body);
-    font-size: 0.875rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.65rem;
-    cursor: pointer;
-    transition: all var(--transition-fast);
-  }
-
-  .btn-add-bag-secondary:hover {
-    border-color: var(--color-text-main);
-    background-color: var(--color-surface);
-  }
-
-  .pdp-delivery-badge-note {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.75rem;
-    color: var(--color-text-muted);
-    padding: 0.5rem 0.25rem 0;
-  }
-
-  .pdp-delivery-badge-note svg {
-    color: var(--color-accent);
-    flex-shrink: 0;
-  }
-
-  .pdp-secondary-actions {
-    display: flex;
-    gap: 0.75rem;
-    margin-top: 0.5rem;
-  }
-
-  .btn-inquire-link {
-    flex: 1;
+  .note-chip {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    gap: 0.45rem;
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius-sm);
-    font-size: 0.78125rem;
-    font-weight: 500;
-    color: var(--color-text-main);
-    background-color: #FFFFFF;
-    transition: all var(--transition-fast);
-  }
-
-  .btn-inquire-link svg {
-    color: #25D366;
-  }
-
-  .btn-inquire-link:hover {
-    border-color: #25D366;
-    color: #25D366;
-  }
-
-  .btn-share-wa {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
     gap: 0.4rem;
-    padding: 0.75rem 1.15rem;
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius-sm);
-    font-size: 0.78125rem;
-    font-weight: 500;
+    font-size: 0.75rem;
     background-color: #FFFFFF;
+    border: 1px solid #ECEAE5;
+    padding: 0.3rem 0.7rem;
+    border-radius: var(--border-radius-sm);
     color: var(--color-text-main);
     transition: all var(--transition-fast);
-    cursor: pointer;
   }
 
-  .btn-share-wa:hover {
+  .note-chip:hover {
     border-color: var(--color-accent);
     color: var(--color-accent);
   }
 
-  /* Assurances */
-  .pdp-assurances {
+  .note-pip {
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: var(--color-accent);
+  }
+
+  .composition-accord-wrap {
+    margin-top: 1rem;
+    padding-top: 0.85rem;
+    border-top: 1px dashed #ECEAE5;
+  }
+
+  .accord-label {
+    display: block;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-text-light);
+    margin-bottom: 0.35rem;
+  }
+
+  .accord-text {
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    font-style: italic;
+  }
+
+  /* Guarantees */
+  .pdp-guarantee-cards {
     display: flex;
     flex-direction: column;
-    gap: 0.85rem;
-    padding-top: 1.75rem;
+    gap: 1rem;
+    padding-top: 1.5rem;
     border-top: 1px solid var(--color-border);
   }
 
-  .assurance-item {
+  .guarantee-row-item {
     display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    font-size: 0.8125rem;
-    color: var(--color-text-muted);
+    align-items: flex-start;
+    gap: 0.85rem;
   }
 
-  .assurance-item svg {
+  .guarantee-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: #FAF9F6;
+    border: 1px solid #ECEAE5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     color: var(--color-accent);
     flex-shrink: 0;
   }
 
-  /* Related Section */
-  .related-section {
-    padding-top: 4rem;
-    border-top: 1px solid var(--color-border);
+  .guarantee-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
   }
 
-  /* Mobile Layout Spacing & Optimization */
-  @media (max-width: 859px) {
-    .pdp-container {
-      padding-top: 1rem;
-      padding-bottom: 3.5rem;
-    }
+  .guarantee-headline {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+    letter-spacing: 0.02em;
+  }
 
-    .breadcrumb {
-      margin-bottom: 1.25rem;
-      font-size: 0.75rem;
-    }
+  .guarantee-subtext {
+    font-size: 0.71875rem;
+    color: var(--color-text-muted);
+    line-height: 1.45;
+  }
 
-    .pdp-grid {
-      gap: 1.5rem;
-      margin-bottom: 3rem;
-    }
-
-    .pdp-media-frame {
-      aspect-ratio: 16 / 11;
-      max-height: 290px;
-      padding: 1.25rem;
-    }
-
-    .pdp-brand {
-      margin-bottom: 0.35rem;
-    }
-
-    .pdp-title {
-      font-size: 1.75rem;
-      margin-bottom: 0.35rem;
-    }
-
-    .pdp-variant-details {
-      font-size: 0.9375rem;
-      margin-bottom: 1rem;
-    }
-
-    .pdp-price-wrap {
-      gap: 0.75rem;
-      padding-bottom: 1.15rem;
-      margin-bottom: 1.25rem;
-    }
-
-    .pdp-price {
-      font-size: 1.5rem;
-    }
-
-    .pdp-specs-row {
-      margin-bottom: 1.25rem;
-      padding: 0.75rem 0.85rem;
-    }
-
-    .pdp-description {
-      font-size: 0.9375rem;
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
-    }
-
-    .pdp-action-block {
-      gap: 0.75rem;
-      margin-bottom: 1.75rem;
-    }
-
-    .pdp-action-primary-row {
-      gap: 0.5rem;
-    }
-
-    .pdp-qty-wrapper {
-      padding: 0 0.15rem;
-      flex-shrink: 0;
-    }
-
-    .pdp-qty-btn {
-      width: 32px;
-      font-size: 1.15rem;
-    }
-
-    .pdp-qty-display {
-      min-width: 24px;
-      font-size: 0.9375rem;
-    }
-
-    .btn-buy-now-main {
-      min-height: 48px;
-      padding: 0.75rem 0.85rem;
-      font-size: 0.8125rem;
-      letter-spacing: 0.03em;
-      gap: 0.45rem;
-      white-space: nowrap;
-      flex: 1;
-      min-width: 0;
-    }
-
-    .btn-buy-now-main svg {
-      width: 15px;
-      height: 15px;
-      flex-shrink: 0;
-    }
-
-    .btn-add-bag-secondary {
-      min-height: 44px;
-      font-size: 0.8125rem;
-    }
-
-    .pdp-notes-box {
-      padding: 1.25rem;
-      margin-bottom: 1.75rem;
-    }
-
-    .related-section {
-      padding-top: 2.5rem;
-    }
+  /* Related Section */
+  .related-section {
+    padding-top: clamp(3rem, 5vw, 4.5rem);
+    border-top: 1px solid var(--color-border);
   }
 
   /* Mobile Sticky Dual-Action Bar */
@@ -987,26 +1094,23 @@ const productSchema = {
     bottom: 0;
     left: 0;
     right: 0;
-    background-color: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border-top: 1px solid var(--color-gold-border);
-    padding: 0.65rem 1rem;
-    padding-bottom: calc(0.65rem + env(safe-area-inset-bottom, 0px));
-    z-index: 99;
-    box-shadow: 0 -6px 24px var(--color-gold-glow);
-    transform: translateY(115%);
+    z-index: 85;
+    background-color: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid var(--color-border);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
+    padding: 0.65rem 1rem calc(0.65rem + env(safe-area-inset-bottom, 0px));
+    transform: translateY(100%);
     opacity: 0;
     visibility: hidden;
-    transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), opacity 220ms ease, visibility 260ms;
-    pointer-events: none;
+    transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), opacity 200ms ease;
   }
 
   .pdp-sticky-bar.is-visible {
     transform: translateY(0);
     opacity: 1;
     visibility: visible;
-    pointer-events: auto;
   }
 
   @media (min-width: 860px) {
@@ -1018,70 +1122,138 @@ const productSchema = {
   .pdp-sticky-inner {
     display: flex;
     align-items: center;
-    gap: 0.65rem;
-    max-width: 480px;
+    justify-content: space-between;
+    gap: 0.85rem;
+    max-width: 500px;
     margin: 0 auto;
   }
 
-  .btn-sticky-add-bag {
-    flex: 1;
-    min-height: 46px;
-    padding: 0.65rem 0.75rem;
-    background-color: #FFFFFF;
-    color: var(--color-text-main);
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius-sm);
-    font-family: var(--font-body);
-    font-size: 0.8125rem;
-    font-weight: 600;
-    letter-spacing: 0.03em;
+  .sticky-thumb-info {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 0.45rem;
-    cursor: pointer;
+    gap: 0.65rem;
+    min-width: 0;
+  }
+
+  .sticky-thumb-img {
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
+    background-color: #FAF9F6;
+    border-radius: var(--border-radius-sm);
+    padding: 2px;
+    border: 1px solid #ECEAE5;
+    flex-shrink: 0;
+  }
+
+  .sticky-meta {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .sticky-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-main);
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .sticky-price {
+    font-size: 0.78125rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+  }
+
+  .sticky-actions-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .btn-sticky-add-bag {
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FAF9F6;
+    border: 1px solid #D5D0C9;
+    color: var(--color-text-main);
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
     transition: all var(--transition-fast);
   }
 
-  .btn-sticky-add-bag:active {
-    background-color: var(--color-surface);
+  .btn-sticky-fav {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #FAF9F6;
+    border: 1px solid #D5D0C9;
+    color: var(--color-text-main);
+    border-radius: var(--border-radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
   }
 
-  .btn-sticky-buy-now {
-    flex: 1.2;
-    min-height: 46px;
-    padding: 0.65rem 0.85rem;
-    background: var(--color-brand-gradient);
+  .btn-sticky-fav:hover {
+    color: var(--color-brand-cognac);
+    border-color: var(--color-brand-cognac);
+  }
+
+  .btn-sticky-fav.is-active {
+    color: var(--color-brand-cognac);
+    border-color: rgba(200, 90, 36, 0.4);
+    background-color: #FFFFFF;
+  }
+
+  .btn-sticky-fav.is-active .sticky-heart-icon {
+    fill: var(--color-brand-cognac);
+    stroke: var(--color-brand-cognac);
+  }
+
+  .btn-sticky-add-bag:hover {
+    background-color: #FFFFFF;
+    border-color: #1A1A1A;
+  }
+
+  .btn-sticky-direct-buy {
+    min-height: 42px;
+    padding: 0.5rem 1.15rem;
+    background-color: #1A1A1A;
     color: #FFFFFF;
-    text-decoration: none;
     border: none;
     border-radius: var(--border-radius-sm);
-    font-family: var(--font-body);
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
     font-weight: 700;
-    letter-spacing: 0.03em;
-    display: flex;
+    letter-spacing: 0.08em;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.45rem;
     cursor: pointer;
-    white-space: nowrap;
-    box-shadow: 0 4px 14px var(--color-brand-cognac-glow);
-    transition: all var(--transition-fast);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    transition: background-color var(--transition-fast);
   }
 
-  .btn-sticky-buy-now:active {
+  .btn-sticky-direct-buy:hover {
     background-color: #000000;
   }
 
-  /* Lightbox */
+  /* Lightbox Zoom */
   .image-lightbox-backdrop {
     position: fixed;
     inset: 0;
-    background-color: rgba(37, 33, 30, 0.85);
+    background-color: rgba(24, 21, 19, 0.85);
     backdrop-filter: blur(8px);
-    z-index: 120;
+    z-index: 200;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1091,11 +1263,11 @@ const productSchema = {
 
   .image-lightbox-content {
     position: relative;
-    max-width: 600px;
+    max-width: 520px;
     width: 100%;
     background-color: #FFFFFF;
-    border-radius: var(--border-radius-md);
-    padding: 2.5rem 2rem;
+    border-radius: var(--border-radius-sm);
+    padding: 2.5rem 2rem 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1109,12 +1281,14 @@ const productSchema = {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background-color: var(--color-surface);
+    background-color: #FAF9F6;
+    border: 1px solid #ECEAE5;
     color: var(--color-text-main);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.1rem;
+    cursor: pointer;
   }
 
   .lightbox-img {
@@ -1126,38 +1300,80 @@ const productSchema = {
 
   .lightbox-caption {
     font-family: var(--font-display);
-    font-size: 1.25rem;
+    font-size: 1.15rem;
     color: var(--color-text-main);
   }
 </style>
 
 <script>
+  import { siteConfig } from '../../data/site';
+  import { isFavorite, toggleFavorite } from '../../lib/favorites';
+
   // Quantity handling
   let currentQty = 1;
   const qtyValEl = document.getElementById('pdp-qty-val');
   const qtyDecBtn = document.getElementById('pdp-qty-dec');
   const qtyIncBtn = document.getElementById('pdp-qty-inc');
-  const btnAmountEl = document.getElementById('pdp-btn-amount');
-  const stickyAmountEl = document.getElementById('pdp-sticky-amount');
-  const buyNowBtn = document.getElementById('btn-pdp-buy-now');
-  const stickyBuyBtn = document.getElementById('btn-sticky-buy-now');
+  const pdpBuyAmountEl = document.getElementById('pdp-buy-amount');
+  const pdpStickyAmountEl = document.getElementById('pdp-sticky-amount');
   const pdpAddBtn = document.getElementById('pdp-main-add-btn');
   const stickyAddBtn = document.getElementById('btn-sticky-add-bag');
+  const directBuyBtn = document.getElementById('pdp-direct-buy-btn');
+  const stickyDirectBuyBtn = document.getElementById('btn-sticky-direct-buy');
+  const pdpWhatsAppBtn = document.getElementById('pdp-whatsapp-btn') as HTMLAnchorElement;
   const stickyBar = document.getElementById('pdp-sticky-bar');
-  const ctaTrigger = document.getElementById('pdp-cta-trigger');
+  const pdpFavBtn = document.getElementById('btn-pdp-fav');
+  const stickyFavBtn = document.getElementById('btn-sticky-fav');
+  const prodId = pdpFavBtn?.getAttribute('data-id') || stickyFavBtn?.getAttribute('data-id');
 
-  const productSlug = buyNowBtn?.getAttribute('data-slug') || '';
+  // Sync Favorite Buttons state
+  function syncPdpFav() {
+    if (!prodId) return;
+    const active = isFavorite(prodId);
+    [pdpFavBtn, stickyFavBtn].forEach((btn) => {
+      if (btn) {
+        btn.classList.toggle('is-active', active);
+        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+      }
+    });
+  }
+
+  function handleFavToggle(e: Event) {
+    e.preventDefault();
+    if (!prodId) return;
+    toggleFavorite(prodId);
+    syncPdpFav();
+  }
+
+  pdpFavBtn?.addEventListener('click', handleFavToggle);
+  stickyFavBtn?.addEventListener('click', handleFavToggle);
+  window.addEventListener('favorites-updated', syncPdpFav);
+  window.addEventListener('storage', syncPdpFav);
+  syncPdpFav();
+
   const unitPriceMinor = pdpAddBtn ? Number(pdpAddBtn.getAttribute('data-price') || 0) : 0;
+  const productName = pdpAddBtn?.getAttribute('data-name') || '';
+  const productBrand = pdpAddBtn?.getAttribute('data-brand') || '';
+  const productSize = pdpAddBtn?.getAttribute('data-size') || '';
 
   function updatePrices() {
     if (qtyValEl) qtyValEl.textContent = String(currentQty);
     const totalMinor = unitPriceMinor * currentQty;
     const formatted = `${(totalMinor / 100).toFixed(0)} QAR`;
-    if (btnAmountEl) btnAmountEl.textContent = formatted;
-    if (stickyAmountEl) stickyAmountEl.textContent = formatted;
-    const checkoutUrl = `/checkout/?product=${encodeURIComponent(productSlug)}&qty=${currentQty}`;
-    if (buyNowBtn) buyNowBtn.setAttribute('href', checkoutUrl);
-    if (stickyBuyBtn) stickyBuyBtn.setAttribute('href', checkoutUrl);
+
+    if (pdpBuyAmountEl) pdpBuyAmountEl.textContent = formatted;
+    if (pdpStickyAmountEl) pdpStickyAmountEl.textContent = formatted;
+
+    // Update data-qty attribute on add to bag buttons
+    pdpAddBtn?.setAttribute('data-qty', String(currentQty));
+    stickyAddBtn?.setAttribute('data-qty', String(currentQty));
+
+    // Update WhatsApp link with new quantity & total
+    if (pdpWhatsAppBtn) {
+      const waMsg = `Hello LUMÈRA LUXE, I would like to order or inquire about ${currentQty > 1 ? `${currentQty}x ` : ''}${productBrand} ${productName} (${productSize}, ${formatted}).`;
+      const waPhone = siteConfig.whatsappNumber.replace(/[^0-9]/g, '');
+      pdpWhatsAppBtn.href = `https://wa.me/${waPhone}?text=${encodeURIComponent(waMsg)}`;
+    }
   }
 
   qtyDecBtn?.addEventListener('click', () => {
@@ -1174,48 +1390,25 @@ const productSchema = {
     }
   });
 
-  // Direct Buy Now -> Navigate straight to /checkout/
-  function goToCheckout() {
-    if (!productSlug) return;
-    window.location.href = `/checkout/?product=${encodeURIComponent(productSlug)}&qty=${currentQty}`;
+  // Direct Buy: Instant 1-click checkout
+  function handleDirectBuy() {
+    const slug = directBuyBtn?.getAttribute('data-slug') || stickyDirectBuyBtn?.getAttribute('data-slug');
+    if (slug) {
+      window.location.href = `/checkout/?product=${encodeURIComponent(slug)}&qty=${currentQty}`;
+    }
   }
 
-  buyNowBtn?.addEventListener('click', goToCheckout);
-  stickyBuyBtn?.addEventListener('click', goToCheckout);
+  directBuyBtn?.addEventListener('click', handleDirectBuy);
+  stickyDirectBuyBtn?.addEventListener('click', handleDirectBuy);
 
-  // Sync custom quantity to localStorage for Add to Bag
-  function syncPdpQuantity() {
-    const id = pdpAddBtn?.getAttribute('data-id');
-    if (!id || currentQty <= 1) return;
-    try {
-      const data = localStorage.getItem('lumera_bag_v1');
-      const items: { id: string; quantity: number }[] = data ? JSON.parse(data) : [];
-      const item = items.find((x) => x.id === id);
-      if (item) {
-        item.quantity += (currentQty - 1);
-        localStorage.setItem('lumera_bag_v1', JSON.stringify(items));
-        window.dispatchEvent(new Event('storage'));
-      }
-    } catch (e) {}
-  }
-
-  pdpAddBtn?.addEventListener('click', () => setTimeout(syncPdpQuantity, 10));
-  stickyAddBtn?.addEventListener('click', () => setTimeout(syncPdpQuantity, 10));
-
-  // Mobile Sticky Bar Visibility:
-  // 1. Only reveals after user has scrolled down past the in-page Buy Now button
-  // 2. Automatically hides when scrolling back up near the in-page Buy Now button
-  // 3. Automatically hides when reaching the bottom (footer)
+  // Mobile Sticky Bar Visibility
   function handleStickyScroll() {
-    if (!stickyBar || !buyNowBtn) return;
-    const btnRect = buyNowBtn.getBoundingClientRect();
+    if (!stickyBar || !pdpAddBtn) return;
+    const btnRect = pdpAddBtn.getBoundingClientRect();
     const footer = document.querySelector('footer');
     const footerRect = footer ? footer.getBoundingClientRect() : null;
 
-    // Has user scrolled past the in-page Buy Now CTA?
     const isPastCta = btnRect.bottom < 0;
-
-    // Is the user near the bottom of the page (footer entering the viewport)?
     const isAtBottom = footerRect ? footerRect.top <= (window.innerHeight + 20) : false;
 
     if (isPastCta && !isAtBottom) {
@@ -1256,15 +1449,14 @@ const productSchema = {
     }
   });
 
-  // WhatsApp Share Button
+  // Native Web Share API
   const shareBtn = document.getElementById('btn-share-fragrance');
   shareBtn?.addEventListener('click', () => {
-    const text = `Look at this luxury fragrance on LUMÈRA LUXE: ${document.title} - ${window.location.href}`;
+    const text = `Explore ${document.title} on LUMÈRA LUXE Haute Parfumerie`;
     if (navigator.share) {
       navigator.share({ title: document.title, url: window.location.href, text }).catch(() => {});
     } else {
-      window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
+      window.open(`https://wa.me/?text=${encodeURIComponent(text + ' ' + window.location.href)}`, '_blank');
     }
   });
 </script>
-
