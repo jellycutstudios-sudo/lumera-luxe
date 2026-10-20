@@ -12,13 +12,14 @@ import { siteConfig } from '../data/site';
   aria-labelledby="bag-drawer-title"
   hidden
 >
+  <!-- Drawer Header -->
   <div class="bag-drawer-header">
     <div class="bag-drawer-title-group">
       <h2 id="bag-drawer-title" class="bag-drawer-title">Shopping Bag</h2>
       <span class="bag-drawer-badge" id="bag-items-badge">0 items</span>
     </div>
     <button class="bag-close-btn" id="bag-close-btn" aria-label="Close shopping bag">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <line x1="18" y1="6" x2="6" y2="18"></line>
         <line x1="6" y1="6" x2="18" y2="18"></line>
       </svg>
@@ -27,24 +28,36 @@ import { siteConfig } from '../data/site';
 
   <!-- Bag Items Container -->
   <div class="bag-drawer-body">
+    <!-- Clean, Spacious Empty State -->
     <div id="bag-empty-state" class="bag-empty-state">
-      <div class="empty-icon-wrap">
-        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-          <line x1="3" y1="6" x2="21" y2="6"></line>
-          <path d="M16 10a4 4 0 0 1-8 0"></path>
-        </svg>
+      <div class="empty-bag-stage">
+        <div class="empty-bag-halo" aria-hidden="true"></div>
+        <img
+          src="/assets/brand/lumera-shopping-bag.webp"
+          alt="Lumèra Luxe shopping bag"
+          class="empty-bag-img"
+          width="210"
+          height="210"
+          loading="eager"
+        />
+        <div class="empty-bag-shadow" aria-hidden="true"></div>
       </div>
-      <p class="empty-title">Your fragrance bag is empty</p>
-      <p class="empty-subtitle">Explore our collection of authentic luxury perfumes.</p>
-      <a href="/shop/" class="btn btn-primary btn-sm" id="empty-shop-link">Browse Collection</a>
+
+      <div class="empty-text-wrap">
+        <h3 class="empty-title">Your fragrance bag is empty</h3>
+        <p class="empty-subtitle">Explore our collection of authentic luxury perfumes.</p>
+        <a href="/shop/" class="btn-empty-browse" id="empty-shop-link">
+          <span>BROWSE COLLECTION</span>
+        </a>
+      </div>
     </div>
 
+    <!-- Active Bag Perks & Free Shipping Banner -->
     <div id="bag-delivery-perk" class="bag-perk-banner" hidden>
       <div class="perk-icon">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <rect x="1" y="3" width="15" height="13"></rect>
-          <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+          <polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon>
           <circle cx="5.5" cy="18.5" r="2.5"></circle>
           <circle cx="18.5" cy="18.5" r="2.5"></circle>
         </svg>
@@ -52,6 +65,7 @@ import { siteConfig } from '../data/site';
       <span class="perk-text" id="perk-text">Add 1 more fragrance for complimentary Qatar priority courier!</span>
     </div>
 
+    <!-- Active Items List -->
     <ul id="bag-items-list" class="bag-items-list"></ul>
   </div>
 
@@ -60,10 +74,11 @@ import { siteConfig } from '../data/site';
     <!-- Pricing Summary -->
     <div class="bag-summary">
       <div class="summary-row">
-        <span>Estimated Total</span>
+        <span class="summary-label">Estimated Total</span>
         <span class="summary-val" id="bag-subtotal-val">0 QAR</span>
       </div>
       <div class="bag-payment-notice">
+        <span class="status-dot"></span>
         <span>Complimentary Qatar Delivery · Direct WhatsApp Order</span>
       </div>
     </div>
@@ -72,10 +87,22 @@ import { siteConfig } from '../data/site';
     <div class="bag-actions">
       <a href="/checkout/" class="btn btn-primary btn-block btn-drawer-checkout" id="btn-drawer-checkout">
         <span>PROCEED TO CHECKOUT</span>
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <line x1="5" y1="12" x2="19" y2="12"></line>
           <polyline points="12 5 19 12 12 19"></polyline>
         </svg>
+      </a>
+      <a
+        href={siteConfig.whatsappUrl || "https://wa.me/97466675166"}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="btn-drawer-whatsapp"
+        id="btn-drawer-whatsapp"
+      >
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+        </svg>
+        <span>Instant WhatsApp Checkout</span>
       </a>
     </div>
   </div>
@@ -104,10 +131,11 @@ import { siteConfig } from '../data/site';
   .bag-drawer-backdrop {
     position: fixed;
     inset: 0;
-    background-color: rgba(37, 33, 30, 0.4);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    background-color: rgba(24, 21, 19, 0.45);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
     z-index: 100;
+    transition: opacity 0.3s ease;
   }
 
   .bag-drawer {
@@ -121,110 +149,208 @@ import { siteConfig } from '../data/site';
     z-index: 101;
     display: flex;
     flex-direction: column;
-    box-shadow: -10px 0 35px rgba(0, 0, 0, 0.1);
-    animation: drawerSlideIn 240ms cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: -15px 0 45px rgba(0, 0, 0, 0.08);
+    border-left: 1px solid rgba(0, 0, 0, 0.05);
+    animation: drawerSlideIn 300ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   @keyframes drawerSlideIn {
-    from { transform: translateX(100%); }
-    to { transform: translateX(0); }
+    from {
+      transform: translateX(100%);
+    }
+    to {
+      transform: translateX(0);
+    }
   }
 
+  /* Header */
   .bag-drawer-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1.25rem 1.5rem;
-    border-bottom: 1px solid var(--color-border);
-    background-color: var(--color-bg);
+    padding: 1.25rem 1.75rem;
+    border-bottom: 1px solid #F0ECE6;
+    background-color: #FFFFFF;
   }
 
   .bag-drawer-title-group {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.85rem;
   }
 
   .bag-drawer-title {
     font-family: var(--font-display);
-    font-size: 1.5rem;
-    font-weight: 600;
+    font-size: 1.15rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #181513;
+    margin: 0;
   }
 
   .bag-drawer-badge {
-    font-size: 0.75rem;
-    font-weight: 600;
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-accent);
-    background-color: var(--color-accent-light);
-    padding: 0.2rem 0.5rem;
-    border-radius: var(--border-radius-sm);
+    letter-spacing: 0.1em;
+    color: #76706B;
+    background-color: #FAF8F5;
+    border: 1px solid #E8E3DC;
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
   }
 
   .bag-close-btn {
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--color-text-main);
-    border-radius: var(--border-radius-sm);
-    transition: background-color var(--transition-fast);
+    color: #181513;
+    background: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .bag-close-btn:hover {
-    background-color: var(--color-surface);
+    background-color: #FAF8F5;
+    border-color: #E8E3DC;
+    transform: rotate(90deg);
   }
 
+  /* Body */
   .bag-drawer-body {
     flex: 1;
     overflow-y: auto;
-    padding: 1.25rem 1.5rem;
+    padding: 2rem 1.75rem;
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    -webkit-overflow-scrolling: touch;
   }
 
+  /* Spacious, Optimized Minimal Empty Bag State */
   .bag-empty-state {
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 4rem 1rem;
-    color: var(--color-text-muted);
+    padding: 2rem 1rem;
+    margin: auto 0;
   }
 
-  .empty-icon-wrap {
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
-    background-color: var(--color-surface);
+  .empty-bag-stage {
+    position: relative;
+    width: 100%;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-bottom: 1.25rem;
-    color: var(--color-text-light);
+    padding: 1rem 0;
+    margin-bottom: 1.5rem;
+  }
+
+  .empty-bag-halo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(197, 160, 89, 0.12) 0%, rgba(250, 248, 245, 0.45) 45%, transparent 72%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .empty-bag-img {
+    position: relative;
+    z-index: 1;
+    width: 200px;
+    height: 200px;
+    object-fit: contain;
+    filter: drop-shadow(0 12px 24px rgba(30, 25, 20, 0.08));
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .empty-bag-stage:hover .empty-bag-img {
+    transform: translateY(-4px) scale(1.02);
+  }
+
+  .empty-bag-shadow {
+    width: 130px;
+    height: 14px;
+    background: radial-gradient(ellipse at center, rgba(30, 20, 10, 0.2) 0%, rgba(30, 20, 10, 0.05) 55%, transparent 75%);
+    border-radius: 50%;
+    filter: blur(3px);
+    margin-top: -6px;
+    z-index: 0;
+  }
+
+  .empty-text-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .empty-title {
     font-family: var(--font-display);
-    font-size: 1.35rem;
-    color: var(--color-text-main);
-    margin-bottom: 0.35rem;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: #181513;
+    line-height: 1.3;
+    margin-bottom: 0.65rem;
+    letter-spacing: 0.01em;
   }
 
   .empty-subtitle {
-    font-size: 0.875rem;
-    margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+    color: #6D6760;
+    line-height: 1.55;
+    max-width: 290px;
+    margin: 0 auto 1.85rem;
   }
 
+  .btn-empty-browse {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #181513;
+    color: #FFFFFF;
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    padding: 0.95rem 2.5rem;
+    border-radius: 2px;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 16px rgba(24, 21, 19, 0.12);
+    border: 1px solid #181513;
+  }
+
+  .btn-empty-browse:hover {
+    background-color: #000000;
+    color: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(24, 21, 19, 0.22);
+  }
+
+  /* Active Bag Perks */
   .bag-perk-banner {
     display: flex;
     align-items: center;
     gap: 0.75rem;
     padding: 0.75rem 1rem;
-    background-color: var(--color-accent-light);
-    border: 1px solid rgba(166, 83, 45, 0.2);
-    border-radius: var(--border-radius-sm);
+    background-color: #FDF5F0;
+    border: 1px solid rgba(200, 90, 36, 0.2);
+    border-radius: 2px;
     margin-bottom: 1.25rem;
     animation: fadeIn 250ms ease;
   }
@@ -243,38 +369,43 @@ import { siteConfig } from '../data/site';
   }
 
   .bag-perk-banner.unlocked {
-    background-color: rgba(37, 211, 102, 0.1);
+    background-color: rgba(37, 211, 102, 0.08);
     border-color: rgba(37, 211, 102, 0.3);
   }
 
   .bag-perk-banner.unlocked .perk-icon {
-    color: #25D366;
+    color: #1FAF59;
   }
 
+  /* Item List */
   .bag-items-list {
     list-style: none;
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
+    margin: 0;
+    padding: 0;
   }
 
   :global(.bag-item-card) {
     display: flex;
-    gap: 1rem;
+    gap: 1.15rem;
     padding-bottom: 1.25rem;
-    border-bottom: 1px solid var(--color-border-subtle);
+    border-bottom: 1px solid #F0ECE6;
   }
 
   :global(.bag-item-img-wrap) {
-    width: 72px;
-    height: 90px;
-    background-color: var(--color-surface-subtle);
-    border-radius: var(--border-radius-sm);
+    width: 78px;
+    height: 96px;
+    background-color: #FFFFFF;
+    border-radius: 2px;
+    border: 1px solid #E8E3DC;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0.5rem;
     flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
   }
 
   :global(.bag-item-img) {
@@ -292,25 +423,25 @@ import { siteConfig } from '../data/site';
   }
 
   :global(.bag-item-brand) {
-    font-size: 0.7rem;
+    font-size: 0.6875rem;
     text-transform: uppercase;
     font-weight: 600;
-    letter-spacing: 0.06em;
-    color: var(--color-text-light);
+    letter-spacing: 0.08em;
+    color: #8F8880;
   }
 
   :global(.bag-item-name) {
     font-family: var(--font-display);
     font-size: 1.05rem;
-    font-weight: 600;
-    color: var(--color-text-main);
-    margin-bottom: 0.15rem;
+    font-weight: 500;
+    color: #181513;
+    margin-bottom: 0.2rem;
   }
 
   :global(.bag-item-meta) {
-    font-size: 0.75rem;
-    color: var(--color-text-muted);
-    margin-bottom: 0.65rem;
+    font-size: 0.72rem;
+    color: #76706B;
+    margin-bottom: 0.75rem;
   }
 
   :global(.bag-item-bottom) {
@@ -323,8 +454,8 @@ import { siteConfig } from '../data/site';
   :global(.bag-qty-controls) {
     display: flex;
     align-items: center;
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius-sm);
+    border: 1px solid #E8E3DC;
+    border-radius: 2px;
     background-color: #FFFFFF;
   }
 
@@ -335,11 +466,19 @@ import { siteConfig } from '../data/site';
     align-items: center;
     justify-content: center;
     font-size: 0.875rem;
-    color: var(--color-text-main);
+    color: #181513;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+  }
+
+  :global(.bag-qty-btn:hover) {
+    background-color: #FAF8F5;
   }
 
   :global(.bag-qty-val) {
-    min-width: 24px;
+    min-width: 26px;
     text-align: center;
     font-size: 0.8125rem;
     font-weight: 600;
@@ -348,18 +487,20 @@ import { siteConfig } from '../data/site';
   :global(.bag-item-price) {
     font-size: 0.95rem;
     font-weight: 600;
-    color: var(--color-text-main);
+    color: #181513;
   }
 
+  /* Drawer Footer */
   .bag-drawer-footer {
-    border-top: 1px solid var(--color-border);
-    padding: 1.25rem 1.5rem calc(1.25rem + env(safe-area-inset-bottom, 0px));
-    background-color: var(--color-bg);
+    border-top: 1px solid #F0ECE6;
+    padding: 1.25rem 1.75rem calc(1.25rem + env(safe-area-inset-bottom, 0px));
+    background-color: #FFFFFF;
     flex-shrink: 0;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.03);
   }
 
   .bag-summary {
-    margin-bottom: 1rem;
+    margin-bottom: 1.15rem;
   }
 
   .summary-row {
@@ -367,45 +508,99 @@ import { siteConfig } from '../data/site';
     justify-content: space-between;
     align-items: baseline;
     font-size: 1rem;
+    font-weight: 600;
+    color: #181513;
+    margin-bottom: 0.4rem;
+  }
+
+  .summary-label {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    letter-spacing: 0.02em;
+  }
+
+  .summary-val {
     font-weight: 700;
-    color: var(--color-text-main);
-    margin-bottom: 0.35rem;
+    font-size: 1.1rem;
+    color: #181513;
   }
 
   .bag-payment-notice {
-    font-size: 0.75rem;
-    color: var(--color-text-muted);
-    line-height: 1.4;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.72rem;
+    color: #76706B;
+  }
+
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    background-color: #1FAF59;
+    border-radius: 50%;
+    display: inline-block;
   }
 
   .bag-actions {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.65rem;
   }
 
   .btn-drawer-checkout {
-    background-color: var(--color-text-main);
+    background-color: #181513;
     color: #FFFFFF;
     text-decoration: none;
-    font-weight: 700;
+    font-weight: 600;
     min-height: 48px;
-    font-size: 0.875rem;
-    letter-spacing: 0.05em;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    border-radius: var(--border-radius-sm);
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
-    transition: all var(--transition-fast);
+    gap: 0.65rem;
+    border-radius: 2px;
+    box-shadow: 0 4px 16px rgba(24, 21, 19, 0.15);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .btn-drawer-checkout:hover {
     background-color: #000000;
     color: #FFFFFF;
     transform: translateY(-1px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 8px 24px rgba(24, 21, 19, 0.22);
+  }
+
+  .btn-drawer-whatsapp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid #E8E3DC;
+    background-color: #FAF8F5;
+    color: #181513;
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    border-radius: 2px;
+    transition: all 0.2s ease;
+  }
+
+  .btn-drawer-whatsapp:hover {
+    background-color: #25D366;
+    color: #FFFFFF;
+    border-color: #25D366;
+  }
+
+  .btn-drawer-whatsapp svg {
+    color: #25D366;
+    transition: color 0.2s ease;
+  }
+
+  .btn-drawer-whatsapp:hover svg {
+    color: #FFFFFF;
   }
 
   /* Toast Notification */
@@ -413,15 +608,15 @@ import { siteConfig } from '../data/site';
     position: fixed;
     bottom: 1.5rem;
     right: 1.5rem;
-    background-color: var(--color-text-main);
+    background-color: #181513;
     color: #FFFFFF;
     padding: 0.85rem 1.25rem;
-    border-radius: var(--border-radius-sm);
+    border-radius: 2px;
     display: flex;
     align-items: center;
     gap: 1.25rem;
     z-index: 110;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
     animation: toastPop 220ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
@@ -439,9 +634,14 @@ import { siteConfig } from '../data/site';
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    color: var(--color-accent);
-    border-bottom: 1px solid var(--color-accent);
+    color: #C5A059;
+    border-bottom: 1px solid #C5A059;
     padding-bottom: 1px;
+    background: transparent;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    cursor: pointer;
   }
 </style>
 
@@ -601,6 +801,16 @@ import { siteConfig } from '../data/site';
     }
   });
 
+  const emptyShopLink = document.getElementById('empty-shop-link');
+  if (emptyShopLink) {
+    emptyShopLink.addEventListener('click', closeBag);
+  }
+
+  const checkoutBtn = document.getElementById('btn-drawer-checkout');
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener('click', closeBag);
+  }
+
   // Global Add to Bag click delegator
   document.addEventListener('click', e => {
     const target = (e.target as HTMLElement).closest('[data-action]');
@@ -688,16 +898,6 @@ import { siteConfig } from '../data/site';
       if (toast) toast.hidden = true;
       openBag();
     });
-  }
-
-  const emptyShopLink = document.getElementById('empty-shop-link');
-  if (emptyShopLink) {
-    emptyShopLink.addEventListener('click', closeBag);
-  }
-
-  const checkoutBtn = document.getElementById('btn-drawer-checkout');
-  if (checkoutBtn) {
-    checkoutBtn.addEventListener('click', closeBag);
   }
 
   // Initial load sync

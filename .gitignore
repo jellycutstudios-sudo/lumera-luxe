@@ -5,3 +5,7 @@ dist/
 *.log
 *.png
 !public/**
+private-source/
+extracted_images/
+images/
+*.xlsx
