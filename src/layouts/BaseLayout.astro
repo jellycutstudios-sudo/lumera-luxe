@@ -5,6 +5,7 @@ import BagDrawer from '../components/BagDrawer.astro';
 import MobileDrawer from '../components/MobileDrawer.astro';
 import MobileBottomNav from '../components/MobileBottomNav.astro';
 import WishlistDrawer from '../components/WishlistDrawer.astro';
+import { ClientRouter } from 'astro:transitions';
 import { siteConfig } from '../data/site';
 import '../styles/global.css';
 
@@ -54,17 +55,20 @@ const {
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/assets/lumera-logo.svg" />
+
+    <!-- Native App-like View Transitions (Astro SPA Routing) -->
+    <ClientRouter />
   </head>
   <body>
-    <Header />
+    <Header transition:persist="header" />
     <main id="main-content">
       <slot />
     </main>
     <Footer />
-    <BagDrawer />
-    <WishlistDrawer />
-    <MobileDrawer />
-    <MobileBottomNav />
+    <BagDrawer transition:persist="bag-drawer" />
+    <WishlistDrawer transition:persist="wishlist-drawer" />
+    <MobileDrawer transition:persist="mobile-drawer" />
+    <MobileBottomNav transition:persist="mobile-bottom-nav" />
   </body>
 </html>
 

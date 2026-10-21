@@ -383,17 +383,24 @@ const isPdp = currentPath.startsWith('/perfumes/');
     background: transparent;
     border: none;
     cursor: pointer;
-    transition: color var(--transition-fast), transform var(--transition-fast);
+    transition: color 200ms ease, transform 160ms cubic-bezier(0.16, 1, 0.3, 1);
     padding: 0.35rem 0;
     -webkit-tap-highlight-color: transparent;
+    user-select: none;
   }
 
+  /* Native App Tactile Press Feedback */
   .bottom-nav-item:active {
-    transform: scale(0.94);
+    transform: scale(0.88);
   }
 
   .bottom-nav-item.active {
     color: var(--color-brand-cognac);
+  }
+
+  .bottom-nav-item.active .bottom-nav-icon-wrap svg {
+    transform: translateY(-2px) scale(1.08);
+    stroke-width: 1.85;
   }
 
   .bottom-nav-item:hover {
@@ -410,6 +417,10 @@ const isPdp = currentPath.startsWith('/perfumes/');
     margin-bottom: 2px;
   }
 
+  .bottom-nav-icon-wrap svg {
+    transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1), stroke-width 200ms ease;
+  }
+
   .bottom-nav-label {
     font-family: var(--font-body);
     font-size: 0.625rem;
@@ -417,16 +428,38 @@ const isPdp = currentPath.startsWith('/perfumes/');
     letter-spacing: 0.06em;
     text-transform: uppercase;
     line-height: 1;
+    transition: font-weight 180ms ease;
   }
 
+  .bottom-nav-item.active .bottom-nav-label {
+    font-weight: 700;
+  }
+
+  /* Smooth Spring Active Indicator Dot */
   .active-gold-dot {
     position: absolute;
     bottom: 3px;
     width: 4px;
     height: 4px;
     border-radius: 50%;
-    background: var(--color-gold-shimmer);
-    box-shadow: 0 1px 4px var(--color-gold-glow);
+    background: var(--color-brand-cognac);
+    box-shadow: 0 0 8px rgba(200, 90, 36, 0.6);
+    animation: appTabDotSpring 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes appTabDotSpring {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+    }
+    60% {
+      transform: scale(1.6);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
   }
 
   /* ==========================================================
@@ -1045,4 +1078,33 @@ const isPdp = currentPath.startsWith('/perfumes/');
       window.closeAllNavModals();
     }
   });
+
+  // Smooth App View Transition Tab Synchronizer
+  function syncBottomNavTab() {
+    var path = window.location.pathname;
+    var homeLink = document.getElementById('bottom-nav-home-link');
+    var colLink = document.getElementById('bottom-nav-collection-link');
+    var homeDot = homeLink ? homeLink.querySelector('.active-gold-dot') : null;
+    var colDot = colLink ? colLink.querySelector('.active-gold-dot') : null;
+
+    var isHome = path === '/' || path === '';
+    var isCol = path.startsWith('/shop');
+
+    if (homeLink) homeLink.classList.toggle('active', isHome);
+    if (homeDot) homeDot.style.display = isHome ? '' : 'none';
+
+    if (colLink) colLink.classList.toggle('active', isCol);
+    if (colDot) colDot.style.display = isCol ? '' : 'none';
+
+    // Check PDP and checkout states
+    var navBar = document.querySelector('.mobile-bottom-nav');
+    if (navBar) {
+      var isCheckout = path.startsWith('/checkout');
+      var isPdp = path.startsWith('/perfumes/');
+      navBar.classList.toggle('hide-on-pdp', isPdp);
+      navBar.style.display = isCheckout ? 'none' : '';
+    }
+  }
+
+  document.addEventListener('astro:page-load', syncBottomNavTab);
 </script>
