@@ -11,7 +11,7 @@ const heroSlides = [
     image: '/assets/brand/hero-floral-collection.webp',
     alt: 'LUMÈRA LUXE Floral flacons in morning light',
     title: 'The Floral Anthology',
-    ctaText: 'Explore Collection',
+    ctaText: 'Explore',
     ctaLink: '/shop/?family=floral'
   },
   {
@@ -19,7 +19,7 @@ const heroSlides = [
     image: '/assets/brand/hero-rose-gold-trio.webp',
     alt: 'LUMÈRA LUXE warm amber and rose gold flacons',
     title: 'Warm Amber Reserve',
-    ctaText: 'Explore Collection',
+    ctaText: 'Explore',
     ctaLink: '/shop/?family=oriental'
   },
   {
@@ -27,7 +27,7 @@ const heroSlides = [
     image: '/assets/brand/hero-dusk-collection.webp',
     alt: 'LUMÈRA LUXE dusk flacons in golden hour glow',
     title: 'The Nocturne Edit',
-    ctaText: 'Explore Collection',
+    ctaText: 'Explore',
     ctaLink: '/shop/?family=woody'
   }
 ];
@@ -624,14 +624,14 @@ const categories = [
     position: absolute;
     bottom: clamp(1.25rem, 2.5vw, 2.25rem);
     left: clamp(1.25rem, 2.5vw, 2.25rem);
-    width: 480px;
+    width: clamp(340px, 48vw, 510px);
     max-width: calc(100% - 2.5rem);
     height: 86px;
     box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1.5rem;
+    gap: clamp(0.75rem, 1.5vw, 1.25rem);
     padding: 0 clamp(1.15rem, 2vw, 1.5rem);
     /* True Luxury Glassmorphism */
     background: rgba(255, 255, 255, 0.70);
@@ -733,7 +733,7 @@ const categories = [
 
   .hero-meta-title {
     font-family: var(--font-display);
-    font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+    font-size: clamp(1.05rem, 1.4vw, 1.25rem);
     font-weight: 400;
     letter-spacing: 0.015em;
     color: var(--color-text-main);
