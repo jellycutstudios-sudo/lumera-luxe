@@ -1,0 +1,322 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../data/site';
+---
+
+<BaseLayout
+  title={`Cancellation Policy — ${siteConfig.brandName} Doha`}
+  description="Transparent order cancellation and modification guidelines for LUMÈRA LUXE fragrance patrons in Qatar."
+>
+  <div class="policy-page">
+    <header class="policy-header">
+      <div class="container-narrow text-center">
+        <span class="eyebrow">Client Care · Doha, Qatar</span>
+        <h1 class="policy-title">
+          Order Cancellation Policy,<br />
+          <span class="title-italic">Transparent & Direct.</span>
+        </h1>
+        <p class="policy-lead">
+          Understanding the timing, conditions, and procedures for modifying or cancelling a fragrance request in the State of Qatar.
+        </p>
+      </div>
+    </header>
+
+    <div class="container policy-body-container">
+      <div class="policy-content">
+        <!-- Highlights Bar -->
+        <div class="cancellation-kpi-grid">
+          <div class="kpi-card">
+            <span class="kpi-num">Pre-Dispatch</span>
+            <span class="kpi-label">Free Cancellation</span>
+            <span class="kpi-desc">Anytime before courier handover</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-num">Instant</span>
+            <span class="kpi-label">WhatsApp Confirmation</span>
+            <span class="kpi-desc">Direct messaging with concierge</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-num">Zero Fee</span>
+            <span class="kpi-label">Prior to Courier Release</span>
+            <span class="kpi-desc">No penalties or hidden charges</span>
+          </div>
+        </div>
+
+        <section class="policy-section">
+          <div class="section-meta-header">
+            <span class="section-idx">01</span>
+            <h2 class="policy-section-heading">Cancellation Prior to Courier Dispatch</h2>
+          </div>
+          <p>
+            Because orders placed through LUMÈRA LUXE are coordinated personally via our WhatsApp concierge, you may modify or cancel your order request <strong>free of any penalty or charge</strong> at any point prior to physical handover to our courier driver.
+          </p>
+          <p>
+            Simply notify our concierge on WhatsApp (+974 6667 5166) with your order name. Your request will be cancelled immediately with written confirmation.
+          </p>
+        </section>
+
+        <section class="policy-section">
+          <div class="section-meta-header">
+            <span class="section-idx">02</span>
+            <h2 class="policy-section-heading">Cancellation After Courier Dispatch</h2>
+          </div>
+          <p>
+            Once our courier driver has been dispatched with your parcel on the delivery route:
+          </p>
+          <ul class="policy-list">
+            <li>If you need to reschedule delivery due to an unexpected appointment or travel, notify us immediately; we will gladly adjust your delivery window.</li>
+            <li>If you decide to cancel upon the courier's arrival at your address, you may decline acceptance of the sealed parcel. In such cases, if the flacon is in pristine condition, no product fee will be charged, though a standard municipal courier retrieval fee (25–30 QAR) may apply to cover driver transport.</li>
+          </ul>
+        </section>
+
+        <section class="policy-section">
+          <div class="section-meta-header">
+            <span class="section-idx">03</span>
+            <h2 class="policy-section-heading">Custom Gifting & Bespoke Orders</h2>
+          </div>
+          <p>
+            For specialized corporate gifting or bespoke multi-flacon hampers featuring customized ribbons, engraved cards, or tailored wax seals, cancellations must be communicated at least twelve (12) hours prior to the scheduled dispatch time to allow our workshop to repurpose materials.
+          </p>
+        </section>
+
+        <section class="policy-section">
+          <div class="section-meta-header">
+            <span class="section-idx">04</span>
+            <h2 class="policy-section-heading">Refunds for Cancelled Prepaid Transfers</h2>
+          </div>
+          <p>
+            If payment was completed in advance via direct bank transfer / Fawran prior to cancellation, your funds will be remitted back to the originating bank account within 24 to 48 business hours, following verification by our accounting team in Qatar.
+          </p>
+        </section>
+
+        <section class="policy-section concierge-callout">
+          <div class="section-meta-header">
+            <span class="section-idx">05</span>
+            <h2 class="policy-section-heading">Modify or Cancel an Order</h2>
+          </div>
+          <p>
+            Have an active order you wish to update or cancel? Contact our concierge team immediately:
+          </p>
+          <div class="concierge-links">
+            <a
+              href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent("Hello LUMÈRA LUXE, I would like to modify or cancel an order request.")}`}
+              class="btn btn-primary btn-sm"
+              target="_blank"
+              rel="noopener"
+            >
+              Contact Concierge on WhatsApp
+            </a>
+            <a href={`mailto:${siteConfig.customerSupportEmail}`} class="email-direct">
+              {siteConfig.customerSupportEmail}
+            </a>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .policy-page {
+    background-color: var(--color-bg);
+    color: var(--color-text-main);
+  }
+
+  .container-narrow {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 var(--page-gutter);
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .policy-header {
+    background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-bg) 100%);
+    border-bottom: 1px solid var(--color-border-subtle);
+    padding: clamp(3.5rem, 6vw, 5.5rem) 0 clamp(2.5rem, 4vw, 4rem);
+  }
+
+  .eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--color-brand-cognac);
+    margin-bottom: 1rem;
+    display: inline-block;
+  }
+
+  .policy-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--color-text-main);
+    margin-bottom: 1.25rem;
+  }
+
+  .title-italic {
+    font-style: italic;
+    color: var(--color-brand-cognac-dark);
+  }
+
+  .policy-lead {
+    font-size: clamp(0.95rem, 1.8vw, 1.125rem);
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--color-text-muted);
+    max-width: 580px;
+    margin: 0 auto;
+  }
+
+  .policy-body-container {
+    padding-top: clamp(2.5rem, 5vw, 4.5rem);
+    padding-bottom: 5.5rem;
+  }
+
+  .policy-content {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .cancellation-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 3.5rem;
+  }
+
+  @media (max-width: 640px) {
+    .cancellation-kpi-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+
+  .kpi-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    padding: 1.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .kpi-num {
+    font-family: var(--font-serif);
+    font-size: 1.65rem;
+    font-style: italic;
+    color: var(--color-brand-cognac);
+    margin-bottom: 0.35rem;
+  }
+
+  .kpi-label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-main);
+    margin-bottom: 0.35rem;
+  }
+
+  .kpi-desc {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+
+  .policy-section {
+    margin-bottom: 3rem;
+    padding-bottom: 2.25rem;
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  .policy-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .section-meta-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.85rem;
+    margin-bottom: 1.15rem;
+  }
+
+  .section-idx {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-brand-cognac);
+    opacity: 0.85;
+  }
+
+  .policy-section-heading {
+    font-family: var(--font-serif);
+    font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+    font-weight: 400;
+    color: var(--color-text-main);
+  }
+
+  .policy-section p {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    margin-bottom: 1.25rem;
+    color: var(--color-text-muted);
+  }
+
+  .policy-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .policy-list li {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    padding-left: 1.5rem;
+    position: relative;
+  }
+
+  .policy-list li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--color-brand-cognac);
+  }
+
+  .concierge-callout {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    padding: 2.25rem 2rem;
+  }
+
+  .concierge-links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1.25rem;
+  }
+
+  .email-direct {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--color-text-main);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>

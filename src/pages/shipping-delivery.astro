@@ -1,0 +1,332 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../data/site';
+---
+
+<BaseLayout
+  title={`Shipping & Delivery Policy — ${siteConfig.brandName} Doha`}
+  description="Nationwide delivery coverage across Qatar, delivery timeframes, courier standards, and transparent fee structure for LUMÈRA LUXE."
+>
+  <div class="policy-page">
+    <header class="policy-header">
+      <div class="container-narrow text-center">
+        <span class="eyebrow">Nationwide Logistics · Qatar</span>
+        <h1 class="policy-title">
+          Shipping & Delivery Policy,<br />
+          <span class="title-italic">Hand-Delivered with Care.</span>
+        </h1>
+        <p class="policy-lead">
+          Direct courier delivery across Doha, Lusail, The Pearl, and all municipalities in the State of Qatar.
+        </p>
+      </div>
+    </header>
+
+    <div class="container policy-body-container">
+      <div class="policy-content">
+        <!-- Highlights Grid -->
+        <div class="delivery-kpi-grid">
+          <div class="kpi-card">
+            <span class="kpi-num">24–48h</span>
+            <span class="kpi-label">Standard Dispatch Window</span>
+            <span class="kpi-desc">Across all Qatar municipalities</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-num">Doha & Beyond</span>
+            <span class="kpi-label">Full National Coverage</span>
+            <span class="kpi-desc">Residential, hotels & offices</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-num">Hand-Packed</span>
+            <span class="kpi-label">Signature Packaging</span>
+            <span class="kpi-desc">Climate-controlled transport</span>
+          </div>
+        </div>
+
+        <section class="policy-section">
+          <div class="section-meta-header">
+            <span class="section-idx">01</span>
+            <h2 class="policy-section-heading">Service Coverage Across Qatar</h2>
+          </div>
+          <p>
+            LUMÈRA LUXE coordinates courier dispatch to all residential, diplomatic, and commercial addresses in the State of Qatar, including:
+          </p>
+          <ul class="policy-list">
+            <li><strong>Zone 1 — Central Doha:</strong> West Bay, Al Dafna, Musheireb, Al Sadd, Old Airport, Al Hilal, Al Mansoura.</li>
+            <li><strong>Zone 2 — Modern Waterfronts:</strong> The Pearl-Qatar, Lusail Marina, Fox Hills, Legtaifiya, Katara Cultural Village.</li>
+            <li><strong>Zone 3 — Greater Municipalities:</strong> Al Rayyan, Al Gharrafa, Education City, Al Waab, Abu Hamour, Ain Khaled.</li>
+            <li><strong>Zone 4 — Southern & Northern Regions:</strong> Al Wakrah, Al Wukair, Mesaieed, Umm Salal, Al Khor, and surrounding areas.</li>
+          </ul>
+        </section>
+
+        <section class="policy-section">
+          <div class="section-meta-header">
+            <span class="section-idx">02</span>
+            <h2 class="policy-section-heading">Delivery Windows & Coordination</h2>
+          </div>
+          <p>
+            Orders confirmed with our WhatsApp Concierge before 3:00 PM AST are processed for standard 24–48 hour delivery.
+          </p>
+          <p>
+            Prior to dispatch, our courier driver will contact you via WhatsApp or phone call to verify that you or your representative are available at your specified Qatar address. We do not leave fragrance parcels unattended on doorsteps or gates due to delicate temperature sensitivity and value protection.
+          </p>
+        </section>
+
+        <section class="policy-section">
+          <div class="section-meta-header">
+            <span class="section-idx">03</span>
+            <h2 class="policy-section-heading">Courier Fees & Complimentary Thresholds</h2>
+          </div>
+          <p>
+            Delivery rates are transparently confirmed during your WhatsApp consultation prior to order finalization:
+          </p>
+          <ul class="policy-list">
+            <li><strong>Complimentary Delivery:</strong> Orders featuring two (2) or more fragrance flacons qualify for complimentary priority delivery across Doha and Lusail.</li>
+            <li><strong>Single Bottle Courier Fee:</strong> A nominal flat courier fee (typically 25–30 QAR depending on exact municipal zone) applies to single-flacon orders, quoted clearly before you commit.</li>
+            <li><strong>Zero Hidden Fees:</strong> No packaging surcharges, credit card surcharges, or unannounced delivery markups.</li>
+          </ul>
+        </section>
+
+        <section class="policy-section">
+          <div class="section-meta-header">
+            <span class="section-idx">04</span>
+            <h2 class="policy-section-heading">Climate Protection & Flacon Inspection</h2>
+          </div>
+          <p>
+            Qatar's warm climate requires meticulous fragrance preservation. All inventory is stored in climate-controlled boutique premises at optimal temperatures (18°C–21°C) away from direct sunlight. Parcels are transported in air-conditioned courier vehicles to guarantee that delicate top, heart, and base perfume notes remain pristine.
+          </p>
+          <p>
+            Upon delivery, our courier will allow you to inspect the exterior factory cellophane wrapping, authenticity seal, and presentation box prior to completing payment.
+          </p>
+        </section>
+
+        <section class="policy-section concierge-callout">
+          <div class="section-meta-header">
+            <span class="section-idx">05</span>
+            <h2 class="policy-section-heading">Delivery Questions or Rush Inquiries</h2>
+          </div>
+          <p>
+            Need a flacon delivered urgently for a birthday, anniversary, or special event in Doha? Contact our logistics concierge directly:
+          </p>
+          <div class="concierge-links">
+            <a
+              href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent("Hello LUMÈRA LUXE, I have a delivery inquiry for an address in Qatar.")}`}
+              class="btn btn-primary btn-sm"
+              target="_blank"
+              rel="noopener"
+            >
+              Message Delivery Concierge on WhatsApp
+            </a>
+            <a href={`mailto:${siteConfig.customerSupportEmail}`} class="email-direct">
+              {siteConfig.customerSupportEmail}
+            </a>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .policy-page {
+    background-color: var(--color-bg);
+    color: var(--color-text-main);
+  }
+
+  .container-narrow {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 var(--page-gutter);
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .policy-header {
+    background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-bg) 100%);
+    border-bottom: 1px solid var(--color-border-subtle);
+    padding: clamp(3.5rem, 6vw, 5.5rem) 0 clamp(2.5rem, 4vw, 4rem);
+  }
+
+  .eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--color-brand-cognac);
+    margin-bottom: 1rem;
+    display: inline-block;
+  }
+
+  .policy-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--color-text-main);
+    margin-bottom: 1.25rem;
+  }
+
+  .title-italic {
+    font-style: italic;
+    color: var(--color-brand-cognac-dark);
+  }
+
+  .policy-lead {
+    font-size: clamp(0.95rem, 1.8vw, 1.125rem);
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--color-text-muted);
+    max-width: 580px;
+    margin: 0 auto;
+  }
+
+  .policy-body-container {
+    padding-top: clamp(2.5rem, 5vw, 4.5rem);
+    padding-bottom: 5.5rem;
+  }
+
+  .policy-content {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .delivery-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 3.5rem;
+  }
+
+  @media (max-width: 640px) {
+    .delivery-kpi-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+
+  .kpi-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    padding: 1.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .kpi-num {
+    font-family: var(--font-serif);
+    font-size: 1.75rem;
+    font-style: italic;
+    color: var(--color-brand-cognac);
+    margin-bottom: 0.35rem;
+  }
+
+  .kpi-label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-main);
+    margin-bottom: 0.35rem;
+  }
+
+  .kpi-desc {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+
+  .policy-section {
+    margin-bottom: 3rem;
+    padding-bottom: 2.25rem;
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  .policy-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .section-meta-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.85rem;
+    margin-bottom: 1.15rem;
+  }
+
+  .section-idx {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-brand-cognac);
+    opacity: 0.85;
+  }
+
+  .policy-section-heading {
+    font-family: var(--font-serif);
+    font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+    font-weight: 400;
+    color: var(--color-text-main);
+  }
+
+  .policy-section p {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    margin-bottom: 1.25rem;
+    color: var(--color-text-muted);
+  }
+
+  .policy-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .policy-list li {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    padding-left: 1.5rem;
+    position: relative;
+  }
+
+  .policy-list li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--color-brand-cognac);
+  }
+
+  .concierge-callout {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    padding: 2.25rem 2rem;
+  }
+
+  .concierge-links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1.25rem;
+  }
+
+  .email-direct {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--color-text-main);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>

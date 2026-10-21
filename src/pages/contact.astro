@@ -133,6 +133,37 @@ import { siteConfig } from '../data/site';
         </div>
       </div>
 
+      <!-- Business & Regulatory Information (Bank Review & Licensing Compliance) -->
+      <div class="business-entity-panel">
+        <div class="entity-card">
+          <div class="entity-header">
+            <span class="entity-kicker">Corporate & Regulatory Identification</span>
+            <h2 class="entity-title">{siteConfig.legalEntityName}</h2>
+          </div>
+          <div class="entity-details-grid">
+            <div class="entity-detail-col">
+              <span class="detail-label">Registered Territory</span>
+              <span class="detail-value">{siteConfig.registeredOffice}</span>
+            </div>
+            <div class="entity-detail-col">
+              <span class="detail-label">Commercial Registration (CR)</span>
+              <span class="detail-value">{siteConfig.commercialRegistrationNumber}</span>
+            </div>
+            <div class="entity-detail-col">
+              <span class="detail-label">Formal Correspondence</span>
+              <a href={`mailto:${siteConfig.customerSupportEmail}`} class="detail-value link">{siteConfig.customerSupportEmail}</a>
+            </div>
+            <div class="entity-detail-col">
+              <span class="detail-label">Concierge Line</span>
+              <a href={`https://wa.me/${siteConfig.whatsappNumber}`} class="detail-value link">{siteConfig.whatsappDisplay}</a>
+            </div>
+          </div>
+          <div class="entity-footer-note">
+            <span>Operating under direct concierge order confirmation in Qatar. No online card processing gateway is integrated on this site.</span>
+          </div>
+        </div>
+      </div>
+
       <!-- Frequently Asked Questions -->
       <section class="faq-section">
         <div class="faq-header text-center">
@@ -491,8 +522,87 @@ import { siteConfig } from '../data/site';
     color: var(--color-brand-cognac);
   }
 
-  .social-dot {
-    color: #8F8880;
+  /* Business Entity & Bank Compliance Panel */
+  .business-entity-panel {
+    margin-bottom: 4rem;
+  }
+
+  .entity-card {
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    padding: clamp(1.75rem, 3vw, 2.5rem);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  }
+
+  .entity-header {
+    border-bottom: 1px solid var(--color-border-subtle);
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .entity-kicker {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--color-brand-cognac);
+    margin-bottom: 0.35rem;
+  }
+
+  .entity-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 2.2vw, 1.5rem);
+    font-weight: 500;
+    color: var(--color-text-main);
+    margin: 0;
+  }
+
+  .entity-details-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .entity-detail-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .detail-label {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-light);
+  }
+
+  .detail-value {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-text-main);
+  }
+
+  .detail-value.link {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    color: var(--color-text-main);
+  }
+
+  .detail-value.link:hover {
+    color: var(--color-brand-cognac);
+  }
+
+  .entity-footer-note {
+    background-color: #FAF8F5;
+    padding: 0.85rem 1.15rem;
+    border-radius: 2px;
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    line-height: 1.45;
   }
 
   /* FAQ Section */

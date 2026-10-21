@@ -162,7 +162,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
                 </div>
               </div>
 
-              <!-- Payment Reassurance Banner -->
+              <!-- Payment Reassurance Banner (Bank Review & Consumer Protection Compliant) -->
               <div class="payment-concierge-notice">
                 <div class="notice-icon">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -171,8 +171,8 @@ const description = `Complete your luxury fragrance order with doorstep delivery
                   </svg>
                 </div>
                 <div class="notice-text">
-                  <strong>No online payment required now</strong>
-                  <span>Free doorstep delivery in Qatar. Pay with cash or card upon delivery, or via instant payment link in WhatsApp.</span>
+                  <strong>Assisted WhatsApp Concierge Ordering</strong>
+                  <span>Online card payments are not processed on this website. Your order is confirmed directly with our Doha concierge. Payment is fulfilled upon doorstep arrival in Qatar (Cash or Card POS) or via direct verified bank transfer (Fawran).</span>
                 </div>
               </div>
 
@@ -186,13 +186,25 @@ const description = `Complete your luxury fragrance order with doorstep delivery
                 </button>
               </div>
 
+              <!-- Mandatory Legal & Policy Acknowledgement Links -->
+              <div class="checkout-policy-notice">
+                <span>By placing an order inquiry, you agree to our</span>
+                <div class="policy-links-row">
+                  <a href="/terms-and-conditions/" target="_blank">Terms & Conditions</a>
+                  <span class="dot">·</span>
+                  <a href="/privacy-policy/" target="_blank">Privacy Policy</a>
+                  <span class="dot">·</span>
+                  <a href="/returns-refunds/" target="_blank">Returns & Refunds</a>
+                </div>
+              </div>
+
               <!-- Trust Assurances -->
               <div class="checkout-assurances">
                 <span>✓ 100% Genuine Fragrances</span>
                 <span class="sep">·</span>
                 <span>Free Qatar Doorstep Courier</span>
                 <span class="sep">·</span>
-                <span>Pay on Arrival</span>
+                <span>Payment upon Arrival</span>
               </div>
             </form>
           </div>
@@ -737,6 +749,40 @@ const description = `Complete your luxury fragrance order with doorstep delivery
   .btn-checkout-submit svg {
     color: #25D366;
     flex-shrink: 0;
+  }
+
+  /* Mandatory Policy Notice in Checkout */
+  .checkout-policy-notice {
+    text-align: center;
+    font-size: 0.72rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+    margin-top: 0.85rem;
+    margin-bottom: 1.15rem;
+  }
+
+  .policy-links-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+    margin-top: 0.25rem;
+  }
+
+  .policy-links-row a {
+    color: var(--color-text-main);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    font-weight: 500;
+  }
+
+  .policy-links-row a:hover {
+    color: var(--color-brand-cognac);
+  }
+
+  .policy-links-row .dot {
+    color: var(--color-text-light);
   }
 
   /* Trust Assurances */

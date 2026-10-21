@@ -13,6 +13,14 @@ export interface SiteConfig {
   tiktokHandle?: string;
   tiktokUrl?: string;
   whatsappUrl?: string;
+  // Official Business Identity & Bank Review Compliance
+  legalEntityName: string;
+  commercialRegistrationNumber: string;
+  registeredOffice: string;
+  dispatchHub: string;
+  customerSupportEmail: string;
+  complianceNotice: string;
+  isBankReviewDraft: boolean;
   navigation: { label: string; href: string }[];
   promises: { title: string; description: string; icon: string }[];
 }
@@ -27,6 +35,13 @@ export const siteConfig: SiteConfig = {
   whatsappNumber: '97466675166',
   whatsappDisplay: '+974 6667 5166',
   email: 'concierge@lumeraluxe.qa',
+  customerSupportEmail: 'concierge@lumeraluxe.qa',
+  legalEntityName: 'LUMÈRA LUXE (Official Legal Entity Pending Client Confirmation)',
+  commercialRegistrationNumber: 'Pending Client Official CR Document',
+  registeredOffice: 'Doha, State of Qatar',
+  dispatchHub: 'Nationwide Delivery across Qatar',
+  complianceNotice: 'Boutique storefront operating under WhatsApp concierge order verification. No automated online card gateway is integrated.',
+  isBankReviewDraft: true,
   instagramHandle: '@lumera.luxe974',
   instagramUrl: 'https://www.instagram.com/lumera.luxe974?utm_source=qr&dlrf=MWRmMTR2bzFsdjZxdg==',
   tiktokHandle: '@luxescentqatar',

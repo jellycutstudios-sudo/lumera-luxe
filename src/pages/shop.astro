@@ -3,8 +3,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ProductCard from '../components/ProductCard.astro';
 import productsData from '../data/products.json';
 
-// Unique brands
-const brands = Array.from(new Set(productsData.map((p) => p.brand))).sort();
+// Only display approved, verified products on public catalog (117 products)
+// Unapproved candidate drafts (8 items) remain in data/products.json for audit and review
+const publicProducts = productsData.filter((p) => !p.isDraft);
+
+// Unique brands from approved catalog
+const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
 ---
 
 <BaseLayout
@@ -122,7 +126,7 @@ const brands = Array.from(new Set(productsData.map((p) => p.brand))).sort();
       <!-- Compact Status Bar: Result Count & Active Reset -->
       <div class="catalog-status-bar">
         <span id="results-count" class="results-count">
-          Showing <strong>{productsData.length}</strong> fragrances
+          Showing <strong>{publicProducts.length}</strong> fragrances
         </span>
         <div class="status-actions">
           <div class="active-filter-tags" id="active-tags-container"></div>
@@ -134,7 +138,7 @@ const brands = Array.from(new Set(productsData.map((p) => p.brand))).sort();
 
       <!-- Products Grid -->
       <div class="grid-products" id="catalogue-grid">
-        {productsData.map((product, idx) => (
+        {publicProducts.map((product, idx) => (
           <ProductCard product={product} priority={idx < 4} />
         ))}
       </div>
@@ -163,7 +167,7 @@ const brands = Array.from(new Set(productsData.map((p) => p.brand))).sort();
       <div class="drawer-header">
         <div class="drawer-header-text">
           <h3 id="drawer-title" class="drawer-title">Filter Fragrances</h3>
-          <span class="drawer-subtitle" id="drawer-subtitle">{productsData.length} available</span>
+          <span class="drawer-subtitle" id="drawer-subtitle">{publicProducts.length} available</span>
         </div>
         <button type="button" id="close-filter-drawer-btn" class="drawer-close-btn" aria-label="Close filters">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -221,7 +225,7 @@ const brands = Array.from(new Set(productsData.map((p) => p.brand))).sort();
       <div class="drawer-footer">
         <button type="button" id="drawer-reset-btn" class="drawer-reset-btn">Reset All</button>
         <button type="button" id="drawer-apply-btn" class="drawer-apply-btn">
-          View Fragrances (<span id="drawer-count-badge">{productsData.length}</span>)
+          View Fragrances (<span id="drawer-count-badge">{publicProducts.length}</span>)
         </button>
       </div>
     </div>
@@ -1069,6 +1073,7 @@ const brands = Array.from(new Set(productsData.map((p) => p.brand))).sort();
       '': 'All Fragrances',
       floral: 'Floral & Rose',
       oriental: 'Amber & Oriental',
+      amber: 'Amber & Oriental',
       woody: 'Woody & Earthy',
       fresh: 'Fresh & Citrus'
     };
@@ -1201,6 +1206,7 @@ const brands = Array.from(new Set(productsData.map((p) => p.brand))).sort();
       const familyNames: Record<string, string> = {
         floral: 'Floral & Rose',
         oriental: 'Amber & Oriental',
+        amber: 'Amber & Oriental',
         woody: 'Woody & Earthy',
         fresh: 'Fresh & Citrus'
       };
@@ -1269,7 +1275,23 @@ const brands = Array.from(new Set(productsData.map((p) => p.brand))).sort();
 
       const matchesFamily =
         !activeFamily ||
-        prod.scentFamilies.some((f) => f.toLowerCase().includes(activeFamily.toLowerCase()));
+        (() => {
+          const famLower = activeFamily.toLowerCase();
+          const pFams = prod.scentFamilies.map((f: string) => f.toLowerCase()).join(' ');
+          if (famLower === 'oriental' || famLower === 'amber') {
+            return /oriental|amber|vanilla|gourmand|spic/.test(pFams);
+          }
+          if (famLower === 'floral') {
+            return /floral|rose|jasmine|violet|lily/.test(pFams);
+          }
+          if (famLower === 'woody') {
+            return /wood|woody|oud|moss|chypre|leather/.test(pFams);
+          }
+          if (famLower === 'fresh') {
+            return /fresh|citrus|aquatic|fougere|aromatic|aldehydic/.test(pFams);
+          }
+          return prod.scentFamilies.some((f: string) => f.toLowerCase().includes(famLower));
+        })();
 
       const priceQar = prod.priceMinor / 100;
       let matchesPrice = true;

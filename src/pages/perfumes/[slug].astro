@@ -141,8 +141,13 @@ const productSchema = {
         <!-- Sensory Description -->
         <p class="pdp-description">{product.description}</p>
 
-        <!-- DUAL LUXURY ACTION BLOCK (High Priority For Mobile) -->
-        <!-- DUAL LUXURY ACTION BLOCK (High Priority For Mobile) -->
+        {product.isDraft && (
+          <div class="pdp-draft-notice">
+            <span class="draft-tag">Review Candidate · Availability Verification</span>
+            <p>This formulation is currently undergoing distributor batch verification. Please verify live availability with our WhatsApp concierge before dispatch.</p>
+          </div>
+        )}
+
         <!-- DUAL LUXURY ACTION BLOCK -->
         <div class="pdp-action-block" id="pdp-cta-trigger">
           <!-- Row 1: Quantity Stepper + Add to Bag -->
@@ -676,6 +681,33 @@ const productSchema = {
     line-height: 1.7;
     color: var(--color-text-muted);
     margin-bottom: 1.75rem;
+  }
+
+  /* Draft Candidate Availability Notice */
+  .pdp-draft-notice {
+    background-color: #FAF8F5;
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--color-brand-cognac);
+    padding: 0.85rem 1.15rem;
+    margin-bottom: 1.25rem;
+    border-radius: 2px;
+  }
+
+  .draft-tag {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-brand-cognac);
+    margin-bottom: 0.25rem;
+  }
+
+  .pdp-draft-notice p {
+    font-size: 0.8rem;
+    line-height: 1.45;
+    color: var(--color-text-muted);
+    margin: 0;
   }
 
   /* Action Block (Dual Luxury Action) */

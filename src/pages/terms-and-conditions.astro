@@ -1,0 +1,345 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../data/site';
+---
+
+<BaseLayout
+  title={`Terms & Conditions — ${siteConfig.brandName} Doha`}
+  description="Official terms of service, ordering procedures, and consumer rights for LUMÈRA LUXE in the State of Qatar."
+>
+  <div class="policy-page">
+    <header class="policy-header">
+      <div class="container-narrow text-center">
+        <span class="eyebrow">Client Care · Doha, Qatar</span>
+        <h1 class="policy-title">
+          Terms & Conditions of Service,<br />
+          <span class="title-italic">Transparent & Authentic.</span>
+        </h1>
+        <p class="policy-lead">
+          Governing your fragrance inquiries, order coordination, and client concierge services with LUMÈRA LUXE in the State of Qatar.
+        </p>
+      </div>
+    </header>
+
+    <div class="container policy-body-container">
+      <div class="policy-content">
+        <!-- Bank Review Notice Tag (Internal compliance marker) -->
+        {siteConfig.isBankReviewDraft && (
+          <div class="compliance-badge-box">
+            <span class="compliance-badge-label">Corporate Bank Review Note</span>
+            <p>
+              This document reflects LUMÈRA LUXE's live order-assisted workflow. Online card payments are not processed automatically on this website; all client requests are finalized with our concierge team.
+            </p>
+          </div>
+        )}
+
+        <section class="policy-section">
+          <div class="section-meta-header">
+            <span class="section-idx">01</span>
+            <h2 class="policy-section-heading">Commercial Identification & Scope</h2>
+          </div>
+          <p>
+            Welcome to LUMÈRA LUXE (operating under commercial records in Doha, State of Qatar). These Terms & Conditions govern your access to our digital catalogue, product inquiries, and order handoff via our official WhatsApp Concierge channel.
+          </p>
+          <p>
+            By browsing our collection or initiating an order consultation, you agree to these terms, our <a href="/privacy-policy/" class="policy-link">Privacy Policy</a>, and our <a href="/returns-refunds/" class="policy-link">Return & Refund Policy</a>.
+          </p>
+        </section>
+
+        <section class="policy-section">
+          <div class="section-meta-header">
+            <span class="section-idx">02</span>
+            <h2 class="policy-section-heading">Product Authenticity & Pricing in QAR</h2>
+          </div>
+          <p>
+            All fragrances presented on LUMÈRA LUXE are 100% genuine, factory-sealed designer and niche perfumes. Each flacon carries its original manufacturer batch code, tamper-evident wrapping, and authentic concentration specifications (Eau de Parfum, Eau de Toilette, Extrait de Parfum).
+          </p>
+          <p>
+            All listed prices are displayed in <strong>Qatari Riyals (QAR)</strong>. While we endeavor to ensure all prices and sizes are strictly accurate, in the rare event of an obvious technical typographical error, our concierge team will notify you before any order is scheduled for dispatch.
+          </p>
+        </section>
+
+        <section class="policy-section">
+          <div class="section-meta-header">
+            <span class="section-idx">03</span>
+            <h2 class="policy-section-heading">Order Submission & WhatsApp Confirmation</h2>
+          </div>
+          <p>
+            LUMÈRA LUXE operates an assisted concierge ordering model tailored for Qatar patrons. Adding items to your digital shopping bag and proceeding through checkout creates a formal order inquiry transmitted directly to our official WhatsApp Concierge (+974 6667 5166).
+          </p>
+          <p>
+            <strong>No online payment is debited or requested through this website.</strong> Your order is formally confirmed only when our concierge verifies batch availability, confirms your Qatar delivery address, and provides the estimated dispatch schedule.
+          </p>
+        </section>
+
+        <section class="policy-section">
+          <div class="section-meta-header">
+            <span class="section-idx">04</span>
+            <h2 class="policy-section-heading">Supported Payment Methods</h2>
+          </div>
+          <p>
+            Payment is completed strictly through mutually agreed, transparent methods arranged with our concierge:
+          </p>
+          <ul class="policy-list">
+            <li><strong>Cash on Delivery (COD):</strong> Pay our courier directly upon receipt and inspection of your sealed parcel anywhere in Qatar.</li>
+            <li><strong>Card Machine on Delivery (POS):</strong> Hand-carried wireless POS terminal upon delivery (subject to prior scheduling with our concierge).</li>
+            <li><strong>Direct Bank Transfer / Fawran:</strong> Manual bank transfer verified directly with our business account. <em>Note: Payment is never marked complete solely based on an uploaded transfer screenshot; independent bank verification is completed by our accounts team prior to dispatch.</em></li>
+          </ul>
+        </section>
+
+        <section class="policy-section">
+          <div class="section-meta-header">
+            <span class="section-idx">05</span>
+            <h2 class="policy-section-heading">Nationwide Delivery & Title Transfer</h2>
+          </div>
+          <p>
+            We provide nationwide courier delivery across all Qatar municipalities including Doha, Lusail, The Pearl-Qatar, Al Rayyan, Al Wakrah, and Al Khor. Delivery timeframes typically range from 24 to 48 hours from WhatsApp confirmation.
+          </p>
+          <p>
+            Risk of loss and title to the products transfer to you upon physical handover by the courier at your designated delivery address. Customers are kindly requested to verify external packaging integrity upon arrival.
+          </p>
+        </section>
+
+        <section class="policy-section">
+          <div class="section-meta-header">
+            <span class="section-idx">06</span>
+            <h2 class="policy-section-heading">Returns, Cancellations & Consumer Rights</h2>
+          </div>
+          <p>
+            We strictly uphold Qatar Consumer Protection Law (Law No. 8 of 2008). Due to health and hygiene standards governing fine perfumery, returns and exchanges are eligible within three (3) days of delivery provided the protective cellophane wrapping remains unopened, the box is unmarked, and batch codes are intact.
+          </p>
+          <p>
+            For complete instructions, please consult our dedicated <a href="/returns-refunds/" class="policy-link">Returns & Refunds Policy</a> and <a href="/cancellation-policy/" class="policy-link">Cancellation Policy</a>.
+          </p>
+        </section>
+
+        <section class="policy-section">
+          <div class="section-meta-header">
+            <span class="section-idx">07</span>
+            <h2 class="policy-section-heading">Intellectual Property & Fair Use</h2>
+          </div>
+          <p>
+            The LUMÈRA LUXE brand name, logo, editorial photography, and website design are proprietary assets. All fragrance brand names (such as Chanel, Dior, Yves Saint Laurent, etc.) and trademarks remain the exclusive property of their respective manufacturers and are cited strictly for identification of genuine products offered for sale.
+          </p>
+        </section>
+
+        <section class="policy-section concierge-callout">
+          <div class="section-meta-header">
+            <span class="section-idx">08</span>
+            <h2 class="policy-section-heading">Legal Inquiries & Client Support</h2>
+          </div>
+          <p>
+            For inquiries regarding these Terms & Conditions or specific commercial arrangements, please reach our Doha team:
+          </p>
+          <div class="concierge-links">
+            <a href={`mailto:${siteConfig.customerSupportEmail}`} class="email-direct">
+              {siteConfig.customerSupportEmail}
+            </a>
+            <a
+              href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent("Hello LUMÈRA LUXE, I have a question regarding your Terms & Conditions.")}`}
+              class="btn btn-primary btn-sm"
+              target="_blank"
+              rel="noopener"
+            >
+              WhatsApp Concierge: {siteConfig.whatsappDisplay}
+            </a>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .policy-page {
+    background-color: var(--color-bg);
+    color: var(--color-text-main);
+  }
+
+  .container-narrow {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 var(--page-gutter);
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .policy-header {
+    background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-bg) 100%);
+    border-bottom: 1px solid var(--color-border-subtle);
+    padding: clamp(3.5rem, 6vw, 5.5rem) 0 clamp(2.5rem, 4vw, 4rem);
+  }
+
+  .eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--color-brand-cognac);
+    margin-bottom: 1rem;
+    display: inline-block;
+  }
+
+  .policy-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--color-text-main);
+    margin-bottom: 1.25rem;
+  }
+
+  .title-italic {
+    font-style: italic;
+    color: var(--color-brand-cognac-dark);
+  }
+
+  .policy-lead {
+    font-size: clamp(0.95rem, 1.8vw, 1.125rem);
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--color-text-muted);
+    max-width: 580px;
+    margin: 0 auto;
+  }
+
+  .policy-body-container {
+    padding-top: clamp(2.5rem, 5vw, 4.5rem);
+    padding-bottom: 5.5rem;
+  }
+
+  .policy-content {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .compliance-badge-box {
+    background-color: #FAF8F5;
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--color-brand-cognac);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 3rem;
+    border-radius: 2px;
+  }
+
+  .compliance-badge-label {
+    display: block;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-brand-cognac);
+    margin-bottom: 0.35rem;
+  }
+
+  .compliance-badge-box p {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .policy-section {
+    margin-bottom: 3rem;
+    padding-bottom: 2.25rem;
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  .policy-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .section-meta-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.85rem;
+    margin-bottom: 1.15rem;
+  }
+
+  .section-idx {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-brand-cognac);
+    opacity: 0.85;
+  }
+
+  .policy-section-heading {
+    font-family: var(--font-serif);
+    font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+    font-weight: 400;
+    color: var(--color-text-main);
+  }
+
+  .policy-section p {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    margin-bottom: 1.25rem;
+    color: var(--color-text-muted);
+  }
+
+  .policy-link {
+    color: var(--color-text-main);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease;
+  }
+
+  .policy-link:hover {
+    color: var(--color-brand-cognac);
+  }
+
+  .policy-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .policy-list li {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    padding-left: 1.5rem;
+    position: relative;
+  }
+
+  .policy-list li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--color-brand-cognac);
+  }
+
+  .concierge-callout {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    padding: 2.25rem 2rem;
+  }
+
+  .concierge-links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1.25rem;
+  }
+
+  .email-direct {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--color-text-main);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>

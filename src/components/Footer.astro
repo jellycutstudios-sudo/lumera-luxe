@@ -70,50 +70,43 @@ import { siteConfig } from '../data/site';
           Haute Parfumerie · Authentic Fragrances in Qatar.
         </p>
         <p class="footer-legal-copy">
-          &copy; {new Date().getFullYear()} {siteConfig.brandName}. Doha, Qatar.
+          &copy; {new Date().getFullYear()} {siteConfig.brandName}. Doha, State of Qatar.
+        </p>
+        <p class="footer-registration-note">
+          Authentic luxury fragrance concierge in Qatar. Order inquiries finalized via WhatsApp. No automated online card processing.
         </p>
       </div>
 
       <!-- Right: Minimalist 3-Column Navigation -->
       <div class="footer-links-columns">
         <div class="footer-col">
-          <h4 class="col-title">Shop</h4>
+          <h4 class="col-title">Collection</h4>
           <ul class="col-list">
             <li><a href="/shop/">All Fragrances</a></li>
+            <li><a href="/shop/?family=fresh">Fresh & Citrus</a></li>
             <li><a href="/shop/?family=floral">Floral & Rose</a></li>
             <li><a href="/shop/?family=oriental">Amber & Oriental</a></li>
-            <li><a href="/shop/?family=woody">Woody & Musk</a></li>
-            <li><a href="/shop/?family=fresh">Fresh & Citrus</a></li>
+            <li><a href="/shop/?family=woody">Woody & Earthy</a></li>
           </ul>
         </div>
 
         <div class="footer-col">
-          <h4 class="col-title">Connect</h4>
+          <h4 class="col-title">Client Care</h4>
           <ul class="col-list">
+            <li><a href="/contact/">Concierge Contact</a></li>
+            <li><a href="/our-story/">The House</a></li>
             <li>
               <a href={`https://wa.me/${siteConfig.whatsappNumber}`} target="_blank" rel="noopener" class="social-link-item">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"></path>
-                  <path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"></path>
-                </svg>
                 <span>WhatsApp Concierge</span>
               </a>
             </li>
             <li>
               <a href={siteConfig.instagramUrl} target="_blank" rel="noopener" class="social-link-item">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                </svg>
                 <span>Instagram</span>
               </a>
             </li>
             <li>
               <a href={siteConfig.tiktokUrl} target="_blank" rel="noopener" class="social-link-item">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
-                </svg>
                 <span>TikTok</span>
               </a>
             </li>
@@ -121,12 +114,13 @@ import { siteConfig } from '../data/site';
         </div>
 
         <div class="footer-col">
-          <h4 class="col-title">Customer Care</h4>
+          <h4 class="col-title">Legal & Policies</h4>
           <ul class="col-list">
-            <li><a href="/contact/">Concierge Contact</a></li>
-            <li><a href="/delivery-returns/">Delivery & Returns</a></li>
-            <li><a href="/privacy/">Privacy Policy</a></li>
-            <li><a href="/our-story/">Our Story</a></li>
+            <li><a href="/terms-and-conditions/">Terms & Conditions</a></li>
+            <li><a href="/privacy-policy/">Privacy Policy</a></li>
+            <li><a href="/shipping-delivery/">Shipping & Delivery</a></li>
+            <li><a href="/returns-refunds/">Returns & Refunds</a></li>
+            <li><a href="/cancellation-policy/">Cancellation Policy</a></li>
           </ul>
         </div>
       </div>
@@ -241,6 +235,15 @@ import { siteConfig } from '../data/site';
     letter-spacing: 0.05em;
     color: var(--color-text-light);
     text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-registration-note {
+    font-size: 0.72rem;
+    line-height: 1.45;
+    color: var(--color-text-muted);
+    max-width: 280px;
+    margin: 0;
   }
 
   .footer-links-columns {

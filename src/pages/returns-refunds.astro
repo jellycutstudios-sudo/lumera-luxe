@@ -1,0 +1,363 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { siteConfig } from '../data/site';
+---
+
+<BaseLayout
+  title={`Returns & Refunds Policy — ${siteConfig.brandName} Doha`}
+  description="Clear, honest returns and refunds guidelines for perfume purchases at LUMÈRA LUXE under Qatar Consumer Protection Law."
+>
+  <div class="policy-page">
+    <header class="policy-header">
+      <div class="container-narrow text-center">
+        <span class="eyebrow">Client Care · Doha, Qatar</span>
+        <h1 class="policy-title">
+          Returns & Refunds Policy,<br />
+          <span class="title-italic">Clear & Compliant.</span>
+        </h1>
+        <p class="policy-lead">
+          Honoring your consumer rights under Qatar Law No. 8 of 2008 while safeguarding the strict hygiene and integrity of fine fragrance flacons.
+        </p>
+      </div>
+    </header>
+
+    <div class="container policy-body-container">
+      <div class="policy-content">
+        <!-- Highlights Bar -->
+        <div class="policy-kpi-grid">
+          <div class="kpi-card">
+            <span class="kpi-num">3 Days</span>
+            <span class="kpi-label">Return Notification Window</span>
+            <span class="kpi-desc">From time of courier delivery in Qatar</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-num">100%</span>
+            <span class="kpi-label">Original Factory Seal</span>
+            <span class="kpi-desc">Cellophane wrap must remain intact</span>
+          </div>
+          <div class="kpi-card">
+            <span class="kpi-num">Prompt</span>
+            <span class="kpi-label">Refund Execution</span>
+            <span class="kpi-desc">Processed via original payment method</span>
+          </div>
+        </div>
+
+        <section class="policy-section">
+          <div class="section-meta-header">
+            <span class="section-idx">01</span>
+            <h2 class="policy-section-heading">Eligibility for Return & Exchange</h2>
+          </div>
+          <p>
+            Due to the delicate nature and sanitary standards of fine cosmetics and fragrances, an item is eligible for return or exchange under the following specific conditions:
+          </p>
+          <ul class="policy-list">
+            <li><strong>Factory Cellophane Intact:</strong> The outer protective cellophane wrapping must be completely unopened and untampered with.</li>
+            <li><strong>Box & Packaging:</strong> The original presentation box, inserts, and exterior batch codes must be pristine and free of markings or tears.</li>
+            <li><strong>Notification Period:</strong> Notice of intent to return must be communicated to our WhatsApp Concierge within <strong>three (3) calendar days</strong> of receiving the parcel.</li>
+          </ul>
+          <p>
+            <em>Please note: Once the protective cellophane seal is broken or spray nozzles have been primed/tested, we cannot accept returns due to health and product integrity regulations in the State of Qatar.</em>
+          </p>
+        </section>
+
+        <section class="policy-section">
+          <div class="section-meta-header">
+            <span class="section-idx">02</span>
+            <h2 class="policy-section-heading">Defective or Damaged In Transit Items</h2>
+          </div>
+          <p>
+            Every flacon is individually examined and hand-packaged before dispatch. In the rare event that your order arrives with verified transit damage, leakage, or a manufacturer atomiser defect:
+          </p>
+          <ul class="policy-list">
+            <li>Notify our WhatsApp Concierge within <strong>24 hours</strong> of delivery with clear photographs of the outer packaging and defective flacon.</li>
+            <li>Our priority courier will collect the item free of courier charge.</li>
+            <li>Upon inspection, you will receive an immediate replacement bottle or a 100% full refund at your discretion.</li>
+          </ul>
+        </section>
+
+        <section class="policy-section">
+          <div class="section-meta-header">
+            <span class="section-idx">03</span>
+            <h2 class="policy-section-heading">Step-by-Step Return Process</h2>
+          </div>
+          <ol class="numbered-process">
+            <li>
+              <strong>Initiate Request:</strong> Message our WhatsApp Concierge at <a href={`https://wa.me/${siteConfig.whatsappNumber}`} class="policy-link">{siteConfig.whatsappDisplay}</a> with your order name and photos of the sealed box and batch code.
+            </li>
+            <li>
+              <strong>Courier Collection:</strong> Once approved, our Doha courier will be scheduled to collect the sealed flacon from your doorstep.
+            </li>
+            <li>
+              <strong>Inspection:</strong> Our quality assurance team verifies the seal integrity within 24 hours of retrieval.
+            </li>
+            <li>
+              <strong>Refund Settlement:</strong> Approved refunds are issued immediately via your original payment channel (Cash handover upon pickup, or direct bank transfer for electronic payments).
+            </li>
+          </ol>
+        </section>
+
+        <section class="policy-section">
+          <div class="section-meta-header">
+            <span class="section-idx">04</span>
+            <h2 class="policy-section-heading">Refund Settlement Terms</h2>
+          </div>
+          <p>
+            Approved refunds will cover the full retail price paid for the returned flacons. If the return is due to client preference rather than a defect, original courier delivery charges (if applicable) are non-refundable. For defective or erroneous dispatches, 100% of all fees including courier costs are refunded.
+          </p>
+        </section>
+
+        <section class="policy-section concierge-callout">
+          <div class="section-meta-header">
+            <span class="section-idx">05</span>
+            <h2 class="policy-section-heading">Start a Return with Concierge</h2>
+          </div>
+          <p>
+            Our dedicated client care team is ready to assist you personally with any return or exchange requests:
+          </p>
+          <div class="concierge-links">
+            <a
+              href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent("Hello LUMÈRA LUXE, I would like to request an exchange or return.")}`}
+              class="btn btn-primary btn-sm"
+              target="_blank"
+              rel="noopener"
+            >
+              Contact Returns Concierge on WhatsApp
+            </a>
+            <a href={`mailto:${siteConfig.customerSupportEmail}`} class="email-direct">
+              {siteConfig.customerSupportEmail}
+            </a>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .policy-page {
+    background-color: var(--color-bg);
+    color: var(--color-text-main);
+  }
+
+  .container-narrow {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 var(--page-gutter);
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .policy-header {
+    background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-bg) 100%);
+    border-bottom: 1px solid var(--color-border-subtle);
+    padding: clamp(3.5rem, 6vw, 5.5rem) 0 clamp(2.5rem, 4vw, 4rem);
+  }
+
+  .eyebrow {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--color-brand-cognac);
+    margin-bottom: 1rem;
+    display: inline-block;
+  }
+
+  .policy-title {
+    font-family: var(--font-serif);
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--color-text-main);
+    margin-bottom: 1.25rem;
+  }
+
+  .title-italic {
+    font-style: italic;
+    color: var(--color-brand-cognac-dark);
+  }
+
+  .policy-lead {
+    font-size: clamp(0.95rem, 1.8vw, 1.125rem);
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--color-text-muted);
+    max-width: 580px;
+    margin: 0 auto;
+  }
+
+  .policy-body-container {
+    padding-top: clamp(2.5rem, 5vw, 4.5rem);
+    padding-bottom: 5.5rem;
+  }
+
+  .policy-content {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .policy-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 3.5rem;
+  }
+
+  @media (max-width: 640px) {
+    .policy-kpi-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+
+  .kpi-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    padding: 1.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .kpi-num {
+    font-family: var(--font-serif);
+    font-size: 1.85rem;
+    font-style: italic;
+    color: var(--color-brand-cognac);
+    margin-bottom: 0.35rem;
+  }
+
+  .kpi-label {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-main);
+    margin-bottom: 0.35rem;
+  }
+
+  .kpi-desc {
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    line-height: 1.4;
+  }
+
+  .policy-section {
+    margin-bottom: 3rem;
+    padding-bottom: 2.25rem;
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  .policy-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .section-meta-header {
+    display: flex;
+    align-items: baseline;
+    gap: 0.85rem;
+    margin-bottom: 1.15rem;
+  }
+
+  .section-idx {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-brand-cognac);
+    opacity: 0.85;
+  }
+
+  .policy-section-heading {
+    font-family: var(--font-serif);
+    font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+    font-weight: 400;
+    color: var(--color-text-main);
+  }
+
+  .policy-section p {
+    font-size: 0.95rem;
+    line-height: 1.75;
+    margin-bottom: 1.25rem;
+    color: var(--color-text-muted);
+  }
+
+  .policy-link {
+    color: var(--color-text-main);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .policy-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .policy-list li {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    padding-left: 1.5rem;
+    position: relative;
+  }
+
+  .policy-list li::before {
+    content: "—";
+    position: absolute;
+    left: 0;
+    color: var(--color-brand-cognac);
+  }
+
+  .numbered-process {
+    padding-left: 1.25rem;
+    margin: 0 0 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .numbered-process li {
+    font-size: 0.92rem;
+    line-height: 1.65;
+    color: var(--color-text-muted);
+  }
+
+  .numbered-process li strong {
+    color: var(--color-text-main);
+  }
+
+  .concierge-callout {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    padding: 2.25rem 2rem;
+  }
+
+  .concierge-links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-top: 1.25rem;
+  }
+
+  .email-direct {
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: var(--color-text-main);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+</style>
