@@ -1280,20 +1280,29 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
         !activeFamily ||
         (() => {
           const famLower = activeFamily.toLowerCase();
-          const pFams = prod.scentFamilies.map((f: string) => f.toLowerCase()).join(' ');
+          // 1. Direct canonical category match
+          if (prod.category) {
+            const pCat = prod.category.toLowerCase();
+            if (pCat === famLower) return true;
+            if ((famLower === 'oriental' || famLower === 'amber') && (pCat === 'oriental' || pCat === 'amber')) return true;
+            if ((famLower === 'fresh' || famLower === 'citrus') && (pCat === 'fresh' || pCat === 'citrus')) return true;
+            if ((famLower === 'woody' || famLower === 'earthy') && (pCat === 'woody' || pCat === 'earthy')) return true;
+            if ((famLower === 'floral' || famLower === 'rose') && (pCat === 'floral' || pCat === 'rose')) return true;
+          }
+          // 2. Canonical Scent Family name match
           if (famLower === 'oriental' || famLower === 'amber') {
-            return /oriental|amber|vanilla|gourmand|spic/.test(pFams);
+            return prod.scentFamilies.some((f: string) => /amber & oriental/i.test(f));
           }
           if (famLower === 'floral') {
-            return /floral|rose|jasmine|violet|lily/.test(pFams);
+            return prod.scentFamilies.some((f: string) => /floral & rose/i.test(f));
           }
           if (famLower === 'woody') {
-            return /wood|woody|oud|moss|chypre|leather/.test(pFams);
+            return prod.scentFamilies.some((f: string) => /woody & earthy/i.test(f));
           }
           if (famLower === 'fresh') {
-            return /fresh|citrus|aquatic|fougere|aromatic|aldehydic/.test(pFams);
+            return prod.scentFamilies.some((f: string) => /fresh & citrus/i.test(f));
           }
-          return prod.scentFamilies.some((f: string) => f.toLowerCase().includes(famLower));
+          return prod.scentFamilies.some((f: string) => f.toLowerCase() === famLower);
         })();
 
       const priceQar = prod.priceMinor / 100;

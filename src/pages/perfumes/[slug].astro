@@ -13,12 +13,13 @@ export async function getStaticPaths() {
 
 const { product } = Astro.props;
 
-// Find 3-4 related products sharing brand or scent families
+// Find 3-4 related products sharing brand, category, or scent families
 const relatedProducts = productsData
   .filter(
     (p) =>
       p.id !== product.id &&
       (p.brand === product.brand ||
+        (p.category && p.category === product.category) ||
         p.scentFamilies.some((f) => product.scentFamilies.includes(f)))
   )
   .slice(0, 4);
@@ -227,7 +228,9 @@ const productSchema = {
             <span class="family-label">Scent Families:</span>
             <div class="family-pills">
               {product.scentFamilies.map((fam) => (
-                <span class="family-tag">{fam}</span>
+                <a href={`/shop/?family=${product.category || 'floral'}`} class="family-tag" title={`Explore ${fam} fragrances`}>
+                  {fam}
+                </a>
               ))}
             </div>
           </div>
