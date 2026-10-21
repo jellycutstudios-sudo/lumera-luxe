@@ -747,7 +747,16 @@ import { siteConfig } from '../data/site';
           item => `
         <li class="bag-item-card">
           <div class="bag-item-img-wrap">
-            <img src="${item.image}" alt="${item.brand} ${item.name}" class="bag-item-img" />
+            <img
+              src="${item.image}"
+              alt="${item.brand} ${item.name}"
+              class="bag-item-img"
+              width="72"
+              height="72"
+              loading="lazy"
+              decoding="async"
+              onerror="this.onerror=null;this.src='/assets/lumera-logo.svg';"
+            />
           </div>
           <div class="bag-item-details">
             <span class="bag-item-brand">${item.brand}</span>

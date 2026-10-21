@@ -5,6 +5,7 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   output: 'static',
   site: 'https://lumeraluxe.qa',
+  compressHTML: true,
   prefetch: {
     prefetchAll: true,
     defaultStrategy: 'hover'

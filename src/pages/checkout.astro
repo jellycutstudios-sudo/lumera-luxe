@@ -1268,7 +1268,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
 
     // Mobile Header Preview
     if (mobileThumbBox && checkoutItems.length > 0) {
-      mobileThumbBox.innerHTML = `<img src="${checkoutItems[0].image}" alt="${checkoutItems[0].name}" class="mobile-summary-thumb" />`;
+      mobileThumbBox.innerHTML = `<img src="${checkoutItems[0].image}" alt="${checkoutItems[0].name}" class="mobile-summary-thumb" width="48" height="48" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='/assets/lumera-logo.svg';" />`;
     }
     if (mobileItemText && checkoutItems.length > 0) {
       const first = checkoutItems[0];
@@ -1282,7 +1282,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
         (item) => `
       <li class="cart-item-row" data-id="${item.id}">
         <div class="cart-item-thumb-box">
-          <img src="${item.image}" alt="${item.brand} ${item.name}" class="cart-item-thumb" />
+          <img src="${item.image}" alt="${item.brand} ${item.name}" class="cart-item-thumb" width="56" height="56" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='/assets/lumera-logo.svg';" />
         </div>
         <div class="cart-item-details">
           <strong class="cart-item-title">${item.name}</strong>

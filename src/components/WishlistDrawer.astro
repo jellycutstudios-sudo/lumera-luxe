@@ -549,7 +549,16 @@ import productsData from '../data/products.json';
           (prod) => `
         <li class="wishlist-item-card" data-id="${prod.id}">
           <div class="wishlist-thumb-box">
-            <img src="${prod.image}" alt="${prod.name}" class="wishlist-thumb-img" />
+            <img
+              src="${prod.image}"
+              alt="${prod.name}"
+              class="wishlist-thumb-img"
+              width="70"
+              height="88"
+              loading="lazy"
+              decoding="async"
+              onerror="this.onerror=null;this.src='/assets/lumera-logo.svg';"
+            />
           </div>
           <div class="wishlist-item-content">
             <div class="wishlist-item-header">
