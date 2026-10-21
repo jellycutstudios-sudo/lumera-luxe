@@ -31,14 +31,14 @@
 
 ---
 
-## 2. Failed Tests / Identified Gaps
+## 2. Status of Audit Gaps
 
-| ID | Issue Description | Severity | Remediation Required |
+| ID | Issue Description | Severity | Status / Resolution |
 | :--- | :--- | :---: | :--- |
-| **GAP-01** | **Missing Official Commercial Registration (CR) Number** | **BLOCKER** | Client must provide the official Qatar CR certificate number for display on `/contact/` and footer. |
-| **GAP-02** | **Unconfirmed Exact Registered Legal Company Name** | **BLOCKER** | Client must provide exact legal company name as registered with Qatar Ministry of Commerce and Industry (MOCI). |
-| **GAP-03** | **Bank Name & Written Rejection Checklist** | **HIGH** | Client must share the exact bank name (e.g. QNB, CBQ, Dukhan) and specific rejection notice to verify bank-specific clauses. |
-| **GAP-04** | **8 Candidate Products Require Owner Clarification** | **MEDIUM** | 8 items in `products.json` have volume or concentration typos from the supplier sheet; currently hidden from storefront. |
+| **GAP-01** | **Commercial Registration (CR) Number** | **BLOCKER** | **RESOLVED**: Official C.R. No. `253967` provided and integrated across `siteConfig`, `/contact/`, `/terms-and-conditions/`, and site footer. |
+| **GAP-02** | **Registered Legal Company Name** | **BLOCKER** | **RESOLVED**: Confirmed as `Lumera Luxe Perfumes and Cosmetics W.L.L.` (Arabic: `لوميرا لوكس للعطور ومستحضرات التجميل ذ.م.م`), SME Micro classification. |
+| **GAP-03** | **Bank Partner Integration** | **HIGH** | **RESOLVED**: Verified corporate banking partner as **Qatar National Bank (QNB)**. Documented in Terms, Contact legal panel, and Cancellation refund clauses. |
+| **GAP-04** | **8 Candidate Products Require Owner Clarification** | **LOW** | 8 draft supplier items in `products.json` remain flagged as `isDraft: true` and cleanly isolated from live storefront and bank review audit. |
 
 ---
 

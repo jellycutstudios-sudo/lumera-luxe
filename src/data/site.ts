@@ -15,7 +15,11 @@ export interface SiteConfig {
   whatsappUrl?: string;
   // Official Business Identity & Bank Review Compliance
   legalEntityName: string;
+  legalEntityNameAr?: string;
   commercialRegistrationNumber: string;
+  smeClassification?: string;
+  legalForm?: string;
+  corporateBank?: string;
   registeredOffice: string;
   dispatchHub: string;
   customerSupportEmail: string;
@@ -36,12 +40,16 @@ export const siteConfig: SiteConfig = {
   whatsappDisplay: '+974 6667 5166',
   email: 'concierge@lumeraluxe.qa',
   customerSupportEmail: 'concierge@lumeraluxe.qa',
-  legalEntityName: 'LUMÈRA LUXE (Official Legal Entity Pending Client Confirmation)',
-  commercialRegistrationNumber: 'Pending Client Official CR Document',
+  legalEntityName: 'Lumera Luxe Perfumes and Cosmetics W.L.L.',
+  legalEntityNameAr: 'لوميرا لوكس للعطور ومستحضرات التجميل ذ.م.م',
+  commercialRegistrationNumber: '253967',
+  smeClassification: 'Micro (متناهية الصغر)',
+  legalForm: 'W.L.L. (With Limited Liability / شركة ذات مسؤولية محدودة)',
+  corporateBank: 'Qatar National Bank (QNB) / بنك قطر الوطني',
   registeredOffice: 'Doha, State of Qatar',
   dispatchHub: 'Nationwide Delivery across Qatar',
   complianceNotice: 'Boutique storefront operating under WhatsApp concierge order verification. No automated online card gateway is integrated.',
-  isBankReviewDraft: true,
+  isBankReviewDraft: false,
   instagramHandle: '@lumera.luxe974',
   instagramUrl: 'https://www.instagram.com/lumera.luxe974?utm_source=qr&dlrf=MWRmMTR2bzFsdjZxdg==',
   tiktokHandle: '@luxescentqatar',

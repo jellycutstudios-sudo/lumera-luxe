@@ -137,29 +137,48 @@ import { siteConfig } from '../data/site';
       <div class="business-entity-panel">
         <div class="entity-card">
           <div class="entity-header">
-            <span class="entity-kicker">Corporate & Regulatory Identification</span>
+            <span class="entity-kicker">Corporate & Regulatory Identification · Ministry of Commerce & Industry (MOCI)</span>
             <h2 class="entity-title">{siteConfig.legalEntityName}</h2>
+            {siteConfig.legalEntityNameAr && (
+              <p class="entity-title-ar" dir="rtl">{siteConfig.legalEntityNameAr}</p>
+            )}
           </div>
           <div class="entity-details-grid">
             <div class="entity-detail-col">
-              <span class="detail-label">Registered Territory</span>
-              <span class="detail-value">{siteConfig.registeredOffice}</span>
+              <span class="detail-label">Commercial Registration (CR)</span>
+              <span class="detail-value highlight">{siteConfig.commercialRegistrationNumber}</span>
             </div>
             <div class="entity-detail-col">
-              <span class="detail-label">Commercial Registration (CR)</span>
-              <span class="detail-value">{siteConfig.commercialRegistrationNumber}</span>
+              <span class="detail-label">Legal Form</span>
+              <span class="detail-value">{siteConfig.legalForm}</span>
+            </div>
+            <div class="entity-detail-col">
+              <span class="detail-label">SME Classification</span>
+              <span class="detail-value">{siteConfig.smeClassification}</span>
+            </div>
+            <div class="entity-detail-col">
+              <span class="detail-label">Corporate Bank</span>
+              <span class="detail-value">{siteConfig.corporateBank}</span>
+            </div>
+            <div class="entity-detail-col">
+              <span class="detail-label">Registered Jurisdiction</span>
+              <span class="detail-value">{siteConfig.registeredOffice}</span>
             </div>
             <div class="entity-detail-col">
               <span class="detail-label">Formal Correspondence</span>
               <a href={`mailto:${siteConfig.customerSupportEmail}`} class="detail-value link">{siteConfig.customerSupportEmail}</a>
             </div>
             <div class="entity-detail-col">
-              <span class="detail-label">Concierge Line</span>
+              <span class="detail-label">Boutique Concierge</span>
               <a href={`https://wa.me/${siteConfig.whatsappNumber}`} class="detail-value link">{siteConfig.whatsappDisplay}</a>
+            </div>
+            <div class="entity-detail-col">
+              <span class="detail-label">Fulfillment Hub</span>
+              <span class="detail-value">{siteConfig.dispatchHub}</span>
             </div>
           </div>
           <div class="entity-footer-note">
-            <span>Operating under direct concierge order confirmation in Qatar. No online card processing gateway is integrated on this site.</span>
+            <span>Official boutique registered with the Ministry of Commerce and Industry (State of Qatar). Direct concierge ordering with delivery verification across Qatar.</span>
           </div>
         </div>
       </div>
@@ -559,6 +578,14 @@ import { siteConfig } from '../data/site';
     margin: 0;
   }
 
+  .entity-title-ar {
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+    margin: 0.35rem 0 0;
+    letter-spacing: 0.02em;
+  }
+
   .entity-details-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -584,6 +611,14 @@ import { siteConfig } from '../data/site';
     font-size: 0.9rem;
     font-weight: 500;
     color: var(--color-text-main);
+  }
+
+  .detail-value.highlight {
+    color: var(--color-brand-cognac);
+    font-weight: 700;
+    font-family: monospace;
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
   }
 
   .detail-value.link {
