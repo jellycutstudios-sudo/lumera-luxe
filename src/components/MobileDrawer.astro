@@ -777,13 +777,10 @@ const publicProducts = productsData.filter((p) => !p.isDraft);
 <script is:inline>
   // DOM Elements
   var backdrop = document.getElementById('mobile-nav-backdrop');
-  var drawer = document.getElementById('mobile-nav-drawer');
-  var openBtn = document.getElementById('menu-toggle-btn');
-  var closeBtn = document.getElementById('mobile-nav-close-btn');
-  var familiesBtn = document.getElementById('drawer-families-btn');
-  var supportBtn = document.getElementById('drawer-support-modal-btn');
-
   function openDrawer() {
+    var backdrop = document.getElementById('mobile-nav-backdrop');
+    var drawer = document.getElementById('mobile-nav-drawer');
+    var openBtn = document.getElementById('menu-toggle-btn');
     if (backdrop) backdrop.hidden = false;
     if (drawer) drawer.hidden = false;
     if (openBtn) openBtn.setAttribute('aria-expanded', 'true');
@@ -791,49 +788,74 @@ const publicProducts = productsData.filter((p) => !p.isDraft);
   }
 
   function closeDrawer() {
+    var backdrop = document.getElementById('mobile-nav-backdrop');
+    var drawer = document.getElementById('mobile-nav-drawer');
+    var openBtn = document.getElementById('menu-toggle-btn');
     if (backdrop) backdrop.hidden = true;
     if (drawer) drawer.hidden = true;
     if (openBtn) openBtn.setAttribute('aria-expanded', 'false');
     document.body.style.overflow = '';
   }
 
-  if (openBtn) openBtn.addEventListener('click', openDrawer);
-  if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
-  if (backdrop) backdrop.addEventListener('click', closeDrawer);
-
   window.openMobileDrawer = openDrawer;
   window.closeMobileDrawer = closeDrawer;
 
-  // Scent Families button opens the Scent Families modal
-  if (familiesBtn) {
-    familiesBtn.addEventListener('click', function () {
+  // Global Click Delegator (Never breaks on SPA route changes)
+  document.addEventListener('click', function (e) {
+    var target = e.target;
+    if (!target) return;
+
+    if (target.closest('#menu-toggle-btn, .mobile-toggle-btn, [data-action="open-menu"]')) {
+      e.preventDefault();
+      openDrawer();
+      return;
+    }
+
+    if (target.closest('#mobile-nav-close-btn')) {
+      e.preventDefault();
+      closeDrawer();
+      return;
+    }
+
+    if (target.closest('#drawer-families-btn')) {
+      e.preventDefault();
       closeDrawer();
       if (typeof window.openFamiliesModal === 'function') {
         window.openFamiliesModal();
       }
-    });
-  }
+      return;
+    }
 
-  // Personal Scent Support button opens the Support modal
-  if (supportBtn) {
-    supportBtn.addEventListener('click', function () {
+    if (target.closest('#drawer-support-modal-btn')) {
+      e.preventDefault();
       closeDrawer();
       if (typeof window.openSupportModal === 'function') {
         window.openSupportModal();
       }
-    });
-  }
+      return;
+    }
 
-  // Wishlist button opens Wishlist drawer
-  var drawerWishlistBtn = document.getElementById('drawer-open-wishlist-btn');
-  if (drawerWishlistBtn) {
-    drawerWishlistBtn.addEventListener('click', function () {
+    if (target.closest('#drawer-open-wishlist-btn')) {
+      e.preventDefault();
       closeDrawer();
       if (typeof window.openWishlist === 'function') {
         window.openWishlist();
       }
-    });
-  }
+      return;
+    }
+
+    // Auto-close when clicking any navigation link inside drawer
+    if (target.closest('#mobile-nav-drawer a')) {
+      closeDrawer();
+      return;
+    }
+
+    var backdropEl = document.getElementById('mobile-nav-backdrop');
+    if (backdropEl && target === backdropEl) {
+      closeDrawer();
+      return;
+    }
+  });
 
   function syncDrawerWishlist() {
     var countEl = document.getElementById('drawer-wishlist-count');
@@ -842,23 +864,24 @@ const publicProducts = productsData.filter((p) => !p.isDraft);
       if (countEl) countEl.textContent = favs.length;
     } catch (e) {}
   }
+
   window.addEventListener('favorites-updated', syncDrawerWishlist);
   window.addEventListener('focus', syncDrawerWishlist);
-  syncDrawerWishlist();
 
   // Close on Escape
   window.addEventListener('keydown', function (e) {
+    var drawer = document.getElementById('mobile-nav-drawer');
     if (e.key === 'Escape' && drawer && !drawer.hidden) {
       closeDrawer();
     }
   });
 
-  // Close on internal link click
-  if (drawer) {
-    drawer.querySelectorAll('a').forEach(function (link) {
-      link.addEventListener('click', function () {
-        closeDrawer();
-      });
-    });
-  }
+  document.addEventListener('astro:page-load', function () {
+    syncDrawerWishlist();
+    closeDrawer();
+  });
+
+  document.addEventListener('astro:before-preparation', function () {
+    closeDrawer();
+  });
 </script>

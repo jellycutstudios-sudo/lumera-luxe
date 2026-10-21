@@ -63,14 +63,14 @@ const {
     <ClientRouter />
   </head>
   <body>
-    <Header transition:persist="header" />
+    <Header />
     <main id="main-content">
       <slot />
     </main>
     <Footer />
-    <BagDrawer transition:persist="bag-drawer" />
-    <WishlistDrawer transition:persist="wishlist-drawer" />
-    <MobileDrawer transition:persist="mobile-drawer" />
+    <BagDrawer />
+    <WishlistDrawer />
+    <MobileDrawer />
     <MobileBottomNav transition:persist="mobile-bottom-nav" />
   </body>
 </html>

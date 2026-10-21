@@ -457,9 +457,6 @@ import productsData from '../data/products.json';
   :global(.btn-wishlist-add-bag:active) {
     transform: scale(0.95) !important;
   }
-    border-radius: 2px !important;
-    cursor: pointer !important;
-  }
 
   /* Drawer Footer */
   .wishlist-drawer-footer {
@@ -506,6 +503,8 @@ import productsData from '../data/products.json';
   const footerEl = document.getElementById('wishlist-footer');
 
   function openWishlist() {
+    const drawer = document.getElementById('wishlist-drawer');
+    const backdrop = document.getElementById('wishlist-backdrop');
     if (!drawer || !backdrop) return;
     renderWishlist();
     drawer.hidden = false;
@@ -517,6 +516,8 @@ import productsData from '../data/products.json';
   }
 
   function closeWishlist() {
+    const drawer = document.getElementById('wishlist-drawer');
+    const backdrop = document.getElementById('wishlist-backdrop');
     if (!drawer || !backdrop) return;
     drawer.classList.remove('is-open');
     backdrop.classList.remove('is-open');
@@ -527,15 +528,45 @@ import productsData from '../data/products.json';
     }, 320);
   }
 
-  closeBtn?.addEventListener('click', closeWishlist);
-  backdrop?.addEventListener('click', closeWishlist);
-  document.getElementById('btn-wishlist-continue')?.addEventListener('click', closeWishlist);
-  document.getElementById('wishlist-shop-link')?.addEventListener('click', closeWishlist);
+  (window as any).openWishlist = openWishlist;
+  (window as any).closeWishlist = closeWishlist;
+
+  // Global Click Delegator (Never breaks on SPA route changes)
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    if (!target) return;
+
+    if (target.closest('#open-wishlist-btn, #drawer-open-wishlist-btn, .wishlist-trigger, [data-action="open-wishlist"]')) {
+      e.preventDefault();
+      openWishlist();
+      return;
+    }
+
+    if (target.closest('#wishlist-close-btn, #btn-wishlist-continue, #wishlist-shop-link')) {
+      closeWishlist();
+      return;
+    }
+
+    const backdropEl = document.getElementById('wishlist-backdrop');
+    if (backdropEl && target === backdropEl) {
+      closeWishlist();
+      return;
+    }
+  });
 
   document.addEventListener('keydown', (e) => {
+    const drawer = document.getElementById('wishlist-drawer');
     if (e.key === 'Escape' && drawer?.classList.contains('is-open')) {
       closeWishlist();
     }
+  });
+
+  document.addEventListener('astro:page-load', () => {
+    closeWishlist();
+  });
+
+  document.addEventListener('astro:before-preparation', () => {
+    closeWishlist();
   });
 
   function renderWishlist() {
@@ -616,16 +647,9 @@ import productsData from '../data/products.json';
   }
 
   window.addEventListener('favorites-updated', () => {
+    const drawer = document.getElementById('wishlist-drawer');
     if (drawer && !drawer.hidden) {
       renderWishlist();
-    }
-  });
-
-  document.addEventListener('click', (e) => {
-    const trigger = (e.target as HTMLElement).closest('#open-wishlist-btn, #drawer-open-wishlist-btn, [data-action="open-wishlist"]');
-    if (trigger) {
-      e.preventDefault();
-      openWishlist();
     }
   });
 </script>

@@ -965,18 +965,21 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
 <script>
   import productsData from '../data/products.json';
 
-  const searchInput = document.getElementById('catalogue-search') as HTMLInputElement;
-  const searchClearBtn = document.getElementById('search-clear-btn') as HTMLButtonElement;
-  const brandSelect = document.getElementById('filter-brand') as HTMLSelectElement;
-  const priceSelect = document.getElementById('filter-price') as HTMLSelectElement;
-  const sortSelect = document.getElementById('sort-select') as HTMLSelectElement;
-  const mobileSortSelect = document.getElementById('mobile-sort-select') as HTMLSelectElement;
-  const clearAllBtn = document.getElementById('clear-all-btn') as HTMLButtonElement;
-  const resetZeroBtn = document.getElementById('reset-zero-btn');
-  const countEl = document.getElementById('results-count');
-  const gridEl = document.getElementById('catalogue-grid');
-  const zeroEl = document.getElementById('zero-results');
-  const tagsContainer = document.getElementById('active-tags-container');
+  function initShopCatalogue() {
+    const gridEl = document.getElementById('catalogue-grid');
+    if (!gridEl) return;
+
+    const searchInput = document.getElementById('catalogue-search') as HTMLInputElement;
+    const searchClearBtn = document.getElementById('search-clear-btn') as HTMLButtonElement;
+    const brandSelect = document.getElementById('filter-brand') as HTMLSelectElement;
+    const priceSelect = document.getElementById('filter-price') as HTMLSelectElement;
+    const sortSelect = document.getElementById('sort-select') as HTMLSelectElement;
+    const mobileSortSelect = document.getElementById('mobile-sort-select') as HTMLSelectElement;
+    const clearAllBtn = document.getElementById('clear-all-btn') as HTMLButtonElement;
+    const resetZeroBtn = document.getElementById('reset-zero-btn');
+    const countEl = document.getElementById('results-count');
+    const zeroEl = document.getElementById('zero-results');
+    const tagsContainer = document.getElementById('active-tags-container');
 
   // Mobile Filter Drawer Elements
   const openDrawerBtn = document.getElementById('open-filter-drawer-btn');
@@ -1433,10 +1436,15 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
   resetZeroBtn?.addEventListener('click', resetAllFilters);
 
   // Initial trigger if params exist
-  syncFamilyPills();
-  if (initialSearch || initialBrand || initialFamily || initialPrice) {
-    filterAndSortProducts();
-  } else {
-    updateActiveStates();
+    syncFamilyPills();
+    if (initialSearch || initialBrand || initialFamily || initialPrice) {
+      filterAndSortProducts();
+    } else {
+      updateActiveStates();
+    }
   }
+
+  // Run on initial load and every Astro view transition
+  initShopCatalogue();
+  document.addEventListener('astro:page-load', initShopCatalogue);
 </script>

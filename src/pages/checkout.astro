@@ -1483,10 +1483,23 @@ const description = `Complete your luxury fragrance order with doorstep delivery
     }
   }
 
-  document.getElementById('btn-submit-order')?.addEventListener('click', submitOrderToWhatsApp);
-  document.getElementById('btn-mobile-sticky-submit')?.addEventListener('click', submitOrderToWhatsApp);
+  // Global Click Delegator for checkout submit
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    if (target && target.closest('#btn-submit-order, #btn-mobile-sticky-submit')) {
+      e.preventDefault();
+      submitOrderToWhatsApp();
+    }
+  });
+
+  function initCheckoutPage() {
+    const mainForm = document.getElementById('checkout-form');
+    if (!mainForm) return;
+    loadCheckoutItems();
+    renderCheckoutSummary();
+  }
 
   // Initialize
-  loadCheckoutItems();
-  renderCheckoutSummary();
+  initCheckoutPage();
+  document.addEventListener('astro:page-load', initCheckoutPage);
 </script>

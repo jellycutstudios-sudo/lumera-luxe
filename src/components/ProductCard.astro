@@ -417,6 +417,7 @@ const { product, priority = false, isLarge = false } = Astro.props;
   // React to changes
   window.addEventListener('favorites-updated', syncCardFavStates);
   window.addEventListener('storage', syncCardFavStates);
+  document.addEventListener('astro:page-load', syncCardFavStates);
 
   // Click delegation
   document.addEventListener('click', (e) => {

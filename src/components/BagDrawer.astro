@@ -805,12 +805,9 @@ import { siteConfig } from '../data/site';
   }
 
   // Bag Drawer Open/Close handling
-  const backdrop = document.getElementById('bag-backdrop');
-  const drawer = document.getElementById('bag-drawer');
-  const openBtn = document.getElementById('open-bag-btn');
-  const closeBtn = document.getElementById('bag-close-btn');
-
   function openBag() {
+    const backdrop = document.getElementById('bag-backdrop');
+    const drawer = document.getElementById('bag-drawer');
     if (backdrop) backdrop.hidden = false;
     if (drawer) drawer.hidden = false;
     document.body.style.overflow = 'hidden';
@@ -818,30 +815,54 @@ import { siteConfig } from '../data/site';
   }
 
   function closeBag() {
+    const backdrop = document.getElementById('bag-backdrop');
+    const drawer = document.getElementById('bag-drawer');
     if (backdrop) backdrop.hidden = true;
     if (drawer) drawer.hidden = true;
     document.body.style.overflow = '';
   }
 
-  if (openBtn) openBtn.addEventListener('click', openBag);
-  if (closeBtn) closeBtn.addEventListener('click', closeBag);
-  if (backdrop) backdrop.addEventListener('click', closeBag);
+  (window as any).openBagDrawer = openBag;
+  (window as any).closeBagDrawer = closeBag;
 
-  window.addEventListener('keydown', e => {
+  // Global Click Delegator (Never breaks on SPA route changes)
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    if (!target) return;
+
+    if (target.closest('#open-bag-btn, .bag-trigger, [data-action="open-bag"]')) {
+      e.preventDefault();
+      openBag();
+      return;
+    }
+
+    if (target.closest('#bag-close-btn, #empty-shop-link, #btn-drawer-checkout')) {
+      closeBag();
+      return;
+    }
+
+    const backdropEl = document.getElementById('bag-backdrop');
+    if (backdropEl && target === backdropEl) {
+      closeBag();
+      return;
+    }
+  });
+
+  window.addEventListener('keydown', (e) => {
+    const drawer = document.getElementById('bag-drawer');
     if (e.key === 'Escape' && drawer && !drawer.hidden) {
       closeBag();
     }
   });
 
-  const emptyShopLink = document.getElementById('empty-shop-link');
-  if (emptyShopLink) {
-    emptyShopLink.addEventListener('click', closeBag);
-  }
+  document.addEventListener('astro:page-load', () => {
+    updateBagUI();
+    closeBag();
+  });
 
-  const checkoutBtn = document.getElementById('btn-drawer-checkout');
-  if (checkoutBtn) {
-    checkoutBtn.addEventListener('click', closeBag);
-  }
+  document.addEventListener('astro:before-preparation', () => {
+    closeBag();
+  });
 
   // Global Add to Bag click delegator
   document.addEventListener('click', e => {

@@ -1205,14 +1205,17 @@ const productSchema = {
   import { siteConfig } from '../../data/site';
   import { isFavorite, toggleFavorite } from '../../lib/favorites';
 
-  // Quantity handling
-  let currentQty = 1;
-  const qtyValEl = document.getElementById('pdp-qty-val');
-  const qtyDecBtn = document.getElementById('pdp-qty-dec');
-  const qtyIncBtn = document.getElementById('pdp-qty-inc');
-  const pdpBuyAmountEl = document.getElementById('pdp-buy-amount');
-  const pdpStickyAmountEl = document.getElementById('pdp-sticky-amount');
-  const pdpAddBtn = document.getElementById('pdp-main-add-btn');
+  function initPdp() {
+    const pdpAddBtn = document.getElementById('pdp-main-add-btn');
+    if (!pdpAddBtn) return;
+
+    // Quantity handling
+    let currentQty = 1;
+    const qtyValEl = document.getElementById('pdp-qty-val');
+    const qtyDecBtn = document.getElementById('pdp-qty-dec');
+    const qtyIncBtn = document.getElementById('pdp-qty-inc');
+    const pdpBuyAmountEl = document.getElementById('pdp-buy-amount');
+    const pdpStickyAmountEl = document.getElementById('pdp-sticky-amount');
   const stickyAddBtn = document.getElementById('btn-sticky-add-bag');
   const directBuyBtn = document.getElementById('pdp-direct-buy-btn');
   const stickyDirectBuyBtn = document.getElementById('btn-sticky-direct-buy');
@@ -1346,13 +1349,18 @@ const productSchema = {
   });
 
   // Native Web Share API
-  const shareBtn = document.getElementById('btn-share-fragrance');
-  shareBtn?.addEventListener('click', () => {
-    const text = `Explore ${document.title} on LUMÈRA LUXE Haute Parfumerie`;
-    if (navigator.share) {
-      navigator.share({ title: document.title, url: window.location.href, text }).catch(() => {});
-    } else {
-      window.open(`https://wa.me/?text=${encodeURIComponent(text + ' ' + window.location.href)}`, '_blank');
-    }
-  });
+    const shareBtn = document.getElementById('btn-share-fragrance');
+    shareBtn?.addEventListener('click', () => {
+      const text = `Explore ${document.title} on LUMÈRA LUXE Haute Parfumerie`;
+      if (navigator.share) {
+        navigator.share({ title: document.title, url: window.location.href, text }).catch(() => {});
+      } else {
+        window.open(`https://wa.me/?text=${encodeURIComponent(text + ' ' + window.location.href)}`, '_blank');
+      }
+    });
+  }
+
+  // Run on initial load and every Astro view transition
+  initPdp();
+  document.addEventListener('astro:page-load', initPdp);
 </script>

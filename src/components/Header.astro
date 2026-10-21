@@ -1126,51 +1126,98 @@ const currentPath = Astro.url.pathname;
   }
 
   function openSearch() {
-    if (searchModal) {
-      searchModal.hidden = false;
+    const modal = document.getElementById('search-modal');
+    const input = document.getElementById('quick-search-input') as HTMLInputElement;
+    if (modal) {
+      modal.hidden = false;
       document.body.style.overflow = 'hidden';
-      if (!searchInput?.value.trim()) {
+      if (!input?.value.trim()) {
         renderInitialSearchView();
       }
-      setTimeout(() => searchInput?.focus(), 60);
+      setTimeout(() => input?.focus(), 60);
     }
   }
 
   function closeSearch() {
-    if (searchModal) {
-      searchModal.hidden = true;
+    const modal = document.getElementById('search-modal');
+    const input = document.getElementById('quick-search-input') as HTMLInputElement;
+    const clearBtn = document.getElementById('search-clear-input-btn') as HTMLButtonElement;
+    if (modal) {
+      modal.hidden = true;
       document.body.style.overflow = '';
-      if (searchInput) searchInput.value = '';
-      if (searchClearInputBtn) searchClearInputBtn.style.display = 'none';
+      if (input) input.value = '';
+      if (clearBtn) clearBtn.style.display = 'none';
       renderInitialSearchView();
     }
   }
 
-  const searchTriggers = document.querySelectorAll('.search-trigger');
-  searchTriggers.forEach((btn) => btn.addEventListener('click', openSearch));
-  closeSearchBtn?.addEventListener('click', closeSearch);
+  // Expose globally
+  (window as any).openSearchModal = openSearch;
+  (window as any).closeSearchModal = closeSearch;
 
-  searchClearInputBtn?.addEventListener('click', () => {
-    if (searchInput) {
-      searchInput.value = '';
-      searchInput.focus();
-      searchClearInputBtn.style.display = 'none';
+  // Global Click Delegator (Never breaks on SPA navigation)
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    if (!target) return;
+
+    if (target.closest('.search-trigger, #open-search-modal-btn, .mobile-search-btn')) {
+      e.preventDefault();
+      openSearch();
+      return;
+    }
+
+    if (target.closest('#close-search-modal-btn')) {
+      e.preventDefault();
+      closeSearch();
+      return;
+    }
+
+    if (target.closest('#search-clear-input-btn')) {
+      e.preventDefault();
+      const input = document.getElementById('quick-search-input') as HTMLInputElement;
+      const clearBtn = document.getElementById('search-clear-input-btn') as HTMLButtonElement;
+      if (input) {
+        input.value = '';
+        input.focus();
+      }
+      if (clearBtn) clearBtn.style.display = 'none';
       renderInitialSearchView();
+      return;
+    }
+
+    // Auto-close search when clicking any result link
+    if (target.closest('#search-modal a')) {
+      closeSearch();
+      return;
+    }
+
+    const modal = document.getElementById('search-modal');
+    if (modal && target === modal) {
+      closeSearch();
+      return;
     }
   });
 
-  searchModal?.addEventListener('click', (e) => {
-    if (e.target === searchModal) closeSearch();
-  });
-
   window.addEventListener('keydown', (e) => {
+    const modal = document.getElementById('search-modal');
     if (e.key === 'Escape') {
-      if (searchModal && !searchModal.hidden) closeSearch();
+      if (modal && !modal.hidden) closeSearch();
     }
     if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
       e.preventDefault();
       openSearch();
     }
+  });
+
+  // Re-sync badges and reset state on every Astro SPA route change
+  document.addEventListener('astro:page-load', () => {
+    updateWishlistBadge();
+    updateBagBadge();
+    closeSearch();
+  });
+
+  document.addEventListener('astro:before-preparation', () => {
+    closeSearch();
   });
 
   searchInput?.addEventListener('keydown', (e) => {
