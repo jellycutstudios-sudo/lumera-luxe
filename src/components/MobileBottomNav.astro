@@ -963,20 +963,22 @@ const isPdp = currentPath.startsWith('/perfumes/');
     var phoneInput = document.getElementById('support-phone-input');
     var msgInput = document.getElementById('support-message-input');
 
-    var clientName = (nameInput && nameInput.value.trim()) || 'Client in Qatar';
+    var clientName = (nameInput && nameInput.value.trim()) || '';
     var clientPhone = (phoneInput && phoneInput.value.trim()) || '';
-    var clientMsg = (msgInput && msgInput.value.trim()) || 'I would like personal assistance with fragrance selection and availability.';
+    var clientMsg = (msgInput && msgInput.value.trim()) || 'I would like personal assistance with fragrance selection and boutique availability.';
 
     var template =
-      '✨ *LUMÈRA LUXE — Boutique Support Inquiry* ✨\n' +
-      '━━━━━━━━━━━━━━━━━━━━━━\n' +
+      '⚜️ *LUMÈRA LUXE — CONCIERGE SUPPORT*\n' +
+      '────────────────────────\n' +
       '📋 *Topic:* ' + currentSupportTopic + '\n' +
-      '👤 *Name:* ' + clientName + '\n' +
-      (clientPhone ? '📱 *Contact:* ' + clientPhone + '\n' : '') +
-      '\n💬 *Inquiry / Preferences:*\n' +
-      clientMsg + '\n' +
-      '━━━━━━━━━━━━━━━━━━━━━━\n' +
-      '📍 *Doha, Qatar* · Direct Boutique Concierge';
+      (clientName ? '👤 *Customer:* ' + clientName + '\n' : '') +
+      (clientPhone ? '📱 *Phone:* ' + clientPhone + '\n' : '') +
+      '📍 *Location:* Doha, Qatar\n' +
+      '────────────────────────\n' +
+      '💬 *Inquiry:*\n' +
+      clientMsg + '\n\n' +
+      '────────────────────────\n' +
+      'Hello LUMÈRA LUXE Concierge, looking forward to your assistance. Thank you!';
 
     var encoded = encodeURIComponent(template);
     var waUrl = 'https://wa.me/' + whatsappNumber + '?text=' + encoded;
