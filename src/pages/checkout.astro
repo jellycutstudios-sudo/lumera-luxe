@@ -42,7 +42,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
               <div class="mobile-summary-info">
                 <span class="mobile-summary-title" id="mobile-summary-item-text">Order Items</span>
                 <span class="mobile-summary-action">
-                  <span>Show order details</span>
+                  <span id="mobile-toggle-label">Show order details</span>
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="toggle-chevron" id="mobile-chevron">
                     <polyline points="6 9 12 15 18 9"></polyline>
                   </svg>
@@ -481,7 +481,10 @@ const description = `Complete your luxury fragrance order with doorstep delivery
     padding: 1rem;
     border-top: 1px solid #ECEAE5;
     background-color: #FAFAF8;
-    animation: fadeIn 180ms ease;
+  }
+
+  .mobile-summary-breakdown[hidden] {
+    display: none !important;
   }
 
   .mobile-breakdown-subtotals {
@@ -1303,82 +1306,38 @@ const description = `Complete your luxury fragrance order with doorstep delivery
     if (listEl) listEl.innerHTML = itemsHtml;
     if (mobileListEl) mobileListEl.innerHTML = itemsHtml;
 
-    // Attach quantity stepper events to both desktop & mobile lists
-    document.querySelectorAll('.cart-qty-btn').forEach((btn) => {
-      btn.addEventListener('click', (e) => {
-        const target = e.currentTarget as HTMLElement;
-        const id = target.getAttribute('data-id');
-        const action = target.getAttribute('data-action');
-        const it = checkoutItems.find((x) => x.id === id);
-        if (!it) return;
-
-        if (action === 'inc' && it.quantity < 10) {
-          it.quantity++;
-        } else if (action === 'dec') {
-          if (it.quantity > 1) {
-            it.quantity--;
-          } else {
-            checkoutItems = checkoutItems.filter((x) => x.id !== id);
-          }
-        }
-        renderCheckoutSummary();
-        syncBagStorage();
-      });
-    });
   }
 
-  // 3. Form Inputs & Validation (Only 4 Clean Fields!)
-  const fullNameInput = document.getElementById('input-full-name') as HTMLInputElement;
-  const phoneInput = document.getElementById('input-phone') as HTMLInputElement;
-  const municipalitySelect = document.getElementById('select-municipality') as HTMLSelectElement;
-  const addressInput = document.getElementById('input-address') as HTMLInputElement;
-  const notesInput = document.getElementById('input-notes') as HTMLTextAreaElement;
+  // 3. Hydrate customer details from localStorage
+  function hydrateCustomerForm() {
+    const fullNameInput = document.getElementById('input-full-name') as HTMLInputElement | null;
+    const phoneInput = document.getElementById('input-phone') as HTMLInputElement | null;
+    const municipalitySelect = document.getElementById('select-municipality') as HTMLSelectElement | null;
+    const addressInput = document.getElementById('input-address') as HTMLInputElement | null;
+    const notesInput = document.getElementById('input-notes') as HTMLTextAreaElement | null;
 
-  // Mobile Summary Accordion Toggle
-  const mobileSummaryToggle = document.getElementById('mobile-summary-toggle');
-  const mobileBreakdown = document.getElementById('mobile-summary-breakdown');
-  const mobileChevron = document.getElementById('mobile-chevron');
-
-  mobileSummaryToggle?.addEventListener('click', () => {
-    if (!mobileBreakdown) return;
-    const isHidden = mobileBreakdown.hidden;
-    mobileBreakdown.hidden = !isHidden;
-    mobileSummaryToggle.setAttribute('aria-expanded', String(!isHidden));
-    if (mobileChevron) {
-      mobileChevron.classList.toggle('is-open', !isHidden);
-    }
-  });
-
-  // Toggle delivery notes
-  const notesToggleBtn = document.getElementById('btn-notes-toggle');
-  const notesCollapsible = document.getElementById('notes-collapsible');
-  const notesIcon = document.getElementById('notes-toggle-icon');
-
-  notesToggleBtn?.addEventListener('click', () => {
-    if (!notesCollapsible) return;
-    const isHidden = notesCollapsible.hidden;
-    notesCollapsible.hidden = !isHidden;
-    if (notesIcon) notesIcon.textContent = isHidden ? '−' : '+';
-    if (isHidden && notesInput) notesInput.focus();
-  });
-
-  // Hydrate from localStorage
-  try {
-    const saved = localStorage.getItem(STORAGE_CUSTOMER_KEY);
-    if (saved) {
-      const data = JSON.parse(saved);
-      if (fullNameInput && (data.fullName || data.firstName)) {
-        fullNameInput.value = data.fullName || `${data.firstName || ''} ${data.lastName || ''}`.trim();
+    try {
+      const saved = localStorage.getItem(STORAGE_CUSTOMER_KEY);
+      if (saved) {
+        const data = JSON.parse(saved);
+        if (fullNameInput && (data.fullName || data.firstName)) {
+          fullNameInput.value = data.fullName || `${data.firstName || ''} ${data.lastName || ''}`.trim();
+        }
+        if (phoneInput && data.phone) phoneInput.value = data.phone;
+        if (municipalitySelect && data.municipality) municipalitySelect.value = data.municipality;
+        if (addressInput && data.address) addressInput.value = data.address;
+        if (notesInput && data.notes) notesInput.value = data.notes;
       }
-      if (phoneInput && data.phone) phoneInput.value = data.phone;
-      if (municipalitySelect && data.municipality) municipalitySelect.value = data.municipality;
-      if (addressInput && data.address) addressInput.value = data.address;
-      if (notesInput && data.notes) notesInput.value = data.notes;
-    }
-  } catch {}
+    } catch {}
+  }
 
   function validateForm(): boolean {
     let isValid = true;
+    const fullNameInput = document.getElementById('input-full-name') as HTMLInputElement | null;
+    const phoneInput = document.getElementById('input-phone') as HTMLInputElement | null;
+    const municipalitySelect = document.getElementById('select-municipality') as HTMLSelectElement | null;
+    const addressInput = document.getElementById('input-address') as HTMLInputElement | null;
+    const notesInput = document.getElementById('input-notes') as HTMLTextAreaElement | null;
 
     const name = fullNameInput?.value.trim() || '';
     const ph = phoneInput?.value.trim().replace(/[^0-9]/g, '') || '';
@@ -1446,6 +1405,12 @@ const description = `Complete your luxury fragrance order with doorstep delivery
       return;
     }
 
+    const fullNameInput = document.getElementById('input-full-name') as HTMLInputElement | null;
+    const phoneInput = document.getElementById('input-phone') as HTMLInputElement | null;
+    const municipalitySelect = document.getElementById('select-municipality') as HTMLSelectElement | null;
+    const addressInput = document.getElementById('input-address') as HTMLInputElement | null;
+    const notesInput = document.getElementById('input-notes') as HTMLTextAreaElement | null;
+
     const name = fullNameInput?.value.trim() || '';
     const ph = phoneInput?.value.trim() || '';
     const muni = municipalitySelect?.value || 'Doha';
@@ -1483,12 +1448,97 @@ const description = `Complete your luxury fragrance order with doorstep delivery
     }
   }
 
-  // Global Click Delegator for checkout submit
+  // Real-time error dismissal when typing
+  document.addEventListener('input', (e) => {
+    const target = e.target as HTMLElement | null;
+    if (!target) return;
+    if (target.matches('#input-full-name, #input-phone, #input-address')) {
+      target.classList.remove('has-error');
+      target.closest('.phone-wrapper')?.classList.remove('has-error');
+      const group = target.closest('.form-group');
+      group?.querySelector('.field-error-text')?.classList.remove('is-visible');
+    }
+  });
+
+  // Global Click Delegator (Works continuously with Astro ViewTransitions / ClientRouter)
   document.addEventListener('click', (e) => {
-    const target = e.target as HTMLElement;
-    if (target && target.closest('#btn-submit-order, #btn-mobile-sticky-submit')) {
+    const target = e.target as HTMLElement | null;
+    if (!target) return;
+
+    // 1. Mobile Summary Accordion Toggle
+    const mobileSummaryToggle = target.closest('#mobile-summary-toggle');
+    if (mobileSummaryToggle) {
+      const mobileBreakdown = document.getElementById('mobile-summary-breakdown');
+      const mobileChevron = document.getElementById('mobile-chevron');
+      const toggleLabel = document.getElementById('mobile-toggle-label');
+      if (mobileBreakdown) {
+        const isHidden = mobileBreakdown.hasAttribute('hidden') || mobileBreakdown.hidden;
+        if (isHidden) {
+          mobileBreakdown.removeAttribute('hidden');
+          mobileBreakdown.hidden = false;
+          mobileSummaryToggle.setAttribute('aria-expanded', 'true');
+          if (mobileChevron) mobileChevron.classList.add('is-open');
+          if (toggleLabel) toggleLabel.textContent = 'Hide order details';
+        } else {
+          mobileBreakdown.setAttribute('hidden', '');
+          mobileBreakdown.hidden = true;
+          mobileSummaryToggle.setAttribute('aria-expanded', 'false');
+          if (mobileChevron) mobileChevron.classList.remove('is-open');
+          if (toggleLabel) toggleLabel.textContent = 'Show order details';
+        }
+      }
+      return;
+    }
+
+    // 2. Delivery Notes Toggle
+    const notesToggleBtn = target.closest('#btn-notes-toggle');
+    if (notesToggleBtn) {
+      const notesCollapsible = document.getElementById('notes-collapsible');
+      const notesIcon = document.getElementById('notes-toggle-icon');
+      const notesInput = document.getElementById('input-notes') as HTMLTextAreaElement | null;
+      if (notesCollapsible) {
+        const isHidden = notesCollapsible.hasAttribute('hidden') || notesCollapsible.hidden;
+        if (isHidden) {
+          notesCollapsible.removeAttribute('hidden');
+          notesCollapsible.hidden = false;
+          if (notesIcon) notesIcon.textContent = '−';
+          if (notesInput) notesInput.focus();
+        } else {
+          notesCollapsible.setAttribute('hidden', '');
+          notesCollapsible.hidden = true;
+          if (notesIcon) notesIcon.textContent = '+';
+        }
+      }
+      return;
+    }
+
+    // 3. Cart Quantity Steppers
+    const qtyBtn = target.closest('.cart-qty-btn') as HTMLElement | null;
+    if (qtyBtn) {
+      const id = qtyBtn.getAttribute('data-id');
+      const action = qtyBtn.getAttribute('data-action');
+      const it = checkoutItems.find((x) => x.id === id);
+      if (it) {
+        if (action === 'inc' && it.quantity < 10) {
+          it.quantity++;
+        } else if (action === 'dec') {
+          if (it.quantity > 1) {
+            it.quantity--;
+          } else {
+            checkoutItems = checkoutItems.filter((x) => x.id !== id);
+          }
+        }
+        renderCheckoutSummary();
+        syncBagStorage();
+      }
+      return;
+    }
+
+    // 4. WhatsApp Submit Buttons
+    if (target.closest('#btn-submit-order, #btn-mobile-sticky-submit')) {
       e.preventDefault();
       submitOrderToWhatsApp();
+      return;
     }
   });
 
@@ -1497,6 +1547,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
     if (!mainGrid) return;
     loadCheckoutItems();
     renderCheckoutSummary();
+    hydrateCustomerForm();
   }
 
   // Initialize
