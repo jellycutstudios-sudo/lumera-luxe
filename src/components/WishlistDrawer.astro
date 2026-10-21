@@ -15,10 +15,7 @@ import productsData from '../data/products.json';
   <!-- Header -->
   <div class="wishlist-drawer-header">
     <div class="wishlist-drawer-title-group">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" class="wishlist-header-heart">
-        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-      </svg>
-      <h2 id="wishlist-drawer-title" class="wishlist-drawer-title">Saved Fragrances</h2>
+      <h2 id="wishlist-drawer-title" class="wishlist-drawer-title">Wishlist</h2>
       <span class="wishlist-drawer-badge" id="wishlist-items-badge">0 saved</span>
     </div>
     <button class="wishlist-close-btn" id="wishlist-close-btn" aria-label="Close wishlist">
@@ -117,17 +114,14 @@ import productsData from '../data/products.json';
     padding: 1.25rem 1.75rem;
     border-bottom: 1px solid #F0ECE6;
     background-color: #FFFFFF;
+    gap: 0.75rem;
   }
 
   .wishlist-drawer-title-group {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-  }
-
-  .wishlist-header-heart {
-    color: var(--color-brand-cognac);
-    fill: rgba(200, 90, 36, 0.15);
+    gap: 0.85rem;
+    min-width: 0;
   }
 
   .wishlist-drawer-title {
@@ -138,6 +132,7 @@ import productsData from '../data/products.json';
     text-transform: uppercase;
     color: #181513;
     margin: 0;
+    white-space: nowrap;
   }
 
   .wishlist-drawer-badge {
@@ -151,6 +146,8 @@ import productsData from '../data/products.json';
     border: 1px solid #E8E3DC;
     padding: 0.25rem 0.65rem;
     border-radius: 999px;
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   .wishlist-close-btn {
@@ -164,6 +161,7 @@ import productsData from '../data/products.json';
     background: transparent;
     border: 1px solid transparent;
     cursor: pointer;
+    flex-shrink: 0;
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
@@ -177,6 +175,22 @@ import productsData from '../data/products.json';
 
   .wishlist-close-btn:active {
     transform: scale(0.92);
+  }
+
+  @media (max-width: 480px) {
+    .wishlist-drawer-header {
+      padding: 1rem 1.25rem;
+    }
+
+    .wishlist-drawer-title {
+      font-size: 1.05rem;
+      letter-spacing: 0.06em;
+    }
+
+    .wishlist-close-btn {
+      width: 38px;
+      height: 38px;
+    }
   }
 
   /* Body */
