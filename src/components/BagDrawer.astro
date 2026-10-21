@@ -436,6 +436,49 @@ import { siteConfig } from '../data/site';
     flex: 1;
     display: flex;
     flex-direction: column;
+    min-width: 0;
+  }
+
+  :global(.bag-item-header) {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-bottom: 0.15rem;
+  }
+
+  :global(.bag-item-info) {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  :global(.bag-item-remove-btn) {
+    background: transparent;
+    border: none;
+    color: #8F8880;
+    cursor: pointer;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    padding: 0;
+  }
+
+  :global(.bag-item-remove-btn:hover) {
+    color: var(--color-brand-cognac);
+    background-color: #FAF8F5;
+  }
+
+  :global(.bag-item-remove-btn:active) {
+    transform: scale(0.9);
   }
 
   :global(.bag-item-brand) {
@@ -452,6 +495,7 @@ import { siteConfig } from '../data/site';
     font-weight: 500;
     color: #181513;
     margin-bottom: 0.2rem;
+    line-height: 1.25;
   }
 
   :global(.bag-item-meta) {
@@ -465,6 +509,33 @@ import { siteConfig } from '../data/site';
     align-items: center;
     justify-content: space-between;
     margin-top: auto;
+    gap: 0.5rem;
+  }
+
+  :global(.bag-qty-group) {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  :global(.bag-item-remove-link) {
+    background: transparent;
+    border: none;
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: 500;
+    color: #8F8880;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color var(--transition-fast);
+    padding: 0.2rem 0;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :global(.bag-item-remove-link:hover) {
+    color: var(--color-brand-cognac);
   }
 
   :global(.bag-qty-controls) {
@@ -780,14 +851,36 @@ import { siteConfig } from '../data/site';
             />
           </div>
           <div class="bag-item-details">
-            <span class="bag-item-brand">${item.brand}</span>
-            <h4 class="bag-item-name">${item.name}</h4>
+            <div class="bag-item-header">
+              <div class="bag-item-info">
+                <span class="bag-item-brand">${item.brand}</span>
+                <h4 class="bag-item-name">${item.name}</h4>
+              </div>
+              <button
+                type="button"
+                class="bag-item-remove-btn"
+                data-action="remove"
+                data-id="${item.id}"
+                aria-label="Remove ${item.name} from bag"
+                title="Remove item"
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
             <span class="bag-item-meta">${item.sizeDisplay} · ${item.concentration}</span>
             <div class="bag-item-bottom">
-              <div class="bag-qty-controls">
-                <button class="bag-qty-btn" data-action="decrement" data-id="${item.id}" aria-label="Decrease quantity">−</button>
-                <span class="bag-qty-val">${item.quantity}</span>
-                <button class="bag-qty-btn" data-action="increment" data-id="${item.id}" aria-label="Increase quantity">+</button>
+              <div class="bag-qty-group">
+                <div class="bag-qty-controls">
+                  <button class="bag-qty-btn" data-action="decrement" data-id="${item.id}" aria-label="Decrease quantity">−</button>
+                  <span class="bag-qty-val">${item.quantity}</span>
+                  <button class="bag-qty-btn" data-action="increment" data-id="${item.id}" aria-label="Increase quantity">+</button>
+                </div>
+                <button type="button" class="bag-item-remove-link" data-action="remove" data-id="${item.id}" aria-label="Remove ${item.name}">
+                  Remove
+                </button>
               </div>
               <span class="bag-item-price">${((item.priceMinor * item.quantity) / 100).toFixed(0)} QAR</span>
             </div>
@@ -925,6 +1018,13 @@ import { siteConfig } from '../data/site';
         }
         saveCartItems(items);
       }
+    }
+
+    if (action === 'remove' && id) {
+      let items = getCartItems();
+      items = items.filter(it => it.id !== id);
+      saveCartItems(items);
+      showToast('Removed from bag');
     }
   });
 
