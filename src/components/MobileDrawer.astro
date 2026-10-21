@@ -92,6 +92,14 @@ const publicProducts = productsData.filter((p) => !p.isDraft);
               <span class="link-badge" id="drawer-wishlist-count">0</span>
             </button>
           </li>
+
+          <!-- Shopping Bag -->
+          <li>
+            <button type="button" class="drawer-menu-link drawer-action-trigger" id="drawer-open-bag-btn">
+              <span class="link-label">Shopping Bag</span>
+              <span class="link-badge" id="drawer-bag-count">0</span>
+            </button>
+          </li>
         </ul>
       </div>
 
@@ -706,8 +714,17 @@ const publicProducts = productsData.filter((p) => !p.isDraft);
     if (target.closest('#drawer-open-wishlist-btn')) {
       e.preventDefault();
       closeDrawer();
-      if (typeof window.openWishlist === 'function') {
-        window.openWishlist();
+      if (typeof (window as any).openWishlist === 'function') {
+        (window as any).openWishlist();
+      }
+      return;
+    }
+
+    if (target.closest('#drawer-open-bag-btn')) {
+      e.preventDefault();
+      closeDrawer();
+      if (typeof (window as any).openBagDrawer === 'function') {
+        (window as any).openBagDrawer();
       }
       return;
     }
@@ -725,16 +742,27 @@ const publicProducts = productsData.filter((p) => !p.isDraft);
     }
   });
 
-  function syncDrawerWishlist() {
-    var countEl = document.getElementById('drawer-wishlist-count');
+  function syncDrawerCounts() {
+    var wishCountEl = document.getElementById('drawer-wishlist-count');
     try {
       var favs = JSON.parse(localStorage.getItem('lumera_favorites_v1') || '[]');
-      if (countEl) countEl.textContent = favs.length;
+      if (wishCountEl) wishCountEl.textContent = String(favs.length);
+    } catch (e) {}
+
+    var bagCountEl = document.getElementById('drawer-bag-count');
+    try {
+      var bag = JSON.parse(localStorage.getItem('lumera_bag_v1') || '[]');
+      var total = bag.reduce(function(sum: number, it: any) { return sum + (it.quantity || 1); }, 0);
+      if (bagCountEl) bagCountEl.textContent = String(total);
     } catch (e) {}
   }
 
-  window.addEventListener('favorites-updated', syncDrawerWishlist);
-  window.addEventListener('focus', syncDrawerWishlist);
+  // Initial sync
+  syncDrawerCounts();
+  window.addEventListener('favorites-updated', syncDrawerCounts);
+  window.addEventListener('bag-updated', syncDrawerCounts);
+  window.addEventListener('storage', syncDrawerCounts);
+  window.addEventListener('focus', syncDrawerCounts);
 
   // Close on Escape
   window.addEventListener('keydown', function (e) {
@@ -745,7 +773,7 @@ const publicProducts = productsData.filter((p) => !p.isDraft);
   });
 
   document.addEventListener('astro:page-load', function () {
-    syncDrawerWishlist();
+    syncDrawerCounts();
     closeDrawer();
   });
 

@@ -1108,5 +1108,11 @@ const isPdp = currentPath.startsWith('/perfumes/');
     }
   }
 
+  // Initial sync
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', syncBottomNavTab);
+  } else {
+    syncBottomNavTab();
+  }
   document.addEventListener('astro:page-load', syncBottomNavTab);
 </script>

@@ -1445,6 +1445,10 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
   }
 
   // Run on initial load and every Astro view transition
-  initShopCatalogue();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initShopCatalogue);
+  } else {
+    initShopCatalogue();
+  }
   document.addEventListener('astro:page-load', initShopCatalogue);
 </script>

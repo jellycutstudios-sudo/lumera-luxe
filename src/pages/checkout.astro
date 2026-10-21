@@ -1191,7 +1191,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
         const stored: { id: string; quantity: number }[] = bagData ? JSON.parse(bagData) : [];
         checkoutItems = stored
           .map((it) => {
-            const match = productsData.find((p) => p.id === it.id);
+            const match = productsData.find((p) => p.id === it.id || p.slug === it.id);
             if (!match) return null;
             return {
               id: match.id,
@@ -1203,7 +1203,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
               priceMinor: match.priceMinor,
               priceDisplay: match.priceDisplay,
               image: match.image,
-              quantity: it.quantity
+              quantity: Math.max(1, Number(it.quantity) || 1)
             };
           })
           .filter((it): it is CheckoutLineItem => it !== null);
@@ -1493,13 +1493,25 @@ const description = `Complete your luxury fragrance order with doorstep delivery
   });
 
   function initCheckoutPage() {
-    const mainForm = document.getElementById('checkout-form');
-    if (!mainForm) return;
+    const mainGrid = document.getElementById('checkout-main-grid');
+    if (!mainGrid) return;
     loadCheckoutItems();
     renderCheckoutSummary();
   }
 
   // Initialize
-  initCheckoutPage();
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCheckoutPage);
+  } else {
+    initCheckoutPage();
+  }
   document.addEventListener('astro:page-load', initCheckoutPage);
+  window.addEventListener('storage', () => {
+    loadCheckoutItems();
+    renderCheckoutSummary();
+  });
+  window.addEventListener('bag-updated', () => {
+    loadCheckoutItems();
+    renderCheckoutSummary();
+  });
 </script>

@@ -765,13 +765,15 @@ import { siteConfig } from '../data/site';
       console.error('Failed to save cart to localStorage', e);
     }
     updateBagUI();
+    window.dispatchEvent(new CustomEvent('bag-updated'));
+    window.dispatchEvent(new Event('storage'));
   }
 
   function getHydratedCart() {
     const stored = getCartItems();
     return stored
       .map(item => {
-        const prod = productsData.find(p => p.id === item.id);
+        const prod = productsData.find(p => p.id === item.id || p.slug === item.id);
         if (!prod) return null;
         return {
           id: prod.id,

@@ -45,6 +45,7 @@ export function toggleFavorite(productId: string): boolean {
       detail: { favorites: favs, productId, isNowFav }
     })
   );
+  window.dispatchEvent(new Event('storage'));
 
   return isNowFav;
 }
@@ -61,4 +62,5 @@ export function removeFavorite(productId: string): void {
       detail: { favorites: favs, productId, isNowFav: false }
     })
   );
+  window.dispatchEvent(new Event('storage'));
 }
