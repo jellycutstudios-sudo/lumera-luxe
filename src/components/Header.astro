@@ -1160,6 +1160,14 @@ const currentPath = Astro.url.pathname;
     const target = e.target as HTMLElement;
     if (!target) return;
 
+    if (target.closest('#menu-toggle-btn, .mobile-toggle-btn')) {
+      e.preventDefault();
+      if (typeof (window as any).openMobileDrawer === 'function') {
+        (window as any).openMobileDrawer();
+      }
+      return;
+    }
+
     if (target.closest('.search-trigger, #open-search-modal-btn, .mobile-search-btn')) {
       e.preventDefault();
       openSearch();
