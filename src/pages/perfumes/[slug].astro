@@ -124,43 +124,28 @@ const productSchema = {
 
         <!-- STREAMLINED LUXURY ACTION BLOCK -->
         <div class="pdp-action-block" id="pdp-cta-trigger">
-          <!-- Primary CTA: High-Impact Full-Width Add to Bag -->
-          <button
-            type="button"
-            class="btn-pdp-primary-add"
-            id="pdp-main-add-btn"
-            data-action="add-to-bag"
-            data-id={product.id}
-            data-name={product.name}
-            data-brand={product.brand}
-            data-size={product.sizeDisplay}
-            data-concentration={product.concentration}
-            data-price={product.priceMinor}
-            data-image={product.image}
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-              <line x1="3" y1="6" x2="21" y2="6"></line>
-              <path d="M16 10a4 4 0 0 1-8 0"></path>
-            </svg>
-            <span>Add to Bag · {product.priceDisplay}</span>
-          </button>
-
-          <!-- Secondary Row: WhatsApp Concierge + Wishlist -->
-          <div class="pdp-secondary-action-row">
-            <a
-              href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(`Hello LUMÈRA LUXE, I would like to order or inquire about ${product.fullName} (${product.sizeDisplay}, ${product.priceDisplay}).`)}`}
-              class="btn-pdp-whatsapp"
-              id="pdp-whatsapp-btn"
-              target="_blank"
-              rel="noopener"
-              aria-label="Order or inquire on WhatsApp"
+          <!-- Row 1: Add to Bag + Wishlist Heart -->
+          <div class="pdp-primary-action-row">
+            <button
+              type="button"
+              class="btn-pdp-add-bag"
+              id="pdp-main-add-btn"
+              data-action="add-to-bag"
+              data-id={product.id}
+              data-name={product.name}
+              data-brand={product.brand}
+              data-size={product.sizeDisplay}
+              data-concentration={product.concentration}
+              data-price={product.priceMinor}
+              data-image={product.image}
             >
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12.031 2C6.495 2 2 6.495 2 12.031c0 1.77.462 3.498 1.341 5.022L2 22l5.093-1.336A10.007 10.007 0 0 0 12.031 22C17.567 22 22 17.505 22 12.031 22 6.495 17.567 2 12.031 2zm5.879 14.195c-.244.686-1.42 1.314-1.956 1.385-.514.068-1.163.097-3.708-.958-3.04-1.258-4.996-4.34-5.148-4.542-.152-.202-1.233-1.64-1.233-3.128 0-1.488.777-2.22 1.052-2.525.275-.305.6-.381.8-.381.2 0 .4 0 .576.01.187.01.438-.071.686.525.257.619.876 2.143.952 2.296.076.153.127.33.025.534-.102.204-.153.33-.305.508-.152.178-.32.396-.457.533-.153.153-.312.32-.134.626.178.305.792 1.306 1.698 2.112 1.166 1.037 2.148 1.358 2.453 1.51.305.153.483.128.66-.076.178-.204.762-.89 965-1.195.204-.305.407-.254.686-.153.28.102 1.777.838 2.082.99.305.153.508.229.584.356.076.127.076.737-.168 1.423z"/>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <path d="M16 10a4 4 0 0 1-8 0"></path>
               </svg>
-              <span>Order via WhatsApp</span>
-            </a>
+              <span>Add to Bag</span>
+            </button>
 
             <!-- Wishlist Heart Button -->
             <button
@@ -177,13 +162,38 @@ const productSchema = {
             </button>
           </div>
 
+          <!-- Row 2: Instant Buy Now (Direct to Delivery Details Checkout) -->
+          <button
+            type="button"
+            class="btn-pdp-buy-now"
+            id="pdp-direct-buy-btn"
+            data-slug={product.slug}
+          >
+            <span>BUY NOW · {product.priceDisplay}</span>
+          </button>
+
           <!-- Micro Assurance Strip -->
           <div class="pdp-micro-assurances">
             <span>✓ Sealed European Stock</span>
             <span class="micro-sep">·</span>
-            <span>Complimentary Qatar Delivery</span>
+            <span>Free Qatar Courier Delivery</span>
             <span class="micro-sep">·</span>
             <span>Cash or Card on Delivery</span>
+          </div>
+
+          <!-- Concierge Question Link (Clearly for questions/advice, not ordering) -->
+          <div class="pdp-concierge-assist">
+            <a
+              href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(`Hello LUMÈRA LUXE concierge, I have a question regarding ${product.fullName} (${product.sizeDisplay}).`)}`}
+              target="_blank"
+              rel="noopener"
+              class="concierge-link"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.031 2C6.495 2 2 6.495 2 12.031c0 1.77.462 3.498 1.341 5.022L2 22l5.093-1.336A10.007 10.007 0 0 0 12.031 22C17.567 22 22 17.505 22 12.031 22 6.495 17.567 2 12.031 2zm5.879 14.195c-.244.686-1.42 1.314-1.956 1.385-.514.068-1.163.097-3.708-.958-3.04-1.258-4.996-4.34-5.148-4.542-.152-.202-1.233-1.64-1.233-3.128 0-1.488.777-2.22 1.052-2.525.275-.305.6-.381.8-.381.2 0 .4 0 .576.01.187.01.438-.071.686.525.257.619.876 2.143.952 2.296.076.153.127.33.025.534-.102.204-.153.33-.305.508-.152.178-.32.396-.457.533-.153.153-.312.32-.134.626.178.305.792 1.306 1.698 2.112 1.166 1.037 2.148 1.358 2.453 1.51.305.153.483.128.66-.076.178-.204.762-.89 965-1.195.204-.305.407-.254.686-.153.28.102 1.777.838 2.082.99.305.153.508.229.584.356.076.127.076.737-.168 1.423z"/>
+              </svg>
+              <span>Have questions about this fragrance? Chat with Concierge</span>
+            </a>
           </div>
         </div>
 
@@ -608,78 +618,48 @@ const productSchema = {
     align-items: stretch;
   }
 
-  /* Primary Action Button: High-Impact Full-Width Add to Bag */
-  .btn-pdp-primary-add {
-    width: 100%;
-    min-height: 52px;
-    padding: 0.9rem 1.5rem;
-    background-color: #1A1A1A;
-    color: #FFFFFF;
-    border: none;
+  /* Row 1: Add to Bag + Wishlist */
+  .pdp-primary-action-row {
+    display: flex;
+    gap: 0.65rem;
+    align-items: stretch;
+  }
+
+  .btn-pdp-add-bag {
+    flex: 1;
+    min-height: 50px;
+    padding: 0.85rem 1.25rem;
+    background-color: #FFFFFF;
+    color: #1A1A1A;
+    border: 1.5px solid #1A1A1A;
     border-radius: var(--border-radius-sm);
     font-family: var(--font-body);
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.65rem;
-    cursor: pointer;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-    transition: all var(--transition-fast);
-  }
-
-  .btn-pdp-primary-add:hover {
-    background-color: #000000;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
-  }
-
-  .btn-pdp-primary-add:active {
-    transform: scale(0.985);
-  }
-
-  /* Secondary Row (Row 3 - WhatsApp + Wishlist + Share) */
-  .pdp-secondary-action-row {
-    display: flex;
-    gap: 0.65rem;
-    align-items: center;
-  }
-
-  .btn-pdp-whatsapp {
-    flex: 1;
-    min-height: 44px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
-    padding: 0.65rem 1rem;
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius-sm);
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: var(--color-text-main);
-    background-color: #FAF9F6;
-    text-decoration: none;
+    gap: 0.6rem;
+    cursor: pointer;
     white-space: nowrap;
     transition: all var(--transition-fast);
   }
 
-  .btn-pdp-whatsapp svg {
-    color: #25D366;
+  .btn-pdp-add-bag:hover {
+    background-color: #1A1A1A;
+    color: #FFFFFF;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
   }
 
-  .btn-pdp-whatsapp:hover {
-    border-color: #25D366;
-    background-color: #FFFFFF;
-    box-shadow: 0 2px 10px rgba(37, 211, 102, 0.12);
+  .btn-pdp-add-bag:active {
+    transform: scale(0.985);
   }
 
   .btn-pdp-fav {
-    width: 44px;
-    height: 44px;
+    width: 50px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -708,6 +688,68 @@ const productSchema = {
   .btn-pdp-fav.is-active .pdp-heart-icon {
     fill: var(--color-brand-cognac);
     stroke: var(--color-brand-cognac);
+  }
+
+  /* Row 2: Instant Buy Now (Direct to Delivery Details Checkout) */
+  .btn-pdp-buy-now {
+    width: 100%;
+    min-height: 52px;
+    padding: 0.9rem 1.5rem;
+    background-color: #1A1A1A;
+    color: #FFFFFF;
+    border: none;
+    border-radius: var(--border-radius-sm);
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    cursor: pointer;
+    white-space: nowrap;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
+    transition: all var(--transition-fast);
+  }
+
+  .btn-pdp-buy-now:hover {
+    background-color: #000000;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
+  }
+
+  .btn-pdp-buy-now:active {
+    transform: scale(0.985);
+  }
+
+  /* Concierge Assistance Link */
+  .pdp-concierge-assist {
+    text-align: center;
+    padding-top: 0.35rem;
+    border-top: 1px dashed var(--color-border);
+    margin-top: 0.2rem;
+  }
+
+  .concierge-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .concierge-link svg {
+    color: #25D366;
+  }
+
+  .concierge-link:hover {
+    color: var(--color-text-main);
+    text-decoration: underline;
   }
 
   .pdp-micro-assurances {
