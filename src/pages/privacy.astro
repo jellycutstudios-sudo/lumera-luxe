@@ -56,7 +56,7 @@ import { siteConfig } from '../data/site';
           </p>
         </section>
 
-        <section class="policy-section concierge-callout">
+        <div class="concierge-callout">
           <div class="section-meta-header">
             <span class="section-idx">04</span>
             <h2 class="policy-section-heading">Client Inquiries</h2>
@@ -65,19 +65,19 @@ import { siteConfig } from '../data/site';
             If you have questions regarding data privacy or wish to request deletion of past communication records, connect with our boutique:
           </p>
           <div class="concierge-links">
-            <a href={`mailto:${siteConfig.email}`} class="email-direct">
-              {siteConfig.email}
-            </a>
             <a
               href={`https://wa.me/${siteConfig.whatsappNumber}`}
-              class="btn btn-primary btn-sm"
+              class="btn-callout-action"
               target="_blank"
               rel="noopener"
             >
               WhatsApp Concierge: {siteConfig.whatsappDisplay}
             </a>
+            <a href={`mailto:${siteConfig.email}`} class="email-direct">
+              {siteConfig.email}
+            </a>
           </div>
-        </section>
+        </div>
       </div>
     </div>
   </div>
@@ -206,7 +206,16 @@ import { siteConfig } from '../data/site';
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius-sm);
-    padding: 2.25rem 2rem;
+    padding: clamp(2rem, 4vw, 2.75rem) clamp(1.5rem, 3.5vw, 2.5rem);
+    margin-top: 3.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .concierge-callout p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    color: var(--color-text-muted);
   }
 
   .concierge-links {
@@ -214,15 +223,41 @@ import { siteConfig } from '../data/site';
     align-items: center;
     gap: 1.5rem;
     flex-wrap: wrap;
-    margin-top: 1.25rem;
+    margin: 0;
+  }
+
+  .btn-callout-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #1A1A1A;
+    color: #FFFFFF;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.85rem 1.65rem;
+    min-height: 44px;
+    border-radius: 2px;
+    text-decoration: none;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    transition: all 0.2s ease;
+  }
+
+  .btn-callout-action:hover {
+    background-color: #000000;
+    color: #FFFFFF;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
   }
 
   .email-direct {
-    font-size: 0.875rem;
-    font-weight: 600;
+    font-weight: 500;
+    font-size: 0.9rem;
     color: var(--color-text-main);
     text-decoration: underline;
-    text-underline-offset: 4px;
+    text-underline-offset: 3px;
+    transition: color 0.15s ease;
   }
 
   .email-direct:hover {
