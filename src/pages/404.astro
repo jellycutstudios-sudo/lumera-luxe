@@ -49,9 +49,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   }
 
   .notfound-title {
-    font-size: var(--text-4xl);
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 5vw, 3.25rem);
     margin-bottom: 1rem;
     color: var(--color-text-main);
+    line-height: 1.15;
   }
 
   .notfound-lead {
