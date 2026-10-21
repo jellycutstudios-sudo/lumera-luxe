@@ -180,14 +180,14 @@ const productSchema = {
           </div>
 
           <!-- Row 2: Instant Buy Now (Direct to Delivery Details Checkout) -->
-          <button
-            type="button"
+          <a
+            href={`/checkout/?product=${encodeURIComponent(product.slug)}&qty=1`}
             class="btn-pdp-buy-now"
             id="pdp-direct-buy-btn"
             data-slug={product.slug}
           >
             <span>BUY NOW · {product.priceDisplay}</span>
-          </button>
+          </a>
 
           <!-- Micro Assurance Strip -->
           <div class="pdp-micro-assurances">
@@ -310,15 +310,15 @@ const productSchema = {
           <span>Add to Bag</span>
         </button>
 
-        <button
-          type="button"
+        <a
+          href={`/checkout/?product=${encodeURIComponent(product.slug)}&qty=1`}
           class="btn-sticky-direct-buy"
           id="btn-sticky-direct-buy"
           data-slug={product.slug}
           aria-label="Buy Now"
         >
           <span>BUY NOW</span>
-        </button>
+        </a>
       </div>
     </div>
   </aside>
@@ -739,6 +739,7 @@ const productSchema = {
     gap: 0.65rem;
     cursor: pointer;
     white-space: nowrap;
+    text-decoration: none;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
     transition: all var(--transition-fast);
   }
@@ -1157,6 +1158,7 @@ const productSchema = {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    text-decoration: none;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
     transition: background-color var(--transition-fast), transform var(--transition-fast);
     touch-action: manipulation;
@@ -1279,43 +1281,10 @@ const productSchema = {
   const productBrand = pdpAddBtn?.getAttribute('data-brand') || '';
   const productSize = pdpAddBtn?.getAttribute('data-size') || '';
 
-  function updatePrices() {
-    if (qtyValEl) qtyValEl.textContent = String(currentQty);
-    const totalMinor = unitPriceMinor * currentQty;
-    const formatted = `${(totalMinor / 100).toFixed(0)} QAR`;
-
-    if (pdpBuyAmountEl) pdpBuyAmountEl.textContent = formatted;
-    if (pdpStickyAmountEl) pdpStickyAmountEl.textContent = formatted;
-
-    // Update data-qty attribute on add to bag buttons
-    pdpAddBtn?.setAttribute('data-qty', String(currentQty));
-    stickyAddBtn?.setAttribute('data-qty', String(currentQty));
-
-    // Update WhatsApp link with new quantity & total
-    if (pdpWhatsAppBtn) {
-      const waMsg = `Hello LUMÈRA LUXE, I would like to order or inquire about ${currentQty > 1 ? `${currentQty}x ` : ''}${productBrand} ${productName} (${productSize}, ${formatted}).`;
-      const waPhone = siteConfig.whatsappNumber.replace(/[^0-9]/g, '');
-      pdpWhatsAppBtn.href = `https://wa.me/${waPhone}?text=${encodeURIComponent(waMsg)}`;
-    }
-  }
-
-  qtyDecBtn?.addEventListener('click', () => {
-    if (currentQty > 1) {
-      currentQty--;
-      updatePrices();
-    }
-  });
-
-  qtyIncBtn?.addEventListener('click', () => {
-    if (currentQty < 10) {
-      currentQty++;
-      updatePrices();
-    }
-  });
-
-  // Direct Buy: Instant 1-click checkout
-  function handleDirectBuy() {
-    const slug = directBuyBtn?.getAttribute('data-slug') || stickyDirectBuyBtn?.getAttribute('data-slug');
+  // Direct Buy: Instant 1-click checkout navigation fallback
+  function handleDirectBuy(e: Event) {
+    const target = (e.currentTarget || e.target) as HTMLElement;
+    const slug = target?.getAttribute('data-slug') || directBuyBtn?.getAttribute('data-slug');
     if (slug) {
       window.location.href = `/checkout/?product=${encodeURIComponent(slug)}&qty=${currentQty}`;
     }
