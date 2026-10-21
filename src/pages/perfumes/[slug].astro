@@ -1145,7 +1145,7 @@ const productSchema = {
     visibility: visible;
   }
 
-  @media (min-width: 860px) {
+  @media (min-width: 768px) {
     .pdp-sticky-bar {
       display: none !important;
     }
@@ -1219,6 +1219,12 @@ const productSchema = {
     border-radius: var(--border-radius-sm);
     cursor: pointer;
     transition: all var(--transition-fast);
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .btn-sticky-add-bag:active {
+    transform: scale(0.92);
   }
 
   .btn-sticky-fav {
@@ -1233,12 +1239,18 @@ const productSchema = {
     border-radius: var(--border-radius-sm);
     cursor: pointer;
     transition: all var(--transition-fast);
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
     flex-shrink: 0;
   }
 
   .btn-sticky-fav:hover {
     color: var(--color-brand-cognac);
     border-color: var(--color-brand-cognac);
+  }
+
+  .btn-sticky-fav:active {
+    transform: scale(0.92);
   }
 
   .btn-sticky-fav.is-active {
@@ -1272,11 +1284,17 @@ const productSchema = {
     justify-content: center;
     cursor: pointer;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-    transition: background-color var(--transition-fast);
+    transition: background-color var(--transition-fast), transform var(--transition-fast);
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .btn-sticky-direct-buy:hover {
     background-color: #000000;
+  }
+
+  .btn-sticky-direct-buy:active {
+    transform: scale(0.94);
   }
 
   /* Lightbox Zoom */

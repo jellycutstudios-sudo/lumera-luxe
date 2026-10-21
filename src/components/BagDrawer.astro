@@ -203,8 +203,8 @@ import { siteConfig } from '../data/site';
   }
 
   .bag-close-btn {
-    width: 38px;
-    height: 38px;
+    width: 42px;
+    height: 42px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -214,6 +214,8 @@ import { siteConfig } from '../data/site';
     border: 1px solid transparent;
     cursor: pointer;
     transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .bag-close-btn:hover {
@@ -222,11 +224,16 @@ import { siteConfig } from '../data/site';
     transform: rotate(90deg);
   }
 
+  .bag-close-btn:active {
+    transform: scale(0.92);
+  }
+
   /* Body */
   .bag-drawer-body {
     flex: 1;
     overflow-y: auto;
-    padding: 2rem 1.75rem;
+    overscroll-behavior-y: contain;
+    padding: 1.5rem 1.25rem;
     background-color: #FFFFFF;
     display: flex;
     flex-direction: column;
@@ -460,21 +467,28 @@ import { siteConfig } from '../data/site';
   }
 
   :global(.bag-qty-btn) {
-    width: 28px;
-    height: 28px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 0.875rem;
+    font-size: 1.05rem;
     color: #181513;
     background: transparent;
     border: none;
     cursor: pointer;
-    transition: background-color 0.15s ease;
+    transition: all 0.15s ease;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
 
   :global(.bag-qty-btn:hover) {
     background-color: #FAF8F5;
+  }
+
+  :global(.bag-qty-btn:active) {
+    background-color: #ECEAE5;
+    transform: scale(0.92);
   }
 
   :global(.bag-qty-val) {

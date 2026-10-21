@@ -523,14 +523,16 @@ const isPdp = currentPath.startsWith('/perfumes/');
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 34px;
-    height: 34px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     border: 1px solid var(--color-border);
     background: #FFFFFF;
     color: var(--color-text-muted);
     cursor: pointer;
     transition: all var(--transition-fast);
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .sheet-close-btn:hover {
@@ -538,8 +540,13 @@ const isPdp = currentPath.startsWith('/perfumes/');
     color: var(--color-text-main);
   }
 
+  .sheet-close-btn:active {
+    transform: scale(0.92);
+  }
+
   .sheet-content {
     overflow-y: auto;
+    overscroll-behavior-y: contain;
     -webkit-overflow-scrolling: touch;
     padding: 1rem 1.25rem 0.5rem;
   }

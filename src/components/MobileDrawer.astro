@@ -201,27 +201,34 @@ import productsData from '../data/products.json';
   }
 
   .mobile-drawer-close {
-    width: 36px;
-    height: 36px;
+    width: 42px;
+    height: 42px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--color-text-main);
     background: transparent;
     border: none;
-    border-radius: var(--border-radius-sm);
+    border-radius: 50%;
     cursor: pointer;
-    transition: background-color var(--transition-fast);
+    transition: background-color var(--transition-fast), transform var(--transition-fast);
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
   }
 
   .mobile-drawer-close:hover {
     background-color: var(--color-surface);
   }
 
+  .mobile-drawer-close:active {
+    transform: scale(0.92);
+  }
+
   /* Scrollable Navigation Body */
   .mobile-drawer-content {
     flex: 1;
     overflow-y: auto;
+    overscroll-behavior-y: contain;
     -webkit-overflow-scrolling: touch;
     padding: 1.5rem 1.25rem 1rem;
     display: flex;
