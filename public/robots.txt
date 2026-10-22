@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://lumeraluxe.qa/sitemap-index.xml
+Sitemap: https://lumeraluxe.com.qa/sitemap-index.xml

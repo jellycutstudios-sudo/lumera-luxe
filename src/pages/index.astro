@@ -61,9 +61,107 @@ const categories = [
     alt: 'LUMÈRA LUXE Woody and Earthy Fragrances'
   }
 ];
+
+// Google Search Knowledge Graph & AEO (Answer Engine Optimization) Schemas
+const homeStructuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'WebSite',
+      '@id': 'https://lumeraluxe.com.qa/#website',
+      'url': 'https://lumeraluxe.com.qa/',
+      'name': 'LUMÈRA LUXE',
+      'description': 'Where Luxury Meets Affordability — Authentic Designer & Niche Fragrances in Doha, Qatar.',
+      'inLanguage': ['en', 'ar'],
+      'potentialAction': {
+        '@type': 'SearchAction',
+        'target': 'https://lumeraluxe.com.qa/shop/?search={search_term_string}',
+        'query-input': 'required name=search_term_string'
+      }
+    },
+    {
+      '@type': 'Store',
+      '@id': 'https://lumeraluxe.com.qa/#store',
+      'name': 'LUMÈRA LUXE',
+      'legalName': 'Lumera Luxe Perfumes and Cosmetics W.L.L.',
+      'alternateName': 'لوميرا لوكس للعطور ومستحضرات التجميل ذ.م.م',
+      'url': 'https://lumeraluxe.com.qa/',
+      'logo': 'https://lumeraluxe.com.qa/assets/lumera-favicon.png',
+      'image': 'https://lumeraluxe.com.qa/assets/hero/hero-floral-parfum.webp',
+      'description': 'Curated luxury and designer fragrances in Doha, Qatar. Concierge doorstep delivery with verified authentic batch codes.',
+      'telephone': '+97466675166',
+      'email': 'concierge@lumeraluxe.qa',
+      'priceRange': '$$',
+      'currenciesAccepted': 'QAR',
+      'paymentAccepted': 'Cash on Delivery, Credit Card POS upon arrival, Bank Transfer',
+      'address': {
+        '@type': 'PostalAddress',
+        'addressLocality': 'Doha',
+        'addressRegion': 'Ad-Dawhah',
+        'addressCountry': 'QA'
+      },
+      'geo': {
+        '@type': 'GeoCoordinates',
+        'latitude': 25.2854,
+        'longitude': 51.5310
+      },
+      'areaServed': [
+        { '@type': 'AdministrativeArea', 'name': 'Qatar' },
+        { '@type': 'City', 'name': 'Doha' },
+        { '@type': 'City', 'name': 'Lusail' },
+        { '@type': 'City', 'name': 'The Pearl-Qatar' },
+        { '@type': 'City', 'name': 'Al Rayyan' },
+        { '@type': 'City', 'name': 'Al Wakrah' }
+      ],
+      'sameAs': [
+        'https://www.instagram.com/lumera.luxe974',
+        'https://www.tiktok.com/@luxescentqatar'
+      ]
+    },
+    {
+      '@type': 'FAQPage',
+      '@id': 'https://lumeraluxe.com.qa/#faq',
+      'mainEntity': [
+        {
+          '@type': 'Question',
+          'name': 'Are LUMÈRA LUXE perfumes 100% genuine and authentic in Qatar?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'Yes, 100%. Every perfume in the LUMÈRA LUXE collection is strictly verified for authentic origin, imported from authorized European distributors with genuine batch codes and original sealed packaging.'
+          }
+        },
+        {
+          '@type': 'Question',
+          'name': 'How does perfume delivery work in Doha and across Qatar?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'LUMÈRA LUXE offers express doorstep delivery across all Qatar municipalities, including Doha, The Pearl, Lusail, Al Rayyan, and Al Wakrah. Orders confirmed through our official WhatsApp concierge (+974 6667 5166) are scheduled for prompt courier delivery.'
+          }
+        },
+        {
+          '@type': 'Question',
+          'name': 'What payment methods are accepted for orders in Qatar?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'Payment is fulfilled upon doorstep arrival in Qatar via Cash or Card on Delivery using a portable POS machine, or via verified direct corporate bank transfer.'
+          }
+        },
+        {
+          '@type': 'Question',
+          'name': 'Which perfume brands are available at LUMÈRA LUXE Qatar?',
+          'acceptedAnswer': {
+            '@type': 'Answer',
+            'text': 'LUMÈRA LUXE curates over 200 authentic fragrances from world-renowned fragrance houses, including Chanel, Dior, Baccarat Rouge / Maison Francis Kurkdjian, Tom Ford, Creed, Yves Saint Laurent, Giorgio Armani, Gucci, Byredo, Parfums de Marly, and Narciso Rodriguez.'
+          }
+        }
+      ]
+    }
+  ]
+};
 ---
 
 <BaseLayout>
+  <script type="application/ld+json" set:html={JSON.stringify(homeStructuredData)} />
   <div class="minimal-storefront">
     <!-- HERO EDITORIAL SLIDER (LUMÈRA LUXE Brand Photography) -->
     <section class="hero-editorial-section" aria-label="Featured Collections Carousel">

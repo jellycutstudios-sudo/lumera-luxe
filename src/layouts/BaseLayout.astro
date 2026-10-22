@@ -41,9 +41,17 @@ const {
     <!-- Open Graph / Meta -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content="LUMÈRA LUXE" />
+    <meta property="og:locale" content="en_QA" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={image} />
+    <meta property="og:image" content={image.startsWith('http') ? image : `https://lumeraluxe.com.qa${image}`} />
+
+    <!-- Twitter Card for Social & AI Crawlers -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={image.startsWith('http') ? image : `https://lumeraluxe.com.qa${image}`} />
 
     <!-- Preconnect & Non-blocking Fonts (Streamlined to 2 curated fonts: Tenor Sans & Inter) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

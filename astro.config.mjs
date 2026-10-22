@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
   output: 'static',
-  site: 'https://lumeraluxe.qa',
+  site: 'https://lumeraluxe.com.qa',
   compressHTML: true,
   prefetch: {
     prefetchAll: true,

@@ -24,25 +24,66 @@ const relatedProducts = productsData
   )
   .slice(0, 4);
 
-// Schema.org Product structured data
+// Schema.org Product structured data (Enhanced for Google Merchant & AEO Rich Snippets)
 const productSchema = {
   '@context': 'https://schema.org/',
   '@type': 'Product',
   name: product.fullName,
-  image: `https://lumeraluxe.qa${product.image}`,
+  url: `https://lumeraluxe.com.qa/perfumes/${product.slug}/`,
+  image: `https://lumeraluxe.com.qa${product.image}`,
   description: product.description,
+  sku: product.id,
   brand: {
     '@type': 'Brand',
     name: product.brand
   },
   offers: {
     '@type': 'Offer',
+    url: `https://lumeraluxe.com.qa/perfumes/${product.slug}/`,
     priceCurrency: product.currency,
     price: (product.priceMinor / 100).toFixed(0),
+    priceValidUntil: '2027-12-31',
+    itemCondition: 'https://schema.org/NewCondition',
     availability: 'https://schema.org/InStock',
     seller: {
       '@type': 'Organization',
-      name: siteConfig.brandName
+      name: siteConfig.brandName,
+      url: 'https://lumeraluxe.com.qa'
+    },
+    shippingDetails: {
+      '@type': 'OfferShippingDetails',
+      shippingRate: {
+        '@type': 'MonetaryAmount',
+        value: '0',
+        currency: 'QAR'
+      },
+      shippingDestination: {
+        '@type': 'DefinedRegion',
+        addressCountry: 'QA'
+      },
+      deliveryTime: {
+        '@type': 'ShippingDeliveryTime',
+        handlingTime: {
+          '@type': 'QuantitativeValue',
+          minValue: 0,
+          maxValue: 1,
+          unitCode: 'DAY'
+        },
+        transitTime: {
+          '@type': 'QuantitativeValue',
+          minValue: 1,
+          maxValue: 2,
+          unitCode: 'DAY'
+        }
+      }
+    },
+    hasMerchantReturnPolicy: {
+      '@type': 'MerchantReturnPolicy',
+      applicableCountry: 'QA',
+      returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+      merchantReturnDays: 14,
+      returnMethod: 'https://schema.org/ReturnByMail',
+      returnFees: 'https://schema.org/FreeReturn'
     }
   }
 };
