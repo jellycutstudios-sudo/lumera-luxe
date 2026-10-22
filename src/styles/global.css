@@ -288,7 +288,7 @@ input, select, textarea {
 
 /* Hero Editorial Section (Byredo Reference Style) */
 .hero-editorial-section {
-  margin-bottom: 12px;
+  margin-bottom: clamp(2.25rem, 4vw, 3.5rem);
 }
 
 .hero-editorial-stage {
