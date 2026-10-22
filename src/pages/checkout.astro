@@ -113,7 +113,22 @@ const description = `Complete your luxury fragrance order with doorstep delivery
                 <span class="field-error-text" id="err-phone">Please enter your 8-digit mobile number</span>
               </div>
 
-              <!-- Field 3: Area / City in Qatar -->
+              <!-- Field 3: Email Address (Optional) -->
+              <div class="form-group">
+                <label for="input-email" class="form-label">Email Address <span class="opt-label">(Optional)</span></label>
+                <div class="input-wrapper">
+                  <input
+                    type="email"
+                    id="input-email"
+                    class="form-control"
+                    placeholder="e.g. fatima@example.com"
+                    autocomplete="email"
+                  />
+                </div>
+                <span class="field-error-text" id="err-email">Please enter a valid email address</span>
+              </div>
+
+              <!-- Field 4: Area / City in Qatar -->
               <div class="form-group">
                 <label for="select-municipality" class="form-label">Area / Municipality in Qatar <span class="req">*</span></label>
                 <div class="input-wrapper select-wrapper">
@@ -543,6 +558,13 @@ const description = `Complete your luxury fragrance order with doorstep delivery
 
   .form-label .req {
     color: var(--color-brand-cognac);
+  }
+
+  .form-label .opt-label {
+    font-size: 0.72rem;
+    font-weight: 400;
+    color: #7D756D;
+    margin-left: 0.35rem;
   }
 
   .input-wrapper {
@@ -1128,6 +1150,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
   import productsData from '../data/products.json';
   import { siteConfig } from '../data/site';
   import { formatWhatsAppOrderMessage, type CartItem } from '../lib/whatsapp';
+  import { recordOrderSubmission, type RecordedOrder } from '../lib/orderSync';
 
   const STORAGE_BAG_KEY = 'lumera_bag_v1';
   const STORAGE_FALLBACK_KEY = 'lumera_bag';
@@ -1312,6 +1335,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
   function hydrateCustomerForm() {
     const fullNameInput = document.getElementById('input-full-name') as HTMLInputElement | null;
     const phoneInput = document.getElementById('input-phone') as HTMLInputElement | null;
+    const emailInput = document.getElementById('input-email') as HTMLInputElement | null;
     const municipalitySelect = document.getElementById('select-municipality') as HTMLSelectElement | null;
     const addressInput = document.getElementById('input-address') as HTMLInputElement | null;
     const notesInput = document.getElementById('input-notes') as HTMLTextAreaElement | null;
@@ -1324,6 +1348,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
           fullNameInput.value = data.fullName || `${data.firstName || ''} ${data.lastName || ''}`.trim();
         }
         if (phoneInput && data.phone) phoneInput.value = data.phone;
+        if (emailInput && data.email) emailInput.value = data.email;
         if (municipalitySelect && data.municipality) municipalitySelect.value = data.municipality;
         if (addressInput && data.address) addressInput.value = data.address;
         if (notesInput && data.notes) notesInput.value = data.notes;
@@ -1335,12 +1360,14 @@ const description = `Complete your luxury fragrance order with doorstep delivery
     let isValid = true;
     const fullNameInput = document.getElementById('input-full-name') as HTMLInputElement | null;
     const phoneInput = document.getElementById('input-phone') as HTMLInputElement | null;
+    const emailInput = document.getElementById('input-email') as HTMLInputElement | null;
     const municipalitySelect = document.getElementById('select-municipality') as HTMLSelectElement | null;
     const addressInput = document.getElementById('input-address') as HTMLInputElement | null;
     const notesInput = document.getElementById('input-notes') as HTMLTextAreaElement | null;
 
     const name = fullNameInput?.value.trim() || '';
     const ph = phoneInput?.value.trim().replace(/[^0-9]/g, '') || '';
+    const email = emailInput?.value.trim() || '';
     const addr = addressInput?.value.trim() || '';
 
     // Full Name
@@ -1366,6 +1393,17 @@ const description = `Complete your luxury fragrance order with doorstep delivery
       errPhone?.classList.remove('is-visible');
     }
 
+    // Email (Optional — but format checked if provided)
+    const errEmail = document.getElementById('err-email');
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      emailInput?.classList.add('has-error');
+      errEmail?.classList.add('is-visible');
+      isValid = false;
+    } else {
+      emailInput?.classList.remove('has-error');
+      errEmail?.classList.remove('is-visible');
+    }
+
     // Address
     const errAddr = document.getElementById('err-address');
     if (!addr) {
@@ -1385,6 +1423,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
           JSON.stringify({
             fullName: name,
             phone: ph,
+            email: email,
             municipality: municipalitySelect?.value || 'Doha',
             address: addr,
             notes: notesInput?.value.trim() || ''
@@ -1396,7 +1435,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
     return isValid;
   }
 
-  // 4. One-Click Submit to WhatsApp
+  // 4. One-Click Submit to WhatsApp & Background Google Sheet Sync
   function submitOrderToWhatsApp() {
     if (!checkoutItems.length) return;
     if (!validateForm()) {
@@ -1407,12 +1446,14 @@ const description = `Complete your luxury fragrance order with doorstep delivery
 
     const fullNameInput = document.getElementById('input-full-name') as HTMLInputElement | null;
     const phoneInput = document.getElementById('input-phone') as HTMLInputElement | null;
+    const emailInput = document.getElementById('input-email') as HTMLInputElement | null;
     const municipalitySelect = document.getElementById('select-municipality') as HTMLSelectElement | null;
     const addressInput = document.getElementById('input-address') as HTMLInputElement | null;
     const notesInput = document.getElementById('input-notes') as HTMLTextAreaElement | null;
 
     const name = fullNameInput?.value.trim() || '';
     const ph = phoneInput?.value.trim() || '';
+    const email = emailInput?.value.trim() || '';
     const muni = municipalitySelect?.value || 'Doha';
     const addr = addressInput?.value.trim() || '';
     const notes = notesInput?.value.trim() || '';
@@ -1432,11 +1473,51 @@ const description = `Complete your luxury fragrance order with doorstep delivery
     const customer = {
       fullName: name,
       phone: ph.startsWith('+') ? ph : `+974 ${ph}`,
+      email: email,
       address: fullAddress,
       city: muni,
       notes: notes,
       paymentMethod: 'Cash / Card on Delivery (POS)'
     };
+
+    const subtotalMinor = checkoutItems.reduce((acc, it) => acc + it.priceMinor * it.quantity, 0);
+    const subtotalQar = Math.round(subtotalMinor / 100);
+    const totalCount = checkoutItems.reduce((acc, it) => acc + it.quantity, 0);
+
+    const itemsSummary = checkoutItems
+      .map((it) => `${it.quantity}x ${it.brand} ${it.name} (${it.sizeDisplay}) - ${Math.round((it.priceMinor * it.quantity) / 100)} QAR`)
+      .join('; ');
+
+    const orderRef = `LL-${Date.now().toString(36).toUpperCase().slice(-5)}`;
+
+    const orderRecord: RecordedOrder = {
+      orderRef,
+      timestamp: new Date().toISOString(),
+      dateQatar: new Date().toLocaleString('en-US', { timeZone: 'Asia/Qatar', dateStyle: 'medium', timeStyle: 'short' }),
+      customerName: name,
+      phone: ph.startsWith('+') ? ph : `+974 ${ph}`,
+      email: email,
+      municipality: muni,
+      streetAddress: addr,
+      deliveryNotes: notes,
+      totalAmountQar: subtotalQar,
+      totalItemsCount: totalCount,
+      paymentMethod: 'Cash / Card on Delivery (POS)',
+      itemsSummary,
+      items: checkoutItems.map((it) => ({
+        id: it.id,
+        name: it.name,
+        brand: it.brand,
+        sizeDisplay: it.sizeDisplay,
+        concentration: it.concentration,
+        priceQar: Math.round(it.priceMinor / 100),
+        quantity: it.quantity,
+        itemTotalQar: Math.round((it.priceMinor * it.quantity) / 100)
+      }))
+    };
+
+    // Save order locally in browser vault and send to Google Sheet webhook in background
+    recordOrderSubmission(orderRecord);
 
     const msg = formatWhatsAppOrderMessage(items, customer);
     const phone = siteConfig.whatsappNumber.replace(/[^0-9]/g, '');
@@ -1452,7 +1533,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
   document.addEventListener('input', (e) => {
     const target = e.target as HTMLElement | null;
     if (!target) return;
-    if (target.matches('#input-full-name, #input-phone, #input-address')) {
+    if (target.matches('#input-full-name, #input-phone, #input-email, #input-address')) {
       target.classList.remove('has-error');
       target.closest('.phone-wrapper')?.classList.remove('has-error');
       const group = target.closest('.form-group');

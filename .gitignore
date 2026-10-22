@@ -9,3 +9,8 @@ private-source/
 extracted_images/
 images/
 *.xlsx
+.env
+.env.local
+.env.*.local
+!.env.example
+

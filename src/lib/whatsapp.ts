@@ -82,6 +82,8 @@ export function formatWhatsAppOrderMessage(
     message += `📍 *DELIVERY DETAILS (QATAR):*\n`;
     if (fullName) message += `• Customer: ${fullName.trim()}\n`;
     if (phone) message += `• Phone: ${phone.trim()}\n`;
+    const email = ('email' in customerInfo ? customerInfo.email : '') || '';
+    if (email && email.trim()) message += `• Email: ${email.trim()}\n`;
     if (address) message += `• Address: ${address.trim()}\n`;
     message += `• Municipality: ${city.trim()}, Qatar\n`;
     if (notes && notes.trim()) message += `• Special Notes: ${notes.trim()}\n`;
