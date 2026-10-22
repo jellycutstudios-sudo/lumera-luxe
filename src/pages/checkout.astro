@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import productsData from '../data/products.json';
 import { siteConfig } from '../data/site';
 
-const title = `Checkout — ${siteConfig.brandName}`;
+const title = `Checkout | ${siteConfig.brandName}`;
 const description = `Complete your luxury fragrance order with doorstep delivery across Qatar.`;
 ---
 
@@ -1393,7 +1393,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
       errPhone?.classList.remove('is-visible');
     }
 
-    // Email (Optional — but format checked if provided)
+    // Email (Optional, but format checked if provided)
     const errEmail = document.getElementById('err-email');
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       emailInput?.classList.add('has-error');

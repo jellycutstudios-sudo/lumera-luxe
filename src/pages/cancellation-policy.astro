@@ -4,7 +4,7 @@ import { siteConfig } from '../data/site';
 ---
 
 <BaseLayout
-  title={`Cancellation Policy — ${siteConfig.brandName} Doha`}
+  title={`Cancellation Policy | ${siteConfig.brandName} Doha`}
   description="Transparent order cancellation and modification guidelines for LUMÈRA LUXE fragrance patrons in Qatar."
 >
   <div class="policy-page">
@@ -291,9 +291,10 @@ import { siteConfig } from '../data/site';
   }
 
   .policy-list li::before {
-    content: "—";
+    content: "·";
     position: absolute;
-    left: 0;
+    left: 0.25rem;
+    font-weight: 700;
     color: var(--color-brand-cognac);
   }
 

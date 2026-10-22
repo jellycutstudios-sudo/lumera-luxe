@@ -4,7 +4,7 @@ import { siteConfig } from '../data/site';
 ---
 
 <BaseLayout
-  title={`Terms & Conditions — ${siteConfig.brandName} Doha`}
+  title={`Terms & Conditions | ${siteConfig.brandName} Doha`}
   description="Official terms of service, ordering procedures, and consumer rights for LUMÈRA LUXE in the State of Qatar."
 >
   <div class="policy-page">
@@ -314,9 +314,10 @@ import { siteConfig } from '../data/site';
   }
 
   .policy-list li::before {
-    content: "—";
+    content: "·";
     position: absolute;
-    left: 0;
+    left: 0.25rem;
+    font-weight: 700;
     color: var(--color-brand-cognac);
   }
 

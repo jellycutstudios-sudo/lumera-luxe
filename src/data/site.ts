@@ -33,7 +33,7 @@ export interface SiteConfig {
 export const siteConfig: SiteConfig = {
   brandName: 'LUMÈRA LUXE',
   brandTagline: 'Where Luxury Meets Affordability',
-  brandDescription: 'Thoughtfully selected fragrances, trusted quality, and a personal touch—based in Qatar.',
+  brandDescription: 'Thoughtfully selected fragrances, trusted quality, and personal concierge service based in Qatar.',
   closingLine: 'Elegance in Every Scent',
   location: 'Doha, Qatar',
   currency: 'QAR',
@@ -75,7 +75,7 @@ export const siteConfig: SiteConfig = {
     },
     {
       title: 'A Personal Touch',
-      description: 'Direct concierge ordering on WhatsApp—tailored assistance and hand-packed delivery.',
+      description: 'Direct concierge ordering on WhatsApp with personal assistance and hand-packed delivery.',
       icon: 'chat'
     }
   ]

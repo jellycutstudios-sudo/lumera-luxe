@@ -189,7 +189,7 @@ with open(os.path.join(src_data_dir, 'products.json'), 'w', encoding='utf-8') as
     json.dump(products, f, indent=2, ensure_ascii=False)
 
 # Write private-source/discrepancy_report.md
-report_content = f"""# LUMÈRA LUXE — Source Audit & Discrepancy Report
+report_content = f"""# LUMÈRA LUXE | Source Audit & Discrepancy Report
 Generated from `LumeraLuxePerfumesandPricing.xlsx`
 
 Total records parsed: {len(products)}

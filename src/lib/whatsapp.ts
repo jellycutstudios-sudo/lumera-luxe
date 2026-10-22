@@ -49,14 +49,14 @@ export function formatWhatsAppOrderMessage(
   const subtotalQar = (subtotalMinor / 100).toFixed(0);
   const totalItemCount = items.reduce((acc, it) => acc + it.quantity, 0);
 
-  let message = `✨ *LUMÈRA LUXE — ORDER REQUEST*\n`;
+  let message = `✨ *LUMÈRA LUXE · ORDER REQUEST*\n`;
   message += `_Ref: #LL-${orderRef} · ${dateStr}_\n`;
   message += `────────────────────────\n\n`;
 
   message += `🛍️ *ITEMS ORDERED (${totalItemCount}):*\n`;
   items.forEach((item, idx) => {
     const itemSubtotal = ((item.priceMinor * item.quantity) / 100).toFixed(0);
-    message += `${idx + 1}. *${item.brand.toUpperCase()} — ${item.name}*\n`;
+    message += `${idx + 1}. *${item.brand.toUpperCase()} · ${item.name}*\n`;
     message += `   • Size & Type: ${item.sizeDisplay} · ${item.concentration}\n`;
     message += `   • Quantity: ${item.quantity} × ${(item.priceMinor / 100).toFixed(0)} QAR\n`;
     message += `   • Item Total: *${itemSubtotal} QAR*\n\n`;
@@ -104,7 +104,7 @@ export function formatWhatsAppSupportMessage(info: SupportInquiryInfo): string {
   const phone = info.phone?.trim();
   const msg = info.message?.trim() || 'I would like personal assistance with fragrance selection and boutique availability in Qatar.';
 
-  let output = `⚜️ *LUMÈRA LUXE — CONCIERGE SUPPORT*\n`;
+  let output = `⚜️ *LUMÈRA LUXE · CONCIERGE SUPPORT*\n`;
   output += `────────────────────────\n`;
   output += `📋 *Topic:* ${topic}\n`;
   if (name) {

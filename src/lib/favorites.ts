@@ -1,5 +1,5 @@
 /**
- * LUMÈRA LUXE — Client-side Wishlist / Favorites Store
+ * LUMÈRA LUXE · Client-side Wishlist / Favorites Store
  * Uses localStorage to persist customer favorites without login or passwords.
  */
 

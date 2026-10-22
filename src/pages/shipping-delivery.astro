@@ -4,7 +4,7 @@ import { siteConfig } from '../data/site';
 ---
 
 <BaseLayout
-  title={`Shipping & Delivery Policy — ${siteConfig.brandName} Doha`}
+  title={`Shipping & Delivery Policy | ${siteConfig.brandName} Doha`}
   description="Nationwide delivery coverage across Qatar, delivery timeframes, courier standards, and transparent fee structure for LUMÈRA LUXE."
 >
   <div class="policy-page">
@@ -51,10 +51,10 @@ import { siteConfig } from '../data/site';
             LUMÈRA LUXE coordinates courier dispatch to all residential, diplomatic, and commercial addresses in the State of Qatar, including:
           </p>
           <ul class="policy-list">
-            <li><strong>Zone 1 — Central Doha:</strong> West Bay, Al Dafna, Musheireb, Al Sadd, Old Airport, Al Hilal, Al Mansoura.</li>
-            <li><strong>Zone 2 — Modern Waterfronts:</strong> The Pearl-Qatar, Lusail Marina, Fox Hills, Legtaifiya, Katara Cultural Village.</li>
-            <li><strong>Zone 3 — Greater Municipalities:</strong> Al Rayyan, Al Gharrafa, Education City, Al Waab, Abu Hamour, Ain Khaled.</li>
-            <li><strong>Zone 4 — Southern & Northern Regions:</strong> Al Wakrah, Al Wukair, Mesaieed, Umm Salal, Al Khor, and surrounding areas.</li>
+            <li><strong>Zone 1: Central Doha:</strong> West Bay, Al Dafna, Musheireb, Al Sadd, Old Airport, Al Hilal, Al Mansoura.</li>
+            <li><strong>Zone 2: Modern Waterfronts:</strong> The Pearl-Qatar, Lusail Marina, Fox Hills, Legtaifiya, Katara Cultural Village.</li>
+            <li><strong>Zone 3: Greater Municipalities:</strong> Al Rayyan, Al Gharrafa, Education City, Al Waab, Abu Hamour, Ain Khaled.</li>
+            <li><strong>Zone 4: Southern & Northern Regions:</strong> Al Wakrah, Al Wukair, Mesaieed, Umm Salal, Al Khor, and surrounding areas.</li>
           </ul>
         </section>
 
@@ -301,9 +301,10 @@ import { siteConfig } from '../data/site';
   }
 
   .policy-list li::before {
-    content: "—";
+    content: "·";
     position: absolute;
-    left: 0;
+    left: 0.25rem;
+    font-weight: 700;
     color: var(--color-brand-cognac);
   }
 

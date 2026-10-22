@@ -1,8 +1,8 @@
 /**
- * LUMÈRA LUXE — Google Apps Script for Real-Time Order & Customer Sync
+ * LUMÈRA LUXE · Google Apps Script for Real-Time Order & Customer Sync
  * 
  * Instructions:
- * 1. Open Google Sheets (https://sheets.new) and name it "LUMÈRA LUXE — Orders & Customer Vault".
+ * 1. Open Google Sheets (https://sheets.new) and name it "LUMÈRA LUXE Orders & Customer Vault".
  * 2. In the top menu, click Extensions > Apps Script.
  * 3. Delete any default code in Code.gs and replace it with this entire file.
  * 4. Click "Deploy" > "New deployment".
