@@ -227,7 +227,8 @@ const homeStructuredData = {
                     alt={slide.alt}
                     class="hero-slide-image"
                     loading={idx === 0 ? 'eager' : 'lazy'}
-                    fetchpriority={idx === 0 ? 'high' : 'auto'}
+                    fetchpriority={idx === 0 ? 'high' : 'low'}
+                    decoding={idx === 0 ? 'sync' : 'async'}
                     width="1024"
                     height="576"
                   />
@@ -296,7 +297,7 @@ const homeStructuredData = {
             categories.map((cat) => (
               <a href={cat.href} class="category-item">
                 <div class="category-image-frame">
-                  <img src={cat.img} alt={cat.alt} class="category-img" loading="eager" width="280" height="340" />
+                  <img src={cat.img} alt={cat.alt} class="category-img" loading="lazy" decoding="async" width="280" height="340" />
                 </div>
                 <span class="category-caption">{cat.label}</span>
               </a>
@@ -316,8 +317,8 @@ const homeStructuredData = {
 
         <div class="grid-products">
           {
-            selectedScents.slice(0, 4).map((product, idx) => (
-              <ProductCard product={product} priority={idx < 2} />
+            selectedScents.slice(0, 4).map((product) => (
+              <ProductCard product={product} priority={false} />
             ))
           }
         </div>
