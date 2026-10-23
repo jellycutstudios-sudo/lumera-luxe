@@ -6,28 +6,28 @@
   --color-surface-subtle: #F5F1EB;   /* Soft warm neutral */
   --color-surface-card: #FFFFFF;
   --color-text-main: #181513;        /* Deep espresso black */
-  --color-text-muted: #57524C;       /* Soft charcoal */
-  --color-text-light: #8F8880;       /* Muted warm grey */
+  --color-text-muted: #57524C;       /* Soft charcoal (7.2:1 contrast ratio) */
+  --color-text-light: #6E6862;       /* Refined warm grey (5.2:1 contrast ratio - passes WCAG AA) */
 
   /* Logo Cognac Palette (matches SVG logo gradient #D2632C -> #802201) */
-  --color-brand-cognac: #C85A24;
+  --color-brand-cognac: #B04515;     /* Rich deep cognac (5.5:1 contrast ratio - passes WCAG AA) */
   --color-brand-cognac-dark: #802201;
   --color-brand-cognac-light: #FDF5F0;
-  --color-brand-cognac-glow: rgba(200, 90, 36, 0.22);
+  --color-brand-cognac-glow: rgba(176, 69, 21, 0.22);
   --color-brand-gradient: linear-gradient(135deg, #D2632C 0%, #802201 100%);
 
   /* Aristocratic Champagne Gold */
   --color-gold: #C5A059;
   --color-gold-light: #FBF7EE;
-  --color-gold-dark: #9A7B38;
+  --color-gold-dark: #8A6D30;        /* 4.8:1 contrast ratio */
   --color-gold-border: rgba(197, 160, 89, 0.38);
   --color-gold-border-subtle: rgba(197, 160, 89, 0.18);
   --color-gold-glow: rgba(197, 160, 89, 0.24);
   --color-gold-shimmer: linear-gradient(135deg, #E2C285 0%, #C5A059 50%, #9A7B38 100%);
 
   /* Accent Aliases */
-  --color-accent: #C85A24;
-  --color-accent-hover: #A54415;
+  --color-accent: #B04515;
+  --color-accent-hover: #802201;
   --color-accent-light: #FDF5F0;
 
   --color-border: #E8E3DC;

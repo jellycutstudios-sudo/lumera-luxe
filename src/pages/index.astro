@@ -173,6 +173,26 @@ const homeStructuredData = {
 ---
 
 <BaseLayout>
+  <!-- Priority LCP Image Preload for Mobile & Desktop -->
+  <link
+    slot="head"
+    rel="preload"
+    as="image"
+    href="/assets/hero/mobile/hero-chanel-n5-mobile.webp"
+    media="(max-width: 768px)"
+    type="image/webp"
+    fetchpriority="high"
+  />
+  <link
+    slot="head"
+    rel="preload"
+    as="image"
+    href="/assets/hero/desktop/hero-chanel-n5-desktop.webp"
+    media="(min-width: 769px)"
+    type="image/webp"
+    fetchpriority="high"
+  />
+
   <script type="application/ld+json" set:html={JSON.stringify(homeStructuredData)} />
   <div class="minimal-storefront">
     <!-- HERO EDITORIAL SLIDER (LUMÈRA LUXE Brand Photography) -->
