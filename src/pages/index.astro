@@ -362,12 +362,13 @@ const homeStructuredData = {
           <div class="about-media-col">
             <div class="about-image-frame">
               <img
-                src="/assets/brand/brand-five-bottles.webp"
-                alt="LUMÈRA LUXE architectural perfume collection on stepped plinths"
+                src="/assets/brand/brand-perfume-curation.webp"
+                alt="LUMÈRA LUXE authentic luxury perfume curation including Chloé, Givenchy, Jimmy Choo, Narciso Rodriguez, Olympéa, and Armani"
                 class="about-editorial-img"
                 loading="lazy"
-                width="600"
-                height="600"
+                decoding="async"
+                width="1024"
+                height="768"
               />
             </div>
           </div>
@@ -565,8 +566,7 @@ const homeStructuredData = {
 
   .about-image-frame {
     width: 100%;
-    aspect-ratio: 1 / 1;
-    max-height: 520px;
+    aspect-ratio: 4 / 3;
     background-color: #F7F6F4;
     overflow: hidden;
     border-radius: var(--border-radius-sm);
@@ -575,7 +575,8 @@ const homeStructuredData = {
   .about-editorial-img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    display: block;
   }
 
   .about-editorial-heading {
