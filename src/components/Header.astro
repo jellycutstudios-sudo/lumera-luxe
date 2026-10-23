@@ -1,7 +1,9 @@
 ---
 import { siteConfig } from '../data/site';
+import productsData from '../data/products.json';
 
 const currentPath = Astro.url.pathname;
+const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
 ---
 
 <header class="site-header" id="main-header">
@@ -211,7 +213,65 @@ const currentPath = Astro.url.pathname;
       </div>
 
       <div class="search-modal-results" id="quick-search-results">
-        <!-- Injected via JavaScript (Initial Rich State or Dynamic Results) -->
+        <!-- Pre-rendered Initial View (Instant Luxury Content with Zero Flash) -->
+        <div class="search-initial-view" id="search-initial-view">
+          <!-- Popular Searches -->
+          <div class="search-section">
+            <div class="search-section-title">Trending Searches</div>
+            <div class="search-chips-row">
+              <button type="button" class="search-suggestion-chip" data-search-term="Chanel">Chanel</button>
+              <button type="button" class="search-suggestion-chip" data-search-term="Libre">YSL Libre</button>
+              <button type="button" class="search-suggestion-chip" data-search-term="Good Girl">Good Girl</button>
+              <button type="button" class="search-suggestion-chip" data-search-term="Black Orchid">Black Orchid</button>
+              <button type="button" class="search-suggestion-chip" data-search-term="Vanilla">Vanilla</button>
+              <button type="button" class="search-suggestion-chip" data-search-term="Under 300">Under 300 QAR</button>
+            </div>
+          </div>
+
+          <!-- Curated Highlights -->
+          <div class="search-section">
+            <div class="search-section-header">
+              <span class="search-section-title">Curated Bestsellers</span>
+              <a href="/shop/" class="search-section-link">View All ({productsData.length}) →</a>
+            </div>
+            <div class="search-highlight-list">
+              {
+                searchHighlights.map((p) => (
+                  <a href={`/perfumes/${p.slug}/`} class="search-highlight-item">
+                    <div class="search-item-thumb">
+                      <img src={p.image} alt={`${p.brand} ${p.name}`} loading="lazy" width="48" height="48" />
+                    </div>
+                    <div class="search-item-info">
+                      <span class="search-item-brand">{p.brand}</span>
+                      <span class="search-item-name">{p.name}</span>
+                      <span class="search-item-meta">{p.sizeDisplay} · {p.concentration}</span>
+                    </div>
+                    <div class="search-item-price-wrap">
+                      <span class="search-item-price">{p.priceDisplay}</span>
+                      <svg class="search-item-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                      </svg>
+                    </div>
+                  </a>
+                ))
+              }
+            </div>
+          </div>
+
+          <!-- Scent Families Quick Filter -->
+          <div class="search-section">
+            <div class="search-section-title">Explore by Scent Family</div>
+            <div class="search-families-grid">
+              <a href="/shop/?family=floral" class="search-family-badge">🌸 Floral & Rose</a>
+              <a href="/shop/?family=oriental" class="search-family-badge">🔥 Amber & Oriental</a>
+              <a href="/shop/?family=woody" class="search-family-badge">🌲 Woody & Earthy</a>
+              <a href="/shop/?family=fresh" class="search-family-badge">🍋 Fresh & Citrus</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Results Container (Filled on Typing) -->
+        <div class="search-dynamic-view" id="search-dynamic-view" style="display: none;"></div>
       </div>
     </div>
   </div>
@@ -556,6 +616,7 @@ const currentPath = Astro.url.pathname;
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    min-height: 440px;
     max-height: 92vh;
     animation: searchModalSlideDown 0.22s cubic-bezier(0.16, 1, 0.3, 1);
   }
@@ -566,6 +627,7 @@ const currentPath = Astro.url.pathname;
       border-radius: 16px;
       border: 1px solid var(--color-border);
       box-shadow: 0 25px 65px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(197, 160, 89, 0.18);
+      min-height: 480px;
       max-height: 82vh;
     }
   }
@@ -1033,226 +1095,35 @@ const currentPath = Astro.url.pathname;
   window.addEventListener('focus', updateBagBadge);
   updateBagBadge();
 
-  // Quick Search Modal Logic
-  const openSearchBtn = document.getElementById('open-search-modal-btn');
-  const searchModal = document.getElementById('search-modal');
-  const closeSearchBtn = document.getElementById('close-search-modal-btn');
-  const searchInput = document.getElementById('quick-search-input') as HTMLInputElement;
-  const searchClearInputBtn = document.getElementById('search-clear-input-btn') as HTMLButtonElement;
-  const searchResults = document.getElementById('quick-search-results');
-
-  // Curated Bestsellers for Initial View
-  const curatedBestsellers = productsData.filter((p) => p.featured).slice(0, 3);
-
-  function renderInitialSearchView() {
-    if (!searchResults) return;
-
-    searchResults.innerHTML = `
-      <div class="search-initial-view">
-        <!-- Popular Searches -->
-        <div class="search-section">
-          <div class="search-section-title">Trending Searches</div>
-          <div class="search-chips-row">
-            <button type="button" class="search-suggestion-chip" data-search-term="Iconista">Aigner Iconista</button>
-            <button type="button" class="search-suggestion-chip" data-search-term="Boucheron">Boucheron</button>
-            <button type="button" class="search-suggestion-chip" data-search-term="Rose">Rose & Floral</button>
-            <button type="button" class="search-suggestion-chip" data-search-term="Vanilla">Vanilla</button>
-            <button type="button" class="search-suggestion-chip" data-search-term="Under 250">Under 250 QAR</button>
-            <button type="button" class="search-suggestion-chip" data-search-term="Dolce & Gabbana">D&G</button>
-          </div>
-        </div>
-
-        <!-- Curated Highlights -->
-        <div class="search-section">
-          <div class="search-section-header">
-            <span class="search-section-title">Curated Bestsellers</span>
-            <a href="/shop/" class="search-section-link">View All Collection (${productsData.length}) →</a>
-          </div>
-          <div class="search-highlight-list">
-            ${curatedBestsellers
-              .map(
-                (p) => `
-              <a href="/perfumes/${p.slug}/" class="search-highlight-item">
-                <div class="search-item-thumb">
-                  <img src="${p.image}" alt="${p.brand} ${p.name}" loading="lazy" />
-                </div>
-                <div class="search-item-info">
-                  <span class="search-item-brand">${p.brand}</span>
-                  <span class="search-item-name">${p.name}</span>
-                  <span class="search-item-meta">${p.sizeDisplay} · ${p.concentration}</span>
-                </div>
-                <div class="search-item-price-wrap">
-                  <span class="search-item-price">${p.priceDisplay}</span>
-                  <svg class="search-item-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="9 18 15 12 9 6"></polyline>
-                  </svg>
-                </div>
-              </a>
-            `
-              )
-              .join('')}
-          </div>
-        </div>
-
-        <!-- Scent Families Quick Filter -->
-        <div class="search-section">
-          <div class="search-section-title">Explore by Scent Family</div>
-          <div class="search-families-grid">
-            <a href="/shop/?family=floral" class="search-family-badge">🌸 Floral & Rose</a>
-            <a href="/shop/?family=oriental" class="search-family-badge">🔥 Amber & Oriental</a>
-            <a href="/shop/?family=woody" class="search-family-badge">🌲 Woody & Earthy</a>
-            <a href="/shop/?family=fresh" class="search-family-badge">🍋 Fresh & Citrus</a>
-          </div>
-        </div>
-      </div>
-    `;
-
-    bindSuggestionChips();
-  }
-
-  function bindSuggestionChips() {
-    if (!searchResults) return;
-    const chips = searchResults.querySelectorAll<HTMLButtonElement>('[data-search-term]');
-    chips.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const term = btn.getAttribute('data-search-term') || '';
-        if (searchInput) {
-          searchInput.value = term;
-          searchInput.focus();
-          searchInput.dispatchEvent(new Event('input'));
-        }
-      });
-    });
-  }
-
-  function openSearch() {
-    const modal = document.getElementById('search-modal');
-    const input = document.getElementById('quick-search-input') as HTMLInputElement;
-    if (modal) {
-      modal.hidden = false;
-      document.body.style.overflow = 'hidden';
-      if (!input?.value.trim()) {
-        renderInitialSearchView();
-      }
-      setTimeout(() => input?.focus(), 60);
-    }
-  }
-
-  function closeSearch() {
-    const modal = document.getElementById('search-modal');
-    const input = document.getElementById('quick-search-input') as HTMLInputElement;
+  // Search Input Handler (Live Real-Time Filtering)
+  function handleSearchInput(input: HTMLInputElement) {
+    const q = input.value.trim().toLowerCase();
     const clearBtn = document.getElementById('search-clear-input-btn') as HTMLButtonElement;
-    if (modal) {
-      modal.hidden = true;
-      document.body.style.overflow = '';
-      if (input) input.value = '';
-      if (clearBtn) clearBtn.style.display = 'none';
-      renderInitialSearchView();
-    }
-  }
+    const initialView = document.getElementById('search-initial-view');
+    const dynamicView = document.getElementById('search-dynamic-view');
 
-  // Expose globally
-  (window as any).openSearchModal = openSearch;
-  (window as any).closeSearchModal = closeSearch;
-
-  // Global Click Delegator (Never breaks on SPA navigation)
-  document.addEventListener('click', (e) => {
-    const target = e.target as HTMLElement;
-    if (!target) return;
-
-    if (target.closest('#menu-toggle-btn, .mobile-toggle-btn')) {
-      e.preventDefault();
-      if (typeof (window as any).openMobileDrawer === 'function') {
-        (window as any).openMobileDrawer();
-      }
-      return;
-    }
-
-    if (target.closest('.search-trigger, #open-search-modal-btn, .mobile-search-btn')) {
-      e.preventDefault();
-      openSearch();
-      return;
-    }
-
-    if (target.closest('#close-search-modal-btn')) {
-      e.preventDefault();
-      closeSearch();
-      return;
-    }
-
-    if (target.closest('#search-clear-input-btn')) {
-      e.preventDefault();
-      const input = document.getElementById('quick-search-input') as HTMLInputElement;
-      const clearBtn = document.getElementById('search-clear-input-btn') as HTMLButtonElement;
-      if (input) {
-        input.value = '';
-        input.focus();
-      }
-      if (clearBtn) clearBtn.style.display = 'none';
-      renderInitialSearchView();
-      return;
-    }
-
-    // Auto-close search when clicking any result link
-    if (target.closest('#search-modal a')) {
-      closeSearch();
-      return;
-    }
-
-    const modal = document.getElementById('search-modal');
-    if (modal && target === modal) {
-      closeSearch();
-      return;
-    }
-  });
-
-  window.addEventListener('keydown', (e) => {
-    const modal = document.getElementById('search-modal');
-    if (e.key === 'Escape') {
-      if (modal && !modal.hidden) closeSearch();
-    }
-    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-      e.preventDefault();
-      openSearch();
-    }
-  });
-
-  // Re-sync badges and reset state on every Astro SPA route change
-  document.addEventListener('astro:page-load', () => {
-    updateWishlistBadge();
-    updateBagBadge();
-    closeSearch();
-  });
-
-  document.addEventListener('astro:before-preparation', () => {
-    closeSearch();
-  });
-
-  searchInput?.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-      const q = searchInput.value.trim();
-      if (q) {
-        window.location.href = `/shop/?search=${encodeURIComponent(q)}`;
-      }
-    }
-  });
-
-  searchInput?.addEventListener('input', () => {
-    const q = searchInput.value.trim().toLowerCase();
-    if (searchClearInputBtn) {
-      searchClearInputBtn.style.display = q ? 'flex' : 'none';
+    if (clearBtn) {
+      clearBtn.style.display = q ? 'flex' : 'none';
     }
 
     if (!q) {
-      renderInitialSearchView();
+      if (initialView) initialView.style.display = 'flex';
+      if (dynamicView) {
+        dynamicView.style.display = 'none';
+        dynamicView.innerHTML = '';
+      }
       return;
     }
 
-    let matches = productsData.filter((p) => {
-      const isPriceQuery = q.includes('250') || q.includes('under') || q.includes('price');
+    if (initialView) initialView.style.display = 'none';
+    if (!dynamicView) return;
+    dynamicView.style.display = 'block';
+
+    const matches = productsData.filter((p) => {
+      const isPriceQuery = q.includes('250') || q.includes('300') || q.includes('under') || q.includes('price');
       let matchesPrice = false;
-      if (isPriceQuery && (q.includes('under') || q.includes('<') || q.includes('250'))) {
-        matchesPrice = p.priceMinor < 25000;
+      if (isPriceQuery && (q.includes('under') || q.includes('<') || q.includes('300'))) {
+        matchesPrice = p.priceMinor < 30000;
       }
 
       return (
@@ -1264,31 +1135,28 @@ const currentPath = Astro.url.pathname;
       );
     }).slice(0, 8);
 
-    if (!searchResults) return;
-
     if (!matches.length) {
-      searchResults.innerHTML = `
+      dynamicView.innerHTML = `
         <div class="search-zero-state">
           <div class="search-zero-icon" aria-hidden="true">🔍</div>
-          <h4 class="search-zero-title">No fragrances found for "${q}"</h4>
+          <h4 class="search-zero-title">No fragrances found for "${input.value.trim()}"</h4>
           <p class="search-zero-desc">Check your spelling, or explore these popular luxury selections.</p>
           <div class="search-zero-chips">
-            <button type="button" class="search-suggestion-chip" data-search-term="Aigner">Aigner</button>
-            <button type="button" class="search-suggestion-chip" data-search-term="Boucheron">Boucheron</button>
-            <button type="button" class="search-suggestion-chip" data-search-term="Rose">Rose & Floral</button>
+            <button type="button" class="search-suggestion-chip" data-search-term="Chanel">Chanel</button>
+            <button type="button" class="search-suggestion-chip" data-search-term="Libre">YSL Libre</button>
+            <button type="button" class="search-suggestion-chip" data-search-term="Good Girl">Good Girl</button>
             <a href="/shop/" class="search-suggestion-chip search-chip-primary">Browse All Fragrances</a>
           </div>
         </div>
       `;
-      bindSuggestionChips();
       return;
     }
 
-    searchResults.innerHTML = `
+    dynamicView.innerHTML = `
       <div class="search-results-wrapper">
         <div class="search-results-meta">
           <span>Found <strong>${matches.length}</strong> ${matches.length === 1 ? 'fragrance' : 'fragrances'}</span>
-          <a href="/shop/?search=${encodeURIComponent(q)}" class="search-view-all-link">
+          <a href="/shop/?search=${encodeURIComponent(input.value.trim())}" class="search-view-all-link">
             View all in Shop Collection →
           </a>
         </div>
@@ -1318,5 +1186,152 @@ const currentPath = Astro.url.pathname;
         </div>
       </div>
     `;
+  }
+
+  function openSearch() {
+    const modal = document.getElementById('search-modal');
+    const input = document.getElementById('quick-search-input') as HTMLInputElement;
+    const initialView = document.getElementById('search-initial-view');
+    const dynamicView = document.getElementById('search-dynamic-view');
+
+    if (modal) {
+      modal.hidden = false;
+      document.body.style.overflow = 'hidden';
+      if (input && !input.value.trim()) {
+        if (initialView) initialView.style.display = 'flex';
+        if (dynamicView) {
+          dynamicView.style.display = 'none';
+          dynamicView.innerHTML = '';
+        }
+      }
+      setTimeout(() => input?.focus(), 50);
+    }
+  }
+
+  function closeSearch() {
+    const modal = document.getElementById('search-modal');
+    const input = document.getElementById('quick-search-input') as HTMLInputElement;
+    const clearBtn = document.getElementById('search-clear-input-btn') as HTMLButtonElement;
+    const initialView = document.getElementById('search-initial-view');
+    const dynamicView = document.getElementById('search-dynamic-view');
+
+    if (modal) {
+      modal.hidden = true;
+      document.body.style.overflow = '';
+      if (input) input.value = '';
+      if (clearBtn) clearBtn.style.display = 'none';
+      if (initialView) initialView.style.display = 'flex';
+      if (dynamicView) {
+        dynamicView.style.display = 'none';
+        dynamicView.innerHTML = '';
+      }
+    }
+  }
+
+  // Expose globally
+  (window as any).openSearchModal = openSearch;
+  (window as any).closeSearchModal = closeSearch;
+
+  // Global Delegated Input Listener (Resilient to ViewTransitions & Dynamic Rendering)
+  document.addEventListener('input', (e) => {
+    const target = e.target as HTMLElement;
+    if (target && target.id === 'quick-search-input') {
+      handleSearchInput(target as HTMLInputElement);
+    }
+  });
+
+  // Global Delegated Keydown Listener (Enter submits to /shop/, Esc closes)
+  document.addEventListener('keydown', (e) => {
+    const target = e.target as HTMLElement;
+    if (target && target.id === 'quick-search-input' && e.key === 'Enter') {
+      const q = (target as HTMLInputElement).value.trim();
+      if (q) {
+        window.location.href = `/shop/?search=${encodeURIComponent(q)}`;
+      }
+      return;
+    }
+
+    if (e.key === 'Escape') {
+      const modal = document.getElementById('search-modal');
+      if (modal && !modal.hidden) closeSearch();
+    }
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault();
+      openSearch();
+    }
+  });
+
+  // Global Click Delegator (Never breaks on SPA navigation)
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    if (!target) return;
+
+    if (target.closest('#menu-toggle-btn, .mobile-toggle-btn')) {
+      e.preventDefault();
+      if (typeof (window as any).openMobileDrawer === 'function') {
+        (window as any).openMobileDrawer();
+      }
+      return;
+    }
+
+    if (target.closest('.search-trigger, #open-search-modal-btn, .mobile-search-btn')) {
+      e.preventDefault();
+      openSearch();
+      return;
+    }
+
+    if (target.closest('#close-search-modal-btn')) {
+      e.preventDefault();
+      closeSearch();
+      return;
+    }
+
+    if (target.closest('#search-clear-input-btn')) {
+      e.preventDefault();
+      const input = document.getElementById('quick-search-input') as HTMLInputElement;
+      if (input) {
+        input.value = '';
+        input.focus();
+        handleSearchInput(input);
+      }
+      return;
+    }
+
+    // Suggestion chips
+    const chip = target.closest<HTMLButtonElement>('[data-search-term]');
+    if (chip) {
+      e.preventDefault();
+      const term = chip.getAttribute('data-search-term') || '';
+      const input = document.getElementById('quick-search-input') as HTMLInputElement;
+      if (input) {
+        input.value = term;
+        input.focus();
+        handleSearchInput(input);
+      }
+      return;
+    }
+
+    // Auto-close search when clicking any result link
+    if (target.closest('#search-modal a')) {
+      closeSearch();
+      return;
+    }
+
+    const modal = document.getElementById('search-modal');
+    if (modal && target === modal) {
+      closeSearch();
+      return;
+    }
+  });
+
+  // Re-sync badges and reset state on every Astro SPA route change
+  document.addEventListener('astro:page-load', () => {
+    updateWishlistBadge();
+    updateBagBadge();
+    closeSearch();
+  });
+
+  document.addEventListener('astro:before-preparation', () => {
+    closeSearch();
   });
 </script>
