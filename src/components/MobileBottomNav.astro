@@ -1,9 +1,11 @@
 ---
 import { siteConfig } from '../data/site';
+import productsData from '../data/products.json';
 
 const currentPath = Astro.url.pathname;
 const isCheckout = currentPath.startsWith('/checkout');
 const isPdp = currentPath.startsWith('/perfumes/');
+const totalFragrances = productsData.filter((p) => !p.isDraft).length;
 ---
 
 {
@@ -129,7 +131,7 @@ const isPdp = currentPath.startsWith('/perfumes/');
 
           <div class="sheet-footer">
             <a href="/shop/" class="btn-sheet-primary">
-              <span>View All Fragrances (25)</span>
+              <span>View All Fragrances ({totalFragrances})</span>
             </a>
             <a href="/#scent-families" id="sheet-view-showcase" class="link-sheet-subtle">
               <span>View Editorial Showcase on Homepage</span>

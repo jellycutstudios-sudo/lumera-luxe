@@ -3,8 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ProductCard from '../components/ProductCard.astro';
 import productsData from '../data/products.json';
 
-// Only display approved, verified products on public catalog (117 products)
-// Unapproved candidate drafts (8 items) remain in data/products.json for audit and review
+// Only display approved, verified products on public catalog (200 products)
 const publicProducts = productsData.filter((p) => !p.isDraft);
 
 // Unique brands from approved catalog
