@@ -4,31 +4,43 @@ import ProductCard from '../components/ProductCard.astro';
 import productsData from '../data/products.json';
 import { siteConfig } from '../data/site';
 
-// Hero Slides featuring LUMÈRA LUXE's own brand photography
+// Hero Slides featuring Real Iconic Luxury Perfumes (Responsive Desktop 16:9 & Mobile 4:5)
 const heroSlides = [
   {
-    id: 'floral',
-    image: '/assets/brand/hero-floral-collection.webp',
-    alt: 'LUMÈRA LUXE Floral flacons in morning light',
-    title: 'The Floral Anthology',
-    ctaText: 'Explore',
-    ctaLink: '/shop/?family=floral'
+    id: 'chanel-n5',
+    title: 'Chanel N°5',
+    mobileImage: '/assets/hero/mobile/hero-chanel-n5-mobile.webp',
+    desktopImage: '/assets/hero/desktop/hero-chanel-n5-desktop.webp',
+    alt: 'Chanel N°5 Eau de Parfum flacon with white camellias on sunlit travertine stone',
+    ctaText: 'Discover N°5',
+    ctaLink: '/perfumes/chanel-n-5/'
   },
   {
-    id: 'oriental',
-    image: '/assets/brand/hero-rose-gold-trio.webp',
-    alt: 'LUMÈRA LUXE warm amber and rose gold flacons',
-    title: 'Warm Amber Reserve',
-    ctaText: 'Explore',
-    ctaLink: '/shop/?family=oriental'
+    id: 'ysl-libre',
+    title: 'YSL Libre',
+    mobileImage: '/assets/hero/mobile/hero-ysl-libre-mobile.webp',
+    desktopImage: '/assets/hero/desktop/hero-ysl-libre-desktop.webp',
+    alt: 'Yves Saint Laurent Libre Eau de Parfum with golden Cassandre emblem and amber crystal',
+    ctaText: 'Discover Libre',
+    ctaLink: '/perfumes/yves-saint-laurent-libre/'
   },
   {
-    id: 'woody',
-    image: '/assets/brand/hero-dusk-collection.webp',
-    alt: 'LUMÈRA LUXE dusk flacons in golden hour glow',
-    title: 'The Nocturne Edit',
-    ctaText: 'Explore',
-    ctaLink: '/shop/?family=woody'
+    id: 'good-girl',
+    title: 'Carolina Herrera Good Girl',
+    mobileImage: '/assets/hero/mobile/hero-good-girl-mobile.webp',
+    desktopImage: '/assets/hero/desktop/hero-good-girl-desktop.webp',
+    alt: 'Carolina Herrera Good Girl Eau de Parfum midnight stiletto flacon with gold stiletto heel',
+    ctaText: 'Discover Good Girl',
+    ctaLink: '/perfumes/carolina-herrera-good-girl/'
+  },
+  {
+    id: 'black-orchid',
+    title: 'Tom Ford Black Orchid',
+    mobileImage: '/assets/hero/mobile/hero-black-orchid-mobile.webp',
+    desktopImage: '/assets/hero/desktop/hero-black-orchid-desktop.webp',
+    alt: 'Tom Ford Black Orchid fluted black glass flacon with 24K gold plate and dark orchids',
+    ctaText: 'Discover Black Orchid',
+    ctaLink: '/perfumes/tom-ford-black-orchid/'
   }
 ];
 
@@ -179,15 +191,27 @@ const homeStructuredData = {
                 aria-hidden={idx === 0 ? 'false' : 'true'}
                 tabindex={idx === 0 ? 0 : -1}
               >
-                <img
-                  src={slide.image}
-                  alt={slide.alt}
-                  class="hero-slide-image"
-                  loading={idx === 0 ? 'eager' : 'lazy'}
-                  fetchpriority={idx === 0 ? 'high' : 'auto'}
-                  width="1800"
-                  height="1012"
-                />
+                <picture class="hero-slide-picture">
+                  <source
+                    media="(max-width: 768px)"
+                    srcset={slide.mobileImage}
+                    type="image/webp"
+                  />
+                  <source
+                    media="(min-width: 769px)"
+                    srcset={slide.desktopImage}
+                    type="image/webp"
+                  />
+                  <img
+                    src={slide.desktopImage}
+                    alt={slide.alt}
+                    class="hero-slide-image"
+                    loading={idx === 0 ? 'eager' : 'lazy'}
+                    fetchpriority={idx === 0 ? 'high' : 'auto'}
+                    width="1024"
+                    height="576"
+                  />
+                </picture>
               </a>
             ))}
           </div>
@@ -210,7 +234,7 @@ const homeStructuredData = {
             </div>
 
             <div class="hero-island-controls">
-              <span class="hero-counter" id="hero-counter" aria-live="polite">01 / 03</span>
+              <span class="hero-counter" id="hero-counter" aria-live="polite">01 / 0{heroSlides.length}</span>
               <div class="hero-arrow-duo">
                 <button
                   type="button"
@@ -690,9 +714,9 @@ const homeStructuredData = {
 
   @media (max-width: 768px) {
     .hero-editorial-stage {
-      aspect-ratio: 4 / 3;
-      min-height: 380px;
-      max-height: 480px;
+      aspect-ratio: 4 / 5;
+      min-height: 440px;
+      max-height: 580px;
     }
   }
 
@@ -726,13 +750,21 @@ const homeStructuredData = {
     z-index: 2;
   }
 
+  .hero-slide-picture {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
   .hero-slide-image {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 42%;
+    object-position: center center;
     display: block;
     filter: none;
   }
