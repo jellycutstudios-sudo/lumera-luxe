@@ -217,6 +217,11 @@ import productsData from '../data/products.json';
     margin: auto 0;
   }
 
+  .wishlist-empty-state[hidden],
+  #wishlist-empty-state[hidden] {
+    display: none !important;
+  }
+
   .empty-wishlist-stage {
     position: relative;
     width: 100%;
@@ -494,99 +499,48 @@ import productsData from '../data/products.json';
   import productsData from '../data/products.json';
   import { getFavorites, removeFavorite, toggleFavorite } from '../lib/favorites';
 
-  const drawer = document.getElementById('wishlist-drawer');
-  const backdrop = document.getElementById('wishlist-backdrop');
-  const closeBtn = document.getElementById('wishlist-close-btn');
-  const badgeEl = document.getElementById('wishlist-items-badge');
-  const emptyState = document.getElementById('wishlist-empty-state');
-  const listEl = document.getElementById('wishlist-items-list');
-  const footerEl = document.getElementById('wishlist-footer');
-
-  function openWishlist() {
-    const drawer = document.getElementById('wishlist-drawer');
-    const backdrop = document.getElementById('wishlist-backdrop');
-    if (!drawer || !backdrop) return;
-    renderWishlist();
-    drawer.hidden = false;
-    backdrop.hidden = false;
-    void drawer.offsetWidth;
-    drawer.classList.add('is-open');
-    backdrop.classList.add('is-open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeWishlist() {
-    const drawer = document.getElementById('wishlist-drawer');
-    const backdrop = document.getElementById('wishlist-backdrop');
-    if (!drawer || !backdrop) return;
-    drawer.classList.remove('is-open');
-    backdrop.classList.remove('is-open');
-    setTimeout(() => {
-      drawer.hidden = true;
-      backdrop.hidden = true;
-      document.body.style.overflow = '';
-    }, 320);
-  }
-
-  (window as any).openWishlist = openWishlist;
-  (window as any).closeWishlist = closeWishlist;
-
-  // Global Click Delegator (Never breaks on SPA route changes)
-  document.addEventListener('click', (e) => {
-    const target = e.target as HTMLElement;
-    if (!target) return;
-
-    if (target.closest('#open-wishlist-btn, #drawer-open-wishlist-btn, .wishlist-trigger, [data-action="open-wishlist"]')) {
-      e.preventDefault();
-      openWishlist();
-      return;
-    }
-
-    if (target.closest('#wishlist-close-btn, #btn-wishlist-continue, #wishlist-shop-link')) {
-      closeWishlist();
-      return;
-    }
-
-    const backdropEl = document.getElementById('wishlist-backdrop');
-    if (backdropEl && target === backdropEl) {
-      closeWishlist();
-      return;
-    }
-  });
-
-  document.addEventListener('keydown', (e) => {
-    const drawer = document.getElementById('wishlist-drawer');
-    if (e.key === 'Escape' && drawer?.classList.contains('is-open')) {
-      closeWishlist();
-    }
-  });
-
-  document.addEventListener('astro:page-load', () => {
-    closeWishlist();
-  });
-
-  document.addEventListener('astro:before-preparation', () => {
-    closeWishlist();
-  });
-
   function renderWishlist() {
+    const badgeEl = document.getElementById('wishlist-items-badge');
+    const emptyState = document.getElementById('wishlist-empty-state');
+    const listEl = document.getElementById('wishlist-items-list');
+    const footerEl = document.getElementById('wishlist-footer');
+
     const favIds = getFavorites();
     const items = favIds
-      .map((id) => productsData.find((p) => p.id === id || p.slug === id))
+      .map((id) =>
+        productsData.find((p) =>
+          p.id === id ||
+          p.slug === id ||
+          String(p.id).toLowerCase() === String(id).toLowerCase() ||
+          String(p.slug).toLowerCase() === String(id).toLowerCase()
+        )
+      )
       .filter((p): p is (typeof productsData)[0] => Boolean(p));
 
     const count = items.length;
     if (badgeEl) badgeEl.textContent = `${count} saved`;
 
     if (count === 0) {
-      if (emptyState) emptyState.hidden = false;
+      if (emptyState) {
+        emptyState.hidden = false;
+        emptyState.style.display = 'flex';
+      }
       if (listEl) listEl.innerHTML = '';
-      if (footerEl) footerEl.hidden = true;
+      if (footerEl) {
+        footerEl.hidden = true;
+        footerEl.style.display = 'none';
+      }
       return;
     }
 
-    if (emptyState) emptyState.hidden = true;
-    if (footerEl) footerEl.hidden = false;
+    if (emptyState) {
+      emptyState.hidden = true;
+      emptyState.style.display = 'none';
+    }
+    if (footerEl) {
+      footerEl.hidden = false;
+      footerEl.style.display = 'block';
+    }
 
     if (listEl) {
       listEl.innerHTML = items
@@ -633,23 +587,105 @@ import productsData from '../data/products.json';
       `
         )
         .join('');
-
-      listEl.querySelectorAll('[data-action="remove-fav"]').forEach((btn) => {
-        btn.addEventListener('click', (e) => {
-          const target = e.currentTarget as HTMLElement;
-          const id = target.getAttribute('data-id');
-          if (id) {
-            removeFavorite(id);
-          }
-        });
-      });
     }
   }
 
-  window.addEventListener('favorites-updated', () => {
+  function openWishlist() {
     const drawer = document.getElementById('wishlist-drawer');
-    if (drawer && !drawer.hidden) {
-      renderWishlist();
+    const backdrop = document.getElementById('wishlist-backdrop');
+    if (!drawer || !backdrop) return;
+    renderWishlist();
+    drawer.hidden = false;
+    backdrop.hidden = false;
+    drawer.style.display = 'flex';
+    backdrop.style.display = 'block';
+    void drawer.offsetWidth;
+    drawer.classList.add('is-open');
+    backdrop.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeWishlist() {
+    const drawer = document.getElementById('wishlist-drawer');
+    const backdrop = document.getElementById('wishlist-backdrop');
+    if (!drawer || !backdrop) return;
+    drawer.classList.remove('is-open');
+    backdrop.classList.remove('is-open');
+    setTimeout(() => {
+      drawer.hidden = true;
+      backdrop.hidden = true;
+      drawer.style.display = 'none';
+      backdrop.style.display = 'none';
+      document.body.style.overflow = '';
+    }, 320);
+  }
+
+  (window as any).openWishlist = openWishlist;
+  (window as any).closeWishlist = closeWishlist;
+
+  // Global Click Delegator (Never breaks on SPA route changes)
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    if (!target) return;
+
+    if (target.closest('#open-wishlist-btn, #drawer-open-wishlist-btn, .wishlist-trigger, [data-action="open-wishlist"]')) {
+      e.preventDefault();
+      openWishlist();
+      return;
+    }
+
+    if (target.closest('#wishlist-close-btn, #btn-wishlist-continue, #wishlist-shop-link')) {
+      closeWishlist();
+      return;
+    }
+
+    const backdropEl = document.getElementById('wishlist-backdrop');
+    if (backdropEl && target === backdropEl) {
+      closeWishlist();
+      return;
+    }
+
+    // Handle removing from wishlist inside drawer
+    const removeBtn = target.closest<HTMLElement>('[data-action="remove-fav"]');
+    if (removeBtn) {
+      e.preventDefault();
+      e.stopPropagation();
+      const id = removeBtn.getAttribute('data-id');
+      if (id) {
+        removeFavorite(id);
+      }
+      return;
     }
   });
+
+  document.addEventListener('keydown', (e) => {
+    const drawer = document.getElementById('wishlist-drawer');
+    if (e.key === 'Escape' && drawer?.classList.contains('is-open')) {
+      closeWishlist();
+    }
+  });
+
+  document.addEventListener('astro:page-load', () => {
+    closeWishlist();
+    renderWishlist();
+  });
+
+  document.addEventListener('astro:before-preparation', () => {
+    closeWishlist();
+  });
+
+  window.addEventListener('favorites-updated', () => {
+    renderWishlist();
+  });
+
+  window.addEventListener('storage', () => {
+    renderWishlist();
+  });
+
+  // Initial render on boot
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderWishlist);
+  } else {
+    renderWishlist();
+  }
 </script>

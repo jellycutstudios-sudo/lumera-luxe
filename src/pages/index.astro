@@ -40,25 +40,25 @@ const categories = [
     label: 'Fresh & Citrus',
     href: '/shop/?family=fresh',
     img: '/assets/brand/family-fresh-citrus.webp',
-    alt: 'LUMÈRA LUXE Fresh and Citrus Fragrances'
+    alt: 'Fresh & Citrus perfumes featuring Dolce & Gabbana Light Blue and Acqua di Parma Colonia'
   },
   {
     label: 'Floral & Rose',
     href: '/shop/?family=floral',
     img: '/assets/brand/family-floral-rose.webp',
-    alt: 'LUMÈRA LUXE Floral and Rose Fragrances'
+    alt: 'Floral & Rose perfumes featuring Chloé and Miss Dior'
   },
   {
     label: 'Amber & Oriental',
     href: '/shop/?family=oriental',
     img: '/assets/brand/family-amber-oriental.webp',
-    alt: 'LUMÈRA LUXE Amber and Oriental Fragrances'
+    alt: 'Amber & Oriental perfumes featuring YSL Black Opium and Chanel Coco Mademoiselle'
   },
   {
     label: 'Woody & Earthy',
     href: '/shop/?family=woody',
     img: '/assets/brand/family-woody-fresh.webp',
-    alt: 'LUMÈRA LUXE Woody and Earthy Fragrances'
+    alt: 'Woody & Earthy perfumes featuring Terre d’Hermès and Le Labo Santal 33'
   }
 ];
 
@@ -290,6 +290,22 @@ const homeStructuredData = {
       </div>
     </section>
 
+    <!-- COMING SOON EDITORIAL SHOWCASE (Pure Visual) -->
+    <section class="section-home section-teaser-banner">
+      <div class="container">
+        <a href="/our-story/" class="teaser-banner-frame" aria-label="LUMÈRA LUXE The Signature Collection Coming Soon">
+          <img
+            src="/assets/brand/story-signature-collection.webp"
+            alt="LUMÈRA LUXE The Signature Collection - Coming Soon - The Light She Carries"
+            class="teaser-banner-img"
+            loading="lazy"
+            width="1024"
+            height="576"
+          />
+        </a>
+      </div>
+    </section>
+
     <!-- 3. BRAND ETHOS & DOHA PACKAGING CRAFT -->
     <section class="section-home">
       <div class="container">
@@ -316,7 +332,7 @@ const homeStructuredData = {
               Expressing presence through scent: subtle, intimate, and memorable.
             </h3>
             <p class="about-paragraph">
-              LUMÈRA LUXE was established in Doha with an uncompromising conviction: bringing connoisseur-level perfumery within graceful reach. Every creation in our boutique is individually examined for authentic origin, genuine concentration, and scent integrity.
+              LUMÈRA LUXE was established in Qatar with an uncompromising conviction: bringing connoisseur-level perfumery within graceful reach. Every creation in our boutique is individually examined for authentic origin, genuine concentration, and scent integrity.
             </p>
             <p class="about-paragraph">
               We believe perfume is a personal art form that transcends words. Each bottle is selected with care, hand-packed in Doha, and delivered directly to your door across Qatar.
@@ -935,6 +951,41 @@ const homeStructuredData = {
   .hero-arrow-btn:focus-visible {
     outline: 2px solid var(--color-brand-cognac);
     outline-offset: 2px;
+  }
+
+  /* Coming Soon Teaser Banner */
+  .section-teaser-banner {
+    margin-bottom: clamp(3.5rem, 6vw, 5.5rem);
+  }
+
+  .teaser-banner-frame {
+    display: block;
+    position: relative;
+    width: 100%;
+    border-radius: var(--border-radius-sm);
+    overflow: hidden;
+    background-color: #12100E;
+    border: 1px solid rgba(197, 160, 89, 0.28);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+  }
+
+  .teaser-banner-img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .teaser-banner-frame:hover {
+    border-color: rgba(197, 160, 89, 0.55);
+    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.14);
+  }
+
+  .teaser-banner-frame:hover .teaser-banner-img {
+    transform: scale(1.02);
   }
 </style>
 

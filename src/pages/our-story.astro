@@ -52,7 +52,7 @@ import { siteConfig } from '../data/site';
             <div class="visual-frame">
               <img
                 src="/assets/brand/story-flacon-elegance.webp"
-                alt="Signature LUMÈRA LUXE flacon in warm Doha light"
+                alt="Chanel N°5 Eau de Parfum flacon in warm ambient light"
                 class="chapter-img"
                 width="800"
                 height="600"
@@ -128,6 +128,45 @@ import { siteConfig } from '../data/site';
               <span class="badge-item">Doha Priority Courier</span>
               <span class="badge-item">Signature Gift Ribbon</span>
               <span class="badge-item">2 Discovery Samples</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Chapter III: The Signature Collection (Coming Soon) -->
+    <section class="story-chapter story-chapter-signature">
+      <div class="container">
+        <div class="chapter-grid">
+          <div class="chapter-text">
+            <span class="chapter-num">Chapter III · Upcoming Creation</span>
+            <h2 class="chapter-title">The Signature Collection</h2>
+            <div class="chapter-body">
+              <p>
+                An intimate evolution of our maison. Conceived in Doha as our defining private reserve: <em>The Light She Carries</em>.
+              </p>
+            </div>
+            <div class="chapter-meta">
+              <div class="meta-item">
+                <span class="meta-label">Status</span>
+                <span class="meta-val">Coming Soon</span>
+              </div>
+              <div class="meta-item">
+                <span class="meta-label">First Flacon</span>
+                <span class="meta-val">The Light She Carries</span>
+              </div>
+            </div>
+          </div>
+          <div class="chapter-visual">
+            <div class="visual-frame visual-frame-signature">
+              <img
+                src="/assets/brand/story-signature-collection.webp"
+                alt="LUMÈRA LUXE The Signature Collection - Coming Soon - The Light She Carries"
+                class="signature-collection-img"
+                width="1024"
+                height="576"
+                loading="lazy"
+              />
             </div>
           </div>
         </div>
@@ -553,5 +592,38 @@ import { siteConfig } from '../data/site';
     border-color: #181513;
     background-color: #FFFFFF;
     transform: translateY(-1px);
+  }
+
+  /* 2.1 Chapter III: Signature Collection */
+  .story-chapter-signature {
+    background-color: #FAF8F5;
+    border-top: 1px solid #F0ECE6;
+    border-bottom: 1px solid #F0ECE6;
+  }
+
+  .visual-frame-signature {
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: #12100E;
+    border: 1px solid rgba(197, 160, 89, 0.28);
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
+  }
+
+  .signature-collection-img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .visual-frame-signature:hover .signature-collection-img {
+    transform: scale(1.025);
+  @media (min-width: 860px) {
+    .story-chapter-signature .chapter-grid {
+      grid-template-columns: 0.9fr 1.6fr;
+      gap: 3.5rem;
+    }
   }
 </style>
