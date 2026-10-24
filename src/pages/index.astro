@@ -195,6 +195,34 @@ const homeStructuredData = {
 
   <script type="application/ld+json" set:html={JSON.stringify(homeStructuredData)} />
   <div class="minimal-storefront">
+    <!-- BRAND SIGNATURE BANNER ("Authenticity and Luxury Is Our Signature.") -->
+    <section class="brand-signature-section" aria-label="Authenticity and Luxury Is Our Signature">
+      <div class="container brand-signature-container">
+        <div class="brand-signature-content">
+          <picture class="brand-signature-picture">
+            <source
+              srcset="/assets/brand/lumera-signature-banner.webp 1x, /assets/brand/lumera-signature-banner@2x.webp 2x"
+              type="image/webp"
+            />
+            <source
+              srcset="/assets/brand/lumera-signature-banner.png 1x, /assets/brand/lumera-signature-banner@2x.png 2x"
+              type="image/png"
+            />
+            <img
+              src="/assets/brand/lumera-signature-banner.png"
+              alt="Authenticity and Luxury Is Our Signature."
+              class="brand-signature-img"
+              width="575"
+              height="90"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+            />
+          </picture>
+        </div>
+      </div>
+    </section>
+
     <!-- HERO EDITORIAL SLIDER (LUMÈRA LUXE Brand Photography) -->
     <section class="hero-editorial-section" aria-label="Featured Collections Carousel">
       <div class="container">
@@ -439,8 +467,59 @@ const homeStructuredData = {
 
 <style>
   .minimal-storefront {
-    padding-top: 12px;
+    padding-top: 0;
     padding-bottom: clamp(4rem, 6vw, 6rem);
+  }
+
+  /* ==========================================================================
+     BRAND SIGNATURE BANNER ("Authenticity and Luxury Is Our Signature.")
+     ========================================================================== */
+  .brand-signature-section {
+    width: 100%;
+    background: linear-gradient(180deg, #FCFAF6 0%, #FAF5EE 55%, #FDFCFA 100%);
+    padding: clamp(0.875rem, 2.2vw, 1.35rem) 1rem clamp(0.875rem, 2.2vw, 1.35rem);
+    margin-bottom: clamp(0.75rem, 1.8vw, 1.25rem);
+    border-bottom: 1px solid rgba(197, 160, 89, 0.12);
+  }
+
+  .brand-signature-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .brand-signature-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .brand-signature-picture {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .brand-signature-img {
+    width: 100%;
+    max-width: clamp(290px, 86vw, 440px);
+    height: auto;
+    display: block;
+    object-fit: contain;
+    image-rendering: -webkit-optimize-contrast;
+  }
+
+  @media (min-width: 769px) {
+    .brand-signature-section {
+      padding: clamp(1.1rem, 2vw, 1.6rem) 1.5rem clamp(1.1rem, 2vw, 1.6rem);
+      margin-bottom: clamp(1rem, 2vw, 1.5rem);
+    }
+
+    .brand-signature-img {
+      max-width: 480px;
+    }
   }
 
   .hero-editorial-section {
