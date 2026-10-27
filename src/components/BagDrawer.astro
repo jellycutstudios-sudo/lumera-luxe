@@ -787,7 +787,7 @@ import { siteConfig } from '../data/site';
           quantity: item.quantity
         };
       })
-      .filter(Boolean);
+      .filter((it): it is NonNullable<typeof it> => it !== null);
   }
 
   function updateBagUI() {
@@ -998,6 +998,50 @@ import { siteConfig } from '../data/site';
         void headerCount.offsetWidth;
         headerCount.classList.add('bump');
         setTimeout(() => headerCount.classList.remove('bump'), 300);
+      }
+    }
+
+    if (action === 'add-duet-to-bag') {
+      const id1 = target.getAttribute('data-id-1');
+      const id2 = target.getAttribute('data-id-2');
+      if (id1 && id2) {
+        const items = getCartItems();
+        [id1, id2].forEach(id => {
+          const existing = items.find(it => it.id === id);
+          if (existing) {
+            existing.quantity += 1;
+          } else {
+            items.push({ id, quantity: 1 });
+          }
+        });
+        saveCartItems(items);
+        showToast('Added Scent Duet (2 flacons) to bag');
+
+        // Tactile button response
+        const btnText = target.querySelector('.btn-duet-text') || target.querySelector('span');
+        if (btnText) {
+          const orig = btnText.textContent;
+          target.classList.add('added-success');
+          btnText.textContent = '✓ Scent Duet Added';
+          setTimeout(() => {
+            target.classList.remove('added-success');
+            btnText.textContent = orig;
+          }, 1500);
+        }
+
+        // Bump header badge
+        const headerCount = document.getElementById('header-bag-count');
+        if (headerCount) {
+          headerCount.classList.remove('bump');
+          void headerCount.offsetWidth;
+          headerCount.classList.add('bump');
+          setTimeout(() => headerCount.classList.remove('bump'), 300);
+        }
+
+        // Open bag drawer so customer immediately views both flacons
+        setTimeout(() => {
+          openBag();
+        }, 350);
       }
     }
 

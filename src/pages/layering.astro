@@ -1,0 +1,854 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import productsData from '../data/products.json';
+import { CURATED_LAYERING_PAIRS } from '../data/fragrance-discovery';
+
+const activeCatalog = productsData.filter((p) => !p.isDraft);
+
+// Filter categories for the duets
+const duetCategoryMap: Record<string, string[]> = {
+  'amber-oud': ['pair-rose-amber', 'pair-citrus-oud', 'pair-solar-desert', 'pair-carthage-tuberose'],
+  'rose-floral': ['pair-rose-amber', 'pair-aldehydic-patchouli', 'pair-tonka-delina'],
+  'woods-leather': ['pair-orchid-incense', 'pair-leather-orange-blossom', 'pair-leather-citrus-rose'],
+  'fresh-citrus': ['pair-citrus-oud', 'pair-solar-desert', 'pair-white-musk-black-orchid']
+};
+
+const allDuets = CURATED_LAYERING_PAIRS.map(pair => {
+  const base = activeCatalog.find(p => p.slug === pair.baseSlug);
+  const top = activeCatalog.find(p => p.slug === pair.topSlug);
+  const total = base && top ? Math.round((base.priceMinor + top.priceMinor) / 100) : 0;
+  
+  // Determine categories
+  const categories: string[] = [];
+  for (const [cat, ids] of Object.entries(duetCategoryMap)) {
+    if (ids.includes(pair.id)) categories.push(cat);
+  }
+  
+  return { pair, base, top, total, categories: categories.join(' ') };
+}).filter(d => d.base && d.top);
+
+const filterCounts = {
+  all: allDuets.length,
+  'amber-oud': allDuets.filter(d => d.categories.includes('amber-oud')).length,
+  'rose-floral': allDuets.filter(d => d.categories.includes('rose-floral')).length,
+  'woods-leather': allDuets.filter(d => d.categories.includes('woods-leather')).length,
+  'fresh-citrus': allDuets.filter(d => d.categories.includes('fresh-citrus')).length
+};
+
+const title = "The Art of Layering · 10 Curated Scent Duets | LUMÈRA LUXE";
+const description = "Master the French haute parfumerie ritual of fragrance layering. Explore 10 curated two-flacon scent duets with single-click pairing in Qatar.";
+---
+
+<BaseLayout title={title} description={description}>
+  <main class="layering-page">
+    <!-- Editorial Hero -->
+    <header class="layering-hero">
+      <div class="container layering-hero-inner">
+        <span class="layering-eyebrow">Haute Parfumerie Ritual · Doha</span>
+        <h1 class="layering-title">The Art of Scent Layering</h1>
+        <p class="layering-lead">
+          Layering is the refined art of marrying two distinct flacons to compose a singular, bespoke scent signature. Discover our 10 master-curated scent duets — structured with a deep, enduring foundation base and an ethereal harmonizing top veil.
+        </p>
+
+        <!-- Refined Haute Parfumerie Mood Filter Track -->
+        <div class="duets-filter-wrapper">
+          <nav class="duets-filter-bar" aria-label="Filter duets by olfactory family">
+            <button type="button" class="duet-filter-btn is-active" data-filter="all">
+              <span class="btn-label">All Rituals</span>
+              <span class="btn-count">{filterCounts.all}</span>
+            </button>
+            <button type="button" class="duet-filter-btn" data-filter="amber-oud">
+              <span class="btn-label">Warm Amber & Oud</span>
+              <span class="btn-count">{filterCounts['amber-oud']}</span>
+            </button>
+            <button type="button" class="duet-filter-btn" data-filter="rose-floral">
+              <span class="btn-label">Rose & Floral Veils</span>
+              <span class="btn-count">{filterCounts['rose-floral']}</span>
+            </button>
+            <button type="button" class="duet-filter-btn" data-filter="woods-leather">
+              <span class="btn-label">Smoked Woods & Leather</span>
+              <span class="btn-count">{filterCounts['woods-leather']}</span>
+            </button>
+            <button type="button" class="duet-filter-btn" data-filter="fresh-citrus">
+              <span class="btn-label">Fresh & Solar Citrus</span>
+              <span class="btn-count">{filterCounts['fresh-citrus']}</span>
+            </button>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <!-- Master Duets Grid -->
+    <section class="layering-catalog-section">
+      <div class="container">
+        <!-- Live Duet Counter -->
+        <div class="duets-status-bar">
+          <span class="duets-count-text" id="duets-counter">Showing <strong>{allDuets.length}</strong> master layering rituals</span>
+          <span class="delivery-perk">Complimentary Doorstep Delivery in Qatar</span>
+        </div>
+
+        <div class="duets-grid" id="duets-grid">
+          {allDuets.map(({ pair, base, top, total, categories }: any, idx: number) => (
+            <article class="duet-card" data-duet-categories={categories} id={`duet-${pair.id}`}>
+              <!-- Card Header Badge Bar -->
+              <div class="duet-card-header">
+                <div class="duet-index-tag">
+                  <span class="sparkle">✦</span>
+                  <span>Ritual #{idx + 1}</span>
+                </div>
+                <div class="duet-price-badge">
+                  <span>2 Flacons · <strong>{total} QAR</strong></span>
+                </div>
+              </div>
+
+              <!-- Title & Sensory Narrative -->
+              <h2 class="duet-title">{pair.title}</h2>
+              <p class="duet-story">{pair.description}</p>
+
+              <!-- Two Flacons Interactive Visual Stage -->
+              <div class="duet-stage">
+                <!-- Base Flacon -->
+                <a href={`/perfumes/${base.slug}/`} class="duet-flacon-unit" aria-label={`View Base: ${base.brand} ${base.name}`}>
+                  <span class="flacon-role-pill base-pill">Foundation Base</span>
+                  <div class="flacon-thumb-box">
+                    <img
+                      src={base.image}
+                      alt={`${base.brand} ${base.name}`}
+                      width="140"
+                      height="140"
+                      loading="lazy"
+                      decoding="async"
+                      class="flacon-img"
+                    />
+                  </div>
+                  <div class="flacon-meta">
+                    <span class="flacon-brand">{base.brand}</span>
+                    <span class="flacon-name">{base.name}</span>
+                    <span class="flacon-specs">{base.concentration} · {base.sizeDisplay}</span>
+                    <span class="flacon-price">{base.priceDisplay}</span>
+                  </div>
+                </a>
+
+                <!-- Scent Connector -->
+                <div class="duet-connector-symbol" aria-hidden="true">
+                  <span class="plus-icon">+</span>
+                  <span class="connector-text">Layer With</span>
+                </div>
+
+                <!-- Top Veil Flacon -->
+                <a href={`/perfumes/${top.slug}/`} class="duet-flacon-unit" aria-label={`View Veil: ${top.brand} ${top.name}`}>
+                  <span class="flacon-role-pill top-pill">Harmonizing Veil</span>
+                  <div class="flacon-thumb-box">
+                    <img
+                      src={top.image}
+                      alt={`${top.brand} ${top.name}`}
+                      width="140"
+                      height="140"
+                      loading="lazy"
+                      decoding="async"
+                      class="flacon-img"
+                    />
+                  </div>
+                  <div class="flacon-meta">
+                    <span class="flacon-brand">{top.brand}</span>
+                    <span class="flacon-name">{top.name}</span>
+                    <span class="flacon-specs">{top.concentration} · {top.sizeDisplay}</span>
+                    <span class="flacon-price">{top.priceDisplay}</span>
+                  </div>
+                </a>
+              </div>
+
+              <!-- Sommelier Application Ritual Box -->
+              <div class="duet-ritual-box">
+                <span class="ritual-header">How to Apply This Duet</span>
+                <p class="ritual-copy">{pair.ritualNote}</p>
+              </div>
+
+              <!-- Actions Strip -->
+              <div class="duet-actions">
+                <button
+                  type="button"
+                  class="btn-add-duet-all"
+                  data-action="add-duet-to-bag"
+                  data-id-1={base.id}
+                  data-id-2={top.id}
+                  aria-label={`Add both ${base.name} and ${top.name} to shopping bag`}
+                >
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                  </svg>
+                  <span class="btn-label">Add Both to Bag</span>
+                  <span class="btn-sep">·</span>
+                  <span class="btn-price">{total} QAR</span>
+                </button>
+                <a href={`/perfumes/${base.slug}/`} class="link-view-flacon" data-astro-prefetch>
+                  <span>Explore Base Flacon Ritual</span>
+                  <span class="arrow" aria-hidden="true">→</span>
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Cross-Discovery Navigation Footer -->
+    <section class="layering-crosslinks-section">
+      <div class="container">
+        <div class="crosslinks-grid">
+          <!-- Card 1: Scent & Style Alignment -->
+          <div class="crosslink-card">
+            <span class="crosslink-kicker">Precious Metals & Astrology</span>
+            <h3 class="crosslink-title">Scent & Style Alignment</h3>
+            <p class="crosslink-lead">
+              Discover perfumes curated to harmonize with your jewelry metals — Yellow Gold, Platinum & Rose Gold — plus elemental zodiac energies.
+            </p>
+            <a href="/scent-styling/" class="btn-crosslink" data-astro-prefetch>
+              <span>Explore Style Alignment</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+
+          <!-- Card 2: Fragrance Finder Quiz -->
+          <div class="crosslink-card crosslink-card-gold">
+            <span class="crosslink-kicker">Interactive Consultation</span>
+            <h3 class="crosslink-title">Find Your Signature Scent</h3>
+            <p class="crosslink-lead">
+              Prefer a bespoke consultation? Answer 6 guided lifestyle questions to reveal your tailored 3-flacon fragrance wardrobe.
+            </p>
+            <a href="/fragrance-finder/" class="btn-crosslink btn-crosslink-gold" data-astro-prefetch>
+              <span>Start Fragrance Quiz (1 Min)</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<script>
+  function initLayeringFilters() {
+    const filterButtons = document.querySelectorAll('.duet-filter-btn');
+    const cards = document.querySelectorAll('.duet-card');
+    const counterEl = document.getElementById('duets-counter');
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.getAttribute('data-filter') || 'all';
+
+        // Update active button state
+        filterButtons.forEach(b => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+
+        // Smoothly center the clicked button horizontally on mobile
+        btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+
+        let visibleCount = 0;
+        cards.forEach(card => {
+          const cats = card.getAttribute('data-duet-categories') || '';
+          if (filter === 'all' || cats.includes(filter)) {
+            (card as HTMLElement).style.display = 'flex';
+            visibleCount++;
+          } else {
+            (card as HTMLElement).style.display = 'none';
+          }
+        });
+
+        if (counterEl) {
+          counterEl.innerHTML = `Showing <strong>${visibleCount}</strong> of ${cards.length} layering rituals`;
+        }
+      });
+    });
+  }
+
+  document.addEventListener('astro:page-load', initLayeringFilters);
+</script>
+
+<style>
+  .layering-page {
+    background-color: var(--color-bg, #FFFFFF);
+    color: var(--color-text-main, #181513);
+    padding-bottom: 5rem;
+  }
+
+  /* Editorial Hero */
+  .layering-hero {
+    background: linear-gradient(180deg, #FAF8F5 0%, #FFFFFF 100%);
+    border-bottom: 1px solid var(--color-border);
+    padding: clamp(3rem, 6vw, 4.5rem) 0 clamp(2rem, 4vw, 3rem);
+    text-align: center;
+  }
+
+  .layering-eyebrow {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-brand-cognac);
+    margin-bottom: 0.75rem;
+  }
+
+  .layering-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+    font-weight: 500;
+    line-height: 1.15;
+    margin: 0 0 1rem;
+    color: #141210;
+  }
+
+  .layering-lead {
+    font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+    line-height: 1.65;
+    color: var(--color-text-muted);
+    max-width: 720px;
+    margin: 0 auto 2rem;
+  }
+
+  /* Filter Navigation Architecture */
+  .duets-filter-wrapper {
+    margin-top: 1.5rem;
+    position: relative;
+    width: 100%;
+    max-width: 960px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .duets-filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 0.35rem 0.5rem 0.65rem;
+  }
+
+  .duets-filter-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (min-width: 900px) {
+    .duets-filter-bar {
+      justify-content: center;
+      flex-wrap: wrap;
+      overflow-x: visible;
+      padding: 0.25rem 0;
+      gap: 0.65rem;
+    }
+  }
+
+  .duet-filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 0.65rem 1.15rem;
+    background: #FFFFFF;
+    color: #4A423B;
+    border: 1px solid #E2DCD5;
+    border-radius: 2px;
+    font-family: var(--font-sans);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    touch-action: manipulation;
+  }
+
+  .duet-filter-btn:hover {
+    color: #1A1715;
+    border-color: #1A1715;
+    background: #FAF8F5;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+  }
+
+  .duet-filter-btn.is-active {
+    background: #1A1715;
+    color: #FAF8F5;
+    border-color: #1A1715;
+    box-shadow: 0 4px 14px rgba(26, 23, 21, 0.18);
+  }
+
+  .duet-filter-btn .btn-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 19px;
+    height: 18px;
+    padding: 0 0.3rem;
+    border-radius: 2px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    background: #F3EFEA;
+    color: #6B635B;
+    transition: all 180ms ease;
+  }
+
+  .duet-filter-btn:hover .btn-count {
+    background: #EAE5DE;
+    color: #1A1715;
+  }
+
+  .duet-filter-btn.is-active .btn-count {
+    background: rgba(255, 255, 255, 0.2);
+    color: #D4AF37;
+  }
+
+  /* Status Bar */
+  .duets-status-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 1.5rem 0 1rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+  }
+
+  .delivery-perk {
+    color: var(--color-brand-cognac);
+    font-weight: 600;
+    font-size: 0.8125rem;
+  }
+
+  /* 2-Column Responsive Duets Grid */
+  .duets-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media (min-width: 900px) {
+    .duets-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 2.25rem;
+    }
+  }
+
+  /* Duet Card */
+  .duet-card {
+    background: #FFFFFF;
+    border: 1px solid #ECE7E1;
+    border-radius: 8px;
+    padding: clamp(1.25rem, 3vw, 1.85rem);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+  }
+
+  .duet-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(24, 21, 19, 0.08);
+    border-color: var(--color-brand-cognac);
+  }
+
+  .duet-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .duet-index-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-brand-cognac);
+    background: #FAF8F5;
+    border: 1px solid rgba(197, 160, 89, 0.35);
+    padding: 0.25rem 0.65rem;
+    border-radius: 999px;
+  }
+
+  .sparkle {
+    color: #C5A059;
+  }
+
+  .duet-price-badge {
+    font-size: 0.8125rem;
+    color: #141210;
+    background: #FAF8F5;
+    padding: 0.25rem 0.65rem;
+    border-radius: 4px;
+    border: 1px solid #ECE7E1;
+  }
+
+  .duet-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 2.5vw, 1.65rem);
+    font-weight: 500;
+    color: #141210;
+    margin: 0 0 0.5rem;
+    line-height: 1.25;
+  }
+
+  .duet-story {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: #6E655E;
+    margin: 0 0 1.25rem;
+  }
+
+  /* Bottle Stage */
+  .duet-stage {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 0.75rem;
+    background: radial-gradient(circle at center, #FFFFFF 0%, #FAF8F5 100%);
+    border: 1px solid #F2EEE8;
+    border-radius: 8px;
+    padding: 1.25rem 0.85rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .duet-flacon-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+    min-width: 0;
+    transition: transform 180ms ease;
+  }
+
+  .duet-flacon-unit:hover {
+    transform: translateY(-2px);
+  }
+
+  .flacon-role-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.55rem;
+    border-radius: 2px;
+    margin-bottom: 0.6rem;
+    white-space: nowrap;
+    line-height: 1.2;
+  }
+
+  .base-pill {
+    background: #1A1715;
+    color: #FAF8F5;
+    border: 1px solid #1A1715;
+  }
+
+  .top-pill {
+    background: #FAF8F5;
+    color: var(--color-brand-cognac, #9E532B);
+    border: 1px solid rgba(158, 83, 43, 0.35);
+  }
+
+  .flacon-thumb-box {
+    width: 100%;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .flacon-img {
+    max-height: 100%;
+    max-width: 100%;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.06));
+    transition: transform 220ms ease;
+  }
+
+  .duet-flacon-unit:hover .flacon-img {
+    transform: scale(1.06);
+  }
+
+  .flacon-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .flacon-brand {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #8C827A;
+    margin-bottom: 0.15rem;
+  }
+
+  .flacon-name {
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #141210;
+    line-height: 1.25;
+    margin-bottom: 0.2rem;
+    max-width: 130px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .flacon-specs {
+    font-size: 0.7rem;
+    color: #8C827A;
+    margin-bottom: 0.25rem;
+  }
+
+  .flacon-price {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #141210;
+  }
+
+  /* Connector */
+  .duet-connector-symbol {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+  }
+
+  .plus-icon {
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: var(--color-brand-cognac);
+    line-height: 1;
+  }
+
+  .connector-text {
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #8C827A;
+  }
+
+  /* Sommelier Ritual Box */
+  .duet-ritual-box {
+    background: #FAF8F5;
+    border-left: 3px solid var(--color-brand-cognac);
+    border-radius: 0 4px 4px 0;
+    padding: 0.75rem 0.9rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .ritual-header {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-brand-cognac);
+    margin-bottom: 0.25rem;
+  }
+
+  .ritual-copy {
+    font-size: 0.78125rem;
+    line-height: 1.45;
+    color: #57524C;
+    margin: 0;
+  }
+
+  /* Actions */
+  .duet-actions {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .btn-add-duet-all {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    width: 100%;
+    padding: 0.85rem 1.25rem;
+    background: #1A1715;
+    color: #FAF8F5;
+    font-family: var(--font-sans);
+    font-size: 0.78125rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid #1A1715;
+    border-radius: 2px;
+    cursor: pointer;
+    box-shadow: 0 3px 10px rgba(26, 23, 21, 0.12);
+    transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .btn-add-duet-all:hover {
+    background: var(--color-brand-cognac, #9E532B);
+    border-color: var(--color-brand-cognac, #9E532B);
+    color: #FFFFFF;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(158, 83, 43, 0.25);
+  }
+
+  .btn-add-duet-all:active {
+    transform: translateY(1px);
+  }
+
+  .btn-add-duet-all .btn-price {
+    font-family: var(--font-display, serif);
+    font-weight: 700;
+    color: #D4AF37;
+    letter-spacing: 0.02em;
+  }
+
+  .btn-add-duet-all:hover .btn-price {
+    color: #FFFFFF;
+  }
+
+  .link-view-flacon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    width: 100%;
+    padding: 0.65rem 1rem;
+    background: #FFFFFF;
+    color: #6B635B;
+    border: 1px solid #EAE5DE;
+    border-radius: 2px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 180ms ease;
+  }
+
+  .link-view-flacon:hover {
+    background: #FAF8F5;
+    border-color: #1A1715;
+    color: #1A1715;
+    transform: translateY(-1px);
+  }
+
+  /* Crosslink Navigation Footer */
+  .layering-crosslinks-section {
+    padding-top: 4rem;
+    border-top: 1px solid var(--color-border);
+    margin-top: 4rem;
+  }
+
+  .crosslinks-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .crosslinks-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+  }
+
+  .crosslink-card {
+    background: #FAF8F5;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .crosslink-card-gold {
+    background: linear-gradient(135deg, #FAF8F4 0%, #F5EFE6 100%);
+    border-color: rgba(197, 160, 89, 0.4);
+  }
+
+  .crosslink-kicker {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-brand-cognac);
+    margin-bottom: 0.4rem;
+    display: block;
+  }
+
+  .crosslink-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #141210;
+    margin: 0 0 0.5rem;
+  }
+
+  .crosslink-lead {
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: #6E655E;
+    margin: 0 0 1.5rem;
+  }
+
+  .btn-crosslink {
+    margin-top: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.75rem 1.4rem;
+    background: #FFFFFF;
+    color: #141210;
+    border: 1px solid var(--color-border);
+    border-radius: 2px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 180ms ease;
+  }
+
+  .btn-crosslink:hover {
+    border-color: #1A1715;
+    color: #1A1715;
+    background: #FAF8F5;
+    transform: translateY(-1px);
+  }
+
+  .btn-crosslink-gold {
+    background: #1A1715;
+    color: #FAF8F5;
+    border-color: #1A1715;
+  }
+
+  .btn-crosslink-gold:hover {
+    background: var(--color-brand-cognac, #9E532B);
+    border-color: var(--color-brand-cognac, #9E532B);
+    color: #FFFFFF;
+  }
+</style>

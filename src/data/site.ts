@@ -59,6 +59,7 @@ export const siteConfig: SiteConfig = {
   whatsappUrl: 'https://wa.me/97466675166',
   navigation: [
     { label: 'Shop', href: '/shop/' },
+    { label: 'Discovery', href: '/scent-styling/' },
     { label: 'About', href: '/our-story/' },
     { label: 'Contact', href: '/contact/' }
   ],

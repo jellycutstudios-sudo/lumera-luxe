@@ -163,7 +163,7 @@ const homeStructuredData = {
           'name': 'Which perfume brands are available at LUMÈRA LUXE Qatar?',
           'acceptedAnswer': {
             '@type': 'Answer',
-            'text': 'LUMÈRA LUXE curates over 200 authentic fragrances from world-renowned fragrance houses, including Chanel, Dior, Baccarat Rouge / Maison Francis Kurkdjian, Tom Ford, Creed, Yves Saint Laurent, Giorgio Armani, Gucci, Byredo, Parfums de Marly, and Narciso Rodriguez.'
+            'text': 'LUMÈRA LUXE curates 175 authentic fragrances from world-renowned fragrance houses, including Chanel, Dior, Baccarat Rouge / Maison Francis Kurkdjian, Tom Ford, Creed, Yves Saint Laurent, Giorgio Armani, Gucci, Byredo, Parfums de Marly, and Narciso Rodriguez.'
           }
         }
       ]
@@ -363,6 +363,30 @@ const homeStructuredData = {
       </div>
     </section>
 
+    <!-- BESPOKE FRAGRANCE CONSULTATION DISCOVERY CARD -->
+    <section class="section-home section-fragrance-finder-banner" aria-label="Personal Fragrance Discovery">
+      <div class="container">
+        <div class="finder-invitation-card">
+          <div class="finder-invitation-content">
+            <span class="finder-invitation-kicker">Personal Olfactive Consultation</span>
+            <h2 class="finder-invitation-title">Find Your Signature Scent</h2>
+            <p class="finder-invitation-copy">
+              Your style. Your mood. Your signature fragrance. Take a brief, six-question bespoke consultation to discover the flacons that resonate with your presence.
+            </p>
+            <div class="finder-invitation-action">
+              <a href="/fragrance-finder/" class="btn-finder-start">
+                <span>Begin Fragrance Consultation</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- COMING SOON EDITORIAL SHOWCASE (Pure Visual) -->
     <section class="section-home section-teaser-banner">
       <div class="container">
@@ -372,6 +396,7 @@ const homeStructuredData = {
             alt="LUMÈRA LUXE The Signature Collection - Coming Soon - The Light She Carries"
             class="teaser-banner-img"
             loading="lazy"
+            decoding="async"
             width="1024"
             height="576"
           />
@@ -1120,6 +1145,80 @@ const homeStructuredData = {
 
   .teaser-banner-frame:hover .teaser-banner-img {
     transform: scale(1.02);
+  }
+
+  /* Fragrance Finder Invitation Card */
+  .section-fragrance-finder-banner {
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+
+  .finder-invitation-card {
+    background: linear-gradient(135deg, #FAF8F4 0%, #F5EFE6 100%);
+    border: 1px solid var(--color-border);
+    border-radius: 4px;
+    padding: 3rem 2rem;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  }
+
+  @media (max-width: 600px) {
+    .finder-invitation-card {
+      padding: 2.25rem 1.25rem;
+    }
+  }
+
+  .finder-invitation-content {
+    max-width: 620px;
+    margin: 0 auto;
+  }
+
+  .finder-invitation-kicker {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-brand-cognac);
+    margin-bottom: 0.65rem;
+  }
+
+  .finder-invitation-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 3.5vw, 2.35rem);
+    font-weight: 500;
+    color: var(--color-text-main);
+    line-height: 1.2;
+    margin: 0 0 0.85rem;
+  }
+
+  .finder-invitation-copy {
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin: 0 0 1.75rem;
+  }
+
+  .btn-finder-start {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.85rem 1.85rem;
+    background-color: var(--color-brand-cognac);
+    color: #FFFFFF;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 3px;
+    min-height: 48px;
+    transition: all 180ms ease;
+  }
+
+  .btn-finder-start:hover {
+    background-color: #8C4424;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(166, 83, 45, 0.25);
   }
 </style>
 

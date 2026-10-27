@@ -3,6 +3,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProductCard from '../../components/ProductCard.astro';
 import productsData from '../../data/products.json';
 import { siteConfig } from '../../data/site';
+import { findSimilarFragrances } from '../../lib/fragrance-matcher';
+import { CURATED_LAYERING_PAIRS } from '../../data/fragrance-discovery';
 
 export async function getStaticPaths() {
   return productsData.map((product) => ({
@@ -13,16 +15,23 @@ export async function getStaticPaths() {
 
 const { product } = Astro.props;
 
-// Find 3-4 related products sharing brand, category, or scent families
-const relatedProducts = productsData
-  .filter(
-    (p) =>
-      p.id !== product.id &&
-      (p.brand === product.brand ||
-        (p.category && p.category === product.category) ||
-        p.scentFamilies.some((f) => product.scentFamilies.includes(f)))
-  )
-  .slice(0, 4);
+// Find 2-3 genuinely similar fragrances using note-affinity and olfactive family overlap
+const similarResults = findSimilarFragrances(product, productsData, 3);
+const similarProducts = similarResults.map((r) => r.product);
+
+// Check if this fragrance is part of an approved layering ritual (either as base or top)
+const activeLayeringPair = CURATED_LAYERING_PAIRS.find(
+  (pair) => pair.baseSlug === product.slug || pair.topSlug === product.slug
+);
+
+let pairedProduct = null;
+let isCurrentBase = false;
+if (activeLayeringPair) {
+  isCurrentBase = activeLayeringPair.baseSlug === product.slug;
+  const companionSlug = isCurrentBase ? activeLayeringPair.topSlug : activeLayeringPair.baseSlug;
+  pairedProduct = productsData.find((p) => p.slug === companionSlug) || null;
+}
+const duetPriceTotal = pairedProduct ? Math.round((product.priceMinor + pairedProduct.priceMinor) / 100) : 0;
 
 // Schema.org Product structured data (Enhanced for Google Merchant & AEO Rich Snippets)
 const productSchema = {
@@ -144,10 +153,10 @@ const productSchema = {
         <!-- Luxury Price & Privilege Bar -->
         <div class="pdp-price-row">
           <div class="price-figures">
-            <span class="pdp-price">{product.priceDisplay}</span>
-            {product.stickerPriceMinor > product.priceMinor && (
+            {product.stickerPriceMinor && product.stickerPriceMinor > product.priceMinor && (
               <span class="pdp-sticker-price">{(product.stickerPriceMinor / 100).toFixed(0)} QAR</span>
             )}
+            <span class="pdp-price">{product.priceDisplay}</span>
           </div>
           <div class="pdp-curation-badge">
             <span>Complimentary Qatar Delivery</span>
@@ -291,15 +300,113 @@ const productSchema = {
       </div>
     </div>
 
-    <!-- Related Fragrances -->
-    {relatedProducts.length > 0 && (
-      <section class="related-section">
+    <!-- 8. THE ART OF LAYERING (Curated Flacon Combination) -->
+    {activeLayeringPair && pairedProduct && (
+      <section class="layering-section" aria-label="Fragrance Layering Ritual">
+        <div class="layering-card">
+          <!-- Compact Editorial Header -->
+          <div class="layering-header">
+            <div class="layering-kicker-row">
+              <span class="layering-kicker">Maison Scent Duet · The Art of Layering</span>
+              <a href={`/layering/#duet-${activeLayeringPair.id}`} class="layering-browse-all" data-astro-prefetch>
+                <span>View All 10 Duets</span>
+                <span aria-hidden="true">→</span>
+              </a>
+            </div>
+            <h2 class="layering-title">{activeLayeringPair.title}</h2>
+            <p class="layering-lead">{activeLayeringPair.description}</p>
+          </div>
+
+          <!-- Symmetrical Side-by-Side Duet Stage (Desktop & Mobile) -->
+          <div class="layering-duet-stage">
+            <!-- Current Flacon -->
+            <div class="duet-podium current-podium">
+              <span class="podium-role-badge">{isCurrentBase ? 'Foundation Base' : 'Harmonizing Top Veil'}</span>
+              <div class="podium-image-frame">
+                <img src={product.image} alt={product.fullName} width="160" height="160" class="podium-img" loading="lazy" decoding="async" />
+              </div>
+              <div class="podium-meta">
+                <span class="podium-brand">{product.brand}</span>
+                <span class="podium-name">{product.name}</span>
+                <span class="podium-notes">{(product.keyNotes || []).slice(0, 3).join(' · ')}</span>
+                <div class="podium-price-row">
+                  <span class="podium-price">{product.priceDisplay}</span>
+                  <span class="podium-pill-tag">Current Flacon</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Visual Scent Connector -->
+            <div class="duet-connector" aria-hidden="true">
+              <span class="connector-plus">+</span>
+              <span class="connector-label">Layer With</span>
+            </div>
+
+            <!-- Companion Flacon -->
+            <div class="duet-podium companion-podium">
+              <span class="podium-role-badge">{isCurrentBase ? 'Harmonizing Top Veil' : 'Foundation Base'}</span>
+              <a href={`/perfumes/${pairedProduct.slug}/`} class="podium-image-link" aria-label={`View ${pairedProduct.fullName}`}>
+                <div class="podium-image-frame">
+                  <img src={pairedProduct.image} alt={pairedProduct.fullName} width="160" height="160" class="podium-img" loading="lazy" decoding="async" />
+                </div>
+              </a>
+              <div class="podium-meta">
+                <span class="podium-brand">{pairedProduct.brand}</span>
+                <a href={`/perfumes/${pairedProduct.slug}/`} class="podium-name-link">{pairedProduct.name}</a>
+                <span class="podium-notes">{(pairedProduct.keyNotes || []).slice(0, 3).join(' · ')}</span>
+                <div class="podium-price-row">
+                  <span class="podium-price">{pairedProduct.priceDisplay}</span>
+                  <a href={`/perfumes/${pairedProduct.slug}/`} class="podium-explore-link">Details →</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Integrated Ritual Tip Strip -->
+          <div class="layering-ritual-strip">
+            <span class="ritual-sparkle" aria-hidden="true">✦</span>
+            <p class="ritual-text"><strong>Layering Ritual:</strong> {activeLayeringPair.ritualNote}</p>
+          </div>
+
+          <!-- Seamless 1-Click Purchase Bar -->
+          <div class="layering-footer-bar">
+            <div class="duet-offer-summary">
+              <span class="duet-offer-title">Acquire Complete Scent Duet</span>
+              <div class="duet-offer-figures">
+                <span class="duet-offer-total">{duetPriceTotal} QAR</span>
+                <span class="duet-offer-subtitle">(Both Full Flacons · Free Delivery)</span>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              class="btn-buy-duet"
+              data-action="add-duet-to-bag"
+              data-id-1={product.id}
+              data-id-2={pairedProduct.id}
+              aria-label={`Add Scent Duet: ${product.name} and ${pairedProduct.name} to bag`}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <path d="M16 10a4 4 0 0 1-8 0"></path>
+              </svg>
+              <span class="btn-duet-text">Add Both to Bag · {duetPriceTotal} QAR</span>
+            </button>
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- 7. SIMILAR FRAGRANCE RECOMMENDATIONS -->
+    {similarProducts.length > 0 && (
+      <section class="related-section" aria-label="Similar Fragrances">
         <div class="section-header-minimal">
-          <h2 class="section-title-minimal">You May Also Appreciate</h2>
-          <a href="/shop/" class="see-all-link">View Collection</a>
+          <h2 class="section-title-minimal">If You Love This, Try These</h2>
+          <span class="similar-note-kicker">Matched by shared note accords & fragrance families</span>
         </div>
         <div class="grid-products">
-          {relatedProducts.map((p) => (
+          {similarProducts.map((p) => (
             <ProductCard product={p} />
           ))}
         </div>
@@ -311,7 +418,7 @@ const productSchema = {
   <aside class="pdp-sticky-bar" id="pdp-sticky-bar" aria-label="Quick Purchase Actions">
     <div class="pdp-sticky-inner">
       <div class="sticky-thumb-info">
-        <img src={product.image} alt={product.name} class="sticky-thumb-img" width="40" height="40" />
+        <img src={product.image} alt={product.name} class="sticky-thumb-img" width="40" height="40" loading="lazy" decoding="async" />
         <div class="sticky-meta">
           <span class="sticky-title">{product.name}</span>
           <span class="sticky-price" id="pdp-sticky-amount">{product.priceDisplay}</span>
@@ -1031,6 +1138,412 @@ const productSchema = {
   .related-section {
     padding-top: clamp(3rem, 5vw, 4.5rem);
     border-top: 1px solid var(--color-border);
+    margin-top: 3rem;
+  }
+
+  .similar-note-kicker {
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+    font-family: var(--font-display);
+    display: block;
+    margin-top: 0.25rem;
+  }
+
+  /* The Art of Layering Section - Premium Compact Architecture */
+  .layering-section {
+    padding-top: clamp(2rem, 3.5vw, 3rem);
+    margin-top: 2.5rem;
+    margin-bottom: 2rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .layering-card {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #FFFFFF;
+    border: 1px solid #E6DFD5;
+    border-radius: 6px;
+    box-shadow: 0 4px 24px rgba(26, 23, 21, 0.04);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .layering-header {
+    text-align: center;
+    padding: clamp(1.25rem, 2.5vw, 1.85rem) clamp(1rem, 2.5vw, 2rem) 1rem;
+    background: linear-gradient(180deg, #FAF7F2 0%, #FFFFFF 100%);
+    border-bottom: 1px solid #F0ECE4;
+  }
+
+  .layering-kicker-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .layering-kicker {
+    display: inline-block;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-brand-cognac, #9E532B);
+  }
+
+  .layering-browse-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+
+  .layering-browse-all:hover {
+    color: var(--color-brand-cognac, #9E532B);
+  }
+
+  .layering-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+    font-weight: 500;
+    color: var(--color-text-main);
+    line-height: 1.25;
+    margin: 0 0 0.45rem;
+  }
+
+  .layering-lead {
+    font-size: 0.84375rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Dual Flacon Stage - Symmetrical Side-by-Side (Desktop & Mobile) */
+  .layering-duet-stage {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: stretch;
+    padding: clamp(0.85rem, 2vw, 1.5rem);
+    gap: clamp(0.4rem, 1.5vw, 1.25rem);
+    background-color: #FFFFFF;
+  }
+
+  .duet-podium {
+    background: #FAF8F5;
+    border: 1px solid #EBE5DC;
+    border-radius: 4px;
+    padding: clamp(0.75rem, 1.8vw, 1.25rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    transition: border-color 180ms ease, box-shadow 180ms ease;
+  }
+
+  .duet-podium:hover {
+    border-color: #D6C9B8;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+  }
+
+  .podium-role-badge {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-brand-cognac, #9E532B);
+    background: #FFFFFF;
+    border: 1px solid #E6DED4;
+    padding: 0.2rem 0.5rem;
+    border-radius: 2px;
+    margin-bottom: 0.4rem;
+    white-space: nowrap;
+  }
+
+  .podium-image-frame {
+    width: clamp(75px, 13vw, 120px);
+    height: clamp(75px, 13vw, 120px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.25rem auto 0.5rem;
+  }
+
+  .podium-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: transform 200ms ease;
+  }
+
+  .podium-image-link:hover .podium-img {
+    transform: scale(1.05);
+  }
+
+  .podium-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: auto;
+  }
+
+  .podium-brand {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+    margin-bottom: 0.15rem;
+  }
+
+  .podium-name,
+  .podium-name-link {
+    font-family: var(--font-display);
+    font-size: clamp(0.75rem, 1.4vw, 0.95rem);
+    font-weight: 600;
+    color: var(--color-text-main);
+    text-decoration: none;
+    line-height: 1.25;
+    margin-bottom: 0.2rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .podium-name-link:hover {
+    color: var(--color-brand-cognac);
+  }
+
+  .podium-notes {
+    font-size: 0.6875rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+    margin-bottom: 0.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .podium-price-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    width: 100%;
+    padding-top: 0.45rem;
+    border-top: 1px solid #ECE5DC;
+    flex-wrap: wrap;
+  }
+
+  .podium-price {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+  }
+
+  .podium-pill-tag {
+    font-size: 0.5625rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    background: #EFEAE2;
+    padding: 0.12rem 0.35rem;
+    border-radius: 2px;
+  }
+
+  .podium-explore-link {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: var(--color-brand-cognac);
+    text-decoration: none;
+    transition: transform 150ms ease;
+  }
+
+  .podium-explore-link:hover {
+    transform: translateX(2px);
+  }
+
+  /* Duet Connector */
+  .duet-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+  }
+
+  .connector-plus {
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #FAF7F2;
+    border: 1px solid #E6DED4;
+    color: var(--color-brand-cognac, #9E532B);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  .connector-label {
+    font-size: 0.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+  }
+
+  /* Integrated Ritual Note */
+  .layering-ritual-strip {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    padding: 0.75rem clamp(0.85rem, 2vw, 1.5rem);
+    background: #FAF7F2;
+    border-top: 1px solid #F0ECE4;
+    border-bottom: 1px solid #F0ECE4;
+  }
+
+  .ritual-sparkle {
+    color: #D4AF37;
+    font-size: 0.875rem;
+    line-height: 1.3;
+    flex-shrink: 0;
+  }
+
+  .ritual-text {
+    font-size: 0.78125rem;
+    line-height: 1.45;
+    color: #4A423A;
+    margin: 0;
+  }
+
+  /* Integrated Purchase Footer Bar */
+  .layering-footer-bar {
+    padding: clamp(0.85rem, 2vw, 1.25rem) clamp(0.85rem, 2vw, 1.5rem);
+    background: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  @media (min-width: 580px) {
+    .layering-footer-bar {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  .duet-offer-summary {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    text-align: center;
+  }
+
+  @media (min-width: 580px) {
+    .duet-offer-summary {
+      text-align: left;
+    }
+  }
+
+  .duet-offer-title {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-brand-cognac, #9E532B);
+  }
+
+  .duet-offer-figures {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 0.45rem;
+  }
+
+  @media (min-width: 580px) {
+    .duet-offer-figures {
+      justify-content: flex-start;
+    }
+  }
+
+  .duet-offer-total {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--color-text-main);
+    line-height: 1.2;
+  }
+
+  .duet-offer-subtitle {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
+  .btn-buy-duet {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    background: #1A1715;
+    color: #FAF8F5;
+    border: 1px solid #1A1715;
+    border-radius: 3px;
+    padding: 0.8rem 1.4rem;
+    font-family: var(--font-sans);
+    font-size: 0.78125rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    min-height: 46px;
+    white-space: nowrap;
+    width: 100%;
+    transition: all 180ms ease;
+    box-shadow: 0 4px 14px rgba(26, 23, 21, 0.12);
+  }
+
+  @media (min-width: 580px) {
+    .btn-buy-duet {
+      width: auto;
+      flex-shrink: 0;
+    }
+  }
+
+  .btn-buy-duet:hover {
+    background: var(--color-brand-cognac, #9E532B);
+    border-color: var(--color-brand-cognac, #9E532B);
+    color: #FFFFFF;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(158, 83, 43, 0.25);
+  }
+
+  .btn-buy-duet:active {
+    transform: translateY(1px);
+  }
+
+  .btn-buy-duet.added-success {
+    background: #2E6930 !important;
+    border-color: #2E6930 !important;
+    color: #FFFFFF !important;
   }
 
   /* Mobile Sticky Dual-Action Bar */
@@ -1344,7 +1857,7 @@ const productSchema = {
     const footer = document.querySelector('footer');
     const footerRect = footer ? footer.getBoundingClientRect() : null;
 
-    const isPastCta = btnRect.bottom < 0;
+    const isPastCta = btnRect.bottom < 64;
     const isAtBottom = footerRect ? footerRect.top <= (window.innerHeight + 20) : false;
 
     if (isPastCta && !isAtBottom) {

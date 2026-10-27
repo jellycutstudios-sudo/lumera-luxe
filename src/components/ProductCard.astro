@@ -9,6 +9,7 @@ export interface Props {
     concentration: string;
     priceMinor: number;
     priceDisplay: string;
+    stickerPriceMinor?: number | null;
     image: string;
     scentFamilies: string[];
     keyNotes: string[];
@@ -97,6 +98,9 @@ const { product, priority = false, isLarge = false } = Astro.props;
       {product.sizeDisplay && <span class="card-size-label">{product.sizeDisplay}</span>}
     </div>
     <div class="card-price-row">
+      {product.stickerPriceMinor && product.stickerPriceMinor > product.priceMinor && (
+        <span class="card-sticker-price">{Math.round(product.stickerPriceMinor / 100)} QAR</span>
+      )}
       <span class="card-price">{product.priceDisplay}</span>
     </div>
   </div>
@@ -362,16 +366,29 @@ const { product, priority = false, isLarge = false } = Astro.props;
   .card-price-row {
     display: flex;
     align-items: baseline;
+    gap: 0.5rem;
     margin: 0;
     padding: 0;
     border: none;
     min-width: 0;
+    flex-wrap: wrap;
+  }
+
+  .card-sticker-price {
+    font-family: var(--font-body);
+    font-size: 0.78125rem;
+    font-weight: 400;
+    color: #8A8580;
+    text-decoration: line-through;
+    text-decoration-color: rgba(138, 133, 128, 0.75);
+    white-space: nowrap;
+    letter-spacing: -0.01em;
   }
 
   .card-price {
     font-family: var(--font-body);
-    font-size: 0.875rem;
-    font-weight: 600;
+    font-size: 0.9375rem;
+    font-weight: 700;
     color: #1A1816;
     white-space: nowrap;
     letter-spacing: -0.01em;

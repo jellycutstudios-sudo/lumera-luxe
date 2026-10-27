@@ -1,0 +1,847 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProductCard from '../components/ProductCard.astro';
+import productsData from '../data/products.json';
+
+const activeCatalog = productsData.filter((p) => !p.isDraft);
+
+// Curated selections by style
+const goldProducts = [
+  'boucheron-ambre-d-alexandrie',
+  'chopard-oud-malaki',
+  'dolce-and-gabbana-velvet-desert-oud',
+  'tom-ford-noir-extreme'
+].map(slug => activeCatalog.find(p => p.slug === slug)).filter(Boolean);
+
+const silverProducts = [
+  'herm-s-eau-des-merveilles',
+  'narciso-rodriguez-pure-musc',
+  'chanel-n-5',
+  'chanel-chance-eau-fra-che'
+].map(slug => activeCatalog.find(p => p.slug === slug)).filter(Boolean);
+
+const roseGoldProducts = [
+  'parfums-de-marly-delina',
+  'dior-miss-dior',
+  'chanel-coco-mademoiselle',
+  'boucheron-feve-tonka-de-canaima'
+].map(slug => activeCatalog.find(p => p.slug === slug)).filter(Boolean);
+
+// Elemental Zodiac-Inspired Flacons
+const elementalCollections = [
+  {
+    id: 'desert-fire',
+    title: 'Desert Fire',
+    zodiacEnergy: 'Aries · Leo · Sagittarius',
+    essence: 'Solar Ambers, Spiced Saffron, & Sacred Frankincense',
+    description: 'Dynamic, magnetic presence. Scents that radiate with fiery conviction, roasted spices, and enduring amber sillage in the cool evening air.',
+    slugs: ['chopard-black-incense-malaki', 'dolce-and-gabbana-velvet-desert-oud']
+  },
+  {
+    id: 'coastal-air',
+    title: 'Coastal Air',
+    zodiacEnergy: 'Gemini · Libra · Aquarius',
+    essence: 'Champagne Aldehydes, Italian Citrus, & Sea Minerals',
+    description: 'Effortless charisma and sparkling intellect. Crystalline compositions that float like an ocean breeze across Doha’s Corniche.',
+    slugs: ['herm-s-eau-des-merveilles', 'boucheron-orange-de-bahia']
+  },
+  {
+    id: 'oasis-earth',
+    title: 'Oasis Earth',
+    zodiacEnergy: 'Taurus · Virgo · Capricorn',
+    essence: 'Indonesian Patchouli, Cedarwood, & Smoked Bark',
+    description: 'Grounded prestige, poise, and quiet luxury. Deep woody architectures that command unwavering respect without ever shouting.',
+    slugs: ['boucheron-patchouli-d-angkor', 'chopard-leather-malaki']
+  },
+  {
+    id: 'midnight-water',
+    title: 'Midnight Water',
+    zodiacEnergy: 'Cancer · Scorpio · Pisces',
+    essence: 'Black Orchid Nectar, French Cognac, & Night Plum',
+    description: 'Enigmatic, intuitive, and unforgettable. Deep nocturnal harmonies that cast an irresistible, hypnotic halo.',
+    slugs: ['tom-ford-black-orchid', 'tom-ford-velvet-orchid']
+  }
+];
+---
+
+<BaseLayout
+  title="Scent & Style Alignment · The Haute Parfumerie Wardrobe · LUMÈRA LUXE"
+  description="Discover fine fragrances curated to harmonize with your jewelry, precious metals, and elemental persona. Luxury perfume styling in Doha, Qatar."
+>
+  <main class="styling-page">
+    <!-- Editorial Hero -->
+    <header class="styling-hero">
+      <div class="container styling-hero-inner">
+        <span class="styling-eyebrow">Haute Parfumerie Curation · Doha</span>
+        <h1 class="styling-title">Scent & Style Alignment</h1>
+        <p class="styling-lead">
+          Fragrance is your invisible couture. Explore fine flacons curated to harmonize with your precious metals, jewelry accents, and elemental personal aura.
+        </p>
+        <div class="styling-quick-nav">
+          <a href="#precious-metals" class="pill-anchor">Precious Metals</a>
+          <a href="#elements" class="pill-anchor">The Elemental Wardrobe</a>
+          <a href="/layering/" class="pill-anchor" data-astro-prefetch>10 Scent Duets →</a>
+          <a href="/fragrance-finder/" class="pill-anchor quiz-highlight">Consultation Quiz</a>
+        </div>
+      </div>
+    </header>
+
+    <!-- SECTION 1: PRECIOUS METAL ALIGNMENT -->
+    <section class="styling-section" id="precious-metals">
+      <div class="container">
+        <div class="section-heading-centered">
+          <span class="section-kicker">Fine Jewelry Harmony</span>
+          <h2 class="section-title">Harmonize with Your Precious Metals</h2>
+          <p class="section-desc">
+            In Middle Eastern luxury attire, scent and fine jewelry exist in constant dialogue. Select your metal to explore olfactory notes crafted to mirror its shine and warmth.
+          </p>
+        </div>
+
+        <!-- 3 Precious Metal Cards -->
+        <div class="metals-grid">
+          <!-- Warm Gold -->
+          <article class="metal-card gold-card" id="gold">
+            <div class="metal-card-header">
+              <span class="metal-badge">18k & 21k Gold</span>
+              <h3 class="metal-title">Wear with Warm Gold</h3>
+              <p class="metal-notes-line">Honeyed Amber · Royal Oud · Solar Saffron · Warm Vanilla</p>
+              <p class="metal-copy">
+                The rich, radiant warmth of yellow gold calls for deep, golden resins and sweet balsamic bases. These fragrances glow on warm pulse points, leaving an opulent, sunlit trail.
+              </p>
+            </div>
+
+            <div class="metal-products-preview">
+              <div class="products-mini-row">
+                {goldProducts.map((p: any) => (
+                  <ProductCard product={p} />
+                ))}
+              </div>
+            </div>
+
+            <div class="metal-card-footer">
+              <a href="/shop/?style=gold" class="btn-metal-shop">
+                <span>Explore All Warm Gold Fragrances ({activeCatalog.filter(p => p.scentFamilies.includes('oriental') || p.scentFamilies.includes('woody')).length})</span>
+                <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </article>
+
+          <!-- Cool Silver & Platinum -->
+          <article class="metal-card silver-card" id="silver">
+            <div class="metal-card-header">
+              <span class="metal-badge">Platinum & White Gold</span>
+              <h3 class="metal-title">Wear with Cool Silver</h3>
+              <p class="metal-notes-line">Crystalline Musks · Champagne Aldehydes · Clean Iris · Mineral Ambergris</p>
+              <p class="metal-copy">
+                The architectural elegance of platinum and fine diamonds demands clarity, restraint, and luminosity. These formulations embody crisp, modern minimalism and refined skin-scent intimacy.
+              </p>
+            </div>
+
+            <div class="metal-products-preview">
+              <div class="products-mini-row">
+                {silverProducts.map((p: any) => (
+                  <ProductCard product={p} />
+                ))}
+              </div>
+            </div>
+
+            <div class="metal-card-footer">
+              <a href="/shop/?style=silver" class="btn-metal-shop">
+                <span>Explore All Cool Silver Fragrances</span>
+                <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </article>
+
+          <!-- Rose Gold & Silk -->
+          <article class="metal-card rose-gold-card" id="rose-gold">
+            <div class="metal-card-header">
+              <span class="metal-badge">Rose Gold & Fine Silks</span>
+              <h3 class="metal-title">Wear with Rose Gold</h3>
+              <p class="metal-notes-line">Turkish Damask Rose · Tart Lychee · Tender Peony · Velvet Cashmere</p>
+              <p class="metal-copy">
+                The tender, romantic blush of pink gold and raw mulberry silk finds its soulmate in velvety petals and sparkling pink pepper. Sophisticated, affectionate, and irresistibly chic.
+              </p>
+            </div>
+
+            <div class="metal-products-preview">
+              <div class="products-mini-row">
+                {roseGoldProducts.map((p: any) => (
+                  <ProductCard product={p} />
+                ))}
+              </div>
+            </div>
+
+            <div class="metal-card-footer">
+              <a href="/shop/?style=rose-gold" class="btn-metal-shop">
+                <span>Explore All Rose Gold Fragrances</span>
+                <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: THE ELEMENTAL WARDROBE (CELESTIAL & ZODIAC ARCHETYPES) -->
+    <section class="styling-section alt-bg" id="elements">
+      <div class="container">
+        <div class="section-heading-centered">
+          <span class="section-kicker">Elemental Alignment</span>
+          <h2 class="section-title">The Elemental Wardrobe</h2>
+          <p class="section-desc">
+            Align your fragrance with your natural energy. Inspired by the ancient four elements and celestial archetypes, these curated pairs channel your innate presence.
+          </p>
+        </div>
+
+        <div class="elements-grid">
+          {elementalCollections.map((elem) => {
+            const prods = elem.slugs.map(s => activeCatalog.find(p => p.slug === s)).filter(Boolean);
+            return (
+              <div class="element-box">
+                <div class="element-badge-row">
+                  <span class="element-tag">{elem.title}</span>
+                  <span class="element-energy">{elem.zodiacEnergy}</span>
+                </div>
+                <h3 class="element-title">{elem.essence}</h3>
+                <p class="element-desc">{elem.description}</p>
+                <div class="element-flacons-mini">
+                  {prods.map((p: any) => (
+                    <a href={`/perfumes/${p.slug}/`} class="element-flacon-chip">
+                      <img src={p.image} alt={p.fullName} width="48" height="48" loading="lazy" decoding="async" />
+                      <div class="element-chip-meta">
+                        <span class="chip-brand">{p.brand}</span>
+                        <span class="chip-name">{p.name}</span>
+                        <span class="chip-price">{p.priceDisplay}</span>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: THE ART OF LAYERING DUETS (Dedicated Feature) -->
+    <section class="styling-section" id="layering">
+      <div class="container">
+        <div class="layering-invitation-card">
+          <div class="invitation-text-side">
+            <span class="section-kicker">Maison Rituals</span>
+            <h2 class="invitation-title">The Art of Layering: 10 Curated Scent Duets</h2>
+            <p class="invitation-desc">
+              Discover how foundation bases and harmonizing veils combine to create an olfactory signature that is exclusively yours. Explore our 10 sommelier-crafted two-flacon combinations complete with ritual guides and direct checkout.
+            </p>
+            <div class="invitation-tags">
+              <span class="inv-tag">Warm Amber & Oud</span>
+              <span class="inv-tag">Rose & Floral Veils</span>
+              <span class="inv-tag">Smoked Woods & Leather</span>
+              <span class="inv-tag">Fresh & Solar Citrus</span>
+            </div>
+            <a href="/layering/" class="btn-invitation-cta" data-astro-prefetch>
+              <span>Explore The 10 Layering Duets</span>
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+          <div class="invitation-visual-side">
+            <div class="duet-preview-stage">
+              <div class="duet-preview-flacon preview-base">
+                <img src="/images/products/boucheron-ambre-d-alexandrie.webp" alt="Ambre d'Alexandrie" width="120" height="120" loading="lazy" decoding="async" />
+                <span class="preview-role">Foundation Base</span>
+              </div>
+              <span class="preview-plus">+</span>
+              <div class="duet-preview-flacon preview-veil">
+                <img src="/images/products/chopard-oud-malaki.webp" alt="Oud Malaki" width="120" height="120" loading="lazy" decoding="async" />
+                <span class="preview-role">Harmonizing Veil</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: FRAGRANCE FINDER QUIZ CTA -->
+    <section class="styling-cta-section">
+      <div class="container">
+        <div class="cta-inner-card">
+          <span class="cta-kicker">Interactive Scent Consultation</span>
+          <h2 class="cta-title">Find Your Personalized Signature Flacon</h2>
+          <p class="cta-lead">
+            Take our 6-step interactive consultation. Answer questions on your style, preferred atmosphere, and jewelry to receive three tailor-made flacon recommendations.
+          </p>
+          <a href="/fragrance-finder/" class="btn-cta-quiz">
+            <span>Begin Fragrance Consultation (1 Min)</span>
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .styling-page {
+    background-color: var(--color-bg-main, #FFFFFF);
+    color: var(--color-text-main, #1A1715);
+    padding-bottom: 5rem;
+  }
+
+  .styling-hero {
+    background: linear-gradient(180deg, #F9F6F0 0%, #FFFFFF 100%);
+    border-bottom: 1px solid var(--color-border, #EAE5DE);
+    padding: clamp(3rem, 6vw, 5rem) 0 clamp(2rem, 4vw, 3.5rem);
+    text-align: center;
+  }
+
+  .styling-hero-inner {
+    max-width: 780px;
+    margin: 0 auto;
+  }
+
+  .styling-eyebrow {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--color-brand-cognac, #9E532B);
+    margin-bottom: 0.75rem;
+  }
+
+  .styling-title {
+    font-family: var(--font-display, 'Playfair Display', serif);
+    font-size: clamp(2.2rem, 5vw, 3.4rem);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--color-text-main, #1A1715);
+    margin: 0 0 1.25rem;
+  }
+
+  .styling-lead {
+    font-size: clamp(1rem, 1.8vw, 1.125rem);
+    line-height: 1.6;
+    color: var(--color-text-muted, #6B635B);
+    margin: 0 auto 2rem;
+    max-width: 640px;
+  }
+
+  .styling-quick-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: 0.25rem 0.5rem 0.5rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .styling-quick-nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .styling-quick-nav {
+      justify-content: center;
+      flex-wrap: wrap;
+      overflow-x: visible;
+      padding: 0;
+      gap: 0.65rem;
+    }
+  }
+
+  .pill-anchor {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    white-space: nowrap;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-main, #1A1715);
+    text-decoration: none;
+    padding: 0.65rem 1.15rem;
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border, #EAE5DE);
+    border-radius: 2px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .pill-anchor:hover {
+    border-color: #1A1715;
+    color: #1A1715;
+    background-color: #FAF8F5;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+  }
+
+  .pill-anchor.quiz-highlight {
+    background-color: #1A1715;
+    color: #FAF8F5;
+    border-color: #1A1715;
+    box-shadow: 0 3px 10px rgba(26, 23, 21, 0.15);
+  }
+
+  .pill-anchor.quiz-highlight:hover {
+    background-color: var(--color-brand-cognac, #9E532B);
+    border-color: var(--color-brand-cognac, #9E532B);
+    color: #FFFFFF;
+  }
+
+  /* SECTION STYLING */
+  .styling-section {
+    padding: clamp(3.5rem, 6vw, 5rem) 0;
+  }
+
+  .styling-section.alt-bg {
+    background-color: #FAF8F4;
+    border-top: 1px solid var(--color-border, #EAE5DE);
+    border-bottom: 1px solid var(--color-border, #EAE5DE);
+  }
+
+  .section-heading-centered {
+    text-align: center;
+    max-width: 680px;
+    margin: 0 auto 3rem;
+  }
+
+  .section-kicker {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-brand-cognac, #9E532B);
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title {
+    font-family: var(--font-display, 'Playfair Display', serif);
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    font-weight: 400;
+    color: var(--color-text-main, #1A1715);
+    margin: 0 0 0.75rem;
+    line-height: 1.25;
+  }
+
+  .section-desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--color-text-muted, #6B635B);
+    margin: 0;
+  }
+
+  /* METALS GRID */
+  .metals-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 3.5rem;
+  }
+
+  .metal-card {
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border, #EAE5DE);
+    border-radius: 4px;
+    padding: clamp(1.75rem, 3.5vw, 2.5rem);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  }
+
+  .metal-card.gold-card {
+    border-top: 4px solid #C89D47;
+    background: linear-gradient(180deg, #FCFBF8 0%, #FFFFFF 100%);
+  }
+
+  .metal-card.silver-card {
+    border-top: 4px solid #94A3B8;
+    background: linear-gradient(180deg, #F8FAFC 0%, #FFFFFF 100%);
+  }
+
+  .metal-card.rose-gold-card {
+    border-top: 4px solid #D98880;
+    background: linear-gradient(180deg, #FCF9F9 0%, #FFFFFF 100%);
+  }
+
+  .metal-card-header {
+    max-width: 720px;
+    margin-bottom: 2rem;
+  }
+
+  .metal-badge {
+    display: inline-block;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.25rem 0.6rem;
+    border-radius: 2px;
+    margin-bottom: 0.65rem;
+  }
+
+  .gold-card .metal-badge {
+    background-color: #FDF6E2;
+    color: #996B16;
+  }
+
+  .silver-card .metal-badge {
+    background-color: #F1F5F9;
+    color: #475569;
+  }
+
+  .rose-gold-card .metal-badge {
+    background-color: #FCEFEF;
+    color: #AD4848;
+  }
+
+  .metal-title {
+    font-family: var(--font-display, 'Playfair Display', serif);
+    font-size: clamp(1.5rem, 2.8vw, 2rem);
+    font-weight: 500;
+    color: var(--color-text-main, #1A1715);
+    margin: 0 0 0.4rem;
+  }
+
+  .metal-notes-line {
+    font-size: 0.84375rem;
+    font-weight: 600;
+    color: var(--color-brand-cognac, #9E532B);
+    margin: 0 0 0.75rem;
+  }
+
+  .metal-copy {
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--color-text-muted, #6B635B);
+    margin: 0;
+  }
+
+  .products-mini-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  @media (min-width: 768px) {
+    .products-mini-row {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+    }
+  }
+
+  .metal-card-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--color-border, #EAE5DE);
+  }
+
+  .btn-metal-shop {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-brand-cognac, #9E532B);
+    text-decoration: none;
+    transition: transform 150ms ease;
+  }
+
+  .btn-metal-shop:hover {
+    transform: translateX(4px);
+  }
+
+  /* ELEMENTS GRID */
+  .elements-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .elements-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .element-box {
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border, #EAE5DE);
+    border-radius: 4px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .element-badge-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+  }
+
+  .element-tag {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-brand-cognac, #9E532B);
+  }
+
+  .element-energy {
+    font-size: 0.75rem;
+    color: var(--color-text-muted, #6B635B);
+    font-style: italic;
+  }
+
+  .element-title {
+    font-family: var(--font-display, 'Playfair Display', serif);
+    font-size: 1.15rem;
+    font-weight: 500;
+    color: var(--color-text-main, #1A1715);
+    margin: 0 0 0.5rem;
+  }
+
+  .element-desc {
+    font-size: 0.84375rem;
+    line-height: 1.5;
+    color: var(--color-text-muted, #6B635B);
+    margin: 0 0 1.25rem;
+  }
+
+  .element-flacons-mini {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid #F3EFEA;
+  }
+
+  .element-flacon-chip {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    border-radius: 3px;
+    background-color: #FAF8F5;
+    text-decoration: none;
+    transition: background-color 150ms ease;
+  }
+
+  .element-flacon-chip:hover {
+    background-color: #F1ECE4;
+  }
+
+  .element-chip-meta {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .chip-brand {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-brand-cognac, #9E532B);
+  }
+
+  .chip-name {
+    font-size: 0.84375rem;
+    font-weight: 600;
+    color: var(--color-text-main, #1A1715);
+  }
+
+  .chip-price {
+    font-size: 0.75rem;
+    color: var(--color-text-muted, #6B635B);
+  }
+
+  /* LAYERING INVITATION CARD */
+  .layering-invitation-card {
+    background: #FAF8F5;
+    border: 1px solid var(--color-border, #EAE5DE);
+    border-radius: 4px;
+    padding: clamp(2rem, 4vw, 3rem);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .layering-invitation-card {
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 3rem;
+    }
+  }
+
+  .invitation-title {
+    font-family: var(--font-display, 'Playfair Display', serif);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 500;
+    color: var(--color-text-main, #1A1715);
+    margin: 0.5rem 0 1rem;
+    line-height: 1.25;
+  }
+
+  .invitation-desc {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-text-muted, #6B635B);
+    margin: 0 0 1.25rem;
+  }
+
+  .invitation-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .inv-tag {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.35rem 0.75rem;
+    background: #FFFFFF;
+    border: 1px solid #EAE5DE;
+    border-radius: 9999px;
+    color: #4A423B;
+  }
+
+  .btn-invitation-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: #1A1715;
+    color: #FAF8F5;
+    font-weight: 600;
+    font-size: 0.8125rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.85rem 1.6rem;
+    border-radius: 2px;
+    transition: all 180ms ease;
+  }
+
+  .btn-invitation-cta:hover {
+    background: var(--color-brand-cognac, #9E532B);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  }
+
+  .duet-preview-stage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: #FFFFFF;
+    border: 1px solid #EAE5DE;
+    border-radius: 4px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  }
+
+  .duet-preview-flacon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 110px;
+  }
+
+  .duet-preview-flacon img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    margin-bottom: 0.5rem;
+  }
+
+  .preview-role {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-brand-cognac, #9E532B);
+    white-space: nowrap;
+  }
+
+  .preview-plus {
+    font-size: 1.5rem;
+    color: var(--color-brand-cognac, #9E532B);
+    font-weight: 300;
+  }
+
+  /* CTA SECTION */
+  .styling-cta-section {
+    padding: 2rem 0;
+  }
+
+  .cta-inner-card {
+    background: linear-gradient(135deg, #1A1715 0%, #2A2420 100%);
+    color: #FAF8F5;
+    border-radius: 4px;
+    padding: clamp(2.5rem, 5vw, 4rem) clamp(1.5rem, 4vw, 3rem);
+    text-align: center;
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  .cta-kicker {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: #D4AF37;
+    margin-bottom: 0.75rem;
+  }
+
+  .cta-title {
+    font-family: var(--font-display, 'Playfair Display', serif);
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    font-weight: 400;
+    color: #FAF8F5;
+    margin: 0 0 1rem;
+    line-height: 1.25;
+  }
+
+  .cta-lead {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #D1C7BD;
+    max-width: 580px;
+    margin: 0 auto 2rem;
+  }
+
+  .btn-cta-quiz {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: #D4AF37;
+    color: #1A1715;
+    font-weight: 600;
+    font-size: 0.875rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.9rem 1.75rem;
+    border-radius: 2px;
+    transition: all 180ms ease;
+  }
+
+  .btn-cta-quiz:hover {
+    background: #FFFFFF;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+  }
+</style>

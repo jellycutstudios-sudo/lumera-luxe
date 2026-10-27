@@ -27,6 +27,8 @@ const publicProducts = productsData.filter((p) => !p.isDraft);
           class="mobile-drawer-logo"
           width="132"
           height="22"
+          loading="lazy"
+          decoding="async"
         />
       </a>
       <span class="mobile-drawer-origin">Doha · Haute Parfumerie</span>
@@ -54,63 +56,101 @@ const publicProducts = productsData.filter((p) => !p.isDraft);
 
   <!-- Scrollable Minimal Content -->
   <div class="mobile-drawer-content">
+    <!-- Top Utility Quick Bar: Wishlist & Bag -->
+    <div class="drawer-quick-bar">
+      <button type="button" class="drawer-quick-pill" id="drawer-open-wishlist-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+        </svg>
+        <span>Wishlist (<strong id="drawer-wishlist-count">0</strong>)</span>
+      </button>
+
+      <button type="button" class="drawer-quick-pill" id="drawer-open-bag-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        <span>Bag (<strong id="drawer-bag-count">0</strong>)</span>
+      </button>
+    </div>
+
     <nav class="drawer-nav-menu" aria-label="Mobile Navigation">
-      <!-- Section 1: Fragrance Catalogue -->
+      <!-- Section 1: The Collection -->
       <div class="nav-group">
-        <span class="nav-section-label">Catalogue</span>
+        <span class="nav-section-label">The Collection</span>
         <ul class="nav-items-list">
-          <!-- All Fragrances -->
           <li>
-            <a href="/shop/" class="drawer-menu-link">
+            <a href="/shop/" class="drawer-menu-link" data-astro-prefetch>
               <span class="link-label">All Fragrances</span>
               <span class="link-badge">{publicProducts.length}</span>
             </a>
           </li>
 
-          <!-- Scent Families with Minimal Clean Pills -->
-          <li class="families-block">
-            <button type="button" class="drawer-menu-link drawer-action-trigger" id="drawer-families-btn">
-              <span class="link-label">Scent Families</span>
-              <svg class="link-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-                <polyline points="9 18 15 12 9 6"></polyline>
-              </svg>
-            </button>
-
-            <!-- Minimal Editorial Pills (No emojis, sleek luxury aesthetic) -->
-            <div class="scent-pills-grid">
-              <a href="/shop/?family=fresh" class="scent-pill">Fresh & Citrus</a>
-              <a href="/shop/?family=floral" class="scent-pill">Floral & Rose</a>
-              <a href="/shop/?family=oriental" class="scent-pill">Amber & Oriental</a>
-              <a href="/shop/?family=woody" class="scent-pill">Woody & Earthy</a>
+          <!-- Clean Inline Scent Accord Links -->
+          <li class="drawer-inline-accords">
+            <span class="accords-label">Olfactive Accords</span>
+            <div class="accords-links">
+              <a href="/shop/?family=fresh" class="accord-link" data-astro-prefetch>Fresh & Citrus</a>
+              <span class="accord-sep">·</span>
+              <a href="/shop/?family=floral" class="accord-link" data-astro-prefetch>Floral & Rose</a>
+              <span class="accord-sep">·</span>
+              <a href="/shop/?family=oriental" class="accord-link" data-astro-prefetch>Amber & Oud</a>
+              <span class="accord-sep">·</span>
+              <a href="/shop/?family=woody" class="accord-link" data-astro-prefetch>Woody & Earthy</a>
             </div>
-          </li>
-
-          <!-- Saved Wishlist -->
-          <li>
-            <button type="button" class="drawer-menu-link drawer-action-trigger" id="drawer-open-wishlist-btn">
-              <span class="link-label">Saved Wishlist</span>
-              <span class="link-badge" id="drawer-wishlist-count">0</span>
-            </button>
-          </li>
-
-          <!-- Shopping Bag -->
-          <li>
-            <button type="button" class="drawer-menu-link drawer-action-trigger" id="drawer-open-bag-btn">
-              <span class="link-label">Shopping Bag</span>
-              <span class="link-badge" id="drawer-bag-count">0</span>
-            </button>
           </li>
         </ul>
       </div>
 
       <div class="nav-separator"></div>
 
-      <!-- Section 2: The Maison -->
+      <!-- Section 2: Discovery & Styling -->
+      <div class="nav-group">
+        <span class="nav-section-label">Discovery & Consultation</span>
+        <ul class="nav-items-list">
+          <li>
+            <a href="/fragrance-finder/" class="drawer-menu-link" data-astro-prefetch>
+              <div class="link-text-stack">
+                <span class="link-label">Fragrance Finder</span>
+                <span class="link-caption">6-question bespoke consultation</span>
+              </div>
+              <span class="link-badge quiz-badge">Quiz</span>
+            </a>
+          </li>
+
+          <li>
+            <a href="/scent-styling/" class="drawer-menu-link" data-astro-prefetch>
+              <div class="link-text-stack">
+                <span class="link-label">Scent & Style Alignment</span>
+                <span class="link-caption">Wear with Gold · Silver · Rose Gold</span>
+              </div>
+              <svg class="link-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+          </li>
+
+          <li>
+            <a href="/layering/" class="drawer-menu-link" data-astro-prefetch>
+              <div class="link-text-stack">
+                <span class="link-label">The Art of Layering</span>
+                <span class="link-caption">10 curated 2-flacon Scent Duets</span>
+              </div>
+              <span class="link-badge">Duets</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="nav-separator"></div>
+
+      <!-- Section 3: The Maison -->
       <div class="nav-group">
         <span class="nav-section-label">The Maison</span>
         <ul class="nav-items-list">
           <li>
-            <a href="/our-story/" class="drawer-menu-link">
+            <a href="/our-story/" class="drawer-menu-link" data-astro-prefetch>
               <span class="link-label">Our Story & Craft</span>
               <svg class="link-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
                 <polyline points="9 18 15 12 9 6"></polyline>
@@ -138,7 +178,7 @@ const publicProducts = productsData.filter((p) => !p.isDraft);
         </ul>
       </div>
 
-      <!-- Section 3: Clean Luxury Trust Strip (Replaces green checkmark box) -->
+      <!-- Section 4: Clean Luxury Trust Strip -->
       <div class="drawer-trust-card">
         <div class="trust-point">
           <span class="trust-pip" aria-hidden="true"></span>
@@ -391,9 +431,9 @@ const publicProducts = productsData.filter((p) => !p.isDraft);
 
   .link-label {
     font-family: var(--font-display);
-    font-size: 0.98rem;
-    font-weight: 400;
-    color: var(--color-text-main);
+    font-size: 1rem;
+    font-weight: 500;
+    color: #141210;
     letter-spacing: 0.01em;
     transition: color var(--transition-fast);
   }
@@ -426,43 +466,108 @@ const publicProducts = productsData.filter((p) => !p.isDraft);
     color: var(--color-brand-cognac);
   }
 
-  /* Clean Scent Family Pills (No emojis) */
-  .families-block {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .scent-pills-grid {
+  /* Quick Utilities Bar */
+  .drawer-quick-bar {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.35rem;
-    padding: 0.15rem 0.5rem 0.45rem;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    padding: 0.25rem 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--color-border-subtle);
+    margin-bottom: 0.65rem;
   }
 
-  .scent-pill {
-    display: flex;
+  .drawer-quick-pill {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.4rem 0.5rem;
-    background: #FAF9F6;
-    border: 1px solid #EBE6DE;
-    border-radius: 6px;
+    gap: 0.45rem;
+    padding: 0.45rem 0.75rem;
+    background: #FAF8F5;
+    border: 1px solid #ECE7E0;
+    border-radius: 4px;
     font-family: var(--font-body);
-    font-size: 0.7rem;
-    font-weight: 500;
-    color: var(--color-text-muted);
-    text-decoration: none;
-    text-align: center;
+    font-size: 0.75rem;
+    color: var(--color-text-main);
+    cursor: pointer;
     transition: all var(--transition-fast);
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
   }
 
-  .scent-pill:hover,
-  .scent-pill:active {
+  .drawer-quick-pill:hover,
+  .drawer-quick-pill:active {
     background: #FFFFFF;
     border-color: var(--color-brand-cognac);
     color: var(--color-brand-cognac);
+  }
+
+  .drawer-quick-pill strong {
+    font-weight: 700;
+  }
+
+  /* Inline Olfactive Accords */
+  .drawer-inline-accords {
+    padding: 0.25rem 0.5rem 0.45rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .accords-label {
+    font-size: 0.625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #9C9389;
+  }
+
+  .accords-links {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .accord-link {
+    font-size: 0.74rem;
+    color: #7E756C;
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+
+  .accord-link:hover,
+  .accord-link:active {
+    color: var(--color-brand-cognac);
+  }
+
+  .accord-sep {
+    font-size: 0.65rem;
+    color: #D3CBC2;
+  }
+
+  /* Link Text Stack */
+  .link-text-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .link-caption {
+    font-size: 0.72rem;
+    color: #8C827A;
+    font-family: var(--font-body);
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    line-height: 1.35;
+    transition: color var(--transition-fast);
+  }
+
+  .drawer-menu-link:hover .link-caption {
+    color: #6E655E;
+  }
+
+  .link-badge.quiz-badge {
+    background-color: var(--color-brand-cognac);
+    color: #FFFFFF;
+    border-color: var(--color-brand-cognac);
   }
 
   .nav-separator {

@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ProductCard from '../components/ProductCard.astro';
 import productsData from '../data/products.json';
 
-// Only display approved, verified products on public catalog (200 products)
+// Only display approved, verified products on public catalog (175 products)
 const publicProducts = productsData.filter((p) => !p.isDraft);
 
 // Unique brands from approved catalog
@@ -1004,8 +1004,10 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
   const initialBrand = urlParams.get('brand') || '';
   const initialFamily = urlParams.get('family') || '';
   const initialPrice = urlParams.get('price') || '';
+  const initialStyle = urlParams.get('style') || '';
 
   let activeFamily = initialFamily;
+  let activeStyle = initialStyle;
 
   if (searchInput && initialSearch) searchInput.value = initialSearch;
   if (brandSelect && initialBrand) brandSelect.value = initialBrand;
@@ -1228,6 +1230,27 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
       });
     }
 
+    if (activeStyle) {
+      const styleLabels: Record<string, string> = {
+        gold: 'Wear with Gold',
+        silver: 'Wear with Silver',
+        'rose-gold': 'Wear with Rose Gold',
+        majlis: 'Majlis & Evening'
+      };
+      tags.push({
+        label: `Style: ${styleLabels[activeStyle] || activeStyle}`,
+        clear: () => {
+          activeStyle = '';
+          filterAndSortProducts();
+          try {
+            const newUrl = new URL(window.location.href);
+            newUrl.searchParams.delete('style');
+            window.history.replaceState({}, '', newUrl.toString());
+          } catch {}
+        }
+      });
+    }
+
     tagsContainer.innerHTML = tags
       .map(
         (t, idx) =>
@@ -1239,7 +1262,7 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
       tagsContainer.querySelector(`[data-tag-idx="${idx}"]`)?.addEventListener('click', t.clear);
     });
 
-    const hasAnyFilter = Boolean(q || brand || (price && price !== 'all') || family);
+    const hasAnyFilter = Boolean(q || brand || (price && price !== 'all') || family || activeStyle);
     if (clearAllBtn) {
       clearAllBtn.style.display = hasAnyFilter ? 'inline-block' : 'none';
     }
@@ -1310,7 +1333,21 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
       if (selectedPrice === '250-350') matchesPrice = priceQar >= 250 && priceQar <= 350;
       if (selectedPrice === 'over-350') matchesPrice = priceQar > 350;
 
-      if (matchesSearch && matchesBrand && matchesFamily && matchesPrice) {
+      let matchesStyle = true;
+      if (activeStyle) {
+        const text = (prod.name + ' ' + prod.brand + ' ' + prod.description + ' ' + (prod.keyNotes || []).join(' ') + ' ' + prod.rawNotes + ' ' + (prod.scentFamilies || []).join(' ')).toLowerCase();
+        if (activeStyle === 'gold') {
+          matchesStyle = ['amber', 'oud', 'vanilla', 'saffron', 'tonka', 'resin', 'cinnamon', 'honey', 'benzoin'].some(k => text.includes(k));
+        } else if (activeStyle === 'silver') {
+          matchesStyle = ['musk', 'iris', 'aldehyd', 'tea', 'citrus', 'bergamot', 'mineral', 'neroli', 'salt', 'vetiver', 'cedar'].some(k => text.includes(k));
+        } else if (activeStyle === 'rose-gold') {
+          matchesStyle = ['rose', 'peony', 'lychee', 'litchi', 'pink pepper', 'jasmine', 'blossom', 'peach'].some(k => text.includes(k));
+        } else if (activeStyle === 'majlis') {
+          matchesStyle = ['oud', 'incense', 'leather', 'frankincense', 'patchouli', 'tobacco', 'smoke'].some(k => text.includes(k));
+        }
+      }
+
+      if (matchesSearch && matchesBrand && matchesFamily && matchesPrice && matchesStyle) {
         card.style.display = '';
         visibleCount++;
       } else {
@@ -1407,6 +1444,7 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
     if (sortSelect) sortSelect.value = 'featured';
     if (mobileSortSelect) mobileSortSelect.value = 'featured';
     activeFamily = '';
+    activeStyle = '';
     syncFamilyPills();
     filterAndSortProducts();
     try {
@@ -1415,6 +1453,7 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
       newUrl.searchParams.delete('search');
       newUrl.searchParams.delete('brand');
       newUrl.searchParams.delete('price');
+      newUrl.searchParams.delete('style');
       window.history.replaceState({}, '', newUrl.toString());
     } catch {}
   }

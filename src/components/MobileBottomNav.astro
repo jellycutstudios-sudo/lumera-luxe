@@ -144,7 +144,135 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
         </div>
       </aside>
 
-      <!-- 2. BOUTIQUE SUPPORT MODAL (ORGANIZED WHATSAPP TEMPLATE) -->
+      <!-- 2. DISCOVERY & CONSULTATION BOTTOM MODAL -->
+      <aside
+        id="discovery-modal"
+        class="nav-bottom-sheet"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Curated Fragrance Discovery"
+      >
+        <div class="sheet-handle-wrap">
+          <div class="sheet-handle"></div>
+        </div>
+
+        <div class="sheet-header">
+          <div class="sheet-title-group">
+            <span class="sheet-kicker">Curated Experiences</span>
+            <h2 class="sheet-title">Discovery Menu</h2>
+          </div>
+          <button
+            type="button"
+            class="sheet-close-btn"
+            id="discovery-modal-close-btn"
+            aria-label="Close discovery modal"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+
+        <div class="sheet-content">
+          <div class="discovery-list">
+            <!-- 1. Fragrance Finder Quiz -->
+            <a href="/fragrance-finder/" class="discovery-item-card" data-astro-prefetch>
+              <div class="discovery-item-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                  <path d="M11 8v6M8 11h6"></path>
+                </svg>
+              </div>
+              <div class="discovery-item-text">
+                <div class="discovery-item-headline">
+                  <span class="discovery-item-name">Fragrance Finder</span>
+                  <span class="discovery-item-badge quiz-pill">Quiz</span>
+                </div>
+                <p class="discovery-item-desc">6-question bespoke consultation to pinpoint your signature flacon</p>
+              </div>
+              <svg class="discovery-item-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+
+            <!-- 2. Scent & Style Alignment -->
+            <a href="/scent-styling/" class="discovery-item-card" data-astro-prefetch>
+              <div class="discovery-item-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+              </div>
+              <div class="discovery-item-text">
+                <div class="discovery-item-headline">
+                  <span class="discovery-item-name">Scent & Style Alignment</span>
+                  <span class="discovery-item-badge">Jewelry</span>
+                </div>
+                <p class="discovery-item-desc">Curated perfumes paired with Yellow Gold, Silver & Rose Gold</p>
+              </div>
+              <svg class="discovery-item-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+
+            <!-- 3. The Art of Layering -->
+            <a href="/layering/" class="discovery-item-card" data-astro-prefetch>
+              <div class="discovery-item-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                  <polyline points="2 17 12 22 22 17"></polyline>
+                  <polyline points="2 12 12 17 22 12"></polyline>
+                </svg>
+              </div>
+              <div class="discovery-item-text">
+                <div class="discovery-item-headline">
+                  <span class="discovery-item-name">The Art of Layering</span>
+                  <span class="discovery-item-badge">10 Duets</span>
+                </div>
+                <p class="discovery-item-desc">Master fragrance duets paired harmoniously with 1-click bundle discovery</p>
+              </div>
+              <svg class="discovery-item-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </a>
+
+            <!-- Quick Wardrobe Filter Chips -->
+            <div class="discovery-quick-filters">
+              <span class="quick-filters-label">Curated Wardrobe Filters</span>
+              <div class="quick-filters-pills">
+                <a href="/shop/?style=gold" class="style-filter-pill">
+                  <span class="filter-dot gold-dot"></span>
+                  <span>Wear with Gold</span>
+                </a>
+                <a href="/shop/?style=silver" class="style-filter-pill">
+                  <span class="filter-dot silver-dot"></span>
+                  <span>Wear with Silver</span>
+                </a>
+                <a href="/shop/?style=rose-gold" class="style-filter-pill">
+                  <span class="filter-dot rose-dot"></span>
+                  <span>Wear with Rose Gold</span>
+                </a>
+                <a href="/shop/?style=majlis" class="style-filter-pill">
+                  <span class="filter-dot majlis-dot"></span>
+                  <span>Majlis & Evening</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="sheet-footer discovery-footer">
+            <button type="button" class="btn-sheet-concierge" id="discovery-concierge-trigger">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+              </svg>
+              <span>Need Concierge Advice? Talk on WhatsApp</span>
+            </button>
+          </div>
+        </div>
+      </aside>
+
+      <!-- 3. BOUTIQUE SUPPORT MODAL (ORGANIZED WHATSAPP TEMPLATE) -->
       <aside
         id="support-modal"
         class="nav-bottom-sheet"
@@ -249,7 +377,7 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
         </div>
       </aside>
 
-      <!-- 3. MOBILE BOTTOM NAVIGATION BAR -->
+      <!-- 4. MOBILE BOTTOM NAVIGATION BAR -->
       <nav class:list={['mobile-bottom-nav', { 'hide-on-pdp': isPdp }]} aria-label="Mobile Navigation">
         <div class="bottom-nav-container">
           <!-- Tab 1: Home -->
@@ -258,6 +386,7 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
             class:list={['bottom-nav-item', { active: currentPath === '/' }]}
             aria-label="Home"
             id="bottom-nav-home-link"
+            data-astro-prefetch
           >
             <div class="bottom-nav-icon-wrap">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -275,6 +404,7 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
             class:list={['bottom-nav-item', { active: currentPath.startsWith('/shop') }]}
             aria-label="Fragrances Collection"
             id="bottom-nav-collection-link"
+            data-astro-prefetch
           >
             <div class="bottom-nav-icon-wrap">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -307,22 +437,23 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
             <span class="active-gold-dot nav-families-dot" style="display: none;"></span>
           </button>
 
-          <!-- Tab 4: Boutique Support (WhatsApp Line Icon & Support Form Modal) -->
+          <!-- Tab 4: Discovery Menu (Compass Line Icon & Discovery Sheet Modal) -->
           <button
             type="button"
-            class="bottom-nav-item support-tab"
-            id="bottom-nav-support-btn"
-            aria-label="Boutique Support"
+            class:list={['bottom-nav-item', 'discovery-tab', { active: currentPath.startsWith('/fragrance-finder') || currentPath.startsWith('/scent-styling') || currentPath.startsWith('/layering') }]}
+            id="bottom-nav-discovery-btn"
+            aria-label="Curated Fragrance Discovery"
             aria-haspopup="dialog"
             aria-expanded="false"
           >
             <div class="bottom-nav-icon-wrap">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"></path>
-                <path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"></path>
+                <circle cx="12" cy="12" r="10"></circle>
+                <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
               </svg>
             </div>
-            <span class="bottom-nav-label">Support</span>
+            <span class="bottom-nav-label">Discovery</span>
+            <span class="active-gold-dot nav-discovery-dot" style={(currentPath.startsWith('/fragrance-finder') || currentPath.startsWith('/scent-styling') || currentPath.startsWith('/layering')) ? '' : 'display: none;'}></span>
           </button>
         </div>
       </nav>
@@ -736,6 +867,211 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
   }
 
   /* ==========================================================
+     DISCOVERY MODAL STYLING
+     ========================================================== */
+  .discovery-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    margin-bottom: 1rem;
+  }
+
+  .discovery-item-card {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 0.9rem;
+    background: #FAF9F6;
+    border: 1px solid #ECEAE5;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .discovery-item-card:hover,
+  .discovery-item-card:active {
+    background: #FFFFFF;
+    border-color: var(--color-brand-cognac);
+    box-shadow: 0 4px 14px rgba(138, 74, 40, 0.08);
+    transform: translateY(-1px);
+  }
+
+  .discovery-item-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    background: #FFFFFF;
+    border: 1px solid var(--color-border);
+    color: var(--color-brand-cognac);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all var(--transition-fast);
+  }
+
+  .discovery-item-card:hover .discovery-item-icon {
+    background: var(--color-surface);
+    border-color: var(--color-brand-cognac);
+  }
+
+  .discovery-item-text {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .discovery-item-headline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.45rem;
+    margin-bottom: 0.2rem;
+    min-width: 0;
+  }
+
+  .discovery-item-name {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #141210;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+  }
+
+  .discovery-item-badge {
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-brand-cognac);
+    background: rgba(176, 69, 21, 0.08);
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+
+  .discovery-item-badge.quiz-pill {
+    background: var(--color-brand-cognac);
+    color: #FFFFFF;
+  }
+
+  .discovery-item-desc {
+    font-size: 0.72rem;
+    color: #8C827A;
+    line-height: 1.35;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .discovery-item-arrow {
+    color: var(--color-text-light);
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    transition: transform var(--transition-fast), color var(--transition-fast);
+  }
+
+  .discovery-item-card:hover .discovery-item-arrow {
+    transform: translateX(2px);
+    color: var(--color-brand-cognac);
+  }
+
+  .discovery-quick-filters {
+    margin-top: 0.4rem;
+    padding: 0.75rem 0.85rem;
+    background: #FAF8F5;
+    border: 1px solid #ECE7E0;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .quick-filters-label {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #9C9389;
+  }
+
+  .quick-filters-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .style-filter-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem 0.6rem;
+    background: #FFFFFF;
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--color-text-main);
+    text-decoration: none;
+    transition: all var(--transition-fast);
+  }
+
+  .style-filter-pill:hover,
+  .style-filter-pill:active {
+    border-color: var(--color-brand-cognac);
+    color: var(--color-brand-cognac);
+  }
+
+  .filter-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .gold-dot { background: #D4AF37; }
+  .silver-dot { background: #9E9E9E; }
+  .rose-dot { background: #B76E79; }
+  .majlis-dot { background: #7A1C30; }
+
+  .discovery-footer {
+    padding-top: 0.65rem;
+    border-top: 1px solid var(--color-border-subtle);
+  }
+
+  .btn-sheet-concierge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.65rem 0.85rem;
+    background: transparent;
+    border: 1px dashed var(--color-border);
+    border-radius: 6px;
+    color: var(--color-text-muted);
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .btn-sheet-concierge:hover,
+  .btn-sheet-concierge:active {
+    background: #FFFFFF;
+    border-color: #25D366;
+    color: #128C7E;
+  }
+
+  /* ==========================================================
      SUPPORT MODAL & FORM STYLING
      ========================================================== */
   .support-intro-text {
@@ -888,7 +1224,45 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
   var currentSupportTopic = 'Fragrance Advice';
 
   // Global modal state functions
+  window.openDiscoveryModal = function () {
+    window.closeFamiliesModal();
+    window.closeSupportModal();
+    var modal = document.getElementById('discovery-modal');
+    var backdrop = document.getElementById('nav-modal-backdrop');
+    var discBtn = document.getElementById('bottom-nav-discovery-btn');
+    if (modal) modal.classList.add('is-open');
+    if (backdrop) backdrop.classList.add('is-open');
+    if (discBtn) discBtn.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closeDiscoveryModal = function () {
+    var modal = document.getElementById('discovery-modal');
+    var backdrop = document.getElementById('nav-modal-backdrop');
+    var discBtn = document.getElementById('bottom-nav-discovery-btn');
+    if (modal) modal.classList.remove('is-open');
+    var path = window.location.pathname;
+    var isDiscoveryPage = path.startsWith('/fragrance-finder') || path.startsWith('/scent-styling') || path.startsWith('/layering');
+    if (discBtn && !isDiscoveryPage) discBtn.classList.remove('active');
+    if (!document.getElementById('families-modal')?.classList.contains('is-open') &&
+        !document.getElementById('support-modal')?.classList.contains('is-open')) {
+      if (backdrop) backdrop.classList.remove('is-open');
+      document.body.style.overflow = '';
+    }
+  };
+
+  window.toggleDiscoveryModal = function (e) {
+    if (e && e.preventDefault) e.preventDefault();
+    var modal = document.getElementById('discovery-modal');
+    if (modal && modal.classList.contains('is-open')) {
+      window.closeDiscoveryModal();
+    } else {
+      window.openDiscoveryModal();
+    }
+  };
+
   window.openFamiliesModal = function () {
+    window.closeDiscoveryModal();
     window.closeSupportModal();
     var modal = document.getElementById('families-modal');
     var backdrop = document.getElementById('nav-modal-backdrop');
@@ -905,7 +1279,8 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
     var famBtn = document.getElementById('bottom-nav-families-btn');
     if (modal) modal.classList.remove('is-open');
     if (famBtn) famBtn.classList.remove('active');
-    if (!document.getElementById('support-modal')?.classList.contains('is-open')) {
+    if (!document.getElementById('discovery-modal')?.classList.contains('is-open') &&
+        !document.getElementById('support-modal')?.classList.contains('is-open')) {
       if (backdrop) backdrop.classList.remove('is-open');
       document.body.style.overflow = '';
     }
@@ -922,6 +1297,7 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
   };
 
   window.openSupportModal = function () {
+    window.closeDiscoveryModal();
     window.closeFamiliesModal();
     var modal = document.getElementById('support-modal');
     var backdrop = document.getElementById('nav-modal-backdrop');
@@ -938,7 +1314,8 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
     var supBtn = document.getElementById('bottom-nav-support-btn');
     if (modal) modal.classList.remove('is-open');
     if (supBtn) supBtn.classList.remove('active');
-    if (!document.getElementById('families-modal')?.classList.contains('is-open')) {
+    if (!document.getElementById('families-modal')?.classList.contains('is-open') &&
+        !document.getElementById('discovery-modal')?.classList.contains('is-open')) {
       if (backdrop) backdrop.classList.remove('is-open');
       document.body.style.overflow = '';
     }
@@ -955,6 +1332,7 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
   };
 
   window.closeAllNavModals = function () {
+    window.closeDiscoveryModal();
     window.closeFamiliesModal();
     window.closeSupportModal();
   };
@@ -1003,7 +1381,16 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
       return;
     }
 
-    // 2. Support bottom nav button
+    // 2. Discovery bottom nav button
+    var discTrigger = target.closest('#bottom-nav-discovery-btn');
+    if (discTrigger) {
+      e.preventDefault();
+      e.stopPropagation();
+      window.toggleDiscoveryModal(e);
+      return;
+    }
+
+    // 3. Support button (concierge button in drawer or elsewhere)
     var supTrigger = target.closest('#bottom-nav-support-btn');
     if (supTrigger) {
       e.preventDefault();
@@ -1012,7 +1399,12 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
       return;
     }
 
-    // 3. Modal close buttons
+    // 4. Modal close buttons
+    if (target.closest('#discovery-modal-close-btn')) {
+      e.preventDefault();
+      window.closeDiscoveryModal();
+      return;
+    }
     if (target.closest('#families-modal-close-btn')) {
       e.preventDefault();
       window.closeFamiliesModal();
@@ -1024,14 +1416,22 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
       return;
     }
 
-    // 4. Modal backdrop click to dismiss
+    // 5. Trigger Concierge from Discovery Sheet
+    if (target.closest('#discovery-concierge-trigger')) {
+      e.preventDefault();
+      window.closeDiscoveryModal();
+      window.openSupportModal();
+      return;
+    }
+
+    // 6. Modal backdrop click to dismiss
     if (target.id === 'nav-modal-backdrop') {
       e.preventDefault();
       window.closeAllNavModals();
       return;
     }
 
-    // 5. Topic chip selection inside Support modal
+    // 7. Topic chip selection inside Support modal
     var topicChip = target.closest('.topic-chip');
     if (topicChip) {
       e.preventDefault();
@@ -1042,7 +1442,7 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
       return;
     }
 
-    // 6. Family card click inside Families modal
+    // 8. Family card click inside Families modal
     var famCard = target.closest('.family-item-card');
     if (famCard) {
       var fam = famCard.getAttribute('data-family') || '';
@@ -1059,7 +1459,14 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
       return;
     }
 
-    // 7. Homepage showcase scroll link
+    // 9. Discovery link click inside Discovery modal
+    var discCard = target.closest('.discovery-item-card') || target.closest('.style-filter-pill');
+    if (discCard) {
+      window.closeDiscoveryModal();
+      return;
+    }
+
+    // 10. Homepage showcase scroll link
     var showcaseLink = target.closest('#sheet-view-showcase');
     if (showcaseLink) {
       var isHome = window.location.pathname === '/' || window.location.pathname === '';
@@ -1088,17 +1495,24 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
     var path = window.location.pathname;
     var homeLink = document.getElementById('bottom-nav-home-link');
     var colLink = document.getElementById('bottom-nav-collection-link');
+    var discBtn = document.getElementById('bottom-nav-discovery-btn');
+
     var homeDot = homeLink ? homeLink.querySelector('.active-gold-dot') : null;
     var colDot = colLink ? colLink.querySelector('.active-gold-dot') : null;
+    var discDot = discBtn ? discBtn.querySelector('.active-gold-dot') : null;
 
     var isHome = path === '/' || path === '';
     var isCol = path.startsWith('/shop');
+    var isDiscovery = path.startsWith('/fragrance-finder') || path.startsWith('/scent-styling') || path.startsWith('/layering');
 
     if (homeLink) homeLink.classList.toggle('active', isHome);
     if (homeDot) homeDot.style.display = isHome ? '' : 'none';
 
     if (colLink) colLink.classList.toggle('active', isCol);
     if (colDot) colDot.style.display = isCol ? '' : 'none';
+
+    if (discBtn) discBtn.classList.toggle('active', isDiscovery);
+    if (discDot) discDot.style.display = isDiscovery ? '' : 'none';
 
     // Check PDP and checkout states
     var navBar = document.querySelector('.mobile-bottom-nav');
