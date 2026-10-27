@@ -19,12 +19,15 @@ export interface QuizQuestion {
 }
 
 export interface QuizAnswers {
+  scentPersona?: string;
+  atmosphere?: string;
+  occasion?: string;
+  intensity?: string;
+  // Backward compatibility fields
   personality?: string;
   jewelry?: string;
-  atmosphere?: string;
   scentImpression?: string;
   lifestyle?: string;
-  intensity?: string;
 }
 
 export interface LayeringPair {
@@ -38,75 +41,51 @@ export interface LayeringPair {
 
 export const QUIZ_QUESTIONS: QuizQuestion[] = [
   {
-    id: 'personality',
+    id: 'scentPersona',
     number: 1,
-    title: 'How would you describe your personal style?',
-    subtitle: 'Step 1 of 6 · Personal Style',
+    title: 'What scent profile speaks to you most?',
+    subtitle: 'Step 1 of 4 · Scent Persona',
     options: [
-      { id: 'romantic', label: 'Soft & Romantic', subtitle: 'Graceful, gentle, and drawn to timeless beauty' },
-      { id: 'bold', label: 'Confident & Bold', subtitle: 'Unapologetic, distinctive, and presence-driven' },
-      { id: 'elegant', label: 'Calm & Elegant', subtitle: 'Understated, composed, and effortlessly refined' },
-      { id: 'adventurous', label: 'Playful & Adventurous', subtitle: 'Vibrant, curious, and full of spirited warmth' }
-    ]
-  },
-  {
-    id: 'jewelry',
-    number: 2,
-    title: 'Which jewelry feels most like you?',
-    subtitle: 'Step 2 of 6 · Styling Nuance',
-    options: [
-      { id: 'gold', label: 'Gold — Warm & Timeless', subtitle: 'Luminous glow, warm yellow and rose gold tones' },
-      { id: 'silver', label: 'Silver — Cool & Modern', subtitle: 'Crisp platinum, white gold, and sleek minimalist lines' },
-      { id: 'both', label: 'Both — A Little of Everything', subtitle: 'Fluid versatility mixing warm and cool metals' },
-      { id: 'neither', label: 'Neither — Effortlessly Minimal', subtitle: 'Bare skin, uncluttered simplicity, pure natural comfort' }
+      { id: 'fresh', label: 'Fresh, Crisp & Uplifting', subtitle: 'Sparkling Italian citrus, invigorating sea air, and clean crisp linen' },
+      { id: 'floral', label: 'Soft & Romantic Floral', subtitle: 'Delicate Grasse rose, luminous jasmine, and tender powdery petals' },
+      { id: 'comforting', label: 'Warm, Sweet & Comforting', subtitle: 'Velvety Madagascar vanilla, golden amber, and roasted tonka bean' },
+      { id: 'captivating', label: 'Bold, Smoky & Captivating', subtitle: 'Royal agarwood oud, sacred frankincense, dark leather, and spices' }
     ]
   },
   {
     id: 'atmosphere',
+    number: 2,
+    title: 'Where do you feel most inspired?',
+    subtitle: 'Step 2 of 4 · Preferred Atmosphere',
+    options: [
+      { id: 'garden', label: 'A Blooming Royal Garden', subtitle: 'Dewy petals, green botanicals, and sun-warmed blossoms' },
+      { id: 'coastal', label: 'A Sunlit Coastal Escape', subtitle: 'Salty sea breeze, azure Mediterranean waters, and open mineral air' },
+      { id: 'cozy', label: 'A Warm, Intimate Evening', subtitle: 'Soft cashmere, flickering candlelight, and cocooning sweetness' },
+      { id: 'night_out', label: 'An Opulent Night in Doha', subtitle: 'Gilded ballrooms, ambient low lighting, and magnetic evening allure' }
+    ]
+  },
+  {
+    id: 'occasion',
     number: 3,
-    title: 'Where do you feel most like yourself?',
-    subtitle: 'Step 3 of 6 · Preferred Atmosphere',
+    title: 'When will you reach for this flacon?',
+    subtitle: 'Step 3 of 4 · Occasion & Routine',
     options: [
-      { id: 'garden', label: 'A Garden in Bloom', subtitle: 'Dewy petals, lush greenery, and morning blossoms' },
-      { id: 'coastal', label: 'A Sunny Coastal Escape', subtitle: 'Crisp sea breezes, bright sunshine, and mineral air' },
-      { id: 'cozy', label: 'A Cozy Evening', subtitle: 'Warm cashmere, soft candlelight, and rich comforting sweetness' },
-      { id: 'night_out', label: 'An Elegant Night Out', subtitle: 'Low ambient lighting, opulent ambiance, and magnetic evening allure' }
-    ]
-  },
-  {
-    id: 'scentImpression',
-    number: 4,
-    title: 'What would you love your fragrance to express?',
-    subtitle: 'Step 4 of 6 · Scent Impression',
-    options: [
-      { id: 'fresh', label: 'Fresh & Clean', subtitle: 'Invigorating citrus, sparkling air, and pristine linen accords' },
-      { id: 'feminine', label: 'Soft & Feminine', subtitle: 'Delicate petals, romantic rose, and powdery floral elegance' },
-      { id: 'comforting', label: 'Warm & Comforting', subtitle: 'Velvety vanilla, golden amber, and soothing tonka bean' },
-      { id: 'captivating', label: 'Bold & Captivating', subtitle: 'Precious oud wood, smoky incense, and dark oriental spices' }
-    ]
-  },
-  {
-    id: 'lifestyle',
-    number: 5,
-    title: 'When do you usually wear perfume?',
-    subtitle: 'Step 5 of 6 · Occasion & Routine',
-    options: [
-      { id: 'everyday', label: 'Everyday Moments', subtitle: 'A welcoming signature for coffee, errands, and daily rituals' },
-      { id: 'office', label: 'Work & Professional Spaces', subtitle: 'Polished, well-mannered, and tastefully close to the skin' },
-      { id: 'special', label: 'Special Occasions', subtitle: 'Weddings, celebratory milestones, and memorable gatherings' },
-      { id: 'evenings', label: 'Evenings Out', subtitle: 'Late dinners, gala evenings, and intimate gatherings' }
+      { id: 'everyday', label: 'Everyday Signature & Coffee', subtitle: 'An effortless daily luxury for mornings, work routines, and casual chic moments' },
+      { id: 'office', label: 'Polished Professional Spaces', subtitle: 'Sophisticated, composed, and tastefully tailored close to the skin' },
+      { id: 'special', label: 'Weddings & Milestone Celebrations', subtitle: 'Regal gatherings, celebratory moments, and unforgettable impressions' },
+      { id: 'evenings', label: 'Glamorous Evenings & Late Dinners', subtitle: 'Intimate dinners, lounge soirées, and magnetic night-time allure' }
     ]
   },
   {
     id: 'intensity',
-    number: 6,
-    title: 'How would you like your fragrance to feel?',
-    subtitle: 'Step 6 of 6 · Desired Intensity',
+    number: 4,
+    title: 'How would you like your presence felt?',
+    subtitle: 'Step 4 of 4 · Desired Presence',
     options: [
-      { id: 'subtle', label: 'Soft & Subtle', subtitle: 'An intimate skin scent noticed only in close embrace' },
-      { id: 'balanced', label: 'Balanced & Noticeable', subtitle: 'A graceful sillage that turns heads without overwhelming' },
-      { id: 'expressive', label: 'Bold & Expressive', subtitle: 'A commanding, unforgettable trail that announces your arrival' },
-      { id: 'variety', label: 'I Love Variety', subtitle: 'Flexible and open to experiencing different sillage weights' }
+      { id: 'subtle', label: 'Soft & Intimate', subtitle: 'A gentle, skin-close whisper noticed only in close embrace' },
+      { id: 'balanced', label: 'Balanced & Noticeable', subtitle: 'A graceful aura that turns heads with effortless composure' },
+      { id: 'expressive', label: 'Bold & Expressive', subtitle: 'A rich, commanding trail that announces your arrival and lingers beautifully' },
+      { id: 'variety', label: 'Open to Discovery', subtitle: 'Versatile and curious to experience different projection weights' }
     ]
   }
 ];
@@ -203,38 +182,38 @@ export const CURATED_LAYERING_PAIRS: LayeringPair[] = [
  * Combines style, atmosphere, and impression answers into natural, elegant prose without AI APIs.
  */
 export function generatePersonalizedIntro(answers: QuizAnswers): string {
-  const styleMap: Record<string, string> = {
-    romantic: 'a soft, romantic style',
-    bold: 'a confident, presence-driven aesthetic',
-    elegant: 'a calm, composed elegance',
-    adventurous: 'a vibrant, spirited personality'
+  const personaMap: Record<string, string> = {
+    fresh: 'clean, uplifting citrus clarity',
+    floral: 'graceful, tender floral poetry',
+    comforting: 'warm, cocooning amber and vanilla sweetness',
+    captivating: 'deep, magnetic royal oud and sacred spices'
   };
 
   const atmosphereMap: Record<string, string> = {
     garden: 'morning floral gardens in bloom',
     coastal: 'the crisp serenity of coastal escapes',
-    cozy: 'the intimate comfort of warm evenings',
-    night_out: 'the opulent glamour of elegant nights'
+    cozy: 'the intimate warmth of candlelit evenings',
+    night_out: 'the opulent glamour of Doha nights'
   };
 
-  const jewelryMap: Record<string, string> = {
-    gold: 'warm, timeless gold accents',
-    silver: 'cool, contemporary silver minimalism',
-    both: 'a versatile love of mixed fine metals',
-    neither: 'effortless, unadorned simplicity'
+  const occasionMap: Record<string, string> = {
+    everyday: 'daily signature moments',
+    office: 'polished professional settings',
+    special: 'milestone celebrations and weddings',
+    evenings: 'glamorous late dinners and soirées'
   };
 
-  const impressionMap: Record<string, string> = {
-    fresh: 'clean, uplifting clarity',
-    feminine: 'graceful, tender floral poetry',
-    comforting: 'warm, cocooning sweetness',
-    captivating: 'deep, unforgettable magnetic presence'
+  const intensityMap: Record<string, string> = {
+    subtle: 'an intimate, skin-close whisper',
+    balanced: 'a graceful, head-turning aura',
+    expressive: 'a rich, commanding sillage',
+    variety: 'a multifaceted, versatile sillage'
   };
 
-  const styleText = styleMap[answers.personality || ''] || 'a refined personal style';
-  const jewelryText = jewelryMap[answers.jewelry || ''] || 'understated sophistication';
+  const personaText = personaMap[answers.scentPersona || answers.scentImpression || ''] || 'timeless distinction';
   const atmosphereText = atmosphereMap[answers.atmosphere || ''] || 'moments of beauty';
-  const impressionText = impressionMap[answers.scentImpression || ''] || 'timeless distinction';
+  const occasionText = occasionMap[answers.occasion || answers.lifestyle || ''] || 'any refined occasion';
+  const intensityText = intensityMap[answers.intensity || ''] || 'a harmoniously balanced aura';
 
-  return `You embody ${styleText} complemented by ${jewelryText}. Drawn to ${atmosphereText}, your ideal signature flacon unfolds with ${impressionText}—crafted to feel intimate, enduring, and effortlessly yours.`;
+  return `Tailored for ${occasionText} and inspired by ${atmosphereText}, your olfactory persona celebrates ${personaText}. Finished with ${intensityText}, your matched flacons unfold seamlessly—crafted to feel enduring, intimate, and unmistakably yours in Qatar.`;
 }

@@ -984,7 +984,6 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
   const openDrawerBtn = document.getElementById('open-filter-drawer-btn');
   const closeDrawerBtn = document.getElementById('close-filter-drawer-btn');
   const drawerOverlay = document.getElementById('filter-drawer-overlay');
-  const drawer = document.getElementById('filter-drawer');
   const drawerResetBtn = document.getElementById('drawer-reset-btn');
   const drawerApplyBtn = document.getElementById('drawer-apply-btn');
   const mobileFilterBadge = document.getElementById('mobile-filter-badge');
@@ -1335,15 +1334,42 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
 
       let matchesStyle = true;
       if (activeStyle) {
-        const text = (prod.name + ' ' + prod.brand + ' ' + prod.description + ' ' + (prod.keyNotes || []).join(' ') + ' ' + prod.rawNotes + ' ' + (prod.scentFamilies || []).join(' ')).toLowerCase();
+        const keyNotes = (prod.keyNotes || []).map((k: string) => k.toLowerCase());
+        const families = (prod.scentFamilies || []).map((f: string) => f.toLowerCase()).join(' ');
+        const cat = prod.category || '';
+
         if (activeStyle === 'gold') {
-          matchesStyle = ['amber', 'oud', 'vanilla', 'saffron', 'tonka', 'resin', 'cinnamon', 'honey', 'benzoin'].some(k => text.includes(k));
+          // Warm Gold: Oriental or warm Woody with dominant amber, oud, saffron, vanilla, honey, tonka
+          if (cat !== 'oriental' && cat !== 'woody') {
+            matchesStyle = false;
+          } else {
+            const hasWarmFamily = /amber|oud|oriental|vanilla|gourmand/i.test(families);
+            const hasGoldKeyNote = keyNotes.some((k: string) => /amber|oud|saffron|vanilla|honey|cinnamon|tonka|benzoin|resins|dates|myrrh/i.test(k));
+            matchesStyle = hasGoldKeyNote && hasWarmFamily;
+          }
         } else if (activeStyle === 'silver') {
-          matchesStyle = ['musk', 'iris', 'aldehyd', 'tea', 'citrus', 'bergamot', 'mineral', 'neroli', 'salt', 'vetiver', 'cedar'].some(k => text.includes(k));
+          // Cool Silver: Fresh & crisp notes (citrus, mineral, aquatic, tea, neroli, cool iris, vetiver)
+          if (cat === 'oriental') {
+            matchesStyle = false;
+          } else {
+            const hasSilverFamily = /fresh|citrus|aquatic|green|aldehydic|mineral|clean|aromatic/i.test(families);
+            const hasSilverKeyNote = keyNotes.some((k: string) => /citrus|bergamot|neroli|tea|mineral|aldehyd|iris|vetiver|aquatic|salt|mandarin|lemon|grapefruit|cedar|mint/i.test(k));
+            matchesStyle = cat === 'fresh' || (hasSilverKeyNote && hasSilverFamily);
+          }
         } else if (activeStyle === 'rose-gold') {
-          matchesStyle = ['rose', 'peony', 'lychee', 'litchi', 'pink pepper', 'jasmine', 'blossom', 'peach'].some(k => text.includes(k));
+          // Rose Gold: Romantic floral notes (rose, peony, lychee, pink pepper, blush florals)
+          if (cat !== 'floral') {
+            matchesStyle = false;
+          } else {
+            const hasRoseFamily = /rose|peony|pink|blossom/i.test(families);
+            const hasRoseKeyNote = keyNotes.some((k: string) => /rose|peony|pink pepper|lychee|litchi|peach|magnolia|damascena/i.test(k));
+            matchesStyle = hasRoseKeyNote || hasRoseFamily;
+          }
         } else if (activeStyle === 'majlis') {
-          matchesStyle = ['oud', 'incense', 'leather', 'frankincense', 'patchouli', 'tobacco', 'smoke'].some(k => text.includes(k));
+          // Majlis & Evening: Heavy oud, incense, leather, smoke, tobacco
+          const hasMajlisFamily = /amber|oriental|woody|leather/i.test(families);
+          const hasMajlisKeyNote = keyNotes.some((k: string) => /oud|incense|leather|frankincense|patchouli|tobacco|smoke|myrrh/i.test(k));
+          matchesStyle = (cat === 'oriental' || cat === 'woody') && hasMajlisKeyNote && hasMajlisFamily;
         }
       }
 
@@ -1482,9 +1508,9 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
   drawerResetBtn?.addEventListener('click', resetAllFilters);
   resetZeroBtn?.addEventListener('click', resetAllFilters);
 
-  // Initial trigger if params exist
+  // Initial trigger
     syncFamilyPills();
-    if (initialSearch || initialBrand || initialFamily || initialPrice) {
+    if (initialSearch || initialBrand || initialFamily || initialPrice || initialStyle) {
       filterAndSortProducts();
     } else {
       updateActiveStates();

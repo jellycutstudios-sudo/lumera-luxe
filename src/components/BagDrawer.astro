@@ -1,5 +1,4 @@
 ---
-import { siteConfig } from '../data/site';
 ---
 
 <div class="bag-drawer-backdrop" id="bag-backdrop" hidden></div>
@@ -740,7 +739,7 @@ import { siteConfig } from '../data/site';
 </style>
 
 <script>
-  import productsData from '../data/products.json';
+  import { getProductCatalog } from '../lib/catalog';
 
   interface CartStorageItem {
     id: string;
@@ -769,8 +768,10 @@ import { siteConfig } from '../data/site';
     window.dispatchEvent(new Event('storage'));
   }
 
-  function getHydratedCart() {
+  async function getHydratedCart() {
     const stored = getCartItems();
+    if (stored.length === 0) return [];
+    const productsData = await getProductCatalog();
     return stored
       .map(item => {
         const prod = productsData.find(p => p.id === item.id || p.slug === item.id);
@@ -790,11 +791,11 @@ import { siteConfig } from '../data/site';
       .filter((it): it is NonNullable<typeof it> => it !== null);
   }
 
-  function updateBagUI() {
-    const items = getHydratedCart();
-    const totalCount = items.reduce((sum, it) => sum + it.quantity, 0);
+  async function updateBagUI() {
+    const stored = getCartItems();
+    const totalCount = stored.reduce((sum, it) => sum + it.quantity, 0);
 
-    // Update header badges
+    // Update header badges immediately (synchronous, 0ms overhead)
     const headerCount = document.getElementById('header-bag-count');
     if (headerCount) {
       headerCount.textContent = String(totalCount);
@@ -823,6 +824,15 @@ import { siteConfig } from '../data/site';
         perkText.textContent = '✓ Unlocked: Complimentary Qatar Priority Courier Delivery';
       }
     }
+
+    if (totalCount === 0) {
+      if (emptyState) emptyState.hidden = false;
+      if (footer) footer.hidden = true;
+      if (list) list.innerHTML = '';
+      return;
+    }
+
+    const items = await getHydratedCart();
 
     if (!items.length) {
       if (emptyState) emptyState.hidden = false;
@@ -914,7 +924,16 @@ import { siteConfig } from '../data/site';
     const drawer = document.getElementById('bag-drawer');
     if (backdrop) backdrop.hidden = true;
     if (drawer) drawer.hidden = true;
-    document.body.style.overflow = '';
+    const isOtherModalOpen =
+      Boolean(!document.getElementById('mobile-nav-drawer')?.hidden) ||
+      Boolean(!document.getElementById('search-modal')?.hidden) ||
+      Boolean(document.getElementById('wishlist-drawer')?.classList.contains('is-open')) ||
+      Boolean(document.getElementById('discovery-modal')?.classList.contains('is-open')) ||
+      Boolean(document.getElementById('families-modal')?.classList.contains('is-open')) ||
+      Boolean(document.getElementById('support-modal')?.classList.contains('is-open'));
+    if (!isOtherModalOpen) {
+      document.body.style.overflow = '';
+    }
   }
 
   (window as any).openBagDrawer = openBag;

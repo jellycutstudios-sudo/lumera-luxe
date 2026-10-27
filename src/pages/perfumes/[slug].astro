@@ -249,22 +249,6 @@ const productSchema = {
             <span>Cash or Card on Delivery</span>
           </div>
 
-          <!-- Concierge Question Link (Clearly for questions/advice, not ordering) -->
-          <div class="pdp-concierge-assist">
-            <a
-              href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(`Hello LUMÈRA LUXE concierge, I have a question regarding ${product.fullName} (${product.sizeDisplay}).`)}`}
-              target="_blank"
-              rel="noopener"
-              class="concierge-link"
-              id="pdp-whatsapp-btn"
-            >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"></path>
-                <path d="M9 10a.5.5 0 0 0 1 0V9a.5.5 0 0 0-1 0v1a5 5 0 0 0 5 5h1a.5.5 0 0 0 0-1h-1a.5.5 0 0 0 0 1"></path>
-              </svg>
-              <span>Have questions about this fragrance? Chat with Concierge</span>
-            </a>
-          </div>
         </div>
 
         <!-- Olfactory Composition (Clean Note Chips) -->
@@ -317,13 +301,15 @@ const productSchema = {
             <p class="layering-lead">{activeLayeringPair.description}</p>
           </div>
 
-          <!-- Symmetrical Side-by-Side Duet Stage (Desktop & Mobile) -->
+          <!-- Symmetrical Duet Stage (Mobile Stacked, Desktop Side-by-Side) -->
           <div class="layering-duet-stage">
             <!-- Current Flacon -->
             <div class="duet-podium current-podium">
               <span class="podium-role-badge">{isCurrentBase ? 'Foundation Base' : 'Harmonizing Top Veil'}</span>
-              <div class="podium-image-frame">
-                <img src={product.image} alt={product.fullName} width="160" height="160" class="podium-img" loading="lazy" decoding="async" />
+              <div class="podium-visual">
+                <div class="podium-image-frame">
+                  <img src={product.image} alt={product.fullName} width="160" height="160" class="podium-img" loading="lazy" decoding="async" />
+                </div>
               </div>
               <div class="podium-meta">
                 <span class="podium-brand">{product.brand}</span>
@@ -345,11 +331,13 @@ const productSchema = {
             <!-- Companion Flacon -->
             <div class="duet-podium companion-podium">
               <span class="podium-role-badge">{isCurrentBase ? 'Harmonizing Top Veil' : 'Foundation Base'}</span>
-              <a href={`/perfumes/${pairedProduct.slug}/`} class="podium-image-link" aria-label={`View ${pairedProduct.fullName}`}>
-                <div class="podium-image-frame">
-                  <img src={pairedProduct.image} alt={pairedProduct.fullName} width="160" height="160" class="podium-img" loading="lazy" decoding="async" />
-                </div>
-              </a>
+              <div class="podium-visual">
+                <a href={`/perfumes/${pairedProduct.slug}/`} class="podium-image-link" aria-label={`View ${pairedProduct.fullName}`}>
+                  <div class="podium-image-frame">
+                    <img src={pairedProduct.image} alt={pairedProduct.fullName} width="160" height="160" class="podium-img" loading="lazy" decoding="async" />
+                  </div>
+                </a>
+              </div>
               <div class="podium-meta">
                 <span class="podium-brand">{pairedProduct.brand}</span>
                 <a href={`/perfumes/${pairedProduct.slug}/`} class="podium-name-link">{pairedProduct.name}</a>
@@ -403,7 +391,7 @@ const productSchema = {
       <section class="related-section" aria-label="Similar Fragrances">
         <div class="section-header-minimal">
           <h2 class="section-title-minimal">If You Love This, Try These</h2>
-          <span class="similar-note-kicker">Matched by shared note accords & fragrance families</span>
+          <a href="/shop/" class="see-all-link">Explore Collection</a>
         </div>
         <div class="grid-products">
           {similarProducts.map((p) => (
@@ -418,7 +406,7 @@ const productSchema = {
   <aside class="pdp-sticky-bar" id="pdp-sticky-bar" aria-label="Quick Purchase Actions">
     <div class="pdp-sticky-inner">
       <div class="sticky-thumb-info">
-        <img src={product.image} alt={product.name} class="sticky-thumb-img" width="40" height="40" loading="lazy" decoding="async" />
+        <img src={product.image} alt={product.name} class="sticky-thumb-img" width="38" height="38" loading="lazy" decoding="async" />
         <div class="sticky-meta">
           <span class="sticky-title">{product.name}</span>
           <span class="sticky-price" id="pdp-sticky-amount">{product.priceDisplay}</span>
@@ -453,23 +441,13 @@ const productSchema = {
           data-image={product.image}
           aria-label="Add to Bag"
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
             <line x1="3" y1="6" x2="21" y2="6"></line>
             <path d="M16 10a4 4 0 0 1-8 0"></path>
           </svg>
           <span>Add to Bag</span>
         </button>
-
-        <a
-          href={`/checkout/?product=${encodeURIComponent(product.slug)}&qty=1`}
-          class="btn-sticky-direct-buy"
-          id="btn-sticky-direct-buy"
-          data-slug={product.slug}
-          aria-label="Buy Now"
-        >
-          <span>BUY NOW</span>
-        </a>
       </div>
     </div>
   </aside>
@@ -905,34 +883,6 @@ const productSchema = {
     transform: scale(0.985);
   }
 
-  /* Concierge Assistance Link */
-  .pdp-concierge-assist {
-    text-align: center;
-    padding-top: 0.35rem;
-    border-top: 1px dashed var(--color-border);
-    margin-top: 0.2rem;
-  }
-
-  .concierge-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--color-text-muted);
-    text-decoration: none;
-    transition: color var(--transition-fast);
-  }
-
-  .concierge-link svg {
-    color: #25D366;
-  }
-
-  .concierge-link:hover {
-    color: var(--color-text-main);
-    text-decoration: underline;
-  }
-
   .pdp-micro-assurances {
     display: flex;
     flex-wrap: wrap;
@@ -1141,13 +1091,12 @@ const productSchema = {
     margin-top: 3rem;
   }
 
-  .similar-note-kicker {
-    font-size: 0.8125rem;
-    color: var(--color-text-muted);
-    font-style: italic;
-    font-family: var(--font-display);
-    display: block;
-    margin-top: 0.25rem;
+  .related-section .section-header-minimal {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
   }
 
   /* The Art of Layering Section - Premium Compact Architecture */
@@ -1183,6 +1132,7 @@ const productSchema = {
     justify-content: space-between;
     gap: 0.75rem;
     margin-bottom: 0.35rem;
+    flex-wrap: wrap;
   }
 
   .layering-kicker {
@@ -1228,13 +1178,12 @@ const productSchema = {
     margin: 0 auto;
   }
 
-  /* Dual Flacon Stage - Symmetrical Side-by-Side (Desktop & Mobile) */
+  /* Dual Flacon Stage - Responsive (Mobile Stacked, Desktop Side-by-Side) */
   .layering-duet-stage {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    align-items: stretch;
-    padding: clamp(0.85rem, 2vw, 1.5rem);
-    gap: clamp(0.4rem, 1.5vw, 1.25rem);
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    padding: 0.85rem;
     background-color: #FFFFFF;
   }
 
@@ -1242,12 +1191,16 @@ const productSchema = {
     background: #FAF8F5;
     border: 1px solid #EBE5DC;
     border-radius: 4px;
-    padding: clamp(0.75rem, 1.8vw, 1.25rem);
-    display: flex;
-    flex-direction: column;
+    padding: 0.85rem;
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 0.85rem;
+    row-gap: 0.35rem;
     align-items: center;
-    text-align: center;
+    text-align: left;
     position: relative;
+    min-width: 0;
     transition: border-color 180ms ease, box-shadow 180ms ease;
   }
 
@@ -1257,6 +1210,8 @@ const productSchema = {
   }
 
   .podium-role-badge {
+    grid-column: 1 / -1;
+    justify-self: start;
     font-size: 0.625rem;
     font-weight: 700;
     text-transform: uppercase;
@@ -1266,17 +1221,40 @@ const productSchema = {
     border: 1px solid #E6DED4;
     padding: 0.2rem 0.5rem;
     border-radius: 2px;
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.15rem;
     white-space: nowrap;
   }
 
-  .podium-image-frame {
-    width: clamp(75px, 13vw, 120px);
-    height: clamp(75px, 13vw, 120px);
+  .podium-visual {
+    grid-column: 1;
+    grid-row: 2;
+    width: 80px;
+    height: 80px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0.25rem auto 0.5rem;
+    background: #FFFFFF;
+    border: 1px solid #EFEAE3;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .podium-image-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    text-decoration: none;
+  }
+
+  .podium-image-frame {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
   }
 
   .podium-img {
@@ -1291,11 +1269,14 @@ const productSchema = {
   }
 
   .podium-meta {
+    grid-column: 2;
+    grid-row: 2;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
+    text-align: left;
     width: 100%;
-    margin-top: auto;
+    min-width: 0;
   }
 
   .podium-brand {
@@ -1304,22 +1285,23 @@ const productSchema = {
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--color-text-muted);
-    margin-bottom: 0.15rem;
+    margin-bottom: 0.1rem;
   }
 
   .podium-name,
   .podium-name-link {
     font-family: var(--font-display);
-    font-size: clamp(0.75rem, 1.4vw, 0.95rem);
+    font-size: 0.875rem;
     font-weight: 600;
     color: var(--color-text-main);
     text-decoration: none;
     line-height: 1.25;
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.15rem;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    text-align: left;
   }
 
   .podium-name-link:hover {
@@ -1330,20 +1312,21 @@ const productSchema = {
     font-size: 0.6875rem;
     color: var(--color-text-muted);
     font-style: italic;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.35rem;
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    text-align: left;
   }
 
   .podium-price-row {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 0.4rem;
+    justify-content: flex-start;
+    gap: 0.45rem;
     width: 100%;
-    padding-top: 0.45rem;
+    padding-top: 0.35rem;
     border-top: 1px solid #ECE5DC;
     flex-wrap: wrap;
   }
@@ -1375,13 +1358,23 @@ const productSchema = {
     transform: translateX(2px);
   }
 
-  /* Duet Connector */
+  /* Duet Connector - Mobile */
   .duet-connector {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 0.2rem;
+    gap: 0.6rem;
+    padding: 0.2rem 0;
+    width: 100%;
+  }
+
+  .duet-connector::before,
+  .duet-connector::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #E8E2D8;
   }
 
   .connector-plus {
@@ -1394,18 +1387,90 @@ const productSchema = {
     background: #FAF7F2;
     border: 1px solid #E6DED4;
     color: var(--color-brand-cognac, #9E532B);
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 400;
     line-height: 1;
+    flex-shrink: 0;
   }
 
   .connector-label {
-    font-size: 0.5rem;
+    font-size: 0.55rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
     color: var(--color-text-muted);
     white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* Desktop Adaptive Breakpoint: Symmetrical Side-by-Side */
+  @media (min-width: 600px) {
+    .layering-duet-stage {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      align-items: stretch;
+      padding: clamp(0.85rem, 2vw, 1.5rem);
+      gap: clamp(0.4rem, 1.5vw, 1.25rem);
+    }
+
+    .duet-podium {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: clamp(0.75rem, 1.8vw, 1.25rem);
+      row-gap: 0;
+    }
+
+    .podium-role-badge {
+      justify-self: auto;
+      margin-bottom: 0.4rem;
+    }
+
+    .podium-visual {
+      width: clamp(75px, 13vw, 120px);
+      height: clamp(75px, 13vw, 120px);
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      margin: 0.25rem auto 0.5rem;
+    }
+
+    .podium-meta {
+      align-items: center;
+      text-align: center;
+      margin-top: auto;
+    }
+
+    .podium-name,
+    .podium-name-link {
+      font-size: clamp(0.75rem, 1.4vw, 0.95rem);
+      margin-bottom: 0.2rem;
+      text-align: center;
+    }
+
+    .podium-notes {
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    .podium-price-row {
+      justify-content: center;
+      padding-top: 0.45rem;
+      gap: 0.4rem;
+    }
+
+    .duet-connector {
+      flex-direction: column;
+      gap: 0.2rem;
+      width: auto;
+      padding: 0;
+    }
+
+    .duet-connector::before,
+    .duet-connector::after {
+      content: none;
+    }
   }
 
   /* Integrated Ritual Note */
@@ -1581,7 +1646,7 @@ const productSchema = {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 0.85rem;
+    gap: 0.75rem;
     max-width: 500px;
     margin: 0 auto;
   }
@@ -1589,8 +1654,9 @@ const productSchema = {
   .sticky-thumb-info {
     display: flex;
     align-items: center;
-    gap: 0.65rem;
+    gap: 0.55rem;
     min-width: 0;
+    flex: 1;
   }
 
   .sticky-thumb-img {
@@ -1608,21 +1674,25 @@ const productSchema = {
     display: flex;
     flex-direction: column;
     min-width: 0;
+    line-height: 1.25;
   }
 
   .sticky-title {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--color-text-main);
+    font-size: 0.71875rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 140px;
   }
 
   .sticky-price {
-    font-size: 0.78125rem;
+    font-size: 0.84375rem;
     font-weight: 700;
     color: var(--color-text-main);
+    white-space: nowrap;
+    flex-shrink: 0;
   }
 
   .sticky-actions-wrap {
@@ -1634,7 +1704,7 @@ const productSchema = {
 
   .btn-sticky-add-bag {
     min-height: 42px;
-    padding: 0.6rem 1.15rem;
+    padding: 0.6rem 1.25rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -1701,35 +1771,6 @@ const productSchema = {
     border-color: #1A1A1A;
   }
 
-  .btn-sticky-direct-buy {
-    min-height: 42px;
-    padding: 0.5rem 1.15rem;
-    background-color: #1A1A1A;
-    color: #FFFFFF;
-    border: none;
-    border-radius: var(--border-radius-sm);
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    text-decoration: none;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-    transition: background-color var(--transition-fast), transform var(--transition-fast);
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .btn-sticky-direct-buy:hover {
-    background-color: #000000;
-  }
-
-  .btn-sticky-direct-buy:active {
-    transform: scale(0.94);
-  }
-
   /* Lightbox Zoom */
   .image-lightbox-backdrop {
     position: fixed;
@@ -1789,7 +1830,6 @@ const productSchema = {
 </style>
 
 <script>
-  import { siteConfig } from '../../data/site';
   import { isFavorite, toggleFavorite } from '../../lib/favorites';
 
   function initPdp() {
@@ -1798,15 +1838,23 @@ const productSchema = {
 
     // Quantity handling (default 1)
     let currentQty = 1;
-    const pdpStickyAmountEl = document.getElementById('pdp-sticky-amount');
-    const stickyAddBtn = document.getElementById('btn-sticky-add-bag');
     const directBuyBtn = document.getElementById('pdp-direct-buy-btn');
-    const stickyDirectBuyBtn = document.getElementById('btn-sticky-direct-buy');
-    const pdpWhatsAppBtn = document.getElementById('pdp-whatsapp-btn') as HTMLAnchorElement;
     const stickyBar = document.getElementById('pdp-sticky-bar');
     const pdpFavBtn = document.getElementById('btn-pdp-fav');
     const stickyFavBtn = document.getElementById('btn-sticky-fav');
   const prodId = pdpFavBtn?.getAttribute('data-id') || stickyFavBtn?.getAttribute('data-id');
+
+  // Track recently viewed perfume for personalized recommendations
+  try {
+    const match = window.location.pathname.match(/\/perfumes\/([^\/]+)/);
+    const slug = match ? match[1] : '';
+    if (slug && prodId) {
+      const key = 'lumera_recently_viewed';
+      const existing = JSON.parse(localStorage.getItem(key) || '[]');
+      const updated = [{ slug, id: prodId, timestamp: Date.now() }, ...existing.filter((item: any) => (typeof item === 'string' ? item !== slug : item.slug !== slug))].slice(0, 12);
+      localStorage.setItem(key, JSON.stringify(updated));
+    }
+  } catch {}
 
   // Sync Favorite Buttons state
   function syncPdpFav() {
@@ -1833,10 +1881,7 @@ const productSchema = {
   window.addEventListener('storage', syncPdpFav);
   syncPdpFav();
 
-  const unitPriceMinor = pdpAddBtn ? Number(pdpAddBtn.getAttribute('data-price') || 0) : 0;
-  const productName = pdpAddBtn?.getAttribute('data-name') || '';
-  const productBrand = pdpAddBtn?.getAttribute('data-brand') || '';
-  const productSize = pdpAddBtn?.getAttribute('data-size') || '';
+
 
   // Direct Buy: Instant 1-click checkout navigation fallback
   function handleDirectBuy(e: Event) {
@@ -1848,7 +1893,6 @@ const productSchema = {
   }
 
   directBuyBtn?.addEventListener('click', handleDirectBuy);
-  stickyDirectBuyBtn?.addEventListener('click', handleDirectBuy);
 
   // Mobile Sticky Bar Visibility
   function handleStickyScroll() {

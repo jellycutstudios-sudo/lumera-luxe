@@ -159,7 +159,7 @@ const publicProducts = productsData.filter((p) => !p.isDraft);
           </li>
 
           <li>
-            <a href="/delivery-returns/" class="drawer-menu-link">
+            <a href="/delivery-returns/" class="drawer-menu-link" data-astro-prefetch>
               <span class="link-label">Qatar Priority Delivery</span>
               <svg class="link-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
                 <polyline points="9 18 15 12 9 6"></polyline>
@@ -168,7 +168,7 @@ const publicProducts = productsData.filter((p) => !p.isDraft);
           </li>
 
           <li>
-            <a href="/contact/" class="drawer-menu-link">
+            <a href="/contact/" class="drawer-menu-link" data-astro-prefetch>
               <span class="link-label">Boutique Contact</span>
               <svg class="link-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
                 <polyline points="9 18 15 12 9 6"></polyline>
@@ -757,6 +757,12 @@ const publicProducts = productsData.filter((p) => !p.isDraft);
 
 <script is:inline>
   function openDrawer() {
+    if (typeof window.closeSearchModal === 'function') {
+      window.closeSearchModal();
+    }
+    if (typeof window.closeAllNavModals === 'function') {
+      window.closeAllNavModals();
+    }
     var backdrop = document.getElementById('mobile-nav-backdrop');
     var drawer = document.getElementById('mobile-nav-drawer');
     var openBtn = document.getElementById('menu-toggle-btn');
@@ -785,7 +791,16 @@ const publicProducts = productsData.filter((p) => !p.isDraft);
       drawer.hidden = true;
     }
     if (openBtn) openBtn.setAttribute('aria-expanded', 'false');
-    document.body.style.overflow = '';
+    var isOtherModalOpen =
+      (document.getElementById('bag-drawer') && !document.getElementById('bag-drawer').hidden) ||
+      (document.getElementById('search-modal') && !document.getElementById('search-modal').hidden) ||
+      (document.getElementById('wishlist-drawer') && document.getElementById('wishlist-drawer').classList.contains('is-open')) ||
+      (document.getElementById('discovery-modal') && document.getElementById('discovery-modal').classList.contains('is-open')) ||
+      (document.getElementById('families-modal') && document.getElementById('families-modal').classList.contains('is-open')) ||
+      (document.getElementById('support-modal') && document.getElementById('support-modal').classList.contains('is-open'));
+    if (!isOtherModalOpen) {
+      document.body.style.overflow = '';
+    }
   }
 
   window.openMobileDrawer = openDrawer;

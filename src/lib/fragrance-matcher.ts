@@ -61,7 +61,7 @@ function getSharedNotes(notesA: string[], notesB: string[]): string[] {
 }
 
 /**
- * Scores a product against the 6 quiz answers (Maximum 100 points).
+ * Scores a product against the 4 consultation answers (Maximum 100 points).
  */
 export function scoreProduct(product: ProductMatchRecord, answers: QuizAnswers): { score: number; reason: string } {
   let score = 0;
@@ -69,135 +69,120 @@ export function scoreProduct(product: ProductMatchRecord, answers: QuizAnswers):
   const allNotesText = `${product.keyNotes.join(' ')} ${product.rawNotes || ''} ${product.scentFamilies.join(' ')} ${product.description}`;
   const category = (product.category || '').toLowerCase();
 
-  // 1. Q4: Scent Impression (Max 35 points - Primary Signal)
-  const impression = answers.scentImpression;
-  if (impression === 'fresh') {
+  // 1. Q1: Scent Persona (Max 40 points - Primary Olfactory Driver)
+  const persona = answers.scentPersona || answers.scentImpression;
+  if (persona === 'fresh') {
     if (category === 'fresh' || product.scentFamilies.some((f) => /fresh|citrus|aquatic|green/i.test(f))) {
-      score += 35;
+      score += 40;
       matchFactors.push('sparkling fresh clarity');
-    } else if (hasAnyKeyword(allNotesText, ['citrus', 'bergamot', 'lemon', 'mandarin', 'tea', 'aquatic'])) {
-      score += 24;
+    } else if (hasAnyKeyword(allNotesText, ['citrus', 'bergamot', 'lemon', 'mandarin', 'tea', 'aquatic', 'grapefruit'])) {
+      score += 28;
       matchFactors.push('clean citrus facets');
     }
-  } else if (impression === 'feminine') {
+  } else if (persona === 'floral' || persona === 'feminine') {
     if (category === 'floral' || product.scentFamilies.some((f) => /floral|rose|violet|white floral/i.test(f))) {
-      score += 35;
+      score += 40;
       matchFactors.push('delicate floral bouquet');
-    } else if (hasAnyKeyword(allNotesText, ['rose', 'peony', 'jasmine', 'orange blossom', 'tuberose', 'magnolia'])) {
-      score += 24;
+    } else if (hasAnyKeyword(allNotesText, ['rose', 'peony', 'jasmine', 'orange blossom', 'tuberose', 'magnolia', 'lily'])) {
+      score += 28;
       matchFactors.push('tender petal accords');
     }
-  } else if (impression === 'comforting') {
+  } else if (persona === 'comforting') {
     if (hasAnyKeyword(allNotesText, ['vanilla', 'tonka', 'amber', 'praline', 'honey', 'marshmallow', 'caramel', 'almond'])) {
-      score += 35;
+      score += 40;
       matchFactors.push('warm, comforting gourmand vanilla');
     } else if (category === 'oriental' || product.scentFamilies.some((f) => /amber|oriental|gourmand/i.test(f))) {
-      score += 25;
+      score += 30;
       matchFactors.push('soothing amber warmth');
     }
-  } else if (impression === 'captivating') {
+  } else if (persona === 'captivating') {
     if (hasAnyKeyword(allNotesText, ['oud', 'incense', 'leather', 'patchouli', 'saffron', 'tobacco', 'spices'])) {
-      score += 35;
+      score += 40;
       matchFactors.push('magnetic oud and smoky incense');
     } else if (category === 'woody' || category === 'oriental') {
-      score += 25;
+      score += 30;
       matchFactors.push('captivating depth');
     }
   }
 
-  // 2. Q3: Atmosphere (Max 25 points - Contextual Environment)
+  // 2. Q2: Atmosphere (Max 30 points - Contextual Environment)
   const atmosphere = answers.atmosphere;
   if (atmosphere === 'garden') {
     if (hasAnyKeyword(allNotesText, ['rose', 'peony', 'jasmine', 'violet', 'lily', 'neroli', 'freesia'])) {
-      score += 25;
+      score += 30;
       matchFactors.push('blooming floral petals');
+    } else if (category === 'floral' || category === 'fresh') {
+      score += 20;
     }
   } else if (atmosphere === 'coastal') {
     if (hasAnyKeyword(allNotesText, ['marine', 'aquatic', 'bergamot', 'sea', 'citrus', 'mandarin', 'fig leaf', 'salt'])) {
-      score += 25;
+      score += 30;
       matchFactors.push('sunny coastal breeze');
+    } else if (category === 'fresh') {
+      score += 20;
     }
   } else if (atmosphere === 'cozy') {
     if (hasAnyKeyword(allNotesText, ['vanilla', 'tonka bean', 'amber', 'cashmeran', 'musk', 'sandalwood'])) {
-      score += 25;
+      score += 30;
       matchFactors.push('cozy ambery warmth');
+    } else if (category === 'oriental') {
+      score += 20;
     }
   } else if (atmosphere === 'night_out') {
     if (hasAnyKeyword(allNotesText, ['oud', 'leather', 'incense', 'patchouli', 'amber', 'black orchid', 'saffron', 'rum'])) {
-      score += 25;
+      score += 30;
       matchFactors.push('glamorous evening richness');
+    } else if (category === 'oriental' || category === 'woody') {
+      score += 20;
     }
   }
 
-  // 3. Q5: Lifestyle / Occasion (Max 15 points)
-  const lifestyle = answers.lifestyle;
-  if (lifestyle === 'everyday') {
+  // 3. Q3: Occasion (Max 18 points - Routine & Lifestyle)
+  const occasion = answers.occasion || answers.lifestyle;
+  if (occasion === 'everyday') {
     if (category === 'fresh' || category === 'floral' || hasAnyKeyword(allNotesText, ['sparkling', 'delicate', 'airy', 'mandarin', 'rose'])) {
-      score += 15;
+      score += 18;
+    } else {
+      score += 10;
     }
-  } else if (lifestyle === 'office') {
+  } else if (occasion === 'office') {
     if (hasAnyKeyword(allNotesText, ['clean', 'tea', 'iris', 'musk', 'cedar', 'subtle', 'peony'])) {
-      score += 15;
+      score += 18;
+    } else {
+      score += 9;
     }
-  } else if (lifestyle === 'special') {
-    if (hasAnyKeyword(allNotesText, ['rose', 'jasmine', 'tuberose', 'parfum', 'amber', 'champagne'])) {
-      score += 15;
+  } else if (occasion === 'special') {
+    if (hasAnyKeyword(allNotesText, ['rose', 'jasmine', 'tuberose', 'parfum', 'amber', 'champagne', 'oud'])) {
+      score += 18;
+    } else {
+      score += 10;
     }
-  } else if (lifestyle === 'evenings') {
+  } else if (occasion === 'evenings') {
     if (hasAnyKeyword(allNotesText, ['oud', 'intense', 'elixir', 'leather', 'incense', 'gourmand', 'amber'])) {
-      score += 15;
+      score += 18;
+    } else {
+      score += 10;
     }
   }
 
-  // 4. Q6: Intensity (Max 10 points)
+  // 4. Q4: Intensity & Presence (Max 12 points)
   const intensity = answers.intensity;
   const isHeavyNotes = hasAnyKeyword(allNotesText, ['oud', 'incense', 'leather', 'patchouli', 'amber', 'elixir']);
   if (intensity === 'subtle') {
     if (!isHeavyNotes || product.concentration.includes('Toilette')) {
-      score += 10;
-    } else {
-      score += 3;
-    }
-  } else if (intensity === 'expressive') {
-    if (isHeavyNotes || product.concentration.includes('Parfum') || product.concentration.includes('Intense')) {
-      score += 10;
+      score += 12;
     } else {
       score += 4;
     }
+  } else if (intensity === 'expressive') {
+    if (isHeavyNotes || product.concentration.includes('Parfum') || product.concentration.includes('Intense')) {
+      score += 12;
+    } else {
+      score += 5;
+    }
   } else {
     // balanced or variety: award steady baseline
-    score += 8;
-  }
-
-  // 5. Q1: Personality (Max 10 points - Light Styling Signal)
-  const personality = answers.personality;
-  if (personality === 'romantic') {
-    if (hasAnyKeyword(allNotesText, ['rose', 'peony', 'vanilla', 'sweet', 'blossom'])) score += 10;
-  } else if (personality === 'bold') {
-    if (hasAnyKeyword(allNotesText, ['oud', 'leather', 'spices', 'patchouli', 'intense'])) score += 10;
-  } else if (personality === 'elegant') {
-    if (hasAnyKeyword(allNotesText, ['iris', 'chypre', 'musk', 'sandalwood', 'cedar'])) score += 10;
-  } else if (personality === 'adventurous') {
-    if (hasAnyKeyword(allNotesText, ['citrus', 'blackcurrant', 'fig', 'pepper', 'exotic'])) score += 10;
-  }
-
-  // 6. Q2: Jewelry Preference (Max 5 points - Gentle Accent)
-  const jewelry = answers.jewelry;
-  if (jewelry === 'gold') {
-    if (hasAnyKeyword(allNotesText, ['amber', 'vanilla', 'gold', 'honey', 'tonka', 'solar'])) {
-      score += 5;
-    } else {
-      score += 2;
-    }
-  } else if (jewelry === 'silver') {
-    if (hasAnyKeyword(allNotesText, ['musk', 'clean', 'citrus', 'tea', 'fresh', 'water', 'silver'])) {
-      score += 5;
-    } else {
-      score += 2;
-    }
-  } else {
-    // Both or Neither: Neutral points, never penalizes
-    score += 3.5;
+    score += 10;
   }
 
   // Generate verified note-based reason

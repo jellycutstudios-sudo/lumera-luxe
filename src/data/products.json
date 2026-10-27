@@ -32,7 +32,7 @@
     "description": "A luxurious fragrance by Aigner, blending Floral Oriental and Ambery  Floral accords with prominent notes of Bergamot, Pink Pepper, Red Fruits, Rose.",
     "isDraft": false,
     "draftReason": [],
-    "featured": true,
+    "featured": false,
     "category": "floral",
     "sku": "LL-001"
   },

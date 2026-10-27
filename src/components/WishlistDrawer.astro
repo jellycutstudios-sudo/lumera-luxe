@@ -1,5 +1,4 @@
 ---
-import productsData from '../data/products.json';
 ---
 
 <div class="wishlist-drawer-backdrop" id="wishlist-backdrop" hidden></div>
@@ -496,28 +495,17 @@ import productsData from '../data/products.json';
 </style>
 
 <script>
-  import productsData from '../data/products.json';
-  import { getFavorites, removeFavorite, toggleFavorite } from '../lib/favorites';
+  import { getProductCatalog } from '../lib/catalog';
+  import { getFavorites, removeFavorite } from '../lib/favorites';
 
-  function renderWishlist() {
+  async function renderWishlist() {
     const badgeEl = document.getElementById('wishlist-items-badge');
     const emptyState = document.getElementById('wishlist-empty-state');
     const listEl = document.getElementById('wishlist-items-list');
     const footerEl = document.getElementById('wishlist-footer');
 
     const favIds = getFavorites();
-    const items = favIds
-      .map((id) =>
-        productsData.find((p) =>
-          p.id === id ||
-          p.slug === id ||
-          String(p.id).toLowerCase() === String(id).toLowerCase() ||
-          String(p.slug).toLowerCase() === String(id).toLowerCase()
-        )
-      )
-      .filter((p): p is (typeof productsData)[0] => Boolean(p));
-
-    const count = items.length;
+    const count = favIds.length;
     if (badgeEl) badgeEl.textContent = `${count} saved`;
 
     if (count === 0) {
@@ -532,6 +520,18 @@ import productsData from '../data/products.json';
       }
       return;
     }
+
+    const productsData = await getProductCatalog();
+    const items = favIds
+      .map((id) =>
+        productsData.find((p) =>
+          p.id === id ||
+          p.slug === id ||
+          String(p.id).toLowerCase() === String(id).toLowerCase() ||
+          String(p.slug).toLowerCase() === String(id).toLowerCase()
+        )
+      )
+      .filter((p): p is (typeof productsData)[0] => Boolean(p));
 
     if (emptyState) {
       emptyState.hidden = true;
@@ -616,7 +616,16 @@ import productsData from '../data/products.json';
       backdrop.hidden = true;
       drawer.style.display = 'none';
       backdrop.style.display = 'none';
-      document.body.style.overflow = '';
+      const isOtherModalOpen =
+        Boolean(!document.getElementById('bag-drawer')?.hidden) ||
+        Boolean(!document.getElementById('mobile-nav-drawer')?.hidden) ||
+        Boolean(!document.getElementById('search-modal')?.hidden) ||
+        Boolean(document.getElementById('discovery-modal')?.classList.contains('is-open')) ||
+        Boolean(document.getElementById('families-modal')?.classList.contains('is-open')) ||
+        Boolean(document.getElementById('support-modal')?.classList.contains('is-open'));
+      if (!isOtherModalOpen) {
+        document.body.style.overflow = '';
+      }
     }, 320);
   }
 

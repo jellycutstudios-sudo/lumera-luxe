@@ -27,6 +27,7 @@ const roseGoldProducts = [
   'boucheron-feve-tonka-de-canaima'
 ].map(slug => activeCatalog.find(p => p.slug === slug)).filter(Boolean);
 
+
 // Elemental Zodiac-Inspired Flacons
 const elementalCollections = [
   {
@@ -74,9 +75,6 @@ const elementalCollections = [
       <div class="container styling-hero-inner">
         <span class="styling-eyebrow">Haute Parfumerie Curation · Doha</span>
         <h1 class="styling-title">Scent & Style Alignment</h1>
-        <p class="styling-lead">
-          Fragrance is your invisible couture. Explore fine flacons curated to harmonize with your precious metals, jewelry accents, and elemental personal aura.
-        </p>
         <div class="styling-quick-nav">
           <a href="#precious-metals" class="pill-anchor">Precious Metals</a>
           <a href="#elements" class="pill-anchor">The Elemental Wardrobe</a>
@@ -89,13 +87,6 @@ const elementalCollections = [
     <!-- SECTION 1: PRECIOUS METAL ALIGNMENT -->
     <section class="styling-section" id="precious-metals">
       <div class="container">
-        <div class="section-heading-centered">
-          <span class="section-kicker">Fine Jewelry Harmony</span>
-          <h2 class="section-title">Harmonize with Your Precious Metals</h2>
-          <p class="section-desc">
-            In Middle Eastern luxury attire, scent and fine jewelry exist in constant dialogue. Select your metal to explore olfactory notes crafted to mirror its shine and warmth.
-          </p>
-        </div>
 
         <!-- 3 Precious Metal Cards -->
         <div class="metals-grid">
@@ -105,9 +96,6 @@ const elementalCollections = [
               <span class="metal-badge">18k & 21k Gold</span>
               <h3 class="metal-title">Wear with Warm Gold</h3>
               <p class="metal-notes-line">Honeyed Amber · Royal Oud · Solar Saffron · Warm Vanilla</p>
-              <p class="metal-copy">
-                The rich, radiant warmth of yellow gold calls for deep, golden resins and sweet balsamic bases. These fragrances glow on warm pulse points, leaving an opulent, sunlit trail.
-              </p>
             </div>
 
             <div class="metal-products-preview">
@@ -118,12 +106,14 @@ const elementalCollections = [
               </div>
             </div>
 
-            <div class="metal-card-footer">
-              <a href="/shop/?style=gold" class="btn-metal-shop">
-                <span>Explore All Warm Gold Fragrances ({activeCatalog.filter(p => p.scentFamilies.includes('oriental') || p.scentFamilies.includes('woody')).length})</span>
-                <span aria-hidden="true">→</span>
-              </a>
-            </div>
+            {goldProducts.length > 0 && (
+              <div class="metal-card-footer">
+                <a href="/shop/?style=gold" class="btn-metal-shop">
+                  <span>Explore All Warm Gold Fragrances</span>
+                  <span aria-hidden="true">→</span>
+                </a>
+              </div>
+            )}
           </article>
 
           <!-- Cool Silver & Platinum -->
@@ -132,9 +122,6 @@ const elementalCollections = [
               <span class="metal-badge">Platinum & White Gold</span>
               <h3 class="metal-title">Wear with Cool Silver</h3>
               <p class="metal-notes-line">Crystalline Musks · Champagne Aldehydes · Clean Iris · Mineral Ambergris</p>
-              <p class="metal-copy">
-                The architectural elegance of platinum and fine diamonds demands clarity, restraint, and luminosity. These formulations embody crisp, modern minimalism and refined skin-scent intimacy.
-              </p>
             </div>
 
             <div class="metal-products-preview">
@@ -145,12 +132,14 @@ const elementalCollections = [
               </div>
             </div>
 
-            <div class="metal-card-footer">
-              <a href="/shop/?style=silver" class="btn-metal-shop">
-                <span>Explore All Cool Silver Fragrances</span>
-                <span aria-hidden="true">→</span>
-              </a>
-            </div>
+            {silverProducts.length > 0 && (
+              <div class="metal-card-footer">
+                <a href="/shop/?style=silver" class="btn-metal-shop">
+                  <span>Explore All Cool Silver Fragrances</span>
+                  <span aria-hidden="true">→</span>
+                </a>
+              </div>
+            )}
           </article>
 
           <!-- Rose Gold & Silk -->
@@ -159,9 +148,6 @@ const elementalCollections = [
               <span class="metal-badge">Rose Gold & Fine Silks</span>
               <h3 class="metal-title">Wear with Rose Gold</h3>
               <p class="metal-notes-line">Turkish Damask Rose · Tart Lychee · Tender Peony · Velvet Cashmere</p>
-              <p class="metal-copy">
-                The tender, romantic blush of pink gold and raw mulberry silk finds its soulmate in velvety petals and sparkling pink pepper. Sophisticated, affectionate, and irresistibly chic.
-              </p>
             </div>
 
             <div class="metal-products-preview">
@@ -172,12 +158,14 @@ const elementalCollections = [
               </div>
             </div>
 
-            <div class="metal-card-footer">
-              <a href="/shop/?style=rose-gold" class="btn-metal-shop">
-                <span>Explore All Rose Gold Fragrances</span>
-                <span aria-hidden="true">→</span>
-              </a>
-            </div>
+            {roseGoldProducts.length > 0 && (
+              <div class="metal-card-footer">
+                <a href="/shop/?style=rose-gold" class="btn-metal-shop">
+                  <span>Explore All Rose Gold Fragrances</span>
+                  <span aria-hidden="true">→</span>
+                </a>
+              </div>
+            )}
           </article>
         </div>
       </div>
@@ -189,9 +177,6 @@ const elementalCollections = [
         <div class="section-heading-centered">
           <span class="section-kicker">Elemental Alignment</span>
           <h2 class="section-title">The Elemental Wardrobe</h2>
-          <p class="section-desc">
-            Align your fragrance with your natural energy. Inspired by the ancient four elements and celestial archetypes, these curated pairs channel your innate presence.
-          </p>
         </div>
 
         <div class="elements-grid">

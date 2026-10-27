@@ -60,10 +60,12 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
           {
             siteConfig.navigation.map((item) => {
               const isDiscovery = item.label === 'Discovery';
+              const isShop = item.label === 'Shop';
               const isActive =
                 currentPath === item.href ||
                 (item.href !== '/' && currentPath.startsWith(item.href)) ||
-                (isDiscovery && currentPath.startsWith('/fragrance-finder/'));
+                (isDiscovery && (currentPath.startsWith('/scent-styling') || currentPath.startsWith('/fragrance-finder') || currentPath.startsWith('/layering'))) ||
+                (isShop && currentPath.startsWith('/perfumes/'));
 
               if (isDiscovery) {
                 return (
@@ -1301,7 +1303,7 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
 </style>
 
 <script>
-  import productsData from '../data/products.json';
+  import { getProductCatalog } from '../lib/catalog';
   import { getFavorites } from '../lib/favorites';
 
   // Wishlist Badge Logic
@@ -1344,7 +1346,7 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
   updateBagBadge();
 
   // Search Input Handler (Live Real-Time Filtering)
-  function handleSearchInput(input: HTMLInputElement) {
+  async function handleSearchInput(input: HTMLInputElement) {
     const q = input.value.trim().toLowerCase();
     const clearBtn = document.getElementById('search-clear-input-btn') as HTMLButtonElement;
     const initialView = document.getElementById('search-initial-view');
@@ -1367,7 +1369,8 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
     if (!dynamicView) return;
     dynamicView.style.display = 'block';
 
-    const matches = productsData.filter((p) => {
+    const catalog = await getProductCatalog();
+    const matches = catalog.filter((p) => {
       const isPriceQuery = q.includes('250') || q.includes('300') || q.includes('under') || q.includes('price');
       let matchesPrice = false;
       if (isPriceQuery && (q.includes('under') || q.includes('<') || q.includes('300'))) {
@@ -1437,6 +1440,13 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
   }
 
   function openSearch() {
+    if (typeof (window as any).closeMobileDrawer === 'function') {
+      (window as any).closeMobileDrawer();
+    }
+    if (typeof (window as any).closeAllNavModals === 'function') {
+      (window as any).closeAllNavModals();
+    }
+    getProductCatalog(); // Preload search catalog asynchronously in background
     const modal = document.getElementById('search-modal');
     const input = document.getElementById('quick-search-input') as HTMLInputElement;
     const initialView = document.getElementById('search-initial-view');
@@ -1465,7 +1475,16 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
 
     if (modal) {
       modal.hidden = true;
-      document.body.style.overflow = '';
+      const isOtherModalOpen =
+        !document.getElementById('bag-drawer')?.hidden ||
+        !document.getElementById('mobile-nav-drawer')?.hidden ||
+        document.getElementById('wishlist-drawer')?.classList.contains('is-open') ||
+        document.getElementById('discovery-modal')?.classList.contains('is-open') ||
+        document.getElementById('families-modal')?.classList.contains('is-open') ||
+        document.getElementById('support-modal')?.classList.contains('is-open');
+      if (!isOtherModalOpen) {
+        document.body.style.overflow = '';
+      }
       if (input) input.value = '';
       if (clearBtn) clearBtn.style.display = 'none';
       if (initialView) initialView.style.display = 'flex';

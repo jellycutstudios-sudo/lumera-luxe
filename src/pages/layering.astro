@@ -90,32 +90,35 @@ const description = "Master the French haute parfumerie ritual of fragrance laye
         <div class="duets-grid" id="duets-grid">
           {allDuets.map(({ pair, base, top, total, categories }: any, idx: number) => (
             <article class="duet-card" data-duet-categories={categories} id={`duet-${pair.id}`}>
-              <!-- Card Header Badge Bar -->
+              <!-- Card Header -->
               <div class="duet-card-header">
-                <div class="duet-index-tag">
-                  <span class="sparkle">✦</span>
-                  <span>Ritual #{idx + 1}</span>
+                <div class="duet-badge-group">
+                  <span class="duet-index-tag">Ritual #{idx + 1}</span>
+                  <span class="duet-pair-count">2 Flacons</span>
                 </div>
-                <div class="duet-price-badge">
-                  <span>2 Flacons · <strong>{total} QAR</strong></span>
+                <div class="duet-price-display">
+                  <span class="duet-price-value">{total} QAR</span>
                 </div>
               </div>
 
-              <!-- Title & Sensory Narrative -->
+              <!-- Title & Scent Hook -->
               <h2 class="duet-title">{pair.title}</h2>
               <p class="duet-story">{pair.description}</p>
 
-              <!-- Two Flacons Interactive Visual Stage -->
+              <!-- Two Flacons Visual Formula -->
               <div class="duet-stage">
                 <!-- Base Flacon -->
                 <a href={`/perfumes/${base.slug}/`} class="duet-flacon-unit" aria-label={`View Base: ${base.brand} ${base.name}`}>
-                  <span class="flacon-role-pill base-pill">Foundation Base</span>
+                  <div class="flacon-role-badge base-badge">
+                    <span class="role-num">1</span>
+                    <span class="role-text">Base Layer</span>
+                  </div>
                   <div class="flacon-thumb-box">
                     <img
                       src={base.image}
                       alt={`${base.brand} ${base.name}`}
-                      width="140"
-                      height="140"
+                      width="160"
+                      height="160"
                       loading="lazy"
                       decoding="async"
                       class="flacon-img"
@@ -123,27 +126,30 @@ const description = "Master the French haute parfumerie ritual of fragrance laye
                   </div>
                   <div class="flacon-meta">
                     <span class="flacon-brand">{base.brand}</span>
-                    <span class="flacon-name">{base.name}</span>
+                    <h3 class="flacon-name">{base.name}</h3>
                     <span class="flacon-specs">{base.concentration} · {base.sizeDisplay}</span>
                     <span class="flacon-price">{base.priceDisplay}</span>
                   </div>
                 </a>
 
-                <!-- Scent Connector -->
-                <div class="duet-connector-symbol" aria-hidden="true">
-                  <span class="plus-icon">+</span>
-                  <span class="connector-text">Layer With</span>
+                <!-- Plus Layering Node -->
+                <div class="duet-connector-node" aria-hidden="true">
+                  <span class="connector-circle">+</span>
+                  <span class="connector-label">Layer</span>
                 </div>
 
                 <!-- Top Veil Flacon -->
                 <a href={`/perfumes/${top.slug}/`} class="duet-flacon-unit" aria-label={`View Veil: ${top.brand} ${top.name}`}>
-                  <span class="flacon-role-pill top-pill">Harmonizing Veil</span>
+                  <div class="flacon-role-badge top-badge">
+                    <span class="role-num">2</span>
+                    <span class="role-text">Top Veil</span>
+                  </div>
                   <div class="flacon-thumb-box">
                     <img
                       src={top.image}
                       alt={`${top.brand} ${top.name}`}
-                      width="140"
-                      height="140"
+                      width="160"
+                      height="160"
                       loading="lazy"
                       decoding="async"
                       class="flacon-img"
@@ -151,17 +157,19 @@ const description = "Master the French haute parfumerie ritual of fragrance laye
                   </div>
                   <div class="flacon-meta">
                     <span class="flacon-brand">{top.brand}</span>
-                    <span class="flacon-name">{top.name}</span>
+                    <h3 class="flacon-name">{top.name}</h3>
                     <span class="flacon-specs">{top.concentration} · {top.sizeDisplay}</span>
                     <span class="flacon-price">{top.priceDisplay}</span>
                   </div>
                 </a>
               </div>
 
-              <!-- Sommelier Application Ritual Box -->
-              <div class="duet-ritual-box">
-                <span class="ritual-header">How to Apply This Duet</span>
-                <p class="ritual-copy">{pair.ritualNote}</p>
+              <!-- Application Guide (Clean, elegant tip) -->
+              <div class="duet-application-tip">
+                <span class="tip-sparkle" aria-hidden="true">✦</span>
+                <p class="tip-text">
+                  <strong>Ritual:</strong> {pair.ritualNote}
+                </p>
               </div>
 
               <!-- Actions Strip -->
@@ -179,14 +187,10 @@ const description = "Master the French haute parfumerie ritual of fragrance laye
                     <line x1="3" y1="6" x2="21" y2="6"></line>
                     <path d="M16 10a4 4 0 0 1-8 0"></path>
                   </svg>
-                  <span class="btn-label">Add Both to Bag</span>
+                  <span class="btn-label">Add Duet to Bag</span>
                   <span class="btn-sep">·</span>
                   <span class="btn-price">{total} QAR</span>
                 </button>
-                <a href={`/perfumes/${base.slug}/`} class="link-view-flacon" data-astro-prefetch>
-                  <span>Explore Base Flacon Ritual</span>
-                  <span class="arrow" aria-hidden="true">→</span>
-                </a>
               </div>
             </article>
           ))}
@@ -462,64 +466,73 @@ const description = "Master the French haute parfumerie ritual of fragrance laye
     justify-content: space-between;
     align-items: center;
     gap: 0.5rem;
-    margin-bottom: 0.85rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .duet-badge-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
   .duet-index-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
+    font-family: var(--font-sans);
     font-size: 0.6875rem;
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--color-brand-cognac);
+    color: var(--color-brand-cognac, #9E532B);
     background: #FAF8F5;
-    border: 1px solid rgba(197, 160, 89, 0.35);
-    padding: 0.25rem 0.65rem;
+    border: 1px solid rgba(197, 160, 89, 0.4);
+    padding: 0.2rem 0.55rem;
     border-radius: 999px;
   }
 
-  .sparkle {
-    color: #C5A059;
+  .duet-pair-count {
+    font-size: 0.6875rem;
+    color: #8A8580;
+    font-weight: 500;
   }
 
-  .duet-price-badge {
-    font-size: 0.8125rem;
-    color: #141210;
-    background: #FAF8F5;
-    padding: 0.25rem 0.65rem;
-    border-radius: 4px;
-    border: 1px solid #ECE7E1;
+  .duet-price-display {
+    text-align: right;
+  }
+
+  .duet-price-value {
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: #1A1715;
+    letter-spacing: -0.01em;
   }
 
   .duet-title {
     font-family: var(--font-display);
-    font-size: clamp(1.35rem, 2.5vw, 1.65rem);
+    font-size: clamp(1.2rem, 2.2vw, 1.45rem);
     font-weight: 500;
-    color: #141210;
-    margin: 0 0 0.5rem;
+    color: #1A1715;
+    margin: 0 0 0.35rem;
     line-height: 1.25;
   }
 
   .duet-story {
-    font-size: 0.88rem;
-    line-height: 1.55;
+    font-size: 0.8125rem;
+    line-height: 1.5;
     color: #6E655E;
-    margin: 0 0 1.25rem;
+    margin: 0 0 1rem;
   }
 
-  /* Bottle Stage */
+  /* Two Flacons Visual Formula */
   .duet-stage {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
-    align-items: center;
-    gap: 0.75rem;
-    background: radial-gradient(circle at center, #FFFFFF 0%, #FAF8F5 100%);
-    border: 1px solid #F2EEE8;
+    align-items: stretch;
+    gap: clamp(0.5rem, 1.5vw, 1rem);
+    background: #FAF9F6;
+    border: 1px solid #ECE7E1;
     border-radius: 8px;
-    padding: 1.25rem 0.85rem;
-    margin-bottom: 1.25rem;
+    padding: 1rem 0.75rem 0.85rem;
+    margin-bottom: 0.85rem;
   }
 
   .duet-flacon-unit {
@@ -537,40 +550,65 @@ const description = "Master the French haute parfumerie ritual of fragrance laye
     transform: translateY(-2px);
   }
 
-  .flacon-role-pill {
+  .flacon-role-badge {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
+    gap: 0.35rem;
     font-size: 0.625rem;
     font-weight: 700;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    padding: 0.25rem 0.55rem;
-    border-radius: 2px;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
     margin-bottom: 0.6rem;
-    white-space: nowrap;
     line-height: 1.2;
+    white-space: nowrap;
   }
 
-  .base-pill {
+  .role-num {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    font-size: 0.55rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+  }
+
+  .base-badge {
     background: #1A1715;
-    color: #FAF8F5;
+    color: #FFFFFF;
     border: 1px solid #1A1715;
   }
 
-  .top-pill {
-    background: #FAF8F5;
+  .base-badge .role-num {
+    background: #3A3530;
+    color: #F3DEB3;
+  }
+
+  .top-badge {
+    background: #FFFFFF;
     color: var(--color-brand-cognac, #9E532B);
-    border: 1px solid rgba(158, 83, 43, 0.35);
+    border: 1px solid rgba(197, 160, 89, 0.45);
+  }
+
+  .top-badge .role-num {
+    background: #FAF3E5;
+    color: var(--color-brand-cognac, #9E532B);
   }
 
   .flacon-thumb-box {
     width: 100%;
-    height: 120px;
+    height: 115px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 0.5rem;
+    background: #FFFFFF;
+    border-radius: 6px;
+    padding: 0.4rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
   }
 
   .flacon-img {
@@ -578,7 +616,7 @@ const description = "Master the French haute parfumerie ritual of fragrance laye
     max-width: 100%;
     width: auto;
     object-fit: contain;
-    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.06));
+    filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.05));
     transition: transform 220ms ease;
   }
 
@@ -594,7 +632,7 @@ const description = "Master the French haute parfumerie ritual of fragrance laye
   }
 
   .flacon-brand {
-    font-size: 0.65rem;
+    font-size: 0.625rem;
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -603,78 +641,95 @@ const description = "Master the French haute parfumerie ritual of fragrance laye
   }
 
   .flacon-name {
-    font-family: var(--font-display);
-    font-size: 0.95rem;
-    font-weight: 500;
-    color: #141210;
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #1A1715;
     line-height: 1.25;
-    margin-bottom: 0.2rem;
-    max-width: 130px;
-    white-space: nowrap;
+    margin: 0 0 0.2rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
     overflow: hidden;
-    text-overflow: ellipsis;
+    min-height: 2.1em;
+    text-align: center;
+    word-break: break-word;
   }
 
   .flacon-specs {
-    font-size: 0.7rem;
+    font-size: 0.6875rem;
     color: #8C827A;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.2rem;
   }
 
   .flacon-price {
-    font-size: 0.85rem;
+    font-size: 0.8125rem;
     font-weight: 700;
-    color: #141210;
+    color: #1A1715;
   }
 
-  /* Connector */
-  .duet-connector-symbol {
+  /* Plus Layering Node */
+  .duet-connector-node {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 0.25rem;
+    align-self: center;
   }
 
-  .plus-icon {
-    font-size: 1.4rem;
-    font-weight: 300;
-    color: var(--color-brand-cognac);
-    line-height: 1;
+  .connector-circle {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    border: 1px solid #E5DFD7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #9E7B3B;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
   }
 
-  .connector-text {
-    font-size: 0.625rem;
+  .connector-label {
+    font-size: 0.5625rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: #8C827A;
+    color: #8A8580;
   }
 
-  /* Sommelier Ritual Box */
-  .duet-ritual-box {
-    background: #FAF8F5;
-    border-left: 3px solid var(--color-brand-cognac);
-    border-radius: 0 4px 4px 0;
-    padding: 0.75rem 0.9rem;
-    margin-bottom: 1.25rem;
+  /* Application Guide (Clean, non-boxed ritual instruction) */
+  .duet-application-tip {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.45rem;
+    padding: 0.65rem 0.85rem;
+    background: #FAF9F6;
+    border-radius: 6px;
+    border: 1px solid #ECE7E1;
+    margin-bottom: 0.85rem;
   }
 
-  .ritual-header {
-    display: block;
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-brand-cognac);
-    margin-bottom: 0.25rem;
+  .tip-sparkle {
+    color: #C5A059;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+    margin-top: 1px;
   }
 
-  .ritual-copy {
-    font-size: 0.78125rem;
+  .tip-text {
+    font-size: 0.75rem;
     line-height: 1.45;
-    color: #57524C;
+    color: #5A554E;
     margin: 0;
+  }
+
+  .tip-text strong {
+    color: #1A1715;
+    font-weight: 600;
   }
 
   /* Actions */

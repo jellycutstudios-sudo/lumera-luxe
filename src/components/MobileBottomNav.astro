@@ -307,7 +307,7 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
             Send us your inquiry and our fragrance specialist in Qatar will respond directly on WhatsApp within minutes.
           </p>
 
-          <form id="support-inquiry-form" class="support-form" onsubmit="event.preventDefault(); window.sendSupportToWhatsApp();">
+          <form id="support-inquiry-form" class="support-form">
             <!-- Topic Selector Chips -->
             <div class="form-field-group">
               <label class="form-field-label">How can we assist you?</label>
@@ -1225,6 +1225,8 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
 
   // Global modal state functions
   window.openDiscoveryModal = function () {
+    if (typeof window.closeMobileDrawer === 'function') window.closeMobileDrawer();
+    if (typeof window.closeSearchModal === 'function') window.closeSearchModal();
     window.closeFamiliesModal();
     window.closeSupportModal();
     var modal = document.getElementById('discovery-modal');
@@ -1262,6 +1264,8 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
   };
 
   window.openFamiliesModal = function () {
+    if (typeof window.closeMobileDrawer === 'function') window.closeMobileDrawer();
+    if (typeof window.closeSearchModal === 'function') window.closeSearchModal();
     window.closeDiscoveryModal();
     window.closeSupportModal();
     var modal = document.getElementById('families-modal');
@@ -1297,6 +1301,8 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
   };
 
   window.openSupportModal = function () {
+    if (typeof window.closeMobileDrawer === 'function') window.closeMobileDrawer();
+    if (typeof window.closeSearchModal === 'function') window.closeSearchModal();
     window.closeDiscoveryModal();
     window.closeFamiliesModal();
     var modal = document.getElementById('support-modal');
@@ -1335,6 +1341,16 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
     window.closeDiscoveryModal();
     window.closeFamiliesModal();
     window.closeSupportModal();
+    var backdrop = document.getElementById('nav-modal-backdrop');
+    if (backdrop) backdrop.classList.remove('is-open');
+    var isOtherModalOpen =
+      (document.getElementById('bag-drawer') && !document.getElementById('bag-drawer').hidden) ||
+      (document.getElementById('search-modal') && !document.getElementById('search-modal').hidden) ||
+      (document.getElementById('mobile-nav-drawer') && !document.getElementById('mobile-nav-drawer').hidden) ||
+      (document.getElementById('wishlist-drawer') && document.getElementById('wishlist-drawer').classList.contains('is-open'));
+    if (!isOtherModalOpen) {
+      document.body.style.overflow = '';
+    }
   };
 
   // Compile formatted WhatsApp message from support form
@@ -1466,6 +1482,12 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
       return;
     }
 
+    // Auto-close any nav bottom modal when clicking any navigation link inside
+    if (target.closest('.nav-bottom-sheet a')) {
+      window.closeAllNavModals();
+      return;
+    }
+
     // 10. Homepage showcase scroll link
     var showcaseLink = target.closest('#sheet-view-showcase');
     if (showcaseLink) {
@@ -1480,6 +1502,15 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
         }
         return;
       }
+    }
+  });
+
+  // Support inquiry form submission
+  var supForm = document.getElementById('support-inquiry-form');
+  supForm?.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (typeof window.sendSupportToWhatsApp === 'function') {
+      window.sendSupportToWhatsApp();
     }
   });
 
@@ -1530,5 +1561,15 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
   } else {
     syncBottomNavTab();
   }
-  document.addEventListener('astro:page-load', syncBottomNavTab);
+  document.addEventListener('astro:page-load', function () {
+    syncBottomNavTab();
+    if (typeof window.closeAllNavModals === 'function') {
+      window.closeAllNavModals();
+    }
+  });
+  document.addEventListener('astro:before-preparation', function () {
+    if (typeof window.closeAllNavModals === 'function') {
+      window.closeAllNavModals();
+    }
+  });
 </script>

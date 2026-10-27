@@ -44,7 +44,17 @@ const heroSlides = [
   }
 ];
 
-const selectedScents = productsData.filter((p) => p.featured);
+// Hand-curated flagship perfumes for the home page showcase (leading with global icon YSL Libre)
+const curatedHomeSlugs = [
+  'yves-saint-laurent-libre',
+  'boucheron-quatre-en-bleu',
+  'chanel-n-5',
+  'dolce-gabbana-devotion'
+];
+
+const selectedScents = curatedHomeSlugs
+  .map((slug) => productsData.find((p) => p.slug === slug))
+  .filter(Boolean) as typeof productsData;
 
 // 4 Olfactive Category representations using LUMÈRA LUXE Brand Photography
 const categories = [
@@ -215,7 +225,6 @@ const homeStructuredData = {
               width="575"
               height="90"
               loading="eager"
-              fetchpriority="high"
               decoding="async"
             />
           </picture>
@@ -335,15 +344,36 @@ const homeStructuredData = {
       </div>
     </section>
 
-    <!-- 2. THE CURATED EDIT (Single Focused 4-Product Showcase) -->
-    <section class="section-home">
+    <!-- 2. THE CURATED EDIT (Dynamic Personalized 4-Product Showcase) -->
+    <section class="section-home" id="section-curated-showcase">
       <div class="container">
         <div class="section-header-minimal">
-          <h2 class="section-title-minimal">Curated Fragrances</h2>
+          <h2 class="section-title-minimal" id="curated-section-title">Curated Fragrances</h2>
           <a href="/shop/" class="see-all-link">See All ({productsData.length})</a>
         </div>
 
-        <div class="grid-products">
+        <!-- Interactive Mood & Personalization Tabs -->
+        <div class="curated-mood-pills" role="tablist" aria-label="Curated Scents">
+          <button type="button" class="mood-pill is-active" data-mood="for-you" id="pill-for-you">
+            <span class="pill-sparkle" aria-hidden="true">✦</span>
+            <span>For You</span>
+            <span class="pill-dot" id="pill-history-dot" style="display: none;"></span>
+          </button>
+          <button type="button" class="mood-pill" data-mood="flagship">
+            <span>Flagship Icons</span>
+          </button>
+          <button type="button" class="mood-pill" data-mood="majlis">
+            <span>Majlis & Oud</span>
+          </button>
+          <button type="button" class="mood-pill" data-mood="fresh">
+            <span>Fresh & Citrus</span>
+          </button>
+          <button type="button" class="mood-pill" data-mood="rose">
+            <span>Rose & Floral</span>
+          </button>
+        </div>
+
+        <div class="grid-products" id="curated-products-grid">
           {
             selectedScents.slice(0, 4).map((product) => (
               <ProductCard product={product} priority={false} />
@@ -352,7 +382,7 @@ const homeStructuredData = {
         </div>
 
         <div class="curated-footer-cta">
-          <a href="/shop/" class="btn-luxury-explore">
+          <a href="/shop/" class="btn-luxury-explore" id="curated-explore-cta">
             <span>Explore Entire Collection</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
               <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -1220,6 +1250,69 @@ const homeStructuredData = {
     transform: translateY(-1px);
     box-shadow: 0 4px 14px rgba(166, 83, 45, 0.25);
   }
+
+  /* Curated Dynamic Section & Mood Tabs */
+  .curated-mood-pills {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding: 0.25rem 0 0.5rem 0;
+    margin-bottom: clamp(1rem, 2vw, 1.5rem);
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .curated-mood-pills::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mood-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.42rem 0.85rem;
+    background: #FAF9F6;
+    border: 1px solid #ECEAE5;
+    border-radius: 999px;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #5A554E;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .mood-pill:hover {
+    color: #1A1816;
+    border-color: #C5A059;
+    background: #FFFFFF;
+  }
+
+  .mood-pill.is-active {
+    background: #1A1816;
+    color: #FFFFFF;
+    border-color: #1A1816;
+    box-shadow: 0 2px 8px rgba(26, 24, 22, 0.12);
+  }
+
+  .pill-sparkle {
+    color: #C5A059;
+    font-size: 0.75rem;
+  }
+
+  .mood-pill.is-active .pill-sparkle {
+    color: #F1D8A5;
+  }
+
+  .pill-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #C5A059;
+    box-shadow: 0 0 6px rgba(197, 160, 89, 0.6);
+  }
 </style>
 
 <script>
@@ -1343,10 +1436,282 @@ const homeStructuredData = {
     startAutoplay();
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initHeroSlider);
-  } else {
-    initHeroSlider();
+  import { getProductCatalog } from '../lib/catalog';
+
+  function initCuratedPersonalization() {
+    const grid = document.getElementById('curated-products-grid');
+    const pills = document.querySelectorAll<HTMLButtonElement>('.mood-pill');
+    const historyDot = document.getElementById('pill-history-dot');
+    const exploreCta = document.getElementById('curated-explore-cta') as HTMLAnchorElement;
+
+    if (!grid || pills.length === 0) return;
+
+    let publicCatalog: Array<any> | null = null;
+    async function getCatalog() {
+      if (!publicCatalog) {
+        const cat = await getProductCatalog();
+        publicCatalog = cat.filter((p) => !p.isDraft);
+      }
+      return publicCatalog;
+    }
+
+    // Static Presets
+    const presets: Record<string, { slugs: string[]; hint: string; cta: string; ctaText: string }> = {
+      flagship: {
+        slugs: ['yves-saint-laurent-libre', 'boucheron-quatre-en-bleu', 'chanel-n-5', 'dolce-gabbana-devotion'],
+        hint: "LUMÈRA LUXE's top 4 signature flagships and verified global icons.",
+        cta: '/shop/',
+        ctaText: 'Explore Entire Collection'
+      },
+      majlis: {
+        slugs: ['tom-ford-black-orchid', 'dolce-and-gabbana-velvet-desert-oud', 'chopard-oud-malaki', 'tom-ford-noir-extreme'],
+        hint: 'Deep oud, velvety amber, and nocturnal incense crafted for Qatari soirées.',
+        cta: '/shop/?style=majlis',
+        ctaText: 'Explore All Majlis & Oud Fragrances'
+      },
+      fresh: {
+        slugs: ['dolce-and-gabbana-light-blue', 'boucheron-quatre-en-bleu', 'giorgio-armani-acqua-di-gioia', 'versace-dylan-turquoise'],
+        hint: 'Luminous citrus, crisp minerals, and invigorating Mediterranean sea breezes.',
+        cta: '/shop/?family=fresh',
+        ctaText: 'Explore All Fresh Fragrances'
+      },
+      rose: {
+        slugs: ['parfums-de-marly-delina', 'dior-miss-dior', 'carolina-herrera-good-girl', 'gucci-flora-gorgeous-gardenia'],
+        hint: 'Romantic Damascena rose, blush peony, and delicate blossoming petals.',
+        cta: '/shop/?family=floral',
+        ctaText: 'Explore All Floral & Rose Fragrances'
+      }
+    };
+
+    function computePersonalizedSet(catalog: Array<any>) {
+      let consultationProfile: any = null;
+      let recentlyViewed: any[] = [];
+      let favorites: string[] = [];
+
+      try {
+        consultationProfile = JSON.parse(localStorage.getItem('lumera_consultation_profile') || 'null');
+      } catch {}
+      try {
+        recentlyViewed = JSON.parse(localStorage.getItem('lumera_recently_viewed') || '[]');
+      } catch {}
+      try {
+        favorites = JSON.parse(localStorage.getItem('lumera_favorites_v1') || '[]');
+      } catch {}
+
+      const hasHistory = Boolean(
+        consultationProfile ||
+        (Array.isArray(recentlyViewed) && recentlyViewed.length > 0) ||
+        (Array.isArray(favorites) && favorites.length > 0)
+      );
+
+      if (!hasHistory) {
+        return {
+          hasHistory: false,
+          slugs: presets.flagship.slugs,
+          hint: "Bespoke selection curated for Doha's discerning fragrance lovers.",
+          badge: '',
+          cta: '/shop/',
+          ctaText: 'Explore Entire Collection'
+        };
+      }
+
+      // 1. If Consultation Quiz taken:
+      if (consultationProfile && Array.isArray(consultationProfile.recommendedSlugs) && consultationProfile.recommendedSlugs.length > 0) {
+        const quizSlugs = [...consultationProfile.recommendedSlugs];
+        while (quizSlugs.length < 4) {
+          const filler = catalog.find((p) => p.category === consultationProfile.category && !quizSlugs.includes(p.slug));
+          if (filler) quizSlugs.push(filler.slug);
+          else break;
+        }
+        return {
+          hasHistory: true,
+          slugs: quizSlugs.slice(0, 4),
+          hint: `Personalized for your ${consultationProfile.persona || 'Bespoke'} consultation profile.`,
+          badge: 'From Your Quiz',
+          cta: '/fragrance-finder/',
+          ctaText: 'Retake Fragrance Consultation'
+        };
+      }
+
+      // 2. If recently viewed perfumes:
+      if (Array.isArray(recentlyViewed) && recentlyViewed.length > 0) {
+        const firstViewed = recentlyViewed[0];
+        const viewedSlug = typeof firstViewed === 'string' ? firstViewed : firstViewed.slug;
+        const targetProd = catalog.find((p) => p.slug === viewedSlug);
+
+        if (targetProd) {
+          const related = catalog
+            .filter((p) => p.slug !== targetProd.slug)
+            .map((p) => {
+              let score = 0;
+              if (p.category === targetProd.category) score += 30;
+              (p.scentFamilies || []).forEach((f: string) => {
+                if (targetProd.scentFamilies.some((tf: string) => tf.toLowerCase() === f.toLowerCase())) score += 20;
+              });
+              (p.keyNotes || []).forEach((k: string) => {
+                if (targetProd.keyNotes.some((tk: string) => tk.toLowerCase() === k.toLowerCase())) score += 10;
+              });
+              if (p.brand === targetProd.brand) score += 15;
+              if (p.featured) score += 5;
+              return { p, score };
+            })
+            .sort((a, b) => b.score - a.score)
+            .slice(0, 4)
+            .map((item) => item.p.slug);
+
+          return {
+            hasHistory: true,
+            slugs: related,
+            hint: `Inspired by your recent discovery of ${targetProd.brand} ${targetProd.name}.`,
+            badge: 'Inspired By Your Browsing',
+            cta: `/shop/?family=${targetProd.category || ''}`,
+            ctaText: `Explore More ${targetProd.category ? targetProd.category.charAt(0).toUpperCase() + targetProd.category.slice(1) : ''} Fragrances`
+          };
+        }
+      }
+
+      // 3. If favorites:
+      if (Array.isArray(favorites) && favorites.length > 0) {
+        const favProds = favorites.map((id) => catalog.find((p) => p.id === id)).filter(Boolean);
+        const favFamilies = new Set(favProds.flatMap((p) => p!.scentFamilies.map((f: string) => f.toLowerCase())));
+        const related = catalog
+          .filter((p) => !favorites.includes(p.id))
+          .map((p) => {
+            let score = 0;
+            (p.scentFamilies || []).forEach((f: string) => {
+              if (favFamilies.has(f.toLowerCase())) score += 20;
+            });
+            if (p.featured) score += 5;
+            return { p, score };
+          })
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 4)
+          .map((item) => item.p.slug);
+
+        return {
+          hasHistory: true,
+          slugs: related.length >= 4 ? related : presets.flagship.slugs,
+          hint: 'Hand-picked to complement your saved wishlist favorites.',
+          badge: 'Wishlist Aligned',
+          cta: '/shop/',
+          ctaText: 'Explore Entire Collection'
+        };
+      }
+
+      return {
+        hasHistory: false,
+        slugs: presets.flagship.slugs,
+        hint: "Bespoke selection curated for Doha's discerning fragrance lovers.",
+        badge: '',
+        cta: '/shop/',
+        ctaText: 'Explore Entire Collection'
+      };
+    }
+
+    function renderCards(slugs: string[], catalog: Array<any>) {
+      const prods = slugs.map((s) => catalog.find((p) => p.slug === s)).filter(Boolean);
+      if (!grid) return;
+      grid.innerHTML = prods
+        .map((p) => {
+          const stickerHtml =
+            p!.stickerPriceMinor && p!.stickerPriceMinor > p!.priceMinor
+              ? `<span class="card-sticker-price">${Math.round(p!.stickerPriceMinor / 100)} QAR</span>`
+              : '';
+          const specParts = [p!.concentration, p!.sizeDisplay].filter(Boolean);
+          const specsHtml = specParts.join(' <span class="card-dot-sep">·</span> ');
+
+          return `
+            <article class="minimal-product-card product-card" data-product-id="${p!.id}">
+              <div class="card-media-wrapper">
+                <a href="/perfumes/${p!.slug}/" class="card-image-link" aria-label="View ${p!.brand} ${p!.name}">
+                  <div class="card-image-surface">
+                    <img src="${p!.image}" alt="${p!.brand} ${p!.name}" loading="lazy" decoding="async" class="bottle-img" width="400" height="400" />
+                  </div>
+                </a>
+                <button type="button" class="card-fav-btn" data-action="toggle-fav" data-id="${p!.id}" aria-label="Save ${p!.brand} ${p!.name} to wishlist" title="Save to Wishlist">
+                  <svg class="card-heart-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                  </svg>
+                  <span class="sr-only">Save to Wishlist</span>
+                </button>
+                <button type="button" class="quick-add-btn" data-action="add-to-bag" data-id="${p!.id}" data-name="${p!.name}" data-brand="${p!.brand}" data-size="${p!.sizeDisplay}" data-concentration="${p!.concentration}" data-price="${p!.priceMinor}" data-image="${p!.image}" aria-label="Quick add ${p!.brand} ${p!.name} to bag" title="Add to Bag">
+                  <span class="plus-icon">+</span>
+                  <span class="btn-text sr-only">Add to Bag</span>
+                </button>
+              </div>
+              <div class="card-caption">
+                <span class="card-brand">${p!.brand}</span>
+                <h3 class="card-title"><a href="/perfumes/${p!.slug}/">${p!.name}</a></h3>
+                <div class="card-specs">${specsHtml}</div>
+                <div class="card-price-row">
+                  ${stickerHtml}
+                  <span class="card-price">${p!.priceDisplay}</span>
+                </div>
+              </div>
+            </article>
+          `;
+        })
+        .join('');
+
+      window.dispatchEvent(new CustomEvent('favorites-updated'));
+    }
+
+    async function setMood(mood: string) {
+      pills.forEach((p) => p.classList.toggle('is-active', p.getAttribute('data-mood') === mood));
+      const catalog = await getCatalog();
+
+      if (mood === 'for-you') {
+        const personalized = computePersonalizedSet(catalog);
+        renderCards(personalized.slugs, catalog);
+        if (exploreCta) {
+          exploreCta.href = personalized.cta;
+          const span = exploreCta.querySelector('span');
+          if (span) span.textContent = personalized.ctaText;
+        }
+      } else {
+        const preset = presets[mood];
+        if (preset) {
+          renderCards(preset.slugs, catalog);
+          if (exploreCta) {
+            exploreCta.href = preset.cta;
+            const span = exploreCta.querySelector('span');
+            if (span) span.textContent = preset.ctaText;
+          }
+        }
+      }
+    }
+
+    pills.forEach((pill) => {
+      pill.addEventListener('click', () => {
+        const mood = pill.getAttribute('data-mood') || 'for-you';
+        setMood(mood);
+      });
+    });
+
+    let hasHistory = false;
+    try {
+      hasHistory = Boolean(
+        localStorage.getItem('lumera_consultation_profile') ||
+        (JSON.parse(localStorage.getItem('lumera_recently_viewed') || '[]')).length ||
+        (JSON.parse(localStorage.getItem('lumera_favorites_v1') || '[]')).length
+      );
+    } catch {}
+
+    if (hasHistory) {
+      if (historyDot) historyDot.style.display = 'inline-block';
+      setMood('for-you');
+    }
   }
-  document.addEventListener('astro:page-load', initHeroSlider);
+
+  function initHome() {
+    initHeroSlider();
+    initCuratedPersonalization();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initHome);
+  } else {
+    initHome();
+  }
+  document.addEventListener('astro:page-load', initHome);
 </script>
