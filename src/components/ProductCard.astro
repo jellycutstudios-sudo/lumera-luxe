@@ -28,6 +28,7 @@ const { product, priority = false, isLarge = false } = Astro.props;
       href={`/perfumes/${product.slug}/`}
       class="card-image-link"
       aria-label={`View ${product.brand} ${product.name}`}
+      data-astro-prefetch="viewport"
     >
       <div class="card-image-surface">
         <img
@@ -90,7 +91,7 @@ const { product, priority = false, isLarge = false } = Astro.props;
   <div class="card-caption">
     <span class="card-brand">{product.brand}</span>
     <h3 class="card-title">
-      <a href={`/perfumes/${product.slug}/`}>{product.name}</a>
+      <a href={`/perfumes/${product.slug}/`} data-astro-prefetch="viewport">{product.name}</a>
     </h3>
     <div class="card-specs">
       {product.concentration && <span class="card-concentration">{product.concentration}</span>}

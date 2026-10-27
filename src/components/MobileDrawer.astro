@@ -251,18 +251,19 @@ const publicProducts = productsData.filter((p) => !p.isDraft);
     display: none !important;
   }
 
-  /* Full Screen Backdrop */
+  /* Full Screen Backdrop - Hardware accelerated without laggy blur */
   .mobile-nav-backdrop {
     position: fixed;
     inset: 0;
-    background-color: rgba(24, 21, 19, 0.45);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    background-color: rgba(24, 21, 19, 0.48);
     z-index: 998;
-    animation: drawerFadeIn 200ms ease;
+    animation: drawerFadeIn 180ms ease;
+    will-change: opacity;
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
   }
 
-  /* Sliding Panel (Pure Luxury Cashmere & Minimal White) */
+  /* Sliding Panel (Pure Luxury Cashmere & Minimal White) - GPU accelerated */
   .mobile-nav-drawer {
     position: fixed;
     top: 0;
@@ -274,9 +275,12 @@ const publicProducts = productsData.filter((p) => !p.isDraft);
     z-index: 999;
     display: flex;
     flex-direction: column;
-    box-shadow: 10px 0 40px rgba(24, 21, 19, 0.12);
+    box-shadow: 10px 0 40px rgba(24, 21, 19, 0.15);
     border-right: 1px solid var(--color-border-subtle);
-    animation: drawerSlideLeft 260ms cubic-bezier(0.16, 1, 0.3, 1);
+    animation: drawerSlideLeft 220ms cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
   }
 
   @keyframes drawerSlideLeft {
@@ -805,6 +809,16 @@ const publicProducts = productsData.filter((p) => !p.isDraft);
 
   window.openMobileDrawer = openDrawer;
   window.closeMobileDrawer = closeDrawer;
+
+  // Zero-delay instant tap response on mobile touch
+  document.addEventListener('pointerdown', function (e) {
+    var target = e.target;
+    if (!target) return;
+    if (target.closest('#menu-toggle-btn, .mobile-toggle-btn, [data-action="open-menu"]')) {
+      e.preventDefault();
+      openDrawer();
+    }
+  }, { passive: false });
 
   // Global Click Delegator (Never breaks on SPA route changes)
   document.addEventListener('click', function (e) {

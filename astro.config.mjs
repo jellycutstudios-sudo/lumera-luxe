@@ -7,8 +7,8 @@ export default defineConfig({
   site: 'https://lumeraluxe.com.qa',
   compressHTML: true,
   prefetch: {
-    prefetchAll: false,
-    defaultStrategy: 'hover'
+    prefetchAll: true,
+    defaultStrategy: 'viewport'
   },
   integrations: [sitemap()],
   build: {
