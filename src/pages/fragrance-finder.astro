@@ -50,7 +50,7 @@ const activeCatalog = productsData
           <div class="consultation-progress-bar" id="consultation-progress-bar">
             <div class="progress-meta">
               <span class="step-label" id="step-label">Step 1 of 4</span>
-              <span class="step-kicker" id="step-kicker">Scent Persona</span>
+              <span class="step-kicker" id="step-kicker">Fragrance Family</span>
             </div>
             <div class="progress-track" aria-hidden="true">
               <div class="progress-fill" id="progress-fill" style="width: 25%;"></div>
@@ -70,6 +70,11 @@ const activeCatalog = productsData
                   aria-labelledby={`title-${q.id}`}
                 >
                   <h2 class="question-title" id={`title-${q.id}`}>{q.title}</h2>
+                  {q.explainer && (
+                    <div class="question-explainer-banner">
+                      <p class="question-explainer">{q.explainer}</p>
+                    </div>
+                  )}
                   <p class="question-prompt">Select the option that feels most natural to you:</p>
 
                   <div class="options-grid" role="radiogroup" aria-labelledby={`title-${q.id}`}>
@@ -133,10 +138,10 @@ const activeCatalog = productsData
               <h2 class="results-title">Your Signature Scent Wardrobe</h2>
               
               <div class="persona-tag-strip">
-                <span class="persona-pill" id="persona-scent-pill">Soft & Romantic Floral</span>
-                <span class="persona-pill" id="persona-atmosphere-pill">Morning Bloom</span>
-                <span class="persona-pill" id="persona-occasion-pill">Everyday Moments</span>
-                <span class="persona-pill" id="persona-intensity-pill">Balanced Sillage</span>
+                <span class="persona-pill" id="persona-family-pill">Floral & Romantic</span>
+                <span class="persona-pill" id="persona-longevity-pill">Long-lasting</span>
+                <span class="persona-pill" id="persona-sillage-pill">Subtle Scent Trail</span>
+                <span class="persona-pill" id="persona-occasion-pill">Everyday / Office</span>
               </div>
             </div>
 
@@ -210,26 +215,32 @@ const activeCatalog = productsData
 
 <script>
   import { matchSignatureScents } from '../lib/fragrance-matcher';
+  import {
+    FAMILY_DISPLAY_LABELS,
+    LONGEVITY_DISPLAY_LABELS,
+    SILLAGE_DISPLAY_LABELS,
+    OCCASION_DISPLAY_LABELS
+  } from '../data/fragrance-metadata';
 
   interface UserAnswers {
-    scentPersona?: string;
-    atmosphere?: string;
+    fragranceFamily?: string;
+    longevity?: string;
+    sillage?: string;
     occasion?: string;
-    intensity?: string;
   }
 
   const state = {
     currentStep: 0,
     totalSteps: 4,
     answers: {} as UserAnswers,
-    stepIds: ['scentPersona', 'atmosphere', 'occasion', 'intensity']
+    stepIds: ['fragranceFamily', 'longevity', 'sillage', 'occasion']
   };
 
   const stepKickers: Record<string, string> = {
-    scentPersona: 'Scent Persona',
-    atmosphere: 'Preferred Atmosphere',
-    occasion: 'Occasion & Routine',
-    intensity: 'Desired Presence'
+    fragranceFamily: 'Fragrance Family',
+    longevity: 'Desired Longevity',
+    sillage: 'Scent Trail (Sillage)',
+    occasion: 'Occasion Suitability'
   };
 
   const questionsDeck = document.getElementById('questions-deck');
@@ -323,7 +334,7 @@ const activeCatalog = productsData
 
     // Update Next button label
     if (nextBtnText) {
-      nextBtnText.textContent = stepIndex === state.totalSteps - 1 ? 'Reveal My Signature Scent' : 'Continue';
+      nextBtnText.textContent = stepIndex === state.totalSteps - 1 ? 'Reveal My Scent' : 'Continue';
     }
 
     // Check if current question already has an answer
@@ -366,41 +377,21 @@ const activeCatalog = productsData
       resultsStage.removeAttribute('hidden');
     }
 
-    // Populate Persona Tags
-    const personaMap: Record<string, string> = {
-      fresh: 'Fresh & Crisp',
-      floral: 'Soft & Romantic Floral',
-      comforting: 'Warm & Comforting',
-      captivating: 'Bold & Captivating'
-    };
-    const atmosphereMap: Record<string, string> = {
-      garden: 'Morning Bloom Garden',
-      coastal: 'Sunny Coastal Escape',
-      cozy: 'Cozy Evening Warmth',
-      night_out: 'Opulent Doha Night'
-    };
-    const occasionMap: Record<string, string> = {
-      everyday: 'Everyday Signature',
-      office: 'Polished Workspaces',
-      special: 'Celebrations & Weddings',
-      evenings: 'Late Dinners & Soirées'
-    };
-    const intensityMap: Record<string, string> = {
-      subtle: 'Soft & Intimate',
-      balanced: 'Gracefully Balanced',
-      expressive: 'Bold & Commanding',
-      variety: 'Versatile Discovery'
-    };
-
-    const scentPill = document.getElementById('persona-scent-pill');
-    const atmospherePill = document.getElementById('persona-atmosphere-pill');
+    // Populate Persona Tags with clean 4-question responses
+    const familyPill = document.getElementById('persona-family-pill');
+    const longevityPill = document.getElementById('persona-longevity-pill');
+    const sillagePill = document.getElementById('persona-sillage-pill');
     const occasionPill = document.getElementById('persona-occasion-pill');
-    const intensityPill = document.getElementById('persona-intensity-pill');
 
-    if (scentPill) scentPill.textContent = personaMap[state.answers.scentPersona || ''] || 'Bespoke Persona';
-    if (atmospherePill) atmospherePill.textContent = atmosphereMap[state.answers.atmosphere || ''] || 'Signature Atmosphere';
-    if (occasionPill) occasionPill.textContent = occasionMap[state.answers.occasion || ''] || 'Signature Occasion';
-    if (intensityPill) intensityPill.textContent = intensityMap[state.answers.intensity || ''] || 'Balanced Presence';
+    const chosenFamily = state.answers.fragranceFamily as keyof typeof FAMILY_DISPLAY_LABELS;
+    const chosenLongevity = state.answers.longevity as keyof typeof LONGEVITY_DISPLAY_LABELS;
+    const chosenSillage = state.answers.sillage as keyof typeof SILLAGE_DISPLAY_LABELS;
+    const chosenOccasion = state.answers.occasion as keyof typeof OCCASION_DISPLAY_LABELS;
+
+    if (familyPill) familyPill.textContent = (chosenFamily && FAMILY_DISPLAY_LABELS[chosenFamily]) || 'Curated Discovery';
+    if (longevityPill) longevityPill.textContent = (chosenLongevity && LONGEVITY_DISPLAY_LABELS[chosenLongevity]) || 'Any Longevity';
+    if (sillagePill) sillagePill.textContent = (chosenSillage && SILLAGE_DISPLAY_LABELS[chosenSillage]) || 'Any Presence';
+    if (occasionPill) occasionPill.textContent = (chosenOccasion && OCCASION_DISPLAY_LABELS[chosenOccasion]) || 'Versatile / Any Occasion';
 
     // Run Matcher Engine
     const catalog = (window as any).__LUMERA_CATALOG__ || [];
@@ -408,9 +399,15 @@ const activeCatalog = productsData
 
     // Persist consultation profile for home page personalized showcase
     try {
+      const familyCategoryMap: Record<string, string> = {
+        fresh: 'fresh',
+        floral: 'floral',
+        gourmand: 'oriental',
+        woody_amber: 'woody'
+      };
       const profile = {
-        persona: personaMap[state.answers.scentPersona || ''] || '',
-        category: state.answers.scentPersona === 'fresh' ? 'fresh' : state.answers.scentPersona === 'floral' ? 'floral' : state.answers.scentPersona === 'captivating' ? 'oriental' : 'oriental',
+        persona: (chosenFamily && FAMILY_DISPLAY_LABELS[chosenFamily]) || 'Bespoke Scent',
+        category: (chosenFamily && familyCategoryMap[chosenFamily]) || 'floral',
         answers: state.answers,
         recommendedSlugs: recommendations.map((r) => r.product.slug),
         timestamp: Date.now()
@@ -428,7 +425,7 @@ const activeCatalog = productsData
     // Render 3 Cards
     if (resultsCardsGrid) {
       resultsCardsGrid.innerHTML = '';
-      recommendations.forEach(({ product, reason }, idx) => {
+      recommendations.forEach(({ product, score, reason, metadata }, idx) => {
         const cardCol = document.createElement('div');
         cardCol.className = 'result-card-item';
 
@@ -436,7 +433,24 @@ const activeCatalog = productsData
           ? `<span class="card-sticker-price">${Math.round(product.stickerPriceMinor / 100)} QAR</span>`
           : '';
 
-        const meta = matchMeta[idx] || { percent: '90%', rank: 'Curated Match', isTop: false };
+        const meta = matchMeta[idx] || { percent: `${score}%`, rank: 'Curated Match', isTop: false };
+
+        const familyName = FAMILY_DISPLAY_LABELS[metadata.primaryFamily] || product.category;
+        const familyBadgeHtml = `<div class="result-family-row"><span class="family-badge">${familyName}</span></div>`;
+
+        // Longevity and sillage ONLY when verified (never fabricated or displayed if unknown)
+        const verifiedSpecsHtml = (metadata.verified && metadata.longevity !== 'unknown' && metadata.sillage !== 'unknown')
+          ? `<div class="result-verified-specs">
+              <span class="verified-spec-pill" title="Verified longevity profile">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                <span>Longevity: <strong>${LONGEVITY_DISPLAY_LABELS[metadata.longevity]}</strong></span>
+              </span>
+              <span class="verified-spec-pill" title="Verified sillage scent trail">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+                <span>Sillage: <strong>${SILLAGE_DISPLAY_LABELS[metadata.sillage]}</strong></span>
+              </span>
+            </div>`
+          : '';
 
         cardCol.innerHTML = `
           <article class="result-product-card">
@@ -457,6 +471,7 @@ const activeCatalog = productsData
               <h3 class="result-title">
                 <a href="/perfumes/${product.slug}/">${product.name}</a>
               </h3>
+              ${familyBadgeHtml}
               <div class="result-specs">
                 <span>${product.concentration}</span>
                 <span class="result-dot">·</span>
@@ -466,6 +481,7 @@ const activeCatalog = productsData
                 ${originalPriceHtml}
                 <span class="result-current-price">${product.priceDisplay}</span>
               </div>
+              ${verifiedSpecsHtml}
               <div class="result-reason-card">
                 <span class="reason-header">Why This Was Chosen</span>
                 <p class="reason-body">${reason}</p>
@@ -491,7 +507,7 @@ const activeCatalog = productsData
                   </svg>
                   <span>Add to Bag</span>
                 </button>
-                <a href="/perfumes/${product.slug}/" class="link-result-view">View Fragrance Profile →</a>
+                <a href="/perfumes/${product.slug}/" class="link-result-view">View Product →</a>
               </div>
             </div>
           </article>
@@ -558,6 +574,7 @@ const activeCatalog = productsData
     if (controlsBar) controlsBar.style.display = 'flex';
 
     goToStep(0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 </script>
 
@@ -650,8 +667,8 @@ const activeCatalog = productsData
 
   @media (max-width: 640px) {
     .finder-stage-section {
-      padding-top: 1.25rem;
-      padding-bottom: 3rem;
+      padding-top: 0.4rem;
+      padding-bottom: 2rem;
     }
   }
 
@@ -666,8 +683,8 @@ const activeCatalog = productsData
 
   @media (max-width: 640px) {
     .consultation-card {
-      padding: 1.5rem 1.25rem 1.35rem;
-      border-radius: 12px;
+      padding: 0.85rem 0.85rem 0.85rem;
+      border-radius: 10px;
       border: 1px solid #E8E2D8;
     }
   }
@@ -686,7 +703,7 @@ const activeCatalog = productsData
 
   @media (max-width: 640px) {
     .consultation-progress-bar {
-      margin-bottom: 1.25rem;
+      margin-bottom: 0.65rem;
     }
   }
 
@@ -701,8 +718,8 @@ const activeCatalog = productsData
 
   @media (max-width: 640px) {
     .progress-meta {
-      font-size: 0.72rem;
-      margin-bottom: 0.45rem;
+      font-size: 0.6875rem;
+      margin-bottom: 0.25rem;
     }
   }
 
@@ -759,9 +776,38 @@ const activeCatalog = productsData
 
   @media (max-width: 640px) {
     .question-title {
-      font-size: 1.35rem;
-      line-height: 1.28;
-      margin: 0 0 0.4rem;
+      font-size: 1.15rem;
+      line-height: 1.25;
+      margin: 0 0 0.2rem;
+    }
+  }
+
+  .question-explainer-banner {
+    background: #FAF8F4;
+    border-left: 3px solid var(--color-brand-cognac);
+    padding: 0.65rem 0.95rem;
+    border-radius: 0 6px 6px 0;
+    margin: -0.1rem 0 1rem;
+  }
+
+  @media (max-width: 640px) {
+    .question-explainer-banner {
+      padding: 0.4rem 0.65rem;
+      margin: 0 0 0.5rem;
+    }
+  }
+
+  .question-explainer {
+    font-size: 0.8125rem;
+    color: #5E554E;
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  @media (max-width: 640px) {
+    .question-explainer {
+      font-size: 0.72rem;
+      line-height: 1.35;
     }
   }
 
@@ -774,8 +820,8 @@ const activeCatalog = productsData
 
   @media (max-width: 640px) {
     .question-prompt {
-      font-size: 0.8125rem;
-      margin: 0 0 1.15rem;
+      font-size: 0.75rem;
+      margin: 0 0 0.65rem;
     }
   }
 
@@ -797,8 +843,8 @@ const activeCatalog = productsData
 
   @media (max-width: 640px) {
     .options-grid {
-      gap: 0.65rem;
-      margin-bottom: 1.4rem;
+      gap: 0.35rem;
+      margin-bottom: 0.6rem;
     }
   }
 
@@ -820,10 +866,10 @@ const activeCatalog = productsData
 
   @media (max-width: 640px) {
     .option-card {
-      padding: 0.85rem 1rem;
-      gap: 0.85rem;
-      min-height: 56px;
-      border-radius: 8px;
+      padding: 0.45rem 0.65rem;
+      gap: 0.55rem;
+      min-height: 38px;
+      border-radius: 6px;
     }
   }
 
@@ -850,6 +896,13 @@ const activeCatalog = productsData
     justify-content: center;
     flex-shrink: 0;
     transition: all 160ms ease;
+  }
+
+  @media (max-width: 640px) {
+    .option-radio-indicator {
+      width: 17px;
+      height: 17px;
+    }
   }
 
   .radio-dot {
@@ -889,8 +942,8 @@ const activeCatalog = productsData
 
   @media (max-width: 640px) {
     .option-label {
-      font-size: 0.875rem;
-      line-height: 1.25;
+      font-size: 0.8125rem;
+      line-height: 1.2;
     }
   }
 
@@ -902,8 +955,8 @@ const activeCatalog = productsData
 
   @media (max-width: 640px) {
     .option-sub {
-      font-size: 0.75rem;
-      line-height: 1.35;
+      font-size: 0.6875rem;
+      line-height: 1.25;
     }
   }
 
@@ -920,11 +973,11 @@ const activeCatalog = productsData
 
   @media (max-width: 640px) {
     .consultation-controls {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 0.75rem;
-      padding-top: 1rem;
-      margin-top: 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding-top: 0.65rem;
+      margin-top: 0.2rem;
     }
   }
 
@@ -943,6 +996,7 @@ const activeCatalog = productsData
     cursor: pointer;
     padding: 0.75rem 1.15rem;
     min-height: 48px;
+    white-space: nowrap;
     transition: all 150ms ease;
   }
 
@@ -968,21 +1022,28 @@ const activeCatalog = productsData
     border-radius: 4px;
     cursor: pointer;
     min-height: 48px;
+    white-space: nowrap;
     box-shadow: 0 3px 12px rgba(26, 23, 21, 0.12);
     transition: all 180ms ease;
   }
 
   @media (max-width: 640px) {
     .btn-quiz-next {
-      width: 100%;
-      min-height: 48px;
-      padding: 0.75rem 1.25rem;
-      font-size: 0.8125rem;
+      flex: 1;
+      width: auto;
+      min-height: 42px;
+      padding: 0.55rem 0.85rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      white-space: nowrap;
     }
     .btn-quiz-back {
-      min-height: 48px;
-      padding: 0.65rem 0.95rem;
+      flex-shrink: 0;
+      min-height: 42px;
+      padding: 0.55rem 0.75rem;
       font-size: 0.75rem;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
     }
   }
 
@@ -1232,6 +1293,27 @@ const activeCatalog = productsData
     color: var(--color-brand-cognac);
   }
 
+  :global(.result-family-row) {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.55rem;
+  }
+
+  :global(.family-badge) {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-brand-cognac);
+    background: #FAF5F0;
+    border: 1px solid rgba(158, 83, 43, 0.22);
+    padding: 0.2rem 0.55rem;
+    border-radius: 4px;
+  }
+
   :global(.result-specs) {
     font-size: 0.8125rem;
     color: #8C827A;
@@ -1249,7 +1331,7 @@ const activeCatalog = productsData
     display: flex;
     align-items: baseline;
     gap: 0.6rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.85rem;
   }
 
   :global(.card-sticker-price) {
@@ -1262,6 +1344,30 @@ const activeCatalog = productsData
     font-size: 1.25rem;
     font-weight: 700;
     color: #141210;
+  }
+
+  :global(.result-verified-specs) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-bottom: 1rem;
+  }
+
+  :global(.verified-spec-pill) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.72rem;
+    color: #5C544D;
+    background: #F8F6F2;
+    border: 1px solid #EAE4DC;
+    border-radius: 4px;
+    padding: 0.22rem 0.6rem;
+  }
+
+  :global(.verified-spec-pill strong) {
+    color: #1A1715;
+    font-weight: 600;
   }
 
   :global(.result-reason-card) {

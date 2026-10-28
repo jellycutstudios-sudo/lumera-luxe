@@ -327,17 +327,17 @@ python3 scripts/generate_catalog_exports.py
 ## 11. Fragrance Discovery & The Art of Layering (PDP Scent Duets)
 
 ### Interactive Consultation Quiz (`/fragrance-finder/`)
-- **6-Step Interactive Questionnaire**:
-  1. Gender / Scent Identity (`all`, `feminine`, `masculine`, `unisex`)
-  2. Signature Atmosphere (`garden`, `coastal`, `cozy`, `night_out`)
-  3. Precious Metal / Fine Jewelry (`gold`, `silver`, `both`, `neither`)
-  4. Scent Impression (`fresh`, `feminine`, `comforting`, `captivating`)
-  5. Personal Style / Demeanor (`romantic`, `bold`, `elegant`, `adventurous`)
-  6. Fragrance Intensity (`subtle`, `moderate`, `intense`)
+- **4-Question Interactive Consultation**:
+  1. Fragrance Family (`fresh`, `floral`, `gourmand`, `woody_amber`, `surprise`)
+  2. Desired Longevity (`light`, `moderate`, `long_lasting`, `no_preference`)
+  3. Scent Trail / Sillage (`subtle`, `moderate`, `strong`, `no_preference`)
+  4. Occasion Suitability (`everyday_office`, `casual`, `special_occasions`, `evening_events`, `versatile`)
 - **Deterministic Matcher Engine** (`src/lib/fragrance-matcher.ts`):
   - Zero external AI dependencies or API failure vectors.
-  - Multi-vector scoring across notes, families, and luxury concentrations.
-  - Generates personalized introduction prose and top 3 flacon recommendations with affinity scores.
+  - Deterministic 4-vector scoring: Family (40%), Longevity Distance (25%), Sillage Distance (25%), Occasion (10%).
+  - Category similarity matrix and neutral handling of "no preference".
+  - Verified local metadata structure (`src/data/fragrance-metadata.ts`) with zero fabricated performance claims.
+  - Generates bespoke match reasons and top 3 recommended flacons with brand diversity.
 
 ### Curated Scent Duets (The Art of Layering on PDP)
 A dedicated luxury ritual section appearing on 20 participating Product Detail Pages (10 reciprocal pairs).

@@ -1,9 +1,23 @@
 /**
  * LUMÈRA LUXE · Fragrance Recommendation & Similarity Matcher
  * Pure, deterministic TypeScript recommendation engine. Zero external AI APIs.
+ *
+ * Scoring Weights (100% total):
+ * 1. Fragrance Family: 40% (40 points)
+ * 2. Longevity Preference: 25% (25 points)
+ * 3. Sillage Preference: 25% (25 points)
+ * 4. Occasion Suitability: 10% (10 points)
  */
 
 import type { QuizAnswers } from '../data/fragrance-discovery';
+import {
+  getPerfumeMetadata,
+  type PerfumeMetadata,
+  type FragranceFamily,
+  type LongevityRating,
+  type SillageRating,
+  type OccasionKey
+} from '../data/fragrance-metadata';
 
 export interface ProductMatchRecord {
   id: string;
@@ -29,6 +43,7 @@ export interface ScoredRecommendation {
   product: ProductMatchRecord;
   score: number;
   reason: string;
+  metadata: PerfumeMetadata;
 }
 
 export interface SimilarFragrance {
@@ -36,6 +51,16 @@ export interface SimilarFragrance {
   similarityScore: number;
   sharedNotes: string[];
 }
+
+/**
+ * Configurable matching weights for easy fine-tuning
+ */
+export const MATCHING_WEIGHTS = {
+  family: 40,
+  longevity: 25,
+  sillage: 25,
+  occasion: 10
+} as const;
 
 /**
  * Normalizes string for token matching
@@ -61,166 +86,278 @@ function getSharedNotes(notesA: string[], notesB: string[]): string[] {
 }
 
 /**
+ * Category similarity matrix between the 4 major olfactory families
+ * Returns baseline similarity score out of 40 points
+ */
+const CATEGORY_SIMILARITY_SCORES: Record<FragranceFamily, Record<FragranceFamily, number>> = {
+  floral: {
+    floral: 40,
+    fresh: 18,     // Fresh floral, green tea rose, citrus blossoms
+    gourmand: 16,  // Sweet floral, vanilla rose
+    woody_amber: 12 // Floral chypre, woody rose
+  },
+  fresh: {
+    fresh: 40,
+    floral: 18,     // Fresh floral, dewy petals
+    gourmand: 10,   // Citrus gourmand
+    woody_amber: 12 // Citrus woody, aromatic cedar
+  },
+  gourmand: {
+    gourmand: 40,
+    woody_amber: 20, // Amber vanilla, roasted tonka, sweet resins
+    floral: 16,      // Floral gourmand, sweet jasmine
+    fresh: 10        // Citrus vanilla
+  },
+  woody_amber: {
+    woody_amber: 40,
+    gourmand: 20,    // Amber tonka, honeyed oud
+    floral: 12,      // Woody floral, dark rose patchouli
+    fresh: 12        // Fresh spicy woody
+  }
+};
+
+/**
+ * Numerical rating scales for distance calculation
+ */
+const LONGEVITY_SCALE: Record<string, number> = {
+  light: 1,
+  moderate: 2,
+  long_lasting: 3
+};
+
+const SILLAGE_SCALE: Record<string, number> = {
+  subtle: 1,
+  moderate: 2,
+  strong: 3
+};
+
+/**
+ * Maps incoming legacy or new answer keys to canonical FragranceFamily
+ */
+function resolveFragranceFamily(answers: QuizAnswers): FragranceFamily | 'surprise' {
+  const raw = answers.fragranceFamily || answers.scentPersona || answers.scentImpression;
+  if (raw === 'fresh') return 'fresh';
+  if (raw === 'floral' || raw === 'feminine') return 'floral';
+  if (raw === 'gourmand' || raw === 'comforting') return 'gourmand';
+  if (raw === 'woody_amber' || raw === 'captivating') return 'woody_amber';
+  return 'surprise';
+}
+
+/**
+ * Generates an honest, metadata-driven explanation for why a perfume was recommended.
+ * Never invents claims that contradict actual product metadata.
+ */
+export function generateRecommendationReason(
+  product: ProductMatchRecord,
+  meta: PerfumeMetadata,
+  answers: QuizAnswers
+): string {
+  const segments: string[] = [];
+
+  // 1. Olfactory character
+  const familyDescs: Record<FragranceFamily, string> = {
+    floral: 'floral character',
+    fresh: 'fresh citrus character',
+    gourmand: 'sweet gourmand character',
+    woody_amber: 'woody and amber character'
+  };
+  segments.push(familyDescs[meta.primaryFamily] || `${product.category} character`);
+
+  // 2. Longevity profile (only when verified)
+  if (meta.verified && meta.longevity !== 'unknown') {
+    if (meta.longevity === 'long_lasting') {
+      segments.push('long-lasting profile');
+    } else if (meta.longevity === 'moderate') {
+      segments.push('moderate, balanced wear');
+    } else if (meta.longevity === 'light') {
+      segments.push('light, refreshing wear');
+    }
+  }
+
+  // 3. Sillage scent trail (only when verified)
+  if (meta.verified && meta.sillage !== 'unknown') {
+    if (meta.sillage === 'subtle') {
+      segments.push('subtle scent trail');
+    } else if (meta.sillage === 'moderate') {
+      segments.push('moderate, inviting aura');
+    } else if (meta.sillage === 'strong') {
+      segments.push('radiant scent trail');
+    }
+  }
+
+  // Construct sentence matching example format:
+  // "Selected for its floral character, long-lasting profile, and subtle scent trail."
+  let sentence = '';
+  if (segments.length === 1) {
+    sentence = `Selected for its ${segments[0]}.`;
+  } else if (segments.length === 2) {
+    sentence = `Selected for its ${segments[0]} and ${segments[1]}.`;
+  } else {
+    sentence = `Selected for its ${segments[0]}, ${segments[1]}, and ${segments[2]}.`;
+  }
+
+  // Accented by prominent notes from product data
+  if (product.keyNotes && product.keyNotes.length > 0) {
+    const notes = product.keyNotes.slice(0, 3).join(', ');
+    sentence += ` Prominently featuring notes of ${notes}.`;
+  }
+
+  return sentence;
+}
+
+/**
  * Scores a product against the 4 consultation answers (Maximum 100 points).
  */
-export function scoreProduct(product: ProductMatchRecord, answers: QuizAnswers): { score: number; reason: string } {
-  let score = 0;
-  const matchFactors: string[] = [];
+export function scoreProduct(
+  product: ProductMatchRecord,
+  answers: QuizAnswers
+): { score: number; reason: string; metadata: PerfumeMetadata } {
+  const meta = getPerfumeMetadata(product);
+  let totalScore = 0;
+
   const allNotesText = `${product.keyNotes.join(' ')} ${product.rawNotes || ''} ${product.scentFamilies.join(' ')} ${product.description}`;
-  const category = (product.category || '').toLowerCase();
 
-  // 1. Q1: Scent Persona (Max 40 points - Primary Olfactory Driver)
-  const persona = answers.scentPersona || answers.scentImpression;
-  if (persona === 'fresh') {
-    if (category === 'fresh' || product.scentFamilies.some((f) => /fresh|citrus|aquatic|green/i.test(f))) {
-      score += 40;
-      matchFactors.push('sparkling fresh clarity');
-    } else if (hasAnyKeyword(allNotesText, ['citrus', 'bergamot', 'lemon', 'mandarin', 'tea', 'aquatic', 'grapefruit'])) {
-      score += 28;
-      matchFactors.push('clean citrus facets');
-    }
-  } else if (persona === 'floral' || persona === 'feminine') {
-    if (category === 'floral' || product.scentFamilies.some((f) => /floral|rose|violet|white floral/i.test(f))) {
-      score += 40;
-      matchFactors.push('delicate floral bouquet');
-    } else if (hasAnyKeyword(allNotesText, ['rose', 'peony', 'jasmine', 'orange blossom', 'tuberose', 'magnolia', 'lily'])) {
-      score += 28;
-      matchFactors.push('tender petal accords');
-    }
-  } else if (persona === 'comforting') {
-    if (hasAnyKeyword(allNotesText, ['vanilla', 'tonka', 'amber', 'praline', 'honey', 'marshmallow', 'caramel', 'almond'])) {
-      score += 40;
-      matchFactors.push('warm, comforting gourmand vanilla');
-    } else if (category === 'oriental' || product.scentFamilies.some((f) => /amber|oriental|gourmand/i.test(f))) {
-      score += 30;
-      matchFactors.push('soothing amber warmth');
-    }
-  } else if (persona === 'captivating') {
-    if (hasAnyKeyword(allNotesText, ['oud', 'incense', 'leather', 'patchouli', 'saffron', 'tobacco', 'spices'])) {
-      score += 40;
-      matchFactors.push('magnetic oud and smoky incense');
-    } else if (category === 'woody' || category === 'oriental') {
-      score += 30;
-      matchFactors.push('captivating depth');
-    }
-  }
+  // -------------------------------------------------------------
+  // 1. Fragrance Family Matching (Weight: 40%)
+  // -------------------------------------------------------------
+  const chosenFamily = resolveFragranceFamily(answers);
 
-  // 2. Q2: Atmosphere (Max 30 points - Contextual Environment)
-  const atmosphere = answers.atmosphere;
-  if (atmosphere === 'garden') {
-    if (hasAnyKeyword(allNotesText, ['rose', 'peony', 'jasmine', 'violet', 'lily', 'neroli', 'freesia'])) {
-      score += 30;
-      matchFactors.push('blooming floral petals');
-    } else if (category === 'floral' || category === 'fresh') {
-      score += 20;
-    }
-  } else if (atmosphere === 'coastal') {
-    if (hasAnyKeyword(allNotesText, ['marine', 'aquatic', 'bergamot', 'sea', 'citrus', 'mandarin', 'fig leaf', 'salt'])) {
-      score += 30;
-      matchFactors.push('sunny coastal breeze');
-    } else if (category === 'fresh') {
-      score += 20;
-    }
-  } else if (atmosphere === 'cozy') {
-    if (hasAnyKeyword(allNotesText, ['vanilla', 'tonka bean', 'amber', 'cashmeran', 'musk', 'sandalwood'])) {
-      score += 30;
-      matchFactors.push('cozy ambery warmth');
-    } else if (category === 'oriental') {
-      score += 20;
-    }
-  } else if (atmosphere === 'night_out') {
-    if (hasAnyKeyword(allNotesText, ['oud', 'leather', 'incense', 'patchouli', 'amber', 'black orchid', 'saffron', 'rum'])) {
-      score += 30;
-      matchFactors.push('glamorous evening richness');
-    } else if (category === 'oriental' || category === 'woody') {
-      score += 20;
-    }
-  }
-
-  // 3. Q3: Occasion (Max 18 points - Routine & Lifestyle)
-  const occasion = answers.occasion || answers.lifestyle;
-  if (occasion === 'everyday') {
-    if (category === 'fresh' || category === 'floral' || hasAnyKeyword(allNotesText, ['sparkling', 'delicate', 'airy', 'mandarin', 'rose'])) {
-      score += 18;
-    } else {
-      score += 10;
-    }
-  } else if (occasion === 'office') {
-    if (hasAnyKeyword(allNotesText, ['clean', 'tea', 'iris', 'musk', 'cedar', 'subtle', 'peony'])) {
-      score += 18;
-    } else {
-      score += 9;
-    }
-  } else if (occasion === 'special') {
-    if (hasAnyKeyword(allNotesText, ['rose', 'jasmine', 'tuberose', 'parfum', 'amber', 'champagne', 'oud'])) {
-      score += 18;
-    } else {
-      score += 10;
-    }
-  } else if (occasion === 'evenings') {
-    if (hasAnyKeyword(allNotesText, ['oud', 'intense', 'elixir', 'leather', 'incense', 'gourmand', 'amber'])) {
-      score += 18;
-    } else {
-      score += 10;
-    }
-  }
-
-  // 4. Q4: Intensity & Presence (Max 12 points)
-  const intensity = answers.intensity;
-  const isHeavyNotes = hasAnyKeyword(allNotesText, ['oud', 'incense', 'leather', 'patchouli', 'amber', 'elixir']);
-  if (intensity === 'subtle') {
-    if (!isHeavyNotes || product.concentration.includes('Toilette')) {
-      score += 12;
-    } else {
-      score += 4;
-    }
-  } else if (intensity === 'expressive') {
-    if (isHeavyNotes || product.concentration.includes('Parfum') || product.concentration.includes('Intense')) {
-      score += 12;
-    } else {
-      score += 5;
-    }
+  if (chosenFamily === 'surprise') {
+    // Neutral full baseline: allows longevity, sillage, and occasion to rank
+    totalScore += MATCHING_WEIGHTS.family;
   } else {
-    // balanced or variety: award steady baseline
-    score += 10;
+    if (meta.primaryFamily === chosenFamily) {
+      totalScore += MATCHING_WEIGHTS.family; // 40 pts (Exact match)
+    } else if (meta.secondaryFamilies && meta.secondaryFamilies.includes(chosenFamily)) {
+      totalScore += 24; // 24 pts (Secondary family match: pure family matches are prioritized)
+    } else {
+      // Category similarity: 10 to 20 pts based on accords and note overlap
+      const baseSim = CATEGORY_SIMILARITY_SCORES[chosenFamily]?.[meta.primaryFamily] || 12;
+      let simScore = baseSim;
+
+      // Note bonus: if product possesses prominent notes typical of chosen family
+      if (chosenFamily === 'fresh' && hasAnyKeyword(allNotesText, ['citrus', 'bergamot', 'lemon', 'mandarin', 'tea', 'aquatic'])) {
+        simScore = Math.min(22, simScore + 4);
+      } else if (chosenFamily === 'floral' && hasAnyKeyword(allNotesText, ['rose', 'jasmine', 'peony', 'tuberose', 'violet'])) {
+        simScore = Math.min(22, simScore + 4);
+      } else if (chosenFamily === 'gourmand' && hasAnyKeyword(allNotesText, ['vanilla', 'tonka', 'amber', 'praline', 'caramel'])) {
+        simScore = Math.min(22, simScore + 4);
+      } else if (chosenFamily === 'woody_amber' && hasAnyKeyword(allNotesText, ['oud', 'incense', 'cedar', 'patchouli', 'leather'])) {
+        simScore = Math.min(22, simScore + 4);
+      }
+
+      totalScore += simScore;
+    }
   }
 
-  // Generate verified note-based reason
-  const highlightNotes = product.keyNotes.slice(0, 3).join(', ');
-  let reason = '';
-  if (matchFactors.length > 0) {
-    reason = `Chosen for its ${matchFactors.slice(0, 2).join(' and ')}, featuring notes of ${highlightNotes}.`;
+  // -------------------------------------------------------------
+  // 2. Longevity Distance Ranking (Weight: 25%)
+  // -------------------------------------------------------------
+  const chosenLongevity = answers.longevity;
+
+  if (!chosenLongevity || chosenLongevity === 'no_preference') {
+    // "No preference" is neutral and does not favor one rating
+    totalScore += 20;
+  } else if (!meta.verified || meta.longevity === 'unknown') {
+    // Unverified/unknown metadata receives modest neutral score (doesn't beat verified match)
+    totalScore += 12;
   } else {
-    reason = `Exquisite ${product.category} harmony featuring prominent notes of ${highlightNotes}.`;
+    const userVal = LONGEVITY_SCALE[chosenLongevity] ?? 2;
+    const prodVal = LONGEVITY_SCALE[meta.longevity] ?? 2;
+    const distance = Math.abs(userVal - prodVal);
+
+    if (distance === 0) {
+      totalScore += MATCHING_WEIGHTS.longevity; // 25 pts (Exact distance 0)
+    } else if (distance === 1) {
+      totalScore += 17; // 17 pts (Distance 1: adjacent)
+    } else {
+      totalScore += 5;  // 5 pts (Distance 2: opposite)
+    }
   }
 
-  return { score, reason };
+  // -------------------------------------------------------------
+  // 3. Sillage Distance Ranking (Weight: 25%)
+  // -------------------------------------------------------------
+  const chosenSillage = answers.sillage || (answers.intensity === 'subtle' ? 'subtle' : answers.intensity === 'expressive' ? 'strong' : answers.intensity === 'balanced' ? 'moderate' : undefined);
+
+  if (!chosenSillage || chosenSillage === 'no_preference') {
+    // "No preference" is neutral and does not favor one rating
+    totalScore += 20;
+  } else if (!meta.verified || meta.sillage === 'unknown') {
+    totalScore += 12;
+  } else {
+    const userVal = SILLAGE_SCALE[chosenSillage] ?? 2;
+    const prodVal = SILLAGE_SCALE[meta.sillage] ?? 2;
+    const distance = Math.abs(userVal - prodVal);
+
+    if (distance === 0) {
+      totalScore += MATCHING_WEIGHTS.sillage; // 25 pts (Exact distance 0)
+    } else if (distance === 1) {
+      totalScore += 17; // 17 pts (Distance 1: adjacent)
+    } else {
+      totalScore += 5;  // 5 pts (Distance 2: opposite)
+    }
+  }
+
+  // -------------------------------------------------------------
+  // 4. Occasion Suitability (Weight: 10%)
+  // -------------------------------------------------------------
+  const chosenOccasion = (answers.occasion || 'versatile') as OccasionKey;
+
+  if (chosenOccasion === 'versatile') {
+    totalScore += MATCHING_WEIGHTS.occasion; // 10 pts
+  } else if (meta.occasions.includes(chosenOccasion) || meta.occasions.includes('versatile')) {
+    totalScore += MATCHING_WEIGHTS.occasion; // 10 pts (Exact match)
+  } else if (
+    (chosenOccasion === 'everyday_office' && meta.occasions.includes('casual')) ||
+    (chosenOccasion === 'casual' && meta.occasions.includes('everyday_office')) ||
+    (chosenOccasion === 'special_occasions' && meta.occasions.includes('evening_events')) ||
+    (chosenOccasion === 'evening_events' && meta.occasions.includes('special_occasions'))
+  ) {
+    totalScore += 7; // 7 pts (Adjacent occasion)
+  } else {
+    totalScore += 4; // 4 pts (Baseline)
+  }
+
+  // Clamp total to 100
+  const finalScore = Math.min(100, Math.max(0, Math.round(totalScore)));
+  const reason = generateRecommendationReason(product, meta, answers);
+
+  return { score: finalScore, reason, metadata: meta };
 }
 
 /**
  * Finds top N recommendations from catalog for given quiz answers.
  * Guarantees brand diversity among the top recommendations.
+ * Excludes draft or unavailable items.
  */
 export function matchSignatureScents(
   catalog: ProductMatchRecord[],
   answers: QuizAnswers,
   limit = 3
 ): ScoredRecommendation[] {
-  // Exclude drafts
+  // Exclude drafts / unavailable products
   const activeProducts = catalog.filter((p) => !p.isDraft);
 
-  // Score all
-  const scored = activeProducts.map((p) => {
-    const { score, reason } = scoreProduct(p, answers);
+  // Deterministically score all products
+  const scored: ScoredRecommendation[] = activeProducts.map((p) => {
+    const { score, reason, metadata } = scoreProduct(p, answers);
     return {
       product: p,
       score,
-      reason
+      reason,
+      metadata
     };
   });
 
-  // Sort by score descending
-  scored.sort((a, b) => b.score - a.score);
+  // Sort descending by score; if tied, prioritize verified products, then sort by slug
+  scored.sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score;
+    if (a.metadata.verified !== b.metadata.verified) {
+      return a.metadata.verified ? -1 : 1;
+    }
+    return a.product.slug.localeCompare(b.product.slug);
+  });
 
   // Enforce brand diversity: maximum 1 product per brand in recommendations
   const chosen: ScoredRecommendation[] = [];
@@ -234,7 +371,7 @@ export function matchSignatureScents(
     }
   }
 
-  // Fallback if not enough distinct brands
+  // Fallback if not enough distinct brands exist
   if (chosen.length < limit) {
     for (const item of scored) {
       if (!chosen.some((c) => c.product.id === item.product.id)) {
@@ -250,7 +387,6 @@ export function matchSignatureScents(
 /**
  * Recommends 2-3 genuine similar fragrances for PDP "If You Love This, Try These"
  * Compares shared scent families and key notes.
- * Suppressed if no reliable olfactive overlap exists.
  */
 export function findSimilarFragrances(
   targetProduct: ProductMatchRecord,
@@ -291,7 +427,6 @@ export function findSimilarFragrances(
         sharedNotes
       };
     })
-    // Quality threshold: must have at least 20 points (e.g. shared family or multiple shared notes)
     .filter((res) => res.similarityScore >= 20);
 
   scoredSimilar.sort((a, b) => b.similarityScore - a.similarityScore);

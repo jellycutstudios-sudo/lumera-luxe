@@ -1,6 +1,6 @@
 /**
  * LUMÈRA LUXE · Fragrance Discovery Data & Layering Architecture
- * Master configuration for the 6-question personal consultation and curated layering pairs.
+ * Master configuration for the 4-question personal consultation and curated layering pairs.
  */
 
 export interface QuizOption {
@@ -15,15 +15,19 @@ export interface QuizQuestion {
   number: number;
   title: string;
   subtitle: string;
+  explainer?: string;
   options: QuizOption[];
 }
 
 export interface QuizAnswers {
+  fragranceFamily?: string;
+  longevity?: string;
+  sillage?: string;
+  occasion?: string;
+  // Backward compatibility fields
   scentPersona?: string;
   atmosphere?: string;
-  occasion?: string;
   intensity?: string;
-  // Backward compatibility fields
   personality?: string;
   jewelry?: string;
   scentImpression?: string;
@@ -41,51 +45,54 @@ export interface LayeringPair {
 
 export const QUIZ_QUESTIONS: QuizQuestion[] = [
   {
-    id: 'scentPersona',
+    id: 'fragranceFamily',
     number: 1,
-    title: 'What scent profile speaks to you most?',
-    subtitle: 'Step 1 of 4 · Scent Persona',
+    title: 'Which fragrance family do you prefer?',
+    subtitle: 'Step 1 of 4 · Fragrance Family',
     options: [
-      { id: 'fresh', label: 'Fresh, Crisp & Uplifting', subtitle: 'Sparkling Italian citrus, invigorating sea air, and clean crisp linen' },
-      { id: 'floral', label: 'Soft & Romantic Floral', subtitle: 'Delicate Grasse rose, luminous jasmine, and tender powdery petals' },
-      { id: 'comforting', label: 'Warm, Sweet & Comforting', subtitle: 'Velvety Madagascar vanilla, golden amber, and roasted tonka bean' },
-      { id: 'captivating', label: 'Bold, Smoky & Captivating', subtitle: 'Royal agarwood oud, sacred frankincense, dark leather, and spices' }
+      { id: 'fresh', label: 'Fresh & Citrus', subtitle: 'Crisp bergamot, zesty lemon, sea breeze, and uplifting green botanicals' },
+      { id: 'floral', label: 'Floral & Romantic', subtitle: 'Grasse rose, luminous jasmine, delicate white petals, and powdery blossoms' },
+      { id: 'gourmand', label: 'Sweet & Gourmand', subtitle: 'Velvety Madagascar vanilla, warm roasted tonka, and golden praline' },
+      { id: 'woody_amber', label: 'Woody & Amber', subtitle: 'Royal agarwood oud, sacred frankincense, dark cedar, and amber warmth' },
+      { id: 'surprise', label: 'Not Sure / Surprise Me', subtitle: 'Curate a bespoke discovery across our finest signature compositions' }
     ]
   },
   {
-    id: 'atmosphere',
+    id: 'longevity',
     number: 2,
-    title: 'Where do you feel most inspired?',
-    subtitle: 'Step 2 of 4 · Preferred Atmosphere',
+    title: 'How long would you like your fragrance to last?',
+    subtitle: 'Step 2 of 4 · Desired Longevity',
     options: [
-      { id: 'garden', label: 'A Blooming Royal Garden', subtitle: 'Dewy petals, green botanicals, and sun-warmed blossoms' },
-      { id: 'coastal', label: 'A Sunlit Coastal Escape', subtitle: 'Salty sea breeze, azure Mediterranean waters, and open mineral air' },
-      { id: 'cozy', label: 'A Warm, Intimate Evening', subtitle: 'Soft cashmere, flickering candlelight, and cocooning sweetness' },
-      { id: 'night_out', label: 'An Opulent Night in Doha', subtitle: 'Gilded ballrooms, ambient low lighting, and magnetic evening allure' }
+      { id: 'light', label: 'Light (a few hours is fine)', subtitle: '2–4 hours of subtle, delicate refreshment' },
+      { id: 'moderate', label: 'Moderate', subtitle: '5–7 hours of graceful, balanced presence' },
+      { id: 'long_lasting', label: 'Long-lasting', subtitle: '8+ hours that endure from morning through evening' },
+      { id: 'no_preference', label: 'No preference', subtitle: 'Neutral — open to any lasting profile' }
+    ]
+  },
+  {
+    id: 'sillage',
+    number: 3,
+    title: 'How noticeable should your fragrance be?',
+    subtitle: 'Step 3 of 4 · Scent Trail (Sillage)',
+    explainer: 'Sillage (pronounced see-yahzh) refers to how far a fragrance’s scent travels in the air around you.',
+    options: [
+      { id: 'subtle', label: 'Subtle: stays close to the skin', subtitle: 'An intimate whisper noticed only in close embrace' },
+      { id: 'moderate', label: 'Moderate: noticeable nearby', subtitle: 'An inviting aura easily perceptible within arm’s length' },
+      { id: 'strong', label: 'Strong: leaves a noticeable scent trail', subtitle: 'A commanding presence that projects and lingers in the room' },
+      { id: 'no_preference', label: 'No preference', subtitle: 'Neutral — open to any projection level' }
     ]
   },
   {
     id: 'occasion',
-    number: 3,
-    title: 'When will you reach for this flacon?',
-    subtitle: 'Step 3 of 4 · Occasion & Routine',
-    options: [
-      { id: 'everyday', label: 'Everyday Signature & Coffee', subtitle: 'An effortless daily luxury for mornings, work routines, and casual chic moments' },
-      { id: 'office', label: 'Polished Professional Spaces', subtitle: 'Sophisticated, composed, and tastefully tailored close to the skin' },
-      { id: 'special', label: 'Weddings & Milestone Celebrations', subtitle: 'Regal gatherings, celebratory moments, and unforgettable impressions' },
-      { id: 'evenings', label: 'Glamorous Evenings & Late Dinners', subtitle: 'Intimate dinners, lounge soirées, and magnetic night-time allure' }
-    ]
-  },
-  {
-    id: 'intensity',
     number: 4,
-    title: 'How would you like your presence felt?',
-    subtitle: 'Step 4 of 4 · Desired Presence',
+    title: 'When will you mainly wear it?',
+    subtitle: 'Step 4 of 4 · Occasion Suitability',
     options: [
-      { id: 'subtle', label: 'Soft & Intimate', subtitle: 'A gentle, skin-close whisper noticed only in close embrace' },
-      { id: 'balanced', label: 'Balanced & Noticeable', subtitle: 'A graceful aura that turns heads with effortless composure' },
-      { id: 'expressive', label: 'Bold & Expressive', subtitle: 'A rich, commanding trail that announces your arrival and lingers beautifully' },
-      { id: 'variety', label: 'Open to Discovery', subtitle: 'Versatile and curious to experience different projection weights' }
+      { id: 'everyday_office', label: 'Everyday / Office', subtitle: 'Polished, composed elegance for daily routines and workspace settings' },
+      { id: 'casual', label: 'Casual Outings', subtitle: 'Effortless chic for coffee dates, weekend brunches, and relaxed moments' },
+      { id: 'special_occasions', label: 'Special Occasions', subtitle: 'Regal gatherings, milestone celebrations, weddings, and banquets' },
+      { id: 'evening_events', label: 'Evening / Events', subtitle: 'Magnetic evening allure for fine dining, soirées, and night-time celebrations' },
+      { id: 'versatile', label: 'Versatile / Any Occasion', subtitle: 'An all-around signature flacon suited for any moment in Qatar' }
     ]
   }
 ];
@@ -182,38 +189,52 @@ export const CURATED_LAYERING_PAIRS: LayeringPair[] = [
  * Combines style, atmosphere, and impression answers into natural, elegant prose without AI APIs.
  */
 export function generatePersonalizedIntro(answers: QuizAnswers): string {
-  const personaMap: Record<string, string> = {
-    fresh: 'clean, uplifting citrus clarity',
-    floral: 'graceful, tender floral poetry',
+  const familyMap: Record<string, string> = {
+    fresh: 'clean, uplifting citrus & botanical clarity',
+    floral: 'graceful, tender floral poetry and romantic petals',
+    gourmand: 'warm, velvety vanilla and golden gourmand sweetness',
+    woody_amber: 'deep, magnetic royal oud, rich woods, and amber warmth',
+    surprise: 'a multifaceted, adventurous discovery of haute parfumerie',
     comforting: 'warm, cocooning amber and vanilla sweetness',
     captivating: 'deep, magnetic royal oud and sacred spices'
   };
 
-  const atmosphereMap: Record<string, string> = {
-    garden: 'morning floral gardens in bloom',
-    coastal: 'the crisp serenity of coastal escapes',
-    cozy: 'the intimate warmth of candlelit evenings',
-    night_out: 'the opulent glamour of Doha nights'
+  const longevityMap: Record<string, string> = {
+    light: 'a light, refreshing wear',
+    moderate: 'a poised, moderate longevity',
+    long_lasting: 'an enduring, long-lasting profile',
+    no_preference: 'a versatile lasting presence'
+  };
+
+  const sillageMap: Record<string, string> = {
+    subtle: 'an intimate, skin-close whisper',
+    moderate: 'a graceful, arm’s-length aura',
+    strong: 'a commanding, head-turning scent trail',
+    no_preference: 'a harmoniously balanced sillage',
+    balanced: 'a graceful, head-turning aura',
+    expressive: 'a rich, commanding sillage',
+    variety: 'a multifaceted, versatile sillage'
   };
 
   const occasionMap: Record<string, string> = {
+    everyday_office: 'daily signature moments and polished professional settings',
+    casual: 'casual outings and relaxed weekend gatherings',
+    special_occasions: 'milestone celebrations, weddings, and regal galas',
+    evening_events: 'glamorous late dinners and magnetic soirées',
+    versatile: 'any refined occasion across Doha',
     everyday: 'daily signature moments',
     office: 'polished professional settings',
     special: 'milestone celebrations and weddings',
     evenings: 'glamorous late dinners and soirées'
   };
 
-  const intensityMap: Record<string, string> = {
-    subtle: 'an intimate, skin-close whisper',
-    balanced: 'a graceful, head-turning aura',
-    expressive: 'a rich, commanding sillage',
-    variety: 'a multifaceted, versatile sillage'
-  };
+  const familyKey = answers.fragranceFamily || answers.scentPersona || answers.scentImpression || 'surprise';
+  const familyText = familyMap[familyKey] || 'timeless distinction';
+  const longevityText = longevityMap[answers.longevity || ''] || 'an enduring presence';
+  const sillageKey = answers.sillage || answers.intensity || 'no_preference';
+  const sillageText = sillageMap[sillageKey] || 'a harmoniously balanced aura';
+  const occasionKey = answers.occasion || answers.lifestyle || 'versatile';
+  const occasionText = occasionMap[occasionKey] || 'any refined occasion in Qatar';
 
-  const personaText = personaMap[answers.scentPersona || answers.scentImpression || ''] || 'timeless distinction';
-  const atmosphereText = atmosphereMap[answers.atmosphere || ''] || 'moments of beauty';
-  const occasionText = occasionMap[answers.occasion || answers.lifestyle || ''] || 'any refined occasion';
-  const intensityText = intensityMap[answers.intensity || ''] || 'a harmoniously balanced aura';
-
-  return `Tailored for ${occasionText} and inspired by ${atmosphereText}, your olfactory persona celebrates ${personaText}. Finished with ${intensityText}, your matched flacons unfold seamlessly—crafted to feel enduring, intimate, and unmistakably yours in Qatar.`;
+  return `Curated for ${occasionText}, your bespoke olfactory wardrobe embraces ${familyText}. Balanced with ${longevityText} and ${sillageText}, these flacons unfold seamlessly—crafted to feel enduring, intimate, and unmistakably yours in Qatar.`;
 }
