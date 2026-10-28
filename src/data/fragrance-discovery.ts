@@ -53,8 +53,7 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
       { id: 'fresh', label: 'Fresh & Citrus', subtitle: 'Crisp bergamot, zesty lemon, sea breeze, and uplifting green botanicals' },
       { id: 'floral', label: 'Floral & Romantic', subtitle: 'Grasse rose, luminous jasmine, delicate white petals, and powdery blossoms' },
       { id: 'gourmand', label: 'Sweet & Gourmand', subtitle: 'Velvety Madagascar vanilla, warm roasted tonka, and golden praline' },
-      { id: 'woody_amber', label: 'Woody & Amber', subtitle: 'Royal agarwood oud, sacred frankincense, dark cedar, and amber warmth' },
-      { id: 'surprise', label: 'Not Sure / Surprise Me', subtitle: 'Curate a bespoke discovery across our finest signature compositions' }
+      { id: 'woody_amber', label: 'Woody & Amber', subtitle: 'Royal agarwood oud, sacred frankincense, dark cedar, and amber warmth' }
     ]
   },
   {
