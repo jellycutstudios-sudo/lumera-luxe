@@ -167,7 +167,7 @@ export interface CartItem {
 ### 4.3 Site Configuration (`src/data/site.ts`)
 Houses all business entity variables so business changes never require hardcoded search-and-replace:
 - WhatsApp number: `97466675166`
-- Support email: `concierge@lumeraluxe.qa`
+- Support email: `info@lumeraluxe.com.qa`
 - Legal entity: `Lumera Luxe Perfumes and Cosmetics W.L.L.`
 - CR number: `253967`
 - Corporate Bank: `Qatar National Bank (QNB)`

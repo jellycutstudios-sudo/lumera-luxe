@@ -76,7 +76,7 @@
     * `legalEntityName`: "LUMÈRA LUXE (Official Legal Entity Pending Client Confirmation)"
     * `commercialRegistrationNumber`: "Pending Client Official CR Document"
     * `registeredOffice`: "Doha, State of Qatar"
-    * `customerSupportEmail`: `concierge@lumeraluxe.qa`
+    * `customerSupportEmail`: `info@lumeraluxe.com.qa`
     * `whatsappDisplay`: `+974 6667 5166`
 - **Audit Result:** **PARTIAL / BLOCKED ON CLIENT INPUT**. Placeholders are clearly marked and ready to be populated the moment official company registration papers (CR) are received.
 

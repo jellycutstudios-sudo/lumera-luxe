@@ -373,7 +373,7 @@ company_info = [
     ("Total Products in Catalog", "200 Curated Luxury Perfumes"),
     ("Price Range", "59.00 QAR to 950.00 QAR"),
     ("Customer Concierge WhatsApp", "+974 6667 5166"),
-    ("Customer Support Email", "concierge@lumeraluxe.qa"),
+    ("Customer Support Email", "info@lumeraluxe.com.qa"),
     ("Official Website", "https://lumeraluxe.qa"),
     ("Instagram", "@lumera.luxe974"),
     ("TikTok", "@luxescentqatar"),
