@@ -714,7 +714,7 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
     position: absolute;
     top: calc(100% + 8px);
     left: -20px;
-    width: 530px;
+    width: 580px;
     background: #FFFFFF;
     border: 1px solid rgba(197, 160, 89, 0.35);
     border-radius: var(--border-radius-sm, 4px);
@@ -748,25 +748,25 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
   .nav-dropdown-inner {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    padding: 1.5rem;
+    gap: 1.75rem;
+    padding: 1.65rem 1.65rem 1.35rem;
   }
 
   .dropdown-col {
     display: flex;
     flex-direction: column;
-    gap: 0.35rem;
+    gap: 0.4rem;
   }
 
   .dropdown-header {
     font-family: var(--font-body);
-    font-size: 0.71875rem;
+    font-size: 0.8125rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.14em;
     color: var(--color-brand-cognac, #9E532B);
-    margin-bottom: 0.65rem;
-    padding-bottom: 0.45rem;
+    margin-bottom: 0.75rem;
+    padding-bottom: 0.5rem;
     border-bottom: 1px solid rgba(197, 160, 89, 0.22);
   }
 
@@ -774,7 +774,7 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.6rem 0.65rem;
+    padding: 0.7rem 0.75rem;
     border-radius: 4px;
     text-decoration: none;
     transition: all 180ms ease;
@@ -788,11 +788,11 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
   .dropdown-item-main {
     display: flex;
     align-items: center;
-    gap: 0.65rem;
+    gap: 0.75rem;
   }
 
   .dropdown-bullet {
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     color: #C5A059;
     line-height: 1;
     flex-shrink: 0;
@@ -806,10 +806,10 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
 
   .dropdown-item-link .item-title {
     font-family: var(--font-body);
-    font-size: 0.875rem;
+    font-size: 0.96875rem;
     font-weight: 500;
     color: #1A1614;
-    letter-spacing: 0.01em;
+    letter-spacing: 0.012em;
     line-height: 1.35;
     transition: color 180ms ease;
   }
@@ -820,7 +820,7 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
   }
 
   .dropdown-arrow {
-    font-size: 0.8125rem;
+    font-size: 0.9375rem;
     color: #C5A059;
     opacity: 0;
     transform: translateX(-4px);
@@ -833,7 +833,7 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
   }
 
   .dropdown-footer-bar {
-    padding: 0.85rem 1.5rem;
+    padding: 0.95rem 1.65rem;
     background: linear-gradient(180deg, #FAF8F4 0%, #F5EFE6 100%);
     border-top: 1px solid rgba(197, 160, 89, 0.22);
     border-radius: 0 0 4px 4px;
@@ -844,10 +844,10 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
 
   .dropdown-all-link {
     font-family: var(--font-body);
-    font-size: 0.78125rem;
+    font-size: 0.84375rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.09em;
     color: var(--color-brand-cognac, #9E532B);
     text-decoration: none;
     display: inline-flex;
@@ -858,10 +858,6 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
 
   .dropdown-all-link:hover {
     color: #8C4424;
-    transform: translateX(2px);
-  }
-
-  .dropdown-all-link:hover {
     transform: translateX(3px);
   }
 
