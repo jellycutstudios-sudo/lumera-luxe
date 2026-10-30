@@ -491,6 +491,7 @@ const homeStructuredData = {
           </div>
 
           <div class="about-text-col">
+            <span class="about-kicker">Maison Philosophy · Qatar</span>
             <h3 class="about-editorial-heading">
               Expressing presence through scent: subtle, intimate, and memorable.
             </h3>
@@ -789,14 +790,20 @@ const homeStructuredData = {
   .about-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 2.25rem;
     align-items: center;
   }
 
   @media (min-width: 860px) {
     .about-grid {
       grid-template-columns: 1.05fr 1fr;
-      gap: 5rem;
+      gap: clamp(3.5rem, 6vw, 6.5rem);
+      align-items: center;
+    }
+
+    .about-text-col {
+      padding: 1.5rem 0 1.5rem 0.5rem;
+      max-width: 530px;
     }
   }
 
@@ -806,6 +813,8 @@ const homeStructuredData = {
     background-color: #F7F6F4;
     overflow: hidden;
     border-radius: var(--border-radius-sm);
+    box-shadow: 0 14px 40px rgba(24, 21, 19, 0.07);
+    border: 1px solid rgba(197, 160, 89, 0.2);
   }
 
   .about-editorial-img {
@@ -816,11 +825,22 @@ const homeStructuredData = {
     display: block;
   }
 
+  .about-kicker {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--color-brand-cognac, #9E532B);
+    margin-bottom: 0.85rem;
+  }
+
   .about-editorial-heading {
     font-family: var(--font-display);
-    font-size: clamp(1.25rem, 2.5vw, 1.65rem);
+    font-size: clamp(1.35rem, 2.5vw, 1.75rem);
     font-weight: 400;
-    line-height: 1.35;
+    line-height: 1.38;
     color: var(--color-text-main);
     margin-bottom: 1.5rem;
     letter-spacing: -0.01em;
@@ -836,11 +856,11 @@ const homeStructuredData = {
   .house-distinctions-strip {
     display: flex;
     flex-wrap: wrap;
-    gap: 1.25rem;
-    margin: 1.5rem 0 1.25rem;
-    padding: 1.15rem 0;
-    border-top: 1px solid rgba(197, 160, 89, 0.2);
-    border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+    gap: 1.5rem;
+    margin: 1.75rem 0 1.5rem;
+    padding: 1.25rem 0;
+    border-top: 1px solid rgba(197, 160, 89, 0.22);
+    border-bottom: 1px solid rgba(197, 160, 89, 0.22);
   }
 
   .distinction-item {
@@ -879,7 +899,7 @@ const homeStructuredData = {
   }
 
   .about-action {
-    margin-top: 1.5rem;
+    margin-top: 1.75rem;
   }
 
   /* Qatar Concierge Section (Private Salon Aesthetic) */
