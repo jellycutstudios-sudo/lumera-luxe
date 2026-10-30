@@ -90,25 +90,25 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
                         <div class="dropdown-col">
                           <span class="dropdown-header">Scent & Style Alignment</span>
                           <a href="/scent-styling/#gold" class="dropdown-item-link" role="menuitem">
-                            <span class="dropdown-bullet">⚜</span>
-                            <div class="dropdown-link-text">
+                            <div class="dropdown-item-main">
+                              <span class="dropdown-bullet">✦</span>
                               <span class="item-title">Wear with Warm Gold</span>
-                              <span class="item-desc">Solar ambers, royal oud, & warm saffron</span>
                             </div>
+                            <span class="dropdown-arrow" aria-hidden="true">→</span>
                           </a>
                           <a href="/scent-styling/#silver" class="dropdown-item-link" role="menuitem">
-                            <span class="dropdown-bullet">💎</span>
-                            <div class="dropdown-link-text">
+                            <div class="dropdown-item-main">
+                              <span class="dropdown-bullet">✦</span>
                               <span class="item-title">Wear with Cool Silver</span>
-                              <span class="item-desc">Crystalline musks, aldehydes, & clean iris</span>
                             </div>
+                            <span class="dropdown-arrow" aria-hidden="true">→</span>
                           </a>
                           <a href="/scent-styling/#rose-gold" class="dropdown-item-link" role="menuitem">
-                            <span class="dropdown-bullet">🌸</span>
-                            <div class="dropdown-link-text">
+                            <div class="dropdown-item-main">
+                              <span class="dropdown-bullet">✦</span>
                               <span class="item-title">Wear with Rose Gold</span>
-                              <span class="item-desc">Velvety damask rose, lychee, & soft cashmere</span>
                             </div>
+                            <span class="dropdown-arrow" aria-hidden="true">→</span>
                           </a>
                         </div>
 
@@ -116,25 +116,25 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
                         <div class="dropdown-col">
                           <span class="dropdown-header">Consultation & Rituals</span>
                           <a href="/fragrance-finder/" class="dropdown-item-link" role="menuitem">
-                            <span class="dropdown-bullet">✦</span>
-                            <div class="dropdown-link-text">
+                            <div class="dropdown-item-main">
+                              <span class="dropdown-bullet">✦</span>
                               <span class="item-title">Fragrance Finder Quiz</span>
-                              <span class="item-desc">4-question bespoke consultation questionnaire</span>
                             </div>
+                            <span class="dropdown-arrow" aria-hidden="true">→</span>
                           </a>
                           <a href="/layering/" class="dropdown-item-link" role="menuitem" data-astro-prefetch>
-                            <span class="dropdown-bullet">⚗</span>
-                            <div class="dropdown-link-text">
+                            <div class="dropdown-item-main">
+                              <span class="dropdown-bullet">✦</span>
                               <span class="item-title">The Art of Layering</span>
-                              <span class="item-desc">10 master-crafted 2-flacon Scent Duets</span>
                             </div>
+                            <span class="dropdown-arrow" aria-hidden="true">→</span>
                           </a>
                           <a href="/scent-styling/#elements" class="dropdown-item-link" role="menuitem">
-                            <span class="dropdown-bullet">🌌</span>
-                            <div class="dropdown-link-text">
+                            <div class="dropdown-item-main">
+                              <span class="dropdown-bullet">✦</span>
                               <span class="item-title">The Elemental Wardrobe</span>
-                              <span class="item-desc">Desert Fire · Coastal Air · Oasis Earth · Water</span>
                             </div>
+                            <span class="dropdown-arrow" aria-hidden="true">→</span>
                           </a>
                         </div>
                       </div>
@@ -232,6 +232,35 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
           <span class="bag-counter-pill wishlist-counter-pill" id="header-wishlist-count" hidden>0</span>
         </div>
       </button>
+
+      <!-- Direct WhatsApp Concierge Shortcut Button (Consistent Luxury Line Icon) -->
+      <a
+        href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent('Hello LUMÈRA LUXE, I would like personal assistance choosing a fragrance from your collection.')}`}
+        class="header-action-btn whatsapp-header-btn"
+        id="header-whatsapp-btn"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Direct WhatsApp Concierge"
+        title="Direct WhatsApp Concierge"
+      >
+        <div class="whatsapp-icon-frame">
+          <svg
+            class="header-line-icon whatsapp-icon"
+            width="19"
+            height="19"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"></path>
+            <path d="M15.5 13.5v1.2a1.3 1.3 0 0 1-1.4 1.3 7.8 7.8 0 0 1-5.6-5.6 1.3 1.3 0 0 1 1.3-1.4h1.2a.9.9 0 0 1 .9.7l.3 1.2a.9.9 0 0 1-.3.9l-.6.6a5.5 5.5 0 0 0 2.6 2.6l.6-.6a.9.9 0 0 1 .9-.3l1.2.3a.9.9 0 0 1 .7.9z"></path>
+          </svg>
+        </div>
+      </a>
 
       <!-- Shopping Bag Line Icon Button -->
       <button
@@ -401,15 +430,16 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
     align-items: center;
     justify-content: space-between;
     position: relative;
-    padding-left: clamp(0.75rem, 3.5vw, 1.5rem);
-    padding-right: clamp(0.75rem, 3.5vw, 1.5rem);
+    padding-left: clamp(0.5rem, 2.5vw, 1.25rem);
+    padding-right: clamp(0.5rem, 2.5vw, 1.25rem);
   }
 
   .header-left {
     display: flex;
     align-items: center;
-    gap: 0.25rem;
+    gap: 2px;
     z-index: 2;
+    flex-shrink: 0;
   }
 
   /* Mobile vs Desktop Search Switcher (Ensures exact 2:2 icon symmetry on mobile) */
@@ -421,16 +451,15 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
     display: none !important;
   }
 
-  /* Centered Brand Logo with Precision Optical Baseline Correction */
+  /* Centered Brand Logo: Auto-balanced between Left (2 icons) and Right (3 icons) */
   .header-center {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, calc(-50% - 2.5px));
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
+    flex: 1;
+    min-width: 0;
+    padding: 0 0.35rem;
     z-index: 1;
     pointer-events: auto;
   }
@@ -438,13 +467,15 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
   .brand-link {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     text-decoration: none;
     line-height: 1;
+    max-width: 100%;
   }
 
   .brand-logo {
-    height: 19px;
-    max-width: 130px;
+    height: 18px;
+    max-width: clamp(96px, 25vw, 122px);
     width: auto;
     object-fit: contain;
     display: block;
@@ -454,8 +485,81 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 0.25rem;
+    gap: 2px;
     z-index: 2;
+    flex-shrink: 0;
+  }
+
+  /* OPTION B: All 5 Icons with Generous 44px Touch Targets */
+  @media (max-width: 767px) {
+    .header-action-btn,
+    .mobile-toggle-btn {
+      width: 38px;
+      height: 44px;
+      min-width: 38px;
+      min-height: 44px;
+    }
+
+    .header-action-btn .header-line-icon,
+    .mobile-toggle-btn .hamburger-svg {
+      width: 18.5px;
+      height: 18.5px;
+    }
+
+    .header-left {
+      gap: 2px;
+      flex-shrink: 0;
+    }
+
+    .header-right {
+      gap: 2px;
+      flex-shrink: 0;
+    }
+
+    .wishlist-trigger {
+      display: inline-flex !important;
+    }
+  }
+
+  @media (max-width: 375px) {
+    .header-container {
+      padding-left: 0.35rem;
+      padding-right: 0.35rem;
+    }
+
+    .header-action-btn,
+    .mobile-toggle-btn {
+      width: 35px;
+      height: 44px;
+      min-width: 35px;
+      min-height: 44px;
+    }
+
+    .header-action-btn .header-line-icon,
+    .mobile-toggle-btn .hamburger-svg {
+      width: 17.5px;
+      height: 17.5px;
+    }
+
+    .brand-logo {
+      height: 16.5px;
+      max-width: 98px;
+    }
+  }
+
+  @media (max-width: 330px) {
+    .header-action-btn,
+    .mobile-toggle-btn {
+      width: 32px;
+      height: 44px;
+      min-width: 32px;
+      min-height: 44px;
+    }
+
+    .brand-logo {
+      height: 15px;
+      max-width: 88px;
+    }
   }
 
   @media (min-width: 768px) {
@@ -476,6 +580,8 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
     .header-center {
       position: static;
       transform: translateY(-2px);
+      flex: none;
+      padding: 0;
     }
 
     .brand-logo {
@@ -492,6 +598,10 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
     }
 
     .desktop-search-btn {
+      display: inline-flex !important;
+    }
+
+    .wishlist-trigger {
       display: inline-flex !important;
     }
   }
@@ -574,13 +684,11 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
     position: absolute;
     top: calc(100% + 8px);
     left: -20px;
-    width: 560px;
-    background: rgba(255, 255, 255, 0.98);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--color-border, #EAE5DE);
-    border-radius: 4px;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+    width: 530px;
+    background: #FFFFFF;
+    border: 1px solid rgba(197, 160, 89, 0.35);
+    border-radius: var(--border-radius-sm, 4px);
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.1), 0 4px 14px rgba(197, 160, 89, 0.08);
     opacity: 0;
     visibility: hidden;
     transform: translateY(6px);
@@ -617,74 +725,87 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
   .dropdown-col {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+    gap: 0.35rem;
   }
 
   .dropdown-header {
-    font-size: 0.6875rem;
+    font-family: var(--font-body);
+    font-size: 0.71875rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.14em;
     color: var(--color-brand-cognac, #9E532B);
-    margin-bottom: 0.5rem;
-    padding-bottom: 0.35rem;
-    border-bottom: 1px solid #F1ECE6;
+    margin-bottom: 0.65rem;
+    padding-bottom: 0.45rem;
+    border-bottom: 1px solid rgba(197, 160, 89, 0.22);
   }
 
   .dropdown-item-link {
     display: flex;
-    align-items: flex-start;
-    gap: 0.65rem;
-    padding: 0.45rem 0.5rem;
-    border-radius: 3px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.6rem 0.65rem;
+    border-radius: 4px;
     text-decoration: none;
-    transition: background-color 150ms ease, transform 150ms ease;
+    transition: all 180ms ease;
   }
 
   .dropdown-item-link:hover {
     background-color: #FAF8F5;
-    transform: translateX(2px);
+    transform: translateX(3px);
+  }
+
+  .dropdown-item-main {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
   }
 
   .dropdown-bullet {
-    font-size: 0.875rem;
-    line-height: 1.2;
+    font-size: 0.75rem;
+    color: #C5A059;
+    line-height: 1;
     flex-shrink: 0;
-    margin-top: 1px;
+    transition: transform 180ms ease, color 180ms ease;
   }
 
-  .dropdown-link-text {
-    display: flex;
-    flex-direction: column;
-    gap: 0.12rem;
+  .dropdown-item-link:hover .dropdown-bullet {
+    transform: scale(1.15);
+    color: var(--color-brand-cognac, #9E532B);
   }
 
-  .dropdown-link-text .item-title {
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: #141210;
-    line-height: 1.3;
+  .dropdown-item-link .item-title {
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #1A1614;
+    letter-spacing: 0.01em;
+    line-height: 1.35;
+    transition: color 180ms ease;
   }
 
   .dropdown-item-link:hover .item-title {
     color: var(--color-brand-cognac, #9E532B);
+    font-weight: 600;
   }
 
-  .dropdown-link-text .item-desc {
-    font-size: 0.7rem;
-    color: #8C827A;
-    line-height: 1.35;
-    transition: color 150ms ease;
+  .dropdown-arrow {
+    font-size: 0.8125rem;
+    color: #C5A059;
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity 180ms ease, transform 180ms ease;
   }
 
-  .dropdown-item-link:hover .item-desc {
-    color: #6E655E;
+  .dropdown-item-link:hover .dropdown-arrow {
+    opacity: 1;
+    transform: translateX(0);
   }
 
   .dropdown-footer-bar {
-    padding: 0.75rem 1.5rem;
-    background-color: #FAF8F4;
-    border-top: 1px solid var(--color-border, #EAE5DE);
+    padding: 0.85rem 1.5rem;
+    background: linear-gradient(180deg, #FAF8F4 0%, #F5EFE6 100%);
+    border-top: 1px solid rgba(197, 160, 89, 0.22);
     border-radius: 0 0 4px 4px;
     display: flex;
     align-items: center;
@@ -692,16 +813,22 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
   }
 
   .dropdown-all-link {
-    font-size: 0.75rem;
+    font-family: var(--font-body);
+    font-size: 0.78125rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
     color: var(--color-brand-cognac, #9E532B);
     text-decoration: none;
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    transition: transform 150ms ease;
+    gap: 0.45rem;
+    transition: transform 150ms ease, color 150ms ease;
+  }
+
+  .dropdown-all-link:hover {
+    color: #8C4424;
+    transform: translateX(2px);
   }
 
   .dropdown-all-link:hover {
@@ -787,15 +914,31 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
     stroke: currentColor;
   }
 
-  /* Bag & Wishlist Icon & Badge */
+  /* Bag, Wishlist & WhatsApp Icon & Badge */
   .bag-icon-frame,
-  .wishlist-icon-frame {
+  .wishlist-icon-frame,
+  .whatsapp-icon-frame {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 22px;
     height: 22px;
+  }
+
+  .whatsapp-header-btn:hover {
+    color: #25D366 !important;
+    background-color: rgba(37, 211, 102, 0.08) !important;
+  }
+
+  .whatsapp-icon {
+    display: block;
+    color: inherit;
+    transition: color var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .whatsapp-header-btn:hover .whatsapp-icon {
+    transform: scale(1.08);
   }
 
   .bag-counter-pill,

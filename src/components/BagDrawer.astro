@@ -530,24 +530,24 @@
   }
 
   :global(.bag-item-brand) {
-    font-size: 0.6875rem;
+    font-size: clamp(0.72rem, 1vw, 0.78125rem);
     text-transform: uppercase;
     font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     color: #8F8880;
   }
 
   :global(.bag-item-name) {
     font-family: var(--font-display);
-    font-size: 1.05rem;
+    font-size: clamp(1.1rem, 1.4vw, 1.2rem);
     font-weight: 500;
     color: #181513;
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.25rem;
     line-height: 1.25;
   }
 
   :global(.bag-item-meta) {
-    font-size: 0.72rem;
+    font-size: clamp(0.75rem, 1vw, 0.8125rem);
     color: #76706B;
     margin-bottom: 0.75rem;
   }
@@ -570,7 +570,7 @@
     background: transparent;
     border: none;
     font-family: var(--font-body);
-    font-size: 0.72rem;
+    font-size: clamp(0.75rem, 1vw, 0.8125rem);
     font-weight: 500;
     color: #8F8880;
     cursor: pointer;
@@ -627,8 +627,8 @@
   }
 
   :global(.bag-item-price) {
-    font-size: 0.95rem;
-    font-weight: 600;
+    font-size: clamp(1.05rem, 1.4vw, 1.15rem);
+    font-weight: 700;
     color: #181513;
   }
 
@@ -657,13 +657,13 @@
 
   .summary-label {
     font-family: var(--font-display);
-    font-size: 1.05rem;
+    font-size: clamp(1.05rem, 1.4vw, 1.15rem);
     letter-spacing: 0.02em;
   }
 
   .summary-val {
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: clamp(1.15rem, 1.6vw, 1.3rem);
     color: #181513;
   }
 
@@ -671,7 +671,7 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     color: #76706B;
   }
 
@@ -694,8 +694,8 @@
     color: #FFFFFF;
     text-decoration: none;
     font-weight: 600;
-    min-height: 48px;
-    font-size: 0.78rem;
+    min-height: 52px;
+    font-size: clamp(0.8125rem, 1.1vw, 0.875rem);
     letter-spacing: 0.12em;
     display: flex;
     align-items: center;
@@ -834,7 +834,7 @@
 
   .toast-status-kicker {
     font-family: var(--font-body);
-    font-size: 0.6875rem;
+    font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -901,7 +901,7 @@
   }
 
   .toast-brand {
-    font-size: 0.625rem;
+    font-size: 0.72rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.15em;
@@ -913,7 +913,7 @@
 
   .toast-name-row {
     font-family: var(--font-display);
-    font-size: 0.9375rem;
+    font-size: 1rem;
     font-weight: 500;
     letter-spacing: 0.02em;
     color: #FAF8F5;
@@ -927,7 +927,7 @@
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    font-size: 0.75rem;
+    font-size: 0.78125rem;
     color: #B3ADA6;
   }
 

@@ -389,9 +389,9 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
 
   .search-input {
     width: 100%;
-    height: 37px;
+    height: 40px;
     font-family: var(--font-body);
-    font-size: 0.8125rem;
+    font-size: clamp(0.84rem, 1.1vw, 0.9rem);
     padding: 0 2rem 0 2.15rem;
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius-sm);
@@ -402,8 +402,8 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
 
   @media (min-width: 768px) {
     .search-input {
-      height: 42px;
-      font-size: 0.84rem;
+      height: 44px;
+      font-size: 0.875rem;
       padding: 0 2.2rem 0 2.35rem;
     }
   }
@@ -453,11 +453,11 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
 
   .toolbar-select {
     width: 100%;
-    height: 37px;
+    height: 40px;
     font-family: var(--font-body);
-    font-size: 0.75rem;
+    font-size: clamp(0.78125rem, 1vw, 0.84375rem);
     font-weight: 500;
-    padding: 0 1.35rem 0 0.55rem;
+    padding: 0 1.35rem 0 0.65rem;
     border: 1px solid var(--color-border);
     border-radius: var(--border-radius-sm);
     background-color: #FFFFFF;
@@ -476,9 +476,9 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
 
   @media (min-width: 768px) {
     .toolbar-select {
-      height: 42px;
-      font-size: 0.8125rem;
-      padding: 0 1.6rem 0 0.75rem;
+      height: 44px;
+      font-size: 0.84375rem;
+      padding: 0 1.6rem 0 0.85rem;
       background-position: right 0.55rem center;
       background-size: 13px;
     }
@@ -533,11 +533,12 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 0.35rem;
+    gap: 0.45rem;
     white-space: nowrap;
-    padding: 0.32rem 0.75rem;
+    padding: 0.42rem 0.95rem;
+    min-height: 38px;
     font-family: var(--font-body);
-    font-size: 0.71875rem;
+    font-size: clamp(0.78125rem, 1.1vw, 0.84375rem);
     font-weight: 600;
     letter-spacing: 0.02em;
     border-radius: 999px;
@@ -566,7 +567,7 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
     border-radius: 999px;
     background: var(--color-brand-cognac);
     color: #FFFFFF;
-    font-size: 0.625rem;
+    font-size: 0.65rem;
     font-weight: 700;
     line-height: 1;
   }
@@ -587,9 +588,10 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
     align-items: center;
     justify-content: center;
     white-space: nowrap;
-    padding: 0.32rem 0.75rem;
+    padding: 0.42rem 0.95rem;
+    min-height: 38px;
     font-family: var(--font-body);
-    font-size: 0.6875rem;
+    font-size: clamp(0.78125rem, 1.1vw, 0.84375rem);
     font-weight: 500;
     letter-spacing: 0.03em;
     border-radius: 999px;
@@ -604,8 +606,8 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
 
   @media (min-width: 768px) {
     .family-pill {
-      padding: 0.42rem 0.95rem;
-      font-size: 0.75rem;
+      padding: 0.5rem 1.15rem;
+      font-size: clamp(0.8125rem, 1.1vw, 0.875rem);
       letter-spacing: 0.04em;
     }
   }
@@ -629,10 +631,10 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
     align-items: center;
     justify-content: space-between;
     gap: 0.75rem;
-    padding-bottom: 0.4rem;
-    margin-bottom: 0.65rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
     border-bottom: 1px solid var(--color-border-subtle);
-    font-size: 0.71875rem;
+    font-size: clamp(0.78125rem, 1.1vw, 0.84375rem);
     color: var(--color-text-muted);
   }
 
@@ -640,7 +642,7 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
     .catalog-status-bar {
       padding-bottom: 0.65rem;
       margin-bottom: 1.25rem;
-      font-size: 0.8125rem;
+      font-size: clamp(0.8125rem, 1.1vw, 0.875rem);
     }
   }
 

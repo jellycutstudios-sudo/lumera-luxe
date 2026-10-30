@@ -618,7 +618,7 @@ const productSchema = {
   }
 
   .pdp-brand {
-    font-size: 0.75rem;
+    font-size: clamp(0.78125rem, 1.2vw, 0.85rem);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.14em;
@@ -638,7 +638,7 @@ const productSchema = {
   }
 
   .pdp-variant-details {
-    font-size: 0.875rem;
+    font-size: clamp(0.875rem, 1.2vw, 0.95rem);
     color: var(--color-text-muted);
     letter-spacing: 0.02em;
   }
@@ -662,25 +662,25 @@ const productSchema = {
   }
 
   .pdp-price {
-    font-size: clamp(1.4rem, 2.5vw, 1.75rem);
+    font-size: clamp(1.5rem, 2.8vw, 1.95rem);
     font-weight: 700;
     color: var(--color-text-main);
   }
 
   .pdp-sticker-price {
-    font-size: 1rem;
+    font-size: clamp(0.95rem, 1.3vw, 1.1rem);
     color: var(--color-text-light);
     text-decoration: line-through;
   }
 
   .pdp-curation-badge {
-    font-size: 0.6875rem;
+    font-size: clamp(0.72rem, 1vw, 0.78125rem);
     font-weight: 600;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     color: var(--color-accent);
     background-color: var(--color-accent-light);
-    padding: 0.25rem 0.6rem;
+    padding: 0.3rem 0.7rem;
     border-radius: var(--border-radius-sm);
   }
 
@@ -706,7 +706,7 @@ const productSchema = {
   }
 
   .spec-title {
-    font-size: 0.625rem;
+    font-size: clamp(0.6875rem, 1vw, 0.72rem);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -714,7 +714,7 @@ const productSchema = {
   }
 
   .spec-value {
-    font-size: 0.78125rem;
+    font-size: clamp(0.8125rem, 1.1vw, 0.875rem);
     font-weight: 600;
     color: var(--color-text-main);
     white-space: nowrap;
@@ -724,8 +724,8 @@ const productSchema = {
 
   /* Description */
   .pdp-description {
-    font-size: 0.875rem;
-    line-height: 1.7;
+    font-size: clamp(0.9375rem, 1.3vw, 1.025rem);
+    line-height: 1.75;
     color: var(--color-text-muted);
     margin-bottom: 1.75rem;
   }
@@ -785,16 +785,16 @@ const productSchema = {
 
   .btn-pdp-add-bag {
     flex: 1;
-    min-height: 50px;
-    padding: 0.85rem 1.25rem;
+    min-height: 52px;
+    padding: 0.9rem 1.25rem;
     background-color: #FFFFFF;
     color: #1A1A1A;
     border: 1.5px solid #1A1A1A;
     border-radius: var(--border-radius-sm);
     font-family: var(--font-body);
-    font-size: 0.8125rem;
+    font-size: clamp(0.84rem, 1.2vw, 0.9rem);
     font-weight: 700;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     display: inline-flex;
     align-items: center;
@@ -816,8 +816,8 @@ const productSchema = {
   }
 
   .btn-pdp-fav {
-    width: 50px;
-    height: 50px;
+    width: 52px;
+    height: 52px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -852,13 +852,13 @@ const productSchema = {
   .btn-pdp-buy-now {
     width: 100%;
     min-height: 52px;
-    padding: 0.9rem 1.5rem;
+    padding: 0.95rem 1.5rem;
     background-color: #1A1A1A;
     color: #FFFFFF;
     border: none;
     border-radius: var(--border-radius-sm);
     font-family: var(--font-body);
-    font-size: 0.875rem;
+    font-size: clamp(0.875rem, 1.2vw, 0.95rem);
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -889,9 +889,9 @@ const productSchema = {
     align-items: center;
     justify-content: center;
     gap: 0.4rem;
-    font-size: 0.6875rem;
+    font-size: clamp(0.72rem, 1vw, 0.78125rem);
     color: var(--color-text-muted);
-    padding-top: 0.5rem;
+    padding-top: 0.65rem;
     border-top: 1px solid #ECEAE5;
     text-align: center;
   }

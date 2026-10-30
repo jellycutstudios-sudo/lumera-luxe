@@ -373,7 +373,7 @@
 
   :global(.wishlist-item-title) {
     font-family: var(--font-display) !important;
-    font-size: 0.95rem !important;
+    font-size: clamp(1.05rem, 1.4vw, 1.15rem) !important;
     font-weight: 500 !important;
     color: #181513 !important;
     text-decoration: none !important;
@@ -407,14 +407,14 @@
   }
 
   :global(.wishlist-item-meta) {
-    font-size: 0.72rem !important;
+    font-size: clamp(0.75rem, 1vw, 0.8125rem) !important;
     color: #76706B !important;
     margin: 0.15rem 0 0.35rem !important;
   }
 
   :global(.wishlist-item-price) {
-    font-size: 0.875rem !important;
-    font-weight: 600 !important;
+    font-size: clamp(1rem, 1.3vw, 1.1rem) !important;
+    font-weight: 700 !important;
     color: #181513 !important;
     margin-bottom: 0.5rem !important;
   }
@@ -428,10 +428,10 @@
     background-color: #181513 !important;
     color: #FFFFFF !important;
     text-decoration: none !important;
-    font-size: 0.72rem !important;
+    font-size: clamp(0.78125rem, 1.1vw, 0.84375rem) !important;
     font-weight: 600 !important;
     letter-spacing: 0.08em !important;
-    padding: 0.55rem 0.95rem !important;
+    padding: 0.65rem 1.05rem !important;
     border-radius: 2px !important;
     text-align: center !important;
     touch-action: manipulation !important;
@@ -447,10 +447,10 @@
     background-color: #FAF8F5 !important;
     color: #181513 !important;
     border: 1px solid #E8E3DC !important;
-    font-size: 0.72rem !important;
+    font-size: clamp(0.78125rem, 1.1vw, 0.84375rem) !important;
     font-weight: 600 !important;
     letter-spacing: 0.06em !important;
-    padding: 0.55rem 0.95rem !important;
+    padding: 0.65rem 1.05rem !important;
     border-radius: 2px !important;
     text-align: center !important;
     touch-action: manipulation !important;

@@ -60,24 +60,28 @@ const selectedScents = curatedHomeSlugs
 const categories = [
   {
     label: 'Fresh & Citrus',
+    subtitle: 'Crisp Bergamot · Neroli · Marine Accord',
     href: '/shop/?family=fresh',
     img: '/assets/brand/family-fresh-citrus.webp',
     alt: 'Fresh & Citrus perfumes featuring Dolce & Gabbana Light Blue and Acqua di Parma Colonia'
   },
   {
     label: 'Floral & Rose',
+    subtitle: 'Damask Rose · Sambac Jasmine · French Peony',
     href: '/shop/?family=floral',
     img: '/assets/brand/family-floral-rose.webp',
     alt: 'Floral & Rose perfumes featuring Chloé and Miss Dior'
   },
   {
     label: 'Amber & Oriental',
+    subtitle: 'Warm Amber · Madagascar Vanilla · Golden Oud',
     href: '/shop/?family=oriental',
     img: '/assets/brand/family-amber-oriental.webp',
     alt: 'Amber & Oriental perfumes featuring YSL Black Opium and Chanel Coco Mademoiselle'
   },
   {
     label: 'Woody & Earthy',
+    subtitle: 'Smoky Sandalwood · Cedarwood · Crisp Vetiver',
     href: '/shop/?family=woody',
     img: '/assets/brand/family-woody-fresh.webp',
     alt: 'Woody & Earthy perfumes featuring Terre d’Hermès and Le Labo Santal 33'
@@ -335,6 +339,14 @@ const homeStructuredData = {
               <a href={cat.href} class="category-item">
                 <div class="category-image-frame">
                   <img src={cat.img} alt={cat.alt} class="category-img" loading="lazy" decoding="async" width="280" height="340" />
+                  <div class="category-overlay-scrim" aria-hidden="true"></div>
+                  <span class="category-explore-tag" aria-hidden="true">
+                    <span>Explore Family</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </span>
                 </div>
                 <span class="category-caption">{cat.label}</span>
               </a>
@@ -397,12 +409,34 @@ const homeStructuredData = {
     <section class="section-home section-fragrance-finder-banner" aria-label="Personal Fragrance Discovery">
       <div class="container">
         <div class="finder-invitation-card">
+          <div class="finder-ornament" aria-hidden="true">
+            <span class="ornament-line"></span>
+            <span class="ornament-star">✦</span>
+            <span class="ornament-line"></span>
+          </div>
+
           <div class="finder-invitation-content">
             <span class="finder-invitation-kicker">Personal Olfactive Consultation</span>
             <h2 class="finder-invitation-title">Find Your Signature Scent</h2>
             <p class="finder-invitation-copy">
               Your style. Your mood. Your signature fragrance. Take a brief, four-question bespoke consultation to discover the flacons that resonate with your presence.
             </p>
+
+            <div class="finder-perks-strip">
+              <span class="finder-perk-pill">
+                <span class="perk-bullet"></span>
+                <span>4 Guided Questions</span>
+              </span>
+              <span class="finder-perk-pill">
+                <span class="perk-bullet"></span>
+                <span>Personalized Match</span>
+              </span>
+              <span class="finder-perk-pill">
+                <span class="perk-bullet"></span>
+                <span>Bespoke for Qatar</span>
+              </span>
+            </div>
+
             <div class="finder-invitation-action">
               <a href="/fragrance-finder/" class="btn-finder-start">
                 <span>Begin Fragrance Consultation</span>
@@ -466,6 +500,24 @@ const homeStructuredData = {
             <p class="about-paragraph">
               We believe perfume is a personal art form that transcends words. Each bottle is selected with care, hand-packed in Doha, and delivered directly to your door across Qatar.
             </p>
+
+            <div class="house-distinctions-strip">
+              <div class="distinction-item">
+                <span class="distinction-icon">✦</span>
+                <div class="distinction-text">
+                  <strong>European Provenance</strong>
+                  <span>100% verified batch codes</span>
+                </div>
+              </div>
+              <div class="distinction-item">
+                <span class="distinction-icon">✦</span>
+                <div class="distinction-text">
+                  <strong>Hand-Packed in Doha</strong>
+                  <span>White-glove luxury presentation</span>
+                </div>
+              </div>
+            </div>
+
             <div class="about-action">
               <a href="/our-story/" class="link-underline">Discover Our Story</a>
             </div>
@@ -478,6 +530,9 @@ const homeStructuredData = {
     <section class="concierge-section">
       <div class="container">
         <div class="concierge-card">
+          <div class="concierge-ornament" aria-hidden="true">
+            <span class="concierge-crest">LUMÈRA LUXE · PRIVATE SALON</span>
+          </div>
           <span class="concierge-kicker">Maison Concierge · Doha</span>
           <h2 class="concierge-title">Personal Scent Consultation</h2>
           <p class="concierge-subtitle">
@@ -507,8 +562,9 @@ const homeStructuredData = {
               rel="noopener noreferrer"
               class="btn-whatsapp-concierge"
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M12.031 2C6.495 2 2 6.495 2 12.031c0 1.77.462 3.498 1.341 5.022L2 22l5.093-1.336A10.007 10.007 0 0 0 12.031 22C17.567 22 22 17.505 22 12.031 22 6.495 17.567 2 12.031 2zm5.879 14.195c-.244.686-1.42 1.314-1.956 1.385-.514.068-1.163.097-3.708-.958-3.04-1.258-4.996-4.34-5.148-4.542-.152-.202-1.233-1.64-1.233-3.128 0-1.488.777-2.22 1.052-2.525.275-.305.6-.381.8-.381.2 0 .4 0 .576.01.187.01.438-.071.686.525.257.619.876 2.143.952 2.296.076.153.127.33.025.534-.102.204-.153.33-.305.508-.152.178-.32.396-.457.533-.153.153-.312.32-.134.626.178.305.792 1.306 1.698 2.112 1.166 1.037 2.148 1.358 2.453 1.51.305.153.483.128.66-.076.178-.204.762-.89 965-1.195.204-.305.407-.254.686-.153.28.102 1.777.838 2.082.99.305.153.508.229.584.356.076.127.076.737-.168 1.423z"/>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"></path>
+                <path d="M15.5 13.5v1.2a1.3 1.3 0 0 1-1.4 1.3 7.8 7.8 0 0 1-5.6-5.6 1.3 1.3 0 0 1 1.3-1.4h1.2a.9.9 0 0 1 .9.7l.3 1.2a.9.9 0 0 1-.3.9l-.6.6a5.5 5.5 0 0 0 2.6 2.6l.6-.6a.9.9 0 0 1 .9-.3l1.2.3a.9.9 0 0 1 .7.9z"></path>
               </svg>
               <span>Connect on WhatsApp</span>
             </a>
@@ -523,7 +579,7 @@ const homeStructuredData = {
 <style>
   .minimal-storefront {
     padding-top: 0;
-    padding-bottom: clamp(4rem, 6vw, 6rem);
+    padding-bottom: 0;
   }
 
   /* ==========================================================================
@@ -606,24 +662,69 @@ const homeStructuredData = {
   }
 
   .category-item:hover {
-    transform: translateY(-3px);
+    transform: translateY(-4px);
   }
 
   .category-image-frame {
+    position: relative;
     width: 100%;
     aspect-ratio: 1 / 1;
     background-color: #F7F6F4;
-    border: 1px solid #ECEAE5;
-    border-radius: var(--border-radius-sm);
+    border: 1px solid rgba(197, 160, 89, 0.25);
+    border-radius: 6px;
     overflow: hidden;
     margin-bottom: 0.85rem;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
     transition: all var(--transition-fast);
   }
 
+  .category-overlay-scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 55%, rgba(24, 21, 19, 0.5) 100%);
+    opacity: 0;
+    transition: opacity 300ms ease;
+    pointer-events: none;
+  }
+
+  .category-explore-tag {
+    position: absolute;
+    bottom: 0.85rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(8px);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #181513;
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    opacity: 0;
+    transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
   .category-item:hover .category-image-frame {
-    border-color: #D2CDC5;
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+    border-color: var(--color-brand-cognac);
+    box-shadow: 0 12px 32px rgba(184, 134, 11, 0.16);
+  }
+
+  .category-item:hover .category-overlay-scrim {
+    opacity: 1;
+  }
+
+  .category-item:hover .category-explore-tag {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
   }
 
   .category-img {
@@ -635,12 +736,12 @@ const homeStructuredData = {
   }
 
   .category-item:hover .category-img {
-    transform: scale(1.05);
+    transform: scale(1.06);
   }
 
   .category-caption {
     font-family: var(--font-body);
-    font-size: 0.75rem;
+    font-size: clamp(0.8125rem, 1.2vw, 0.9375rem);
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -666,13 +767,14 @@ const homeStructuredData = {
     align-items: center;
     gap: 0.65rem;
     font-family: var(--font-body);
-    font-size: 0.75rem;
+    font-size: clamp(0.8125rem, 1.2vw, 0.875rem);
     font-weight: 600;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--color-text-main);
     text-decoration: none;
-    padding: 0.85rem 1.75rem;
+    padding: 0.9rem 2rem;
+    min-height: 48px;
     border: 1px solid var(--color-text-main);
     border-radius: var(--border-radius-sm);
     transition: all var(--transition-fast);
@@ -725,62 +827,126 @@ const homeStructuredData = {
   }
 
   .about-paragraph {
-    font-size: 0.875rem;
+    font-size: clamp(0.9375rem, 1.3vw, 1.025rem);
     line-height: 1.75;
     color: var(--color-text-muted);
     margin-bottom: 1.25rem;
   }
 
-  .about-action {
-    margin-top: 1.75rem;
+  .house-distinctions-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    margin: 1.5rem 0 1.25rem;
+    padding: 1.15rem 0;
+    border-top: 1px solid rgba(197, 160, 89, 0.2);
+    border-bottom: 1px solid rgba(197, 160, 89, 0.2);
   }
 
-  /* Qatar Concierge Section (Clean & Minimalist) */
+  .distinction-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    flex: 1;
+    min-width: 190px;
+  }
+
+  .distinction-icon {
+    color: #C5A059;
+    font-size: 0.85rem;
+    line-height: 1.3;
+    flex-shrink: 0;
+  }
+
+  .distinction-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .distinction-text strong {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #181513;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .distinction-text span {
+    font-size: 0.75rem;
+    color: #76706B;
+    line-height: 1.35;
+  }
+
+  .about-action {
+    margin-top: 1.5rem;
+  }
+
+  /* Qatar Concierge Section (Private Salon Aesthetic) */
   .concierge-section {
-    margin-top: clamp(4.5rem, 8vw, 7rem);
-    margin-bottom: clamp(4.5rem, 8vw, 7rem);
+    margin-top: clamp(3rem, 5vw, 4.5rem);
+    margin-bottom: 0;
     width: 100%;
+    padding: clamp(2.5rem, 4.5vw, 3.5rem) 0;
+    background: linear-gradient(180deg, #FFFFFF 0%, #FAF8F4 50%, #FFFFFF 100%);
+    border-top: 1px solid rgba(197, 160, 89, 0.15);
   }
 
   .concierge-card {
-    background-color: #FAF9F6;
-    border: 1px solid #ECEAE5;
-    border-radius: var(--border-radius-sm);
-    padding: clamp(2rem, 4vw, 3.25rem) clamp(1.25rem, 3.5vw, 2.5rem);
+    background-color: #FFFFFF;
+    border: 1px solid rgba(197, 160, 89, 0.35);
+    border-radius: 8px;
+    padding: clamp(2.25rem, 4.5vw, 3.5rem) clamp(1.5rem, 3.5vw, 2.75rem);
     text-align: center;
-    max-width: 800px;
+    max-width: 760px;
     margin: 0 auto;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    box-shadow: 0 16px 48px rgba(24, 21, 19, 0.04);
+  }
+
+  .concierge-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+  }
+
+  .concierge-crest {
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #9E958A;
   }
 
   .concierge-kicker {
     display: inline-block;
     font-family: var(--font-body);
-    font-size: 0.6875rem;
-    font-weight: 600;
+    font-size: clamp(0.75rem, 1.1vw, 0.8125rem);
+    font-weight: 700;
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: var(--color-brand-cognac);
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.65rem;
   }
 
   .concierge-title {
     font-family: var(--font-display);
-    font-size: clamp(1.4rem, 2.5vw, 1.95rem);
+    font-size: clamp(1.5rem, 3vw, 2.15rem);
     font-weight: 400;
     line-height: 1.25;
     letter-spacing: 0.015em;
     color: var(--color-text-main);
-    margin-bottom: 0.65rem;
+    margin-bottom: 0.75rem;
   }
 
   .concierge-subtitle {
     font-family: var(--font-body);
-    font-size: 0.84375rem;
+    font-size: clamp(0.9rem, 1.4vw, 1rem);
     color: var(--color-text-muted);
-    line-height: 1.6;
-    max-width: 500px;
-    margin: 0 auto clamp(1.25rem, 2.5vw, 1.75rem);
+    line-height: 1.65;
+    max-width: 520px;
+    margin: 0 auto clamp(1.35rem, 2.5vw, 1.85rem);
   }
 
   .concierge-badges-strip {
@@ -789,7 +955,7 @@ const homeStructuredData = {
     justify-content: center;
     flex-wrap: wrap;
     gap: 0.65rem 1rem;
-    margin-bottom: clamp(1.35rem, 2.5vw, 1.85rem);
+    margin-bottom: clamp(1.5rem, 2.8vw, 2rem);
   }
 
   .concierge-badge-pill {
@@ -797,20 +963,20 @@ const homeStructuredData = {
     align-items: center;
     gap: 0.45rem;
     font-family: var(--font-body);
-    font-size: 0.71875rem;
+    font-size: clamp(0.78125rem, 1.1vw, 0.84375rem);
     font-weight: 500;
     letter-spacing: 0.03em;
     color: var(--color-text-main);
     background-color: #FFFFFF;
     border: 1px solid #ECEAE5;
-    padding: 0.4rem 0.85rem;
+    padding: 0.45rem 0.95rem;
     border-radius: 9999px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02);
   }
 
   .badge-bullet {
-    width: 5px;
-    height: 5px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
     background-color: var(--color-brand-cognac);
   }
@@ -831,11 +997,12 @@ const homeStructuredData = {
     color: #FFFFFF;
     text-decoration: none;
     font-family: var(--font-body);
-    font-size: 0.75rem;
+    font-size: clamp(0.8125rem, 1.2vw, 0.875rem);
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    padding: 0.85rem 1.85rem;
+    padding: 0.9rem 2rem;
+    min-height: 48px;
     border-radius: var(--border-radius-sm);
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
     transition: all var(--transition-fast);
@@ -848,9 +1015,11 @@ const homeStructuredData = {
   }
 
   .concierge-note {
-    font-size: 0.6875rem;
-    color: var(--color-text-light);
-    letter-spacing: 0.02em;
+    font-family: var(--font-body);
+    font-size: clamp(0.78125rem, 1.1vw, 0.84375rem);
+    color: #8C847B;
+    letter-spacing: 0.03em;
+    margin-top: 0.35rem;
   }
 
   /* ==========================================================================
@@ -926,20 +1095,21 @@ const homeStructuredData = {
     filter: none;
   }
 
-  /* Quiet Luxury Floating Island Card (Glassmorphism & Fixed Geometry) */
+  /* Quiet Luxury Floating Island Card (Glassmorphism & Adaptive Geometry) */
   .hero-island-card {
     position: absolute;
     bottom: clamp(1.25rem, 2.5vw, 2.25rem);
     left: clamp(1.25rem, 2.5vw, 2.25rem);
-    width: clamp(340px, 48vw, 510px);
+    width: clamp(380px, 56vw, 680px);
     max-width: calc(100% - 2.5rem);
-    height: 86px;
+    min-height: clamp(96px, 11vw, 114px);
+    height: auto;
     box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: clamp(0.75rem, 1.5vw, 1.25rem);
-    padding: 0 clamp(1.15rem, 2vw, 1.5rem);
+    padding: 0.85rem clamp(1.35rem, 2vw, 1.85rem);
     /* True Luxury Glassmorphism */
     background: rgba(255, 255, 255, 0.70);
     backdrop-filter: blur(20px) saturate(190%);
@@ -967,42 +1137,44 @@ const homeStructuredData = {
       bottom: 0.65rem;
       width: auto;
       max-width: none;
-      height: 72px;
-      padding: 0 0.85rem;
+      min-height: 84px;
+      height: auto;
+      padding: 0.75rem 0.95rem;
       gap: 0.65rem;
     }
 
     .hero-meta-title {
-      font-size: clamp(0.95rem, 3.8vw, 1.1rem);
-      margin: 0 0 0.15rem 0;
+      font-size: clamp(1.05rem, 3.8vw, 1.25rem);
+      margin: 0 0 0.2rem 0;
+      white-space: normal;
     }
 
     .hero-meta-link {
-      font-size: 0.625rem;
+      font-size: 0.78125rem;
       letter-spacing: 0.08em;
-      gap: 0.35rem;
+      gap: 0.4rem;
       white-space: nowrap;
     }
 
     .hero-island-controls {
       padding-left: 0.65rem;
       gap: 0.5rem;
-      height: 32px;
+      height: 36px;
     }
 
     .hero-counter {
-      font-size: 0.625rem;
+      font-size: 0.75rem;
       letter-spacing: 0.08em;
     }
 
     .hero-arrow-btn {
-      width: 28px;
-      height: 28px;
+      width: 32px;
+      height: 32px;
     }
 
     .hero-arrow-btn svg {
-      width: 12px;
-      height: 12px;
+      width: 13px;
+      height: 13px;
     }
   }
 
@@ -1040,28 +1212,27 @@ const homeStructuredData = {
 
   .hero-meta-title {
     font-family: var(--font-display);
-    font-size: clamp(1.05rem, 1.4vw, 1.25rem);
-    font-weight: 400;
+    font-size: clamp(1.2rem, 2.2vw, 1.75rem);
+    font-weight: 500;
     letter-spacing: 0.015em;
     color: var(--color-text-main);
-    margin: 0 0 0.25rem 0;
-    line-height: 1.2;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    margin: 0 0 0.35rem 0;
+    line-height: 1.25;
+    white-space: normal;
+    word-break: normal;
   }
 
   .hero-meta-link {
     font-family: var(--font-body);
-    font-size: 0.6875rem;
+    font-size: clamp(0.78125rem, 1.1vw, 0.85rem);
     font-weight: 600;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--color-brand-cognac);
     text-decoration: none;
     display: inline-flex;
     align-items: center;
-    gap: 0.45rem;
+    gap: 0.5rem;
     transition: all var(--transition-fast);
     width: fit-content;
     white-space: nowrap;
@@ -1094,7 +1265,7 @@ const homeStructuredData = {
 
   .hero-counter {
     font-family: var(--font-body);
-    font-size: 0.6875rem;
+    font-size: clamp(0.75rem, 1.1vw, 0.8125rem);
     font-weight: 600;
     letter-spacing: 0.14em;
     color: var(--color-text-main);
@@ -1179,18 +1350,18 @@ const homeStructuredData = {
 
   /* Fragrance Finder Invitation Card */
   .section-fragrance-finder-banner {
-    padding-top: 1rem;
-    padding-bottom: 2rem;
+    padding-top: 1.5rem;
+    padding-bottom: 2.5rem;
   }
 
   .finder-invitation-card {
-    background: linear-gradient(135deg, #FAF8F4 0%, #F5EFE6 100%);
-    border: 1px solid var(--color-border);
-    border-radius: 4px;
-    padding: 3rem 2rem;
+    background: linear-gradient(135deg, #FAF7F2 0%, #F5EFE6 50%, #FAF7F2 100%);
+    border: 1px solid rgba(197, 160, 89, 0.45);
+    border-radius: var(--border-radius-sm);
+    padding: 3.5rem 2.5rem;
     text-align: center;
     position: relative;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    box-shadow: 0 16px 48px rgba(184, 134, 11, 0.06), inset 0 0 0 1px rgba(255, 255, 255, 0.9);
   }
 
   @media (max-width: 600px) {
@@ -1199,66 +1370,117 @@ const homeStructuredData = {
     }
   }
 
+  .finder-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .ornament-line {
+    width: 44px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(197, 160, 89, 0.7), transparent);
+  }
+
+  .ornament-star {
+    color: #C5A059;
+    font-size: 0.9rem;
+  }
+
   .finder-invitation-content {
-    max-width: 620px;
+    max-width: 660px;
     margin: 0 auto;
   }
 
   .finder-invitation-kicker {
     display: inline-block;
-    font-size: 0.75rem;
-    font-weight: 600;
+    font-size: clamp(0.78125rem, 1.2vw, 0.85rem);
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.16em;
     color: var(--color-brand-cognac);
-    margin-bottom: 0.65rem;
+    margin-bottom: 0.75rem;
   }
 
   .finder-invitation-title {
     font-family: var(--font-display);
-    font-size: clamp(1.75rem, 3.5vw, 2.35rem);
+    font-size: clamp(1.85rem, 3.8vw, 2.65rem);
     font-weight: 500;
     color: var(--color-text-main);
     line-height: 1.2;
-    margin: 0 0 0.85rem;
+    margin: 0 0 0.95rem;
   }
 
   .finder-invitation-copy {
-    font-size: 0.9375rem;
+    font-size: clamp(0.95rem, 1.5vw, 1.05rem);
     color: var(--color-text-muted);
-    line-height: 1.6;
-    margin: 0 0 1.75rem;
+    line-height: 1.7;
+    margin: 0 0 1.5rem;
+  }
+
+  .finder-perks-strip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.65rem 1rem;
+    margin: 0 auto 2rem;
+  }
+
+  .finder-perk-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-body);
+    font-size: clamp(0.75rem, 1.1vw, 0.8125rem);
+    font-weight: 500;
+    color: #5A524A;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(197, 160, 89, 0.35);
+    padding: 0.4rem 0.95rem;
+    border-radius: 999px;
+  }
+
+  .perk-bullet {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: var(--color-brand-cognac);
   }
 
   .btn-finder-start {
     display: inline-flex;
     align-items: center;
     gap: 0.65rem;
-    padding: 0.85rem 1.85rem;
+    padding: 0.95rem 2.25rem;
     background-color: var(--color-brand-cognac);
     color: #FFFFFF;
-    font-size: 0.9375rem;
+    font-size: clamp(0.875rem, 1.3vw, 0.95rem);
     font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
     text-decoration: none;
-    border-radius: 3px;
-    min-height: 48px;
+    border-radius: var(--border-radius-sm);
+    min-height: 52px;
     transition: all 180ms ease;
   }
 
   .btn-finder-start:hover {
     background-color: #8C4424;
     transform: translateY(-1px);
-    box-shadow: 0 4px 14px rgba(166, 83, 45, 0.25);
+    box-shadow: 0 6px 18px rgba(166, 83, 45, 0.28);
   }
 
   /* Curated Dynamic Section & Mood Tabs */
   .curated-mood-pills {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.65rem;
     overflow-x: auto;
-    padding: 0.25rem 0 0.5rem 0;
-    margin-bottom: clamp(1rem, 2vw, 1.5rem);
+    padding: 0.25rem 0 0.65rem 0;
+    margin-bottom: clamp(1.25rem, 2.5vw, 1.85rem);
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
   }
@@ -1270,14 +1492,15 @@ const homeStructuredData = {
   .mood-pill {
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
-    padding: 0.42rem 0.85rem;
+    gap: 0.45rem;
+    padding: 0.55rem 1.15rem;
+    min-height: 38px;
     background: #FAF9F6;
     border: 1px solid #ECEAE5;
     border-radius: 999px;
     font-family: var(--font-body);
-    font-size: 0.75rem;
-    font-weight: 500;
+    font-size: clamp(0.78125rem, 1.2vw, 0.85rem);
+    font-weight: 600;
     color: #5A554E;
     white-space: nowrap;
     cursor: pointer;
@@ -1299,7 +1522,7 @@ const homeStructuredData = {
 
   .pill-sparkle {
     color: #C5A059;
-    font-size: 0.75rem;
+    font-size: 0.8125rem;
   }
 
   .mood-pill.is-active .pill-sparkle {
@@ -1528,8 +1751,8 @@ const homeStructuredData = {
           slugs: quizSlugs.slice(0, 4),
           hint: `Personalized for your ${consultationProfile.persona || 'Bespoke'} consultation profile.`,
           badge: 'From Your Quiz',
-          cta: '/fragrance-finder/',
-          ctaText: 'Retake Fragrance Consultation'
+          cta: '/shop/',
+          ctaText: 'Explore Entire Collection'
         };
       }
 
