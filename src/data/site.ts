@@ -25,6 +25,10 @@ export interface SiteConfig {
   customerSupportEmail: string;
   complianceNotice: string;
   isBankReviewDraft: boolean;
+  maintenanceMode?: {
+    enabled: boolean;
+    passcode: string;
+  };
   googleSheetWebhookUrl?: string;
   navigation: { label: string; href: string }[];
   promises: { title: string; description: string; icon: string }[];
@@ -51,6 +55,10 @@ export const siteConfig: SiteConfig = {
   dispatchHub: 'Nationwide Delivery across Qatar',
   complianceNotice: 'Boutique storefront operating under WhatsApp concierge order verification. No automated online card gateway is integrated.',
   isBankReviewDraft: false,
+  maintenanceMode: {
+    enabled: true,
+    passcode: '0000'
+  },
   googleSheetWebhookUrl: import.meta.env.PUBLIC_GOOGLE_SHEET_WEBHOOK_URL || 'https://script.google.com/macros/s/AKfycbyUBG0JbxspFySy_SKAI8-1az6i8lQ75JODW-q5OAd6us-4whx5iSQ2t5d4yq22C3amuA/exec',
   instagramHandle: '@lumera.luxe974',
   instagramUrl: 'https://www.instagram.com/lumera.luxe974?utm_source=qr&dlrf=MWRmMTR2bzFsdjZxdg==',

@@ -5,6 +5,7 @@ import BagDrawer from '../components/BagDrawer.astro';
 import MobileDrawer from '../components/MobileDrawer.astro';
 import MobileBottomNav from '../components/MobileBottomNav.astro';
 import WishlistDrawer from '../components/WishlistDrawer.astro';
+import MaintenanceGate from '../components/MaintenanceGate.astro';
 import { ClientRouter } from 'astro:transitions';
 import { siteConfig } from '../data/site';
 import '../styles/global.css';
@@ -72,8 +73,32 @@ const {
 
     <!-- Native App-like View Transitions (Astro SPA Routing) -->
     <ClientRouter />
+
+    <!-- Maintenance Mode Immediate Pre-paint Blocker -->
+    <script is:inline define:vars={{ isMaintenanceEnabled: siteConfig.maintenanceMode?.enabled ?? false }}>
+      (function() {
+        if (!isMaintenanceEnabled) return;
+        function applyMaintenanceState() {
+          try {
+            var isUnlocked = localStorage.getItem('lumera_maintenance_unlocked') === 'true';
+            if (isUnlocked) {
+              document.documentElement.classList.remove('maintenance-locked');
+              document.documentElement.classList.add('maintenance-unlocked');
+            } else {
+              document.documentElement.classList.remove('maintenance-unlocked');
+              document.documentElement.classList.add('maintenance-locked');
+            }
+          } catch(e) {
+            document.documentElement.classList.add('maintenance-locked');
+          }
+        }
+        applyMaintenanceState();
+        document.addEventListener('astro:after-swap', applyMaintenanceState);
+      })();
+    </script>
   </head>
   <body>
+    <MaintenanceGate />
     <Header />
     <main id="main-content">
       <slot />
@@ -91,5 +116,15 @@ const {
     flex: 1;
     display: flex;
     flex-direction: column;
+  }
+
+  :global(html.maintenance-locked body) {
+    overflow: hidden !important;
+    height: 100vh !important;
+  }
+
+  :global(html.maintenance-locked body > *:not(#maintenance-gate):not(#maintenance-client-badge)) {
+    display: none !important;
+    visibility: hidden !important;
   }
 </style>

@@ -1,0 +1,621 @@
+---
+import { siteConfig } from '../data/site';
+
+const maintenance = siteConfig.maintenanceMode ?? { enabled: false, passcode: '0000' };
+const isEnabled = maintenance.enabled;
+const passcode = maintenance.passcode;
+---
+
+{isEnabled && (
+  <>
+    <!-- Luxury Maintenance Gate Modal -->
+    <div
+      id="maintenance-gate"
+      class="maintenance-gate"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="maintenance-title"
+    >
+      <div class="maintenance-backdrop-glow" aria-hidden="true"></div>
+
+      <div class="maintenance-card">
+        <!-- Brand Crest / Logo -->
+        <div class="maintenance-brand">
+          <img
+            src="/assets/lumera-logo.svg"
+            alt={siteConfig.brandName}
+            class="maintenance-logo"
+            width="170"
+            height="30"
+          />
+        </div>
+
+        <!-- Gold Star Divider -->
+        <div class="maintenance-ornament" aria-hidden="true">
+          <span class="m-line"></span>
+          <span class="m-star">✦</span>
+          <span class="m-line"></span>
+        </div>
+
+        <span class="maintenance-kicker">Maison Privée · Doha</span>
+        <h1 id="maintenance-title" class="maintenance-title">Private Salon Under Maintenance</h1>
+
+        <p class="maintenance-copy">
+          Our online boutique is currently closed for private collection curation and scheduled enhancements.
+          Invited clients and team members may enter their passkey to access the boutique.
+        </p>
+
+        <!-- Access Passcode Form -->
+        <form id="maintenance-form" class="maintenance-form" autocomplete="off" onsubmit="return false;">
+          <div class="maintenance-input-wrap">
+            <svg
+              class="m-lock-icon"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            <input
+              type="password"
+              id="maintenance-passcode"
+              class="maintenance-input"
+              placeholder="Enter client passkey"
+              maxlength="16"
+              inputmode="numeric"
+              autocomplete="one-time-code"
+              aria-label="Client access passkey"
+              required
+            />
+            <button
+              type="button"
+              id="maintenance-toggle-visibility"
+              class="m-toggle-btn"
+              aria-label="Show or hide passkey"
+              title="Show or hide passkey"
+            >
+              <svg class="m-eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+
+          <p id="maintenance-error" class="maintenance-error" role="alert" aria-live="polite" hidden>
+            Incorrect passkey. Please check with your concierge.
+          </p>
+
+          <button type="submit" id="maintenance-submit-btn" class="maintenance-submit-btn">
+            <span>Unlock Private Boutique</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </form>
+
+        <!-- Direct WhatsApp Concierge Shortcut -->
+        <div class="maintenance-concierge-wrap">
+          <span class="m-concierge-label">Require client assistance?</span>
+          <a
+            href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent('Hello LUMÈRA LUXE, I would like client access to the private boutique.')}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="maintenance-wa-link"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"></path>
+              <path d="M15.5 13.5v1.2a1.3 1.3 0 0 1-1.4 1.3 7.8 7.8 0 0 1-5.6-5.6 1.3 1.3 0 0 1 1.3-1.4h1.2a.9.9 0 0 1 .9.7l.3 1.2a.9.9 0 0 1-.3.9l-.6.6a5.5 5.5 0 0 0 2.6 2.6l.6-.6a.9.9 0 0 1 .9-.3l1.2.3a.9.9 0 0 1 .7.9z"></path>
+            </svg>
+            <span>Direct WhatsApp Concierge · Doha</span>
+          </a>
+        </div>
+
+        <div class="maintenance-footer-note">
+          <span>© {siteConfig.brandName} · State of Qatar</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating Client Preview Pill (Only visible when unlocked) -->
+    <aside id="maintenance-client-badge" class="maintenance-client-badge" aria-label="Client preview mode controls">
+      <div class="client-badge-pill">
+        <span class="client-badge-dot"></span>
+        <span class="client-badge-text">Client Mode Active</span>
+        <button type="button" id="maintenance-relock-btn" class="client-relock-btn" title="Re-lock Store">
+          Re-lock Store
+        </button>
+      </div>
+    </aside>
+
+    <script is:inline define:vars={{ expectedPasscode: passcode }}>
+      (function() {
+        var PASSCODE = String(expectedPasscode || '0000');
+        var STORAGE_KEY = 'lumera_maintenance_unlocked';
+
+        function isUnlocked() {
+          try {
+            return localStorage.getItem(STORAGE_KEY) === 'true';
+          } catch(e) {
+            return false;
+          }
+        }
+
+        function unlockStore() {
+          try {
+            localStorage.setItem(STORAGE_KEY, 'true');
+          } catch(e) {}
+          document.documentElement.classList.remove('maintenance-locked');
+          document.documentElement.classList.add('maintenance-unlocked');
+
+          var gate = document.getElementById('maintenance-gate');
+          if (gate) {
+            gate.classList.add('fade-out');
+            setTimeout(function() {
+              gate.style.display = 'none';
+            }, 300);
+          }
+        }
+
+        function relockStore() {
+          try {
+            localStorage.removeItem(STORAGE_KEY);
+          } catch(e) {}
+          document.documentElement.classList.remove('maintenance-unlocked');
+          document.documentElement.classList.add('maintenance-locked');
+
+          var gate = document.getElementById('maintenance-gate');
+          if (gate) {
+            gate.style.display = 'flex';
+            gate.classList.remove('fade-out');
+            var input = document.getElementById('maintenance-passcode');
+            if (input) {
+              input.value = '';
+              input.focus();
+            }
+          }
+        }
+
+        function initMaintenanceGate() {
+          if (isUnlocked()) {
+            document.documentElement.classList.remove('maintenance-locked');
+            document.documentElement.classList.add('maintenance-unlocked');
+            var gate = document.getElementById('maintenance-gate');
+            if (gate) gate.style.display = 'none';
+          } else {
+            document.documentElement.classList.remove('maintenance-unlocked');
+            document.documentElement.classList.add('maintenance-locked');
+            var gate = document.getElementById('maintenance-gate');
+            if (gate) gate.style.display = 'flex';
+          }
+
+          var form = document.getElementById('maintenance-form');
+          var input = document.getElementById('maintenance-passcode');
+          var error = document.getElementById('maintenance-error');
+          var toggleBtn = document.getElementById('maintenance-toggle-visibility');
+          var relockBtn = document.getElementById('maintenance-relock-btn');
+
+          if (form && input) {
+            form.onsubmit = function(e) {
+              e.preventDefault();
+              var val = String(input.value || '').trim();
+              if (val === PASSCODE) {
+                if (error) error.hidden = true;
+                unlockStore();
+              } else {
+                if (error) error.hidden = false;
+                input.classList.add('input-error-shake');
+                setTimeout(function() {
+                  input.classList.remove('input-error-shake');
+                }, 500);
+                input.focus();
+                input.select();
+              }
+              return false;
+            };
+
+            // Auto-unlock when full 4-digit passcode is reached
+            input.oninput = function() {
+              if (error && !error.hidden) error.hidden = true;
+              if (input.value.trim() === PASSCODE) {
+                unlockStore();
+              }
+            };
+          }
+
+          if (toggleBtn && input) {
+            toggleBtn.onclick = function() {
+              if (input.type === 'password') {
+                input.type = 'text';
+                toggleBtn.setAttribute('aria-label', 'Hide passkey');
+              } else {
+                input.type = 'password';
+                toggleBtn.setAttribute('aria-label', 'Show passkey');
+              }
+            };
+          }
+
+          if (relockBtn) {
+            relockBtn.onclick = function() {
+              relockStore();
+            };
+          }
+        }
+
+        // Initialize immediately
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initMaintenanceGate);
+        } else {
+          initMaintenanceGate();
+        }
+
+        // Keep state synchronized with Astro ClientRouter view transitions
+        document.addEventListener('astro:page-load', initMaintenanceGate);
+      })();
+    </script>
+  </>
+)}
+
+<style>
+  /* ==========================================================================
+     LUMÈRA LUXE - MAISON PRIVÉE MAINTENANCE GATE
+     ========================================================================== */
+  .maintenance-gate {
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(1rem, 3vw, 2rem);
+    background: radial-gradient(circle at 50% 30%, #FFFFFF 0%, #FAF7F2 45%, #F4EDE0 100%);
+    overflow-y: auto;
+    transition: opacity 280ms ease, visibility 280ms ease;
+  }
+
+  .maintenance-gate.fade-out {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .maintenance-backdrop-glow {
+    position: absolute;
+    width: 650px;
+    height: 650px;
+    background: radial-gradient(circle, rgba(197, 160, 89, 0.16) 0%, rgba(255, 255, 255, 0) 70%);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    filter: blur(40px);
+  }
+
+  .maintenance-card {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 580px;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(197, 160, 89, 0.4);
+    border-radius: var(--border-radius-sm, 6px);
+    box-shadow:
+      0 24px 60px rgba(24, 21, 19, 0.08),
+      0 6px 20px rgba(197, 160, 89, 0.1),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.9);
+    padding: clamp(2.5rem, 5vw, 3.75rem) clamp(1.5rem, 4vw, 3rem);
+    text-align: center;
+    margin: auto;
+  }
+
+  .maintenance-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+  }
+
+  .maintenance-logo {
+    height: 28px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .maintenance-ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.85rem;
+    margin-bottom: 1.15rem;
+  }
+
+  .m-line {
+    width: 38px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(197, 160, 89, 0.7), transparent);
+  }
+
+  .m-star {
+    color: #C5A059;
+    font-size: 0.85rem;
+    line-height: 1;
+  }
+
+  .maintenance-kicker {
+    display: inline-block;
+    font-family: var(--font-body);
+    font-size: 0.71875rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-brand-cognac, #9E532B);
+    margin-bottom: 0.75rem;
+  }
+
+  .maintenance-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3.2vw, 2.15rem);
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: 0.015em;
+    color: var(--color-text-main, #181513);
+    margin: 0 0 1rem;
+  }
+
+  .maintenance-copy {
+    font-family: var(--font-body);
+    font-size: clamp(0.9rem, 1.25vw, 0.985rem);
+    color: var(--color-text-muted, #666059);
+    line-height: 1.7;
+    max-width: 460px;
+    margin: 0 auto clamp(1.75rem, 3vw, 2.25rem);
+  }
+
+  /* Form Styling */
+  .maintenance-form {
+    max-width: 380px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .maintenance-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .m-lock-icon {
+    position: absolute;
+    left: 1rem;
+    color: #A39B91;
+    pointer-events: none;
+    transition: color 180ms ease;
+  }
+
+  .maintenance-input {
+    width: 100%;
+    height: 52px;
+    padding: 0 2.75rem 0 2.85rem;
+    background-color: #FFFFFF;
+    border: 1.5px solid rgba(197, 160, 89, 0.45);
+    border-radius: var(--border-radius-sm, 4px);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    color: #181513;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    transition: all 180ms ease;
+  }
+
+  .maintenance-input:focus {
+    outline: none;
+    border-color: var(--color-brand-cognac, #9E532B);
+    box-shadow: 0 0 0 3px rgba(158, 83, 43, 0.12), 0 4px 14px rgba(0, 0, 0, 0.05);
+  }
+
+  .maintenance-input:focus + .m-toggle-btn,
+  .maintenance-input-wrap:focus-within .m-lock-icon {
+    color: var(--color-brand-cognac, #9E532B);
+  }
+
+  .m-toggle-btn {
+    position: absolute;
+    right: 0.75rem;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: #A39B91;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: color 180ms ease;
+  }
+
+  .m-toggle-btn:hover {
+    color: #181513;
+  }
+
+  .maintenance-error {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    color: #C0392B;
+    background: rgba(192, 57, 43, 0.07);
+    border: 1px solid rgba(192, 57, 43, 0.2);
+    border-radius: 4px;
+    padding: 0.45rem 0.75rem;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .input-error-shake {
+    animation: passkeyShake 400ms ease;
+    border-color: #C0392B !important;
+  }
+
+  @keyframes passkeyShake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-8px); }
+    40%, 80% { transform: translateX(8px); }
+  }
+
+  .maintenance-submit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    height: 50px;
+    width: 100%;
+    background: var(--color-brand-gradient, linear-gradient(135deg, #B85A28 0%, #9E4518 100%));
+    color: #FFFFFF;
+    border: none;
+    border-radius: var(--border-radius-sm, 4px);
+    font-family: var(--font-body);
+    font-size: 0.84375rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(158, 83, 43, 0.28);
+    transition: all 180ms ease;
+  }
+
+  .maintenance-submit-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px rgba(158, 83, 43, 0.38);
+    filter: brightness(1.05);
+  }
+
+  .maintenance-submit-btn:active {
+    transform: translateY(0);
+  }
+
+  /* Concierge WhatsApp Assist */
+  .maintenance-concierge-wrap {
+    margin-top: clamp(1.75rem, 3vw, 2.25rem);
+    padding-top: 1.35rem;
+    border-top: 1px solid rgba(197, 160, 89, 0.22);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .m-concierge-label {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    color: #8C847B;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .maintenance-wa-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-brand-cognac, #9E532B);
+    text-decoration: none;
+    transition: color 150ms ease, transform 150ms ease;
+  }
+
+  .maintenance-wa-link:hover {
+    color: #7A3918;
+    transform: translateY(-1px);
+  }
+
+  .maintenance-footer-note {
+    margin-top: 1.25rem;
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    color: #A39B91;
+    letter-spacing: 0.06em;
+  }
+
+  /* ==========================================================================
+     FLOATING CLIENT PREVIEW BADGE (Only in unlocked client mode)
+     ========================================================================== */
+  .maintenance-client-badge {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 99999;
+    display: none;
+  }
+
+  :global(html.maintenance-unlocked) .maintenance-client-badge {
+    display: block;
+  }
+
+  .client-badge-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    background: #181513;
+    color: #FFFFFF;
+    border: 1px solid rgba(197, 160, 89, 0.5);
+    border-radius: 999px;
+    padding: 0.45rem 0.85rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+  }
+
+  .client-badge-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: #2ECC71;
+    box-shadow: 0 0 8px #2ECC71;
+    flex-shrink: 0;
+  }
+
+  .client-badge-text {
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: #ECEAE5;
+  }
+
+  .client-relock-btn {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #FFFFFF;
+    border-radius: 999px;
+    padding: 0.2rem 0.6rem;
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: all 150ms ease;
+  }
+
+  .client-relock-btn:hover {
+    background: var(--color-brand-cognac, #9E532B);
+    border-color: var(--color-brand-cognac, #9E532B);
+  }
+
+  @media (max-width: 600px) {
+    .maintenance-client-badge {
+      bottom: 74px; /* avoid obscuring mobile bottom nav */
+      left: 12px;
+    }
+  }
+</style>
