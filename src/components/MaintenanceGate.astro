@@ -101,23 +101,6 @@ const passcode = maintenance.passcode;
           </button>
         </form>
 
-        <!-- Direct WhatsApp Concierge Shortcut -->
-        <div class="maintenance-concierge-wrap">
-          <span class="m-concierge-label">Require client assistance?</span>
-          <a
-            href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent('Hello LUMÈRA LUXE, I would like client access to the private boutique.')}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            class="maintenance-wa-link"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"></path>
-              <path d="M15.5 13.5v1.2a1.3 1.3 0 0 1-1.4 1.3 7.8 7.8 0 0 1-5.6-5.6 1.3 1.3 0 0 1 1.3-1.4h1.2a.9.9 0 0 1 .9.7l.3 1.2a.9.9 0 0 1-.3.9l-.6.6a5.5 5.5 0 0 0 2.6 2.6l.6-.6a.9.9 0 0 1 .9-.3l1.2.3a.9.9 0 0 1 .7.9z"></path>
-            </svg>
-            <span>Direct WhatsApp Concierge · Doha</span>
-          </a>
-        </div>
-
         <div class="maintenance-footer-note">
           <span>© {siteConfig.brandName} · State of Qatar</span>
         </div>
@@ -505,44 +488,10 @@ const passcode = maintenance.passcode;
     transform: translateY(0);
   }
 
-  /* Concierge WhatsApp Assist */
-  .maintenance-concierge-wrap {
-    margin-top: clamp(1.75rem, 3vw, 2.25rem);
-    padding-top: 1.35rem;
-    border-top: 1px solid rgba(197, 160, 89, 0.22);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .m-concierge-label {
-    font-family: var(--font-body);
-    font-size: 0.75rem;
-    color: #8C847B;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-
-  .maintenance-wa-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: var(--font-body);
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: var(--color-brand-cognac, #9E532B);
-    text-decoration: none;
-    transition: color 150ms ease, transform 150ms ease;
-  }
-
-  .maintenance-wa-link:hover {
-    color: #7A3918;
-    transform: translateY(-1px);
-  }
-
   .maintenance-footer-note {
-    margin-top: 1.25rem;
+    margin-top: 1.75rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid rgba(197, 160, 89, 0.22);
     font-family: var(--font-body);
     font-size: 0.6875rem;
     color: #A39B91;
@@ -619,3 +568,4 @@ const passcode = maintenance.passcode;
     }
   }
 </style>
+
