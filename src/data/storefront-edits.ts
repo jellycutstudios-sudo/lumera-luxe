@@ -9,25 +9,25 @@ export const occasions = [
   {
     id: 'everyday',
     title: 'Everyday & Office',
-    image: '/assets/brand/occasion-everyday.webp',
+    image: '/assets/brand/occasion-everyday-editorial.webp',
     slugs: ['dolce-and-gabbana-light-blue', 'boucheron-quatre-en-bleu', 'chanel-gabrielle', 'dior-joy']
   },
   {
     id: 'date-night',
     title: 'Date Night',
-    image: '/assets/brand/occasion-date-night.webp',
+    image: '/assets/brand/occasion-date-night-editorial.webp',
     slugs: ['carolina-herrera-good-girl', 'burberry-burberry-goddess', 'dolce-gabbana-devotion', 'tom-ford-velvet-orchid']
   },
   {
     id: 'majlis',
     title: 'Majlis & Evening',
-    image: '/assets/brand/occasion-majlis.webp',
+    image: '/assets/brand/occasion-majlis-editorial.webp',
     slugs: ['chopard-oud-malaki', 'chopard-black-incense-malaki', 'dolce-and-gabbana-velvet-desert-oud', 'tom-ford-black-orchid']
   },
   {
     id: 'gifting',
     title: 'Celebrations',
-    image: '/assets/brand/occasion-gifting.webp',
+    image: '/assets/brand/occasion-celebrations-editorial.webp',
     slugs: ['chanel-n-5', 'yves-saint-laurent-libre', 'parfums-de-marly-delina', 'dior-j-adore']
   }
 ];
