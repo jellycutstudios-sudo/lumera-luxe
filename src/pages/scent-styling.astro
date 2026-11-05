@@ -28,7 +28,7 @@ const roseGoldProducts = [
 ].map(slug => activeCatalog.find(p => p.slug === slug)).filter(Boolean);
 
 
-// Elemental Zodiac-Inspired Flacons
+// Elemental Zodiac-Inspired Bottles
 const elementalCollections = [
   {
     id: 'desert-fire',
@@ -190,9 +190,9 @@ const elementalCollections = [
                 </div>
                 <h3 class="element-title">{elem.essence}</h3>
                 <p class="element-desc">{elem.description}</p>
-                <div class="element-flacons-mini">
+                <div class="element-bottles-mini">
                   {prods.map((p: any) => (
-                    <a href={`/perfumes/${p.slug}/`} class="element-flacon-chip">
+                    <a href={`/perfumes/${p.slug}/`} class="element-bottle-chip">
                       <img src={p.image} alt={p.fullName} width="48" height="48" loading="lazy" decoding="async" />
                       <div class="element-chip-meta">
                         <span class="chip-brand">{p.brand}</span>
@@ -232,12 +232,12 @@ const elementalCollections = [
           </div>
           <div class="invitation-visual-side">
             <div class="duet-preview-stage">
-              <div class="duet-preview-flacon preview-base">
+              <div class="duet-preview-bottle preview-base">
                 <img src="/images/products/boucheron-ambre-d-alexandrie.webp" alt="Ambre d'Alexandrie" width="120" height="120" loading="lazy" decoding="async" />
                 <span class="preview-role">Foundation Base</span>
               </div>
               <span class="preview-plus">+</span>
-              <div class="duet-preview-flacon preview-veil">
+              <div class="duet-preview-bottle preview-veil">
                 <img src="/images/products/chopard-oud-malaki.webp" alt="Oud Malaki" width="120" height="120" loading="lazy" decoding="async" />
                 <span class="preview-role">Harmonizing Veil</span>
               </div>
@@ -600,7 +600,7 @@ const elementalCollections = [
     margin: 0 0 1.25rem;
   }
 
-  .element-flacons-mini {
+  .element-bottles-mini {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
@@ -609,7 +609,7 @@ const elementalCollections = [
     border-top: 1px solid #F3EFEA;
   }
 
-  .element-flacon-chip {
+  .element-bottle-chip {
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -620,7 +620,7 @@ const elementalCollections = [
     transition: background-color 150ms ease;
   }
 
-  .element-flacon-chip:hover {
+  .element-bottle-chip:hover {
     background-color: #F1ECE4;
   }
 
@@ -736,7 +736,7 @@ const elementalCollections = [
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
   }
 
-  .duet-preview-flacon {
+  .duet-preview-bottle {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -745,7 +745,7 @@ const elementalCollections = [
     min-width: 0;
   }
 
-  .duet-preview-flacon img {
+  .duet-preview-bottle img {
     width: 90px;
     height: 90px;
     object-fit: contain;

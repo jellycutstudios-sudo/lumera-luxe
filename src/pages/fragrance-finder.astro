@@ -28,16 +28,16 @@ const activeCatalog = productsData
 ---
 
 <BaseLayout
-  title="Find Your Signature Scent · Fragrance Consultation · LUMÈRA LUXE"
-  description="Experience a bespoke, personal fragrance consultation in Doha. Discover your signature luxury scent tailored to your style, atmosphere, and mood."
+  title="Find a Scent You Love · Perfume Quiz · LUMÈRA LUXE"
+  description="Answer four questions about the scents you like and get three perfume recommendations from LUMÈRA LUXE in Doha."
 >
   <main class="finder-page-wrapper">
     <!-- Header Consultation Banner -->
     <header class="finder-header">
       <div class="container finder-container">
-        <span class="finder-kicker">Maison Consultation · Doha</span>
-        <h1 class="finder-title">Find Your Signature Scent</h1>
-        <p class="finder-tagline">Your style. Your mood. Your signature fragrance.</p>
+        <span class="finder-kicker">Perfume Quiz · Doha</span>
+        <h1 class="finder-title">Find a Scent You Love</h1>
+        <p class="finder-tagline">Answer four quick questions to find perfumes that suit you.</p>
       </div>
     </header>
 
@@ -50,7 +50,7 @@ const activeCatalog = productsData
           <div class="consultation-progress-bar" id="consultation-progress-bar">
             <div class="progress-meta">
               <span class="step-label" id="step-label">Step 1 of 4</span>
-              <span class="step-kicker" id="step-kicker">Fragrance Family</span>
+              <span class="step-kicker" id="step-kicker">Scent Type</span>
             </div>
             <div class="progress-track" aria-hidden="true">
               <div class="progress-fill" id="progress-fill" style="width: 25%;"></div>
@@ -75,7 +75,7 @@ const activeCatalog = productsData
                       <p class="question-explainer">{q.explainer}</p>
                     </div>
                   )}
-                  <p class="question-prompt">Select the option that feels most natural to you:</p>
+                  <p class="question-prompt">Choose the answer that suits you best.</p>
 
                   <div class="options-grid" role="radiogroup" aria-labelledby={`title-${q.id}`}>
                     {q.options.map((opt) => (
@@ -134,14 +134,14 @@ const activeCatalog = productsData
           <!-- Personalized Results View (Hidden Initially) -->
           <div class="results-stage" id="results-stage" hidden>
             <div class="results-header">
-              <span class="results-kicker">✦ Bespoke Selection · Doha</span>
-              <h2 class="results-title">Your Signature Scent Wardrobe</h2>
+              <span class="results-kicker">✦ Quiz Results</span>
+              <h2 class="results-title">Your Perfume Matches</h2>
               
               <div class="persona-tag-strip">
-                <span class="persona-pill" id="persona-family-pill">Floral & Romantic</span>
+                <span class="persona-pill" id="persona-family-pill">Floral</span>
                 <span class="persona-pill" id="persona-longevity-pill">Long-lasting</span>
                 <span class="persona-pill" id="persona-sillage-pill">Subtle Scent Trail</span>
-                <span class="persona-pill" id="persona-occasion-pill">Everyday / Office</span>
+                <span class="persona-pill" id="persona-occasion-pill">Everyday or Work</span>
               </div>
             </div>
 
@@ -152,9 +152,9 @@ const activeCatalog = productsData
             <!-- Trio Bundle Quick Action Banner -->
             <div class="results-trio-banner" id="results-trio-banner">
               <div class="trio-banner-content">
-                <span class="trio-kicker">Curated 3-Flacon Alignment</span>
-                <h3 class="trio-title">Acquire All 3 Matched Flacons</h3>
-                <p class="trio-desc">Experience the complete tripartite wardrobe for day, evening, and celebratory occasions in Qatar.</p>
+                <span class="trio-kicker">Shop Your Matches</span>
+                <h3 class="trio-title">Your Three Recommended Perfumes</h3>
+                <p class="trio-desc">Add all three recommended perfumes to your bag at once.</p>
               </div>
               <button type="button" class="btn-add-all-trio" id="btn-add-all-trio">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -162,7 +162,7 @@ const activeCatalog = productsData
                   <line x1="3" y1="6" x2="21" y2="6"></line>
                   <path d="M16 10a4 4 0 0 1-8 0"></path>
                 </svg>
-                <span>Add Complete Trio to Bag</span>
+                <span>Add All Three to Bag</span>
               </button>
             </div>
 
@@ -172,25 +172,25 @@ const activeCatalog = productsData
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                   <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
                 </svg>
-                <span>Restart Consultation</span>
+                <span>Retake the Quiz</span>
               </button>
 
               <a href="/shop/" class="btn-view-all-shop">
-                <span>Browse Full Boutique Catalog ({activeCatalog.length} Fragrances)</span>
+                <span>Shop All Perfumes ({activeCatalog.length})</span>
               </a>
             </div>
 
             <!-- Personal WhatsApp Advice Banner -->
             <div class="results-concierge-card">
               <div class="concierge-text">
-                <span class="concierge-kicker">Personal Concierge · Doha</span>
-                <h3 class="concierge-heading">Desire a Personal Scent Fitting?</h3>
+                <span class="concierge-kicker">Perfume Help · Doha</span>
+                <h3 class="concierge-heading">Need help choosing a perfume?</h3>
                 <p class="concierge-copy">
-                  Our Doha fragrance specialist can assist you directly on WhatsApp with note decants, personalized flacon advice, or same-day doorstep dispatch in Qatar.
+                  Ask our Doha team on WhatsApp about perfume samples, recommendations, or same-day delivery in Qatar.
                 </p>
               </div>
               <a
-                href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent('Hello LUMÈRA LUXE, I completed your fragrance consultation and would love personalized guidance on selecting my flacon.')}`}
+                href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent('Hello LUMÈRA LUXE, I took your perfume quiz and would like help choosing a perfume.')}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 class="btn-concierge-whatsapp"
@@ -198,7 +198,7 @@ const activeCatalog = productsData
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
                   <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
                 </svg>
-                <span>Consult on WhatsApp</span>
+                <span>Chat on WhatsApp</span>
               </a>
             </div>
           </div>
@@ -237,10 +237,10 @@ const activeCatalog = productsData
   };
 
   const stepKickers: Record<string, string> = {
-    fragranceFamily: 'Fragrance Family',
-    longevity: 'Desired Longevity',
-    sillage: 'Scent Trail (Sillage)',
-    occasion: 'Occasion Suitability'
+    fragranceFamily: 'Scent Type',
+    longevity: 'How Long It Lasts',
+    sillage: 'Scent Strength',
+    occasion: 'When You’ll Wear It'
   };
 
   const questionsDeck = document.getElementById('questions-deck');
@@ -334,7 +334,7 @@ const activeCatalog = productsData
 
     // Update Next button label
     if (nextBtnText) {
-      nextBtnText.textContent = stepIndex === state.totalSteps - 1 ? 'Reveal My Scent' : 'Continue';
+      nextBtnText.textContent = stepIndex === state.totalSteps - 1 ? 'See My Matches' : 'Continue';
     }
 
     // Check if current question already has an answer
@@ -388,10 +388,10 @@ const activeCatalog = productsData
     const chosenSillage = state.answers.sillage as keyof typeof SILLAGE_DISPLAY_LABELS;
     const chosenOccasion = state.answers.occasion as keyof typeof OCCASION_DISPLAY_LABELS;
 
-    if (familyPill) familyPill.textContent = (chosenFamily && FAMILY_DISPLAY_LABELS[chosenFamily]) || 'Curated Discovery';
-    if (longevityPill) longevityPill.textContent = (chosenLongevity && LONGEVITY_DISPLAY_LABELS[chosenLongevity]) || 'Any Longevity';
-    if (sillagePill) sillagePill.textContent = (chosenSillage && SILLAGE_DISPLAY_LABELS[chosenSillage]) || 'Any Presence';
-    if (occasionPill) occasionPill.textContent = (chosenOccasion && OCCASION_DISPLAY_LABELS[chosenOccasion]) || 'Versatile / Any Occasion';
+    if (familyPill) familyPill.textContent = (chosenFamily && FAMILY_DISPLAY_LABELS[chosenFamily]) || 'Any Scent Type';
+    if (longevityPill) longevityPill.textContent = (chosenLongevity && LONGEVITY_DISPLAY_LABELS[chosenLongevity]) || 'Any Wear Time';
+    if (sillagePill) sillagePill.textContent = (chosenSillage && SILLAGE_DISPLAY_LABELS[chosenSillage]) || 'Any Scent Strength';
+    if (occasionPill) occasionPill.textContent = (chosenOccasion && OCCASION_DISPLAY_LABELS[chosenOccasion]) || 'Any Occasion';
 
     // Run Matcher Engine
     const catalog = (window as any).__LUMERA_CATALOG__ || [];
@@ -406,7 +406,7 @@ const activeCatalog = productsData
         woody_amber: 'woody'
       };
       const profile = {
-        persona: (chosenFamily && FAMILY_DISPLAY_LABELS[chosenFamily]) || 'Bespoke Scent',
+        persona: (chosenFamily && FAMILY_DISPLAY_LABELS[chosenFamily]) || 'Perfume Matches',
         category: (chosenFamily && familyCategoryMap[chosenFamily]) || 'floral',
         answers: state.answers,
         recommendedSlugs: recommendations.map((r) => r.product.slug),
@@ -417,9 +417,9 @@ const activeCatalog = productsData
 
     // Meta for cards
     const matchMeta = [
-      { percent: '98%', rank: 'Signature Pick', isTop: true },
-      { percent: '94%', rank: 'Harmonious Duet', isTop: false },
-      { percent: '91%', rank: 'Alternative Mood', isTop: false }
+      { percent: '98%', rank: 'Top Pick', isTop: true },
+      { percent: '94%', rank: 'Second Pick', isTop: false },
+      { percent: '91%', rank: 'Third Pick', isTop: false }
     ];
 
     // Render 3 Cards
@@ -433,7 +433,7 @@ const activeCatalog = productsData
           ? `<span class="card-sticker-price">${Math.round(product.stickerPriceMinor / 100)} QAR</span>`
           : '';
 
-        const meta = matchMeta[idx] || { percent: `${score}%`, rank: 'Curated Match', isTop: false };
+        const meta = matchMeta[idx] || { percent: `${score}%`, rank: 'Perfume Match', isTop: false };
 
         const familyName = FAMILY_DISPLAY_LABELS[metadata.primaryFamily] || product.category;
         const familyBadgeHtml = `<div class="result-family-row"><span class="family-badge">${familyName}</span></div>`;
@@ -441,13 +441,13 @@ const activeCatalog = productsData
         // Longevity and sillage ONLY when verified (never fabricated or displayed if unknown)
         const verifiedSpecsHtml = (metadata.verified && metadata.longevity !== 'unknown' && metadata.sillage !== 'unknown')
           ? `<div class="result-verified-specs">
-              <span class="verified-spec-pill" title="Verified longevity profile">
+              <span class="verified-spec-pill" title="Verified wear time">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                <span>Longevity: <strong>${LONGEVITY_DISPLAY_LABELS[metadata.longevity]}</strong></span>
+                <span>Wear time: <strong>${LONGEVITY_DISPLAY_LABELS[metadata.longevity]}</strong></span>
               </span>
-              <span class="verified-spec-pill" title="Verified sillage scent trail">
+              <span class="verified-spec-pill" title="Verified scent strength">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
-                <span>Sillage: <strong>${SILLAGE_DISPLAY_LABELS[metadata.sillage]}</strong></span>
+                <span>Scent strength: <strong>${SILLAGE_DISPLAY_LABELS[metadata.sillage]}</strong></span>
               </span>
             </div>`
           : '';
@@ -483,7 +483,7 @@ const activeCatalog = productsData
               </div>
               ${verifiedSpecsHtml}
               <div class="result-reason-card">
-                <span class="reason-header">Why This Was Chosen</span>
+                <span class="reason-header">Why It Matches</span>
                 <p class="reason-body">${reason}</p>
               </div>
               <div class="result-cta-group">

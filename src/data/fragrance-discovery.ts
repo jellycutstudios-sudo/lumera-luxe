@@ -47,51 +47,51 @@ export const QUIZ_QUESTIONS: QuizQuestion[] = [
   {
     id: 'fragranceFamily',
     number: 1,
-    title: 'Which fragrance family do you prefer?',
-    subtitle: 'Step 1 of 4 · Fragrance Family',
+    title: 'What kind of scent do you like?',
+    subtitle: 'Step 1 of 4 · Scent Type',
     options: [
-      { id: 'fresh', label: 'Fresh & Citrus', subtitle: 'Crisp bergamot, zesty lemon, sea breeze, and uplifting green botanicals' },
-      { id: 'floral', label: 'Floral & Romantic', subtitle: 'Grasse rose, luminous jasmine, delicate white petals, and powdery blossoms' },
-      { id: 'gourmand', label: 'Sweet & Gourmand', subtitle: 'Velvety Madagascar vanilla, warm roasted tonka, and golden praline' },
-      { id: 'woody_amber', label: 'Woody & Amber', subtitle: 'Royal agarwood oud, sacred frankincense, dark cedar, and amber warmth' }
+      { id: 'fresh', label: 'Fresh & Citrus', subtitle: 'Lemon, bergamot, sea air, and fresh green notes' },
+      { id: 'floral', label: 'Floral', subtitle: 'Rose, jasmine, and other soft floral notes' },
+      { id: 'gourmand', label: 'Sweet', subtitle: 'Vanilla, tonka bean, and praline' },
+      { id: 'woody_amber', label: 'Woody & Amber', subtitle: 'Oud, frankincense, cedar, and warm amber' }
     ]
   },
   {
     id: 'longevity',
     number: 2,
-    title: 'How long would you like your fragrance to last?',
-    subtitle: 'Step 2 of 4 · Desired Longevity',
+    title: 'How long should your perfume last?',
+    subtitle: 'Step 2 of 4 · How Long It Lasts',
     options: [
-      { id: 'light', label: 'Light (a few hours is fine)', subtitle: '2–4 hours of subtle, delicate refreshment' },
-      { id: 'moderate', label: 'Moderate', subtitle: '5–7 hours of graceful, balanced presence' },
-      { id: 'long_lasting', label: 'Long-lasting', subtitle: '8+ hours that endure from morning through evening' },
-      { id: 'no_preference', label: 'No preference', subtitle: 'Neutral — open to any lasting profile' }
+      { id: 'light', label: 'A few hours', subtitle: '2–4 hours' },
+      { id: 'moderate', label: 'Several hours', subtitle: '5–7 hours' },
+      { id: 'long_lasting', label: 'Long-lasting', subtitle: '8 hours or more' },
+      { id: 'no_preference', label: 'No preference', subtitle: 'Any wear time is fine' }
     ]
   },
   {
     id: 'sillage',
     number: 3,
-    title: 'How noticeable should your fragrance be?',
-    subtitle: 'Step 3 of 4 · Scent Trail (Sillage)',
-    explainer: 'Sillage (pronounced see-yahzh) refers to how far a fragrance’s scent travels in the air around you.',
+    title: 'How noticeable should your perfume be?',
+    subtitle: 'Step 3 of 4 · Scent Strength',
+    explainer: 'Think about how far you want the scent to reach.',
     options: [
-      { id: 'subtle', label: 'Subtle: stays close to the skin', subtitle: 'An intimate whisper noticed only in close embrace' },
-      { id: 'moderate', label: 'Moderate: noticeable nearby', subtitle: 'An inviting aura easily perceptible within arm’s length' },
-      { id: 'strong', label: 'Strong: leaves a noticeable scent trail', subtitle: 'A commanding presence that projects and lingers in the room' },
-      { id: 'no_preference', label: 'No preference', subtitle: 'Neutral — open to any projection level' }
+      { id: 'subtle', label: 'Subtle', subtitle: 'People notice it when they’re very close' },
+      { id: 'moderate', label: 'Moderate', subtitle: 'People nearby can smell it' },
+      { id: 'strong', label: 'Strong', subtitle: 'The scent carries and lingers in the room' },
+      { id: 'no_preference', label: 'No preference', subtitle: 'Any scent strength is fine' }
     ]
   },
   {
     id: 'occasion',
     number: 4,
     title: 'When will you mainly wear it?',
-    subtitle: 'Step 4 of 4 · Occasion Suitability',
+    subtitle: 'Step 4 of 4 · When You’ll Wear It',
     options: [
-      { id: 'everyday_office', label: 'Everyday / Office', subtitle: 'Polished, composed elegance for daily routines and workspace settings' },
-      { id: 'casual', label: 'Casual Outings', subtitle: 'Effortless chic for coffee dates, weekend brunches, and relaxed moments' },
-      { id: 'special_occasions', label: 'Special Occasions', subtitle: 'Regal gatherings, milestone celebrations, weddings, and banquets' },
-      { id: 'evening_events', label: 'Evening / Events', subtitle: 'Magnetic evening allure for fine dining, soirées, and night-time celebrations' },
-      { id: 'versatile', label: 'Versatile / Any Occasion', subtitle: 'An all-around signature flacon suited for any moment in Qatar' }
+      { id: 'everyday_office', label: 'Everyday or Work', subtitle: 'Daily routines and days at work' },
+      { id: 'casual', label: 'Casual Outings', subtitle: 'Coffee dates, brunch, and weekends' },
+      { id: 'special_occasions', label: 'Special Occasions', subtitle: 'Weddings and other celebrations' },
+      { id: 'evening_events', label: 'Evening Events', subtitle: 'Dinners, parties, and nights out' },
+      { id: 'versatile', label: 'Any Occasion', subtitle: 'A perfume you can wear anywhere' }
     ]
   }
 ];
@@ -235,5 +235,5 @@ export function generatePersonalizedIntro(answers: QuizAnswers): string {
   const occasionKey = answers.occasion || answers.lifestyle || 'versatile';
   const occasionText = occasionMap[occasionKey] || 'any refined occasion in Qatar';
 
-  return `Curated for ${occasionText}, your bespoke olfactory wardrobe embraces ${familyText}. Balanced with ${longevityText} and ${sillageText}, these flacons unfold seamlessly—crafted to feel enduring, intimate, and unmistakably yours in Qatar.`;
+  return `Curated for ${occasionText}, your bespoke olfactory wardrobe embraces ${familyText}. Balanced with ${longevityText} and ${sillageText}, these scents unfold seamlessly—crafted to feel enduring, intimate, and unmistakably yours in Qatar.`;
 }

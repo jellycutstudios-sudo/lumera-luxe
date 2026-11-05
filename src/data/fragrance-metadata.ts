@@ -30,31 +30,31 @@ export interface PerfumeMetadata {
  */
 export const FAMILY_DISPLAY_LABELS: Record<FragranceFamily, string> = {
   fresh: 'Fresh & Citrus',
-  floral: 'Floral & Romantic',
-  gourmand: 'Sweet & Gourmand',
+  floral: 'Floral',
+  gourmand: 'Sweet',
   woody_amber: 'Woody & Amber'
 };
 
 export const LONGEVITY_DISPLAY_LABELS: Record<LongevityRating, string> = {
-  light: 'Light (2–4 hrs)',
-  moderate: 'Moderate (5–7 hrs)',
+  light: 'A few hours (2–4 hrs)',
+  moderate: 'Several hours (5–7 hrs)',
   long_lasting: 'Long-lasting (8+ hrs)',
   unknown: 'Not Specified'
 };
 
 export const SILLAGE_DISPLAY_LABELS: Record<SillageRating, string> = {
-  subtle: 'Subtle (skin-close)',
+  subtle: 'Subtle (close to the skin)',
   moderate: 'Moderate (arm’s length)',
   strong: 'Strong (scent trail)',
   unknown: 'Not Specified'
 };
 
 export const OCCASION_DISPLAY_LABELS: Record<OccasionKey, string> = {
-  everyday_office: 'Everyday / Office',
+  everyday_office: 'Everyday or Work',
   casual: 'Casual Outings',
   special_occasions: 'Special Occasions',
-  evening_events: 'Evening / Events',
-  versatile: 'Versatile / Any Occasion'
+  evening_events: 'Evening Events',
+  versatile: 'Any Occasion'
 };
 
 /**

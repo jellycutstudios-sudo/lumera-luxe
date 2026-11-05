@@ -43,8 +43,8 @@
     * `lum_008` (Chanel Nᵒ5): Concentration notation (EDU vs EDP)
     * `lum_014` (Dolce & Gabbana The Only One): Volume verification
     * `lum_015` (Dolce & Gabbana Dolce Rose): Typo verification
-    * `lum_017` (Givenchy Dahlia Divin): Flacon size verification (100ml vs 75ml)
-    * `lum_022` (Lancôme IDOLE): Flacon size verification (100ml vs 75ml)
+    * `lum_017` (Givenchy Dahlia Divin): Bottle size verification (100ml vs 75ml)
+    * `lum_022` (Lancôme IDOLE): Bottle size verification (100ml vs 75ml)
     * `lum_023` (Lanvin Jenne Blossom): Spelling correction (Jeanne)
     * `lum_024` (Lalique Amethyst Eclat): Concentration confirmation
 - **Audit Result:** **PASS**. Approved catalog exceeds the 100-product target (117 live products) with zero fabricated or unverified items on public display.
@@ -55,7 +55,7 @@
   - `/privacy-policy` (and `/privacy` alias): Zero tracker architecture, client data protection, end-to-end encrypted WhatsApp communication disclosure.
   - `/returns-refunds`: 3-day return notification window, hygiene seal requirement for perfumes (unopened cellophane wrap), refund settlement procedures under Qatar Law No. 8 of 2008.
   - `/shipping-delivery`: Full nationwide coverage across Qatar (Doha, Lusail, The Pearl, Al Rayyan, Al Wakrah), 24–48h dispatch window, temperature-controlled transit, transparent courier fees.
-  - `/cancellation-policy`: Free cancellation prior to courier dispatch; procedure for custom gift packaging.
+  - `/cancellation-policy`: Free cancellation before courier dispatch and separate terms for corporate and bulk orders.
   - `/delivery-returns`: Preserved legacy combined route with cross-links to dedicated policy pages.
 - **Audit Result:** **PASS**. All 5 required standalone policies exist, return 200 OK, and are linked from the site footer and checkout flow.
 

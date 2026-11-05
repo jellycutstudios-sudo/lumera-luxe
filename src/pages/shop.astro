@@ -18,14 +18,14 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
 
 <BaseLayout
   title="Perfume Collection | LUMÈRA LUXE Qatar"
-  description="Explore our curated collection of verified designer and niche fragrances. Authentic concentrates, fair pricing, and personal concierge service in Qatar."
+  description="Shop authentic designer and niche perfumes in Qatar. Message us on WhatsApp for help choosing."
 >
   <div class="shop-page">
     <!-- Editorial Luxury Header -->
     <header class="shop-header">
       <div class="container">
         <p class="shop-eyebrow">The collection</p>
-        <h1 class="shop-title">Women’s Fragrances</h1>
+        <h1 class="shop-title">Women’s Perfumes</h1>
         <p class="shop-description">Discover authentic designer and niche perfumes.</p>
       </div>
     </header>
@@ -43,8 +43,8 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
             type="search"
             id="catalogue-search"
             class="search-input"
-            placeholder="Find a scent"
-            aria-label="Search fragrances"
+            placeholder="Search perfumes"
+            aria-label="Search perfumes"
             autocomplete="off"
           />
           <button type="button" id="search-clear-btn" class="search-clear-btn" aria-label="Clear search" style="display: none;">
@@ -105,7 +105,7 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
 
       <div class="catalog-browse">
         <nav class="family-pills-bar" aria-label="Filter by scent family">
-          <button type="button" class="family-pill is-active" data-family="">All Fragrances</button>
+          <button type="button" class="family-pill is-active" data-family="">All Perfumes</button>
           <button type="button" class="family-pill" data-family="floral">Floral & Rose</button>
           <button type="button" class="family-pill" data-family="oriental">Amber & Oriental</button>
           <button type="button" class="family-pill" data-family="woody">Woody & Earthy</button>
@@ -114,7 +114,7 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
 
         <div class="catalog-status-bar">
           <span id="results-count" class="results-count" aria-live="polite">
-            <strong>{publicProducts.length}</strong> fragrances
+            <strong>{publicProducts.length}</strong> perfumes
           </span>
           <div class="mobile-sort-wrap">
             <label for="mobile-sort-select" class="sr-only">Sort By</label>
@@ -150,8 +150,8 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
             <line x1="8" y1="11" x2="14" y2="11"></line>
           </svg>
         </div>
-        <h3 class="zero-title">No fragrances match your selection</h3>
-        <p class="zero-subtitle">Try adjusting your keywords or clearing active filters.</p>
+        <h3 class="zero-title">No perfumes found</h3>
+        <p class="zero-subtitle">Try a different search or clear your filters.</p>
         <button id="reset-zero-btn" class="btn btn-primary btn-sm">Clear All Filters</button>
       </div>
     </div>
@@ -164,7 +164,7 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
 
       <div class="drawer-header">
         <div class="drawer-header-text">
-          <h3 id="drawer-title" class="drawer-title">Filter Fragrances</h3>
+          <h3 id="drawer-title" class="drawer-title">Filter Perfumes</h3>
           <span class="drawer-subtitle" id="drawer-subtitle">{publicProducts.length} available</span>
         </div>
         <button type="button" id="close-filter-drawer-btn" class="drawer-close-btn" aria-label="Close filters">
@@ -211,7 +211,7 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
             <span class="drawer-section-selected" id="drawer-selected-family">All Fragrances</span>
           </div>
           <div class="drawer-chips-grid">
-            <button type="button" class="drawer-chip is-active" data-drawer-family="">All Fragrances</button>
+            <button type="button" class="drawer-chip is-active" data-drawer-family="">All Perfumes</button>
             <button type="button" class="drawer-chip" data-drawer-family="floral">Floral & Rose</button>
             <button type="button" class="drawer-chip" data-drawer-family="oriental">Amber & Oriental</button>
             <button type="button" class="drawer-chip" data-drawer-family="woody">Woody & Earthy</button>
@@ -1276,7 +1276,7 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
   }
 
   function filterAndSortProducts() {
-    if (shopTitle) shopTitle.textContent = activeEdit?.title ?? 'Women’s Fragrances';
+    if (shopTitle) shopTitle.textContent = activeEdit?.title ?? 'Women’s Perfumes';
     const q = searchInput?.value.trim().toLowerCase() || '';
     const selectedBrand = brandSelect?.value || '';
     const selectedPrice = priceSelect?.value || 'all';
@@ -1410,7 +1410,7 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
 
     // Update results count
     if (countEl) {
-      countEl.innerHTML = `<strong>${visibleCount}</strong> fragrance${visibleCount === 1 ? '' : 's'}`;
+      countEl.innerHTML = `<strong>${visibleCount}</strong> perfume${visibleCount === 1 ? '' : 's'}`;
     }
 
     if (drawerCountBadge) {

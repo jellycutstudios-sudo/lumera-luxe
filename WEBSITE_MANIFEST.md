@@ -52,7 +52,7 @@
 │
 ├── public/                          # Static public web assets
 │   ├── assets/
-│   │   ├── products/                # 175+ optimized 600x600 .webp fragrance flacon photos
+│   │   ├── products/                # 175+ optimized 600x600 .webp fragrance bottle photos
 │   │   └── editorial/               # Hero & story high-fashion banners
 │   ├── downloads/                   # Publicly downloadable CSV and XLSX catalogs
 │   ├── favicon.svg                  # Brand favicon
@@ -205,7 +205,7 @@ window.dispatchEvent(new CustomEvent('favorites-updated', { detail: { favorites,
        ├──► Header.astro: updates wishlist badge count
        ├──► MobileBottomNav.astro: updates wishlist count
        ├──► ProductCard.astro: updates heart icon fill state
-       └──► WishlistDrawer.astro: re-renders saved flacons
+       └──► WishlistDrawer.astro: re-renders saved bottles
 ```
 
 ---
@@ -337,7 +337,7 @@ python3 scripts/generate_catalog_exports.py
   - Deterministic 4-vector scoring: Family (40%), Longevity Distance (25%), Sillage Distance (25%), Occasion (10%).
   - Category similarity matrix and neutral handling of "no preference".
   - Verified local metadata structure (`src/data/fragrance-metadata.ts`) with zero fabricated performance claims.
-  - Generates bespoke match reasons and top 3 recommended flacons with brand diversity.
+  - Generates bespoke match reasons and top 3 recommended bottles with brand diversity.
 
 ### Curated Scent Duets (The Art of Layering on PDP)
 A dedicated luxury ritual section appearing on 20 participating Product Detail Pages (10 reciprocal pairs).
@@ -357,8 +357,8 @@ A dedicated luxury ritual section appearing on 20 participating Product Detail P
 - **Single-Click Cart Addition**:
   - The Layering Card features an *"Add Both to Bag · {duetPriceTotal} QAR"* button.
   - Attributes `data-action="add-duet-to-bag"`, `data-id-1`, and `data-id-2`.
-  - Atomically appends both flacons to `localStorage['lumera_bag_v1']`.
-  - Triggers toast *"Added Scent Duet (2 flacons) to bag"*, updates header counter badge, and automatically slides open `BagDrawer` so customers immediately see both curated flacons in their bag.
+  - Atomically appends both bottles to `localStorage['lumera_bag_v1']`.
+  - Triggers toast *"Added Scent Duet (2 bottles) to bag"*, updates header counter badge, and automatically slides open `BagDrawer` so customers immediately see both curated bottles in their bag.
 
 ---
 

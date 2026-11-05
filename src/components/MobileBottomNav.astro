@@ -130,7 +130,7 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
 
           <div class="sheet-footer">
             <a href="/shop/" class="btn-sheet-primary">
-              <span>View All Fragrances ({totalFragrances})</span>
+              <span>View All Perfumes ({totalFragrances})</span>
             </a>
             <a href="/#scent-families" id="sheet-view-showcase" class="link-sheet-subtle">
               <span>View Editorial Showcase on Homepage</span>
@@ -185,10 +185,10 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
               </div>
               <div class="discovery-item-text">
                 <div class="discovery-item-headline">
-                  <span class="discovery-item-name">Fragrance Finder</span>
+                  <span class="discovery-item-name">Find Your Perfume</span>
                   <span class="discovery-item-badge quiz-pill">Quiz</span>
                 </div>
-                <p class="discovery-item-desc">4-question bespoke consultation to pinpoint your signature flacon</p>
+                <p class="discovery-item-desc">Answer four questions to find a scent you love</p>
               </div>
               <svg class="discovery-item-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
                 <polyline points="9 18 15 12 9 6"></polyline>
@@ -313,7 +313,6 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
                 <button type="button" class="topic-chip is-selected" data-topic="Fragrance Advice">Fragrance Advice</button>
                 <button type="button" class="topic-chip" data-topic="Order & Delivery">Order & Delivery</button>
                 <button type="button" class="topic-chip" data-topic="Perfume Stock">Perfume Stock</button>
-                <button type="button" class="topic-chip" data-topic="Luxury Gifting">Luxury Gifting</button>
               </div>
             </div>
 
@@ -376,7 +375,13 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
       </aside>
 
       <!-- 4. MOBILE BOTTOM NAVIGATION BAR -->
-      <nav class:list={['mobile-bottom-nav', { 'hide-on-pdp': isPdp }]} aria-label="Mobile Navigation">
+      <nav
+        class:list={['mobile-bottom-nav', { 'hide-on-pdp': isPdp }]}
+        aria-label="Mobile Navigation"
+        transition:name="mobile-bottom-nav"
+        transition:animate="none"
+        transition:persist
+      >
         <div class="bottom-nav-container">
           <!-- Tab 1: Home -->
           <a
@@ -396,7 +401,7 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
             <span class="bottom-nav-label">Home</span>
           </a>
 
-          <!-- Tab 2: Fragrances Collection (Perfume Flacon Line Icon) -->
+          <!-- Tab 2: Fragrances Collection (Perfume Bottle Line Icon) -->
           <a
             href="/shop/"
             class:list={['bottom-nav-item', { active: currentPath.startsWith('/shop') }]}
@@ -642,6 +647,10 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
     transform: translateY(0);
     visibility: visible;
     pointer-events: auto;
+  }
+
+  .nav-bottom-sheet.is-switching {
+    transition: none;
   }
 
   .nav-panel {
@@ -1234,142 +1243,91 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
   // Active selected inquiry topic
   var currentSupportTopic = 'Fragrance Advice';
 
-  // Global modal state functions
-  window.openDiscoveryModal = function () {
-    if (typeof window.closeMobileDrawer === 'function') window.closeMobileDrawer();
-    if (typeof window.closeSearchModal === 'function') window.closeSearchModal();
-    window.closeFamiliesModal();
-    window.closeSupportModal();
-    var modal = document.getElementById('discovery-modal');
-    var backdrop = document.getElementById('nav-modal-backdrop');
-    var discBtn = document.getElementById('bottom-nav-discovery-btn');
-    if (modal) modal.classList.add('is-open');
-    if (backdrop) backdrop.classList.add('is-open');
-    discBtn?.setAttribute('aria-expanded', 'true');
+  var panelTriggerIds = {
+    'discovery-modal': 'bottom-nav-discovery-btn',
+    'families-modal': 'bottom-nav-families-btn',
+    'support-modal': 'bottom-nav-support-btn'
+  };
+
+  function dismissNavPanel(panel, restoreFocus) {
+    var trigger = document.getElementById(panelTriggerIds[panel.id]);
+    var hadFocus = restoreFocus && panel.contains(document.activeElement);
+    panel.classList.remove('is-open', 'is-switching');
+    trigger?.setAttribute('aria-expanded', 'false');
+    if (hadFocus) {
+      var focusTarget = trigger || document.getElementById('bottom-nav-discovery-btn');
+      focusTarget?.focus({ preventScroll: true });
+    }
+  }
+
+  function releaseNavBackdrop() {
+    document.getElementById('nav-modal-backdrop')?.classList.remove('is-open');
+    var otherModal = document.querySelector(
+      '#bag-drawer:not([hidden]), #search-modal:not([hidden]), #mobile-nav-drawer:not([hidden]), #wishlist-drawer.is-open'
+    );
+    if (!otherModal) document.body.style.overflow = '';
+  }
+
+  function openNavPanel(id) {
+    var panel = document.getElementById(id);
+    if (!panel || panel.classList.contains('is-open')) return;
+
+    window.closeMobileDrawer?.();
+    window.closeSearchModal?.();
+
+    var currentPanel = document.querySelector('.nav-bottom-sheet.is-open');
+    // Keep the backdrop in place and show the next panel at its final position.
+    panel.classList.toggle('is-switching', Boolean(currentPanel));
+    panel.classList.add('is-open');
+    if (currentPanel) dismissNavPanel(currentPanel, false);
+
+    document.getElementById('nav-modal-backdrop')?.classList.add('is-open');
+    document.getElementById(panelTriggerIds[id])?.setAttribute('aria-expanded', 'true');
     document.body.style.overflow = 'hidden';
-    modal?.querySelector('.sheet-close-btn')?.focus({ preventScroll: true });
-  };
+    panel.querySelector('.sheet-close-btn')?.focus({ preventScroll: true });
+  }
 
-  window.closeDiscoveryModal = function () {
-    var modal = document.getElementById('discovery-modal');
-    var backdrop = document.getElementById('nav-modal-backdrop');
-    var discBtn = document.getElementById('bottom-nav-discovery-btn');
-    var restoreFocus = modal?.contains(document.activeElement);
-    if (modal) modal.classList.remove('is-open');
-    if (discBtn) {
-      discBtn.setAttribute('aria-expanded', 'false');
-      if (restoreFocus) discBtn.focus({ preventScroll: true });
-    }
-    if (!document.getElementById('families-modal')?.classList.contains('is-open') &&
-        !document.getElementById('support-modal')?.classList.contains('is-open')) {
-      if (backdrop) backdrop.classList.remove('is-open');
-      document.body.style.overflow = '';
-    }
-  };
+  function closeNavPanel(id) {
+    var panel = document.getElementById(id);
+    if (!panel?.classList.contains('is-open')) return;
+    dismissNavPanel(panel, true);
+    if (!document.querySelector('.nav-bottom-sheet.is-open')) releaseNavBackdrop();
+  }
 
-  window.toggleDiscoveryModal = function (e) {
-    if (e && e.preventDefault) e.preventDefault();
-    var modal = document.getElementById('discovery-modal');
-    if (modal && modal.classList.contains('is-open')) {
-      window.closeDiscoveryModal();
+  function toggleNavPanel(id) {
+    if (document.getElementById(id)?.classList.contains('is-open')) {
+      closeNavPanel(id);
     } else {
-      window.openDiscoveryModal();
+      openNavPanel(id);
     }
+  }
+
+  window.openDiscoveryModal = () => openNavPanel('discovery-modal');
+  window.closeDiscoveryModal = () => closeNavPanel('discovery-modal');
+  window.toggleDiscoveryModal = (event) => {
+    event?.preventDefault();
+    toggleNavPanel('discovery-modal');
   };
 
-  window.openFamiliesModal = function () {
-    if (typeof window.closeMobileDrawer === 'function') window.closeMobileDrawer();
-    if (typeof window.closeSearchModal === 'function') window.closeSearchModal();
-    window.closeDiscoveryModal();
-    window.closeSupportModal();
-    var modal = document.getElementById('families-modal');
-    var backdrop = document.getElementById('nav-modal-backdrop');
-    var famBtn = document.getElementById('bottom-nav-families-btn');
-    if (modal) modal.classList.add('is-open');
-    if (backdrop) backdrop.classList.add('is-open');
-    famBtn?.setAttribute('aria-expanded', 'true');
-    document.body.style.overflow = 'hidden';
-    modal?.querySelector('.sheet-close-btn')?.focus({ preventScroll: true });
+  window.openFamiliesModal = () => openNavPanel('families-modal');
+  window.closeFamiliesModal = () => closeNavPanel('families-modal');
+  window.toggleFamiliesModal = (event) => {
+    event?.preventDefault();
+    toggleNavPanel('families-modal');
   };
 
-  window.closeFamiliesModal = function () {
-    var modal = document.getElementById('families-modal');
-    var backdrop = document.getElementById('nav-modal-backdrop');
-    var famBtn = document.getElementById('bottom-nav-families-btn');
-    var restoreFocus = modal?.contains(document.activeElement);
-    if (modal) modal.classList.remove('is-open');
-    if (famBtn) {
-      famBtn.setAttribute('aria-expanded', 'false');
-      if (restoreFocus) famBtn.focus({ preventScroll: true });
-    }
-    if (!document.getElementById('discovery-modal')?.classList.contains('is-open') &&
-        !document.getElementById('support-modal')?.classList.contains('is-open')) {
-      if (backdrop) backdrop.classList.remove('is-open');
-      document.body.style.overflow = '';
-    }
-  };
-
-  window.toggleFamiliesModal = function (e) {
-    if (e && e.preventDefault) e.preventDefault();
-    var modal = document.getElementById('families-modal');
-    if (modal && modal.classList.contains('is-open')) {
-      window.closeFamiliesModal();
-    } else {
-      window.openFamiliesModal();
-    }
-  };
-
-  window.openSupportModal = function () {
-    if (typeof window.closeMobileDrawer === 'function') window.closeMobileDrawer();
-    if (typeof window.closeSearchModal === 'function') window.closeSearchModal();
-    window.closeDiscoveryModal();
-    window.closeFamiliesModal();
-    var modal = document.getElementById('support-modal');
-    var backdrop = document.getElementById('nav-modal-backdrop');
-    var supBtn = document.getElementById('bottom-nav-support-btn');
-    if (modal) modal.classList.add('is-open');
-    if (backdrop) backdrop.classList.add('is-open');
-    if (supBtn) supBtn.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  };
-
-  window.closeSupportModal = function () {
-    var modal = document.getElementById('support-modal');
-    var backdrop = document.getElementById('nav-modal-backdrop');
-    var supBtn = document.getElementById('bottom-nav-support-btn');
-    if (modal) modal.classList.remove('is-open');
-    if (supBtn) supBtn.classList.remove('active');
-    if (!document.getElementById('families-modal')?.classList.contains('is-open') &&
-        !document.getElementById('discovery-modal')?.classList.contains('is-open')) {
-      if (backdrop) backdrop.classList.remove('is-open');
-      document.body.style.overflow = '';
-    }
-  };
-
-  window.toggleSupportModal = function (e) {
-    if (e && e.preventDefault) e.preventDefault();
-    var modal = document.getElementById('support-modal');
-    if (modal && modal.classList.contains('is-open')) {
-      window.closeSupportModal();
-    } else {
-      window.openSupportModal();
-    }
+  window.openSupportModal = () => openNavPanel('support-modal');
+  window.closeSupportModal = () => closeNavPanel('support-modal');
+  window.toggleSupportModal = (event) => {
+    event?.preventDefault();
+    toggleNavPanel('support-modal');
   };
 
   window.closeAllNavModals = function () {
-    window.closeDiscoveryModal();
-    window.closeFamiliesModal();
-    window.closeSupportModal();
-    var backdrop = document.getElementById('nav-modal-backdrop');
-    if (backdrop) backdrop.classList.remove('is-open');
-    var isOtherModalOpen =
-      (document.getElementById('bag-drawer') && !document.getElementById('bag-drawer').hidden) ||
-      (document.getElementById('search-modal') && !document.getElementById('search-modal').hidden) ||
-      (document.getElementById('mobile-nav-drawer') && !document.getElementById('mobile-nav-drawer').hidden) ||
-      (document.getElementById('wishlist-drawer') && document.getElementById('wishlist-drawer').classList.contains('is-open'));
-    if (!isOtherModalOpen) {
-      document.body.style.overflow = '';
-    }
+    var panels = document.querySelectorAll('.nav-bottom-sheet.is-open');
+    if (!panels.length) return;
+    panels.forEach((panel) => dismissNavPanel(panel, true));
+    releaseNavBackdrop();
   };
 
   // Compile formatted WhatsApp message from support form
@@ -1454,7 +1412,6 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
     // 5. Trigger Concierge from Discovery Sheet
     if (target.closest('#discovery-concierge-trigger')) {
       e.preventDefault();
-      window.closeDiscoveryModal();
       window.openSupportModal();
       return;
     }
@@ -1525,8 +1482,8 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
   });
 
   // Support inquiry form submission
-  var supForm = document.getElementById('support-inquiry-form');
-  supForm?.addEventListener('submit', function (e) {
+  document.addEventListener('submit', function (e) {
+    if (e.target.id !== 'support-inquiry-form') return;
     e.preventDefault();
     if (typeof window.sendSupportToWhatsApp === 'function') {
       window.sendSupportToWhatsApp();
@@ -1575,7 +1532,7 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
     }
   }, { passive: true });
 
-  // Smooth App View Transition Tab Synchronizer
+  // Update the persistent bar before Astro captures the incoming page.
   function syncBottomNavTab() {
     var path = window.location.pathname;
     var homeLink = document.getElementById('bottom-nav-home-link');
@@ -1601,14 +1558,12 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
 
     if (discBtn) discBtn.classList.toggle('active', isDiscovery);
 
-    // Check PDP and checkout states
+    // The checkout page has no bottom bar.
     var navBar = document.querySelector('.mobile-bottom-nav');
     if (navBar) {
-      var isCheckout = path.startsWith('/checkout');
       var isPdp = path.startsWith('/perfumes/');
       navBar.classList.toggle('hide-on-pdp', isPdp);
       navBar.classList.remove('is-scroll-hidden');
-      navBar.style.display = isCheckout ? 'none' : '';
       navScrollAnchor = Math.max(0, window.scrollY);
     }
   }
@@ -1619,12 +1574,7 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
   } else {
     syncBottomNavTab();
   }
-  document.addEventListener('astro:page-load', function () {
-    syncBottomNavTab();
-    if (typeof window.closeAllNavModals === 'function') {
-      window.closeAllNavModals();
-    }
-  });
+  document.addEventListener('astro:after-swap', syncBottomNavTab);
   document.addEventListener('astro:before-preparation', function () {
     if (typeof window.closeAllNavModals === 'function') {
       window.closeAllNavModals();

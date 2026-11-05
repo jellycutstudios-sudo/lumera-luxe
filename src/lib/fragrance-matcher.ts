@@ -156,21 +156,21 @@ export function generateRecommendationReason(
 
   // 1. Olfactory character
   const familyDescs: Record<FragranceFamily, string> = {
-    floral: 'floral character',
-    fresh: 'fresh citrus character',
-    gourmand: 'sweet gourmand character',
-    woody_amber: 'woody and amber character'
+    floral: 'floral scent',
+    fresh: 'fresh citrus scent',
+    gourmand: 'sweet scent',
+    woody_amber: 'woody amber scent'
   };
-  segments.push(familyDescs[meta.primaryFamily] || `${product.category} character`);
+  segments.push(familyDescs[meta.primaryFamily] || `${product.category} scent`);
 
   // 2. Longevity profile (only when verified)
   if (meta.verified && meta.longevity !== 'unknown') {
     if (meta.longevity === 'long_lasting') {
-      segments.push('long-lasting profile');
+      segments.push('long wear time');
     } else if (meta.longevity === 'moderate') {
-      segments.push('moderate, balanced wear');
+      segments.push('medium wear time');
     } else if (meta.longevity === 'light') {
-      segments.push('light, refreshing wear');
+      segments.push('short wear time');
     }
   }
 
@@ -179,14 +179,14 @@ export function generateRecommendationReason(
     if (meta.sillage === 'subtle') {
       segments.push('subtle scent trail');
     } else if (meta.sillage === 'moderate') {
-      segments.push('moderate, inviting aura');
+      segments.push('moderate scent trail');
     } else if (meta.sillage === 'strong') {
-      segments.push('radiant scent trail');
+      segments.push('strong scent trail');
     }
   }
 
   // Construct sentence matching example format:
-  // "Selected for its floral character, long-lasting profile, and subtle scent trail."
+  // "Selected for its floral scent, long wear time, and subtle scent trail."
   let sentence = '';
   if (segments.length === 1) {
     sentence = `Selected for its ${segments[0]}.`;
@@ -199,7 +199,7 @@ export function generateRecommendationReason(
   // Accented by prominent notes from product data
   if (product.keyNotes && product.keyNotes.length > 0) {
     const notes = product.keyNotes.slice(0, 3).join(', ');
-    sentence += ` Prominently featuring notes of ${notes}.`;
+    sentence += ` Key notes include ${notes}.`;
   }
 
   return sentence;

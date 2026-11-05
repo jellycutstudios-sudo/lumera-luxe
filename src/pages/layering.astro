@@ -36,7 +36,7 @@ const filterCounts = {
 };
 
 const title = "The Art of Layering · 10 Curated Scent Duets | LUMÈRA LUXE";
-const description = "Master the French haute parfumerie ritual of fragrance layering. Explore 10 curated two-flacon scent duets with single-click pairing in Qatar.";
+const description = "Master the French haute parfumerie ritual of fragrance layering. Explore 10 curated scent duets, each with two bottles with single-click pairing in Qatar.";
 ---
 
 <BaseLayout title={title} description={description}>
@@ -94,7 +94,7 @@ const description = "Master the French haute parfumerie ritual of fragrance laye
               <div class="duet-card-header">
                 <div class="duet-badge-group">
                   <span class="duet-index-tag">Ritual #{idx + 1}</span>
-                  <span class="duet-pair-count">2 Flacons</span>
+                  <span class="duet-pair-count">2 Bottles</span>
                 </div>
                 <div class="duet-price-display">
                   <span class="duet-price-value">{total} QAR</span>
@@ -105,15 +105,15 @@ const description = "Master the French haute parfumerie ritual of fragrance laye
               <h2 class="duet-title">{pair.title}</h2>
               <p class="duet-story">{pair.description}</p>
 
-              <!-- Two Flacons Visual Formula -->
+              <!-- Two Bottles Visual Formula -->
               <div class="duet-stage">
-                <!-- Base Flacon -->
-                <a href={`/perfumes/${base.slug}/`} class="duet-flacon-unit" aria-label={`View Base: ${base.brand} ${base.name}`}>
-                  <div class="flacon-role-badge base-badge">
+                <!-- Base Bottle -->
+                <a href={`/perfumes/${base.slug}/`} class="duet-bottle-unit" aria-label={`View Base: ${base.brand} ${base.name}`}>
+                  <div class="bottle-role-badge base-badge">
                     <span class="role-num">1</span>
                     <span class="role-text">Base Layer</span>
                   </div>
-                  <div class="flacon-thumb-box">
+                  <div class="bottle-thumb-box">
                     <img
                       src={base.image}
                       alt={`${base.brand} ${base.name}`}
@@ -121,14 +121,14 @@ const description = "Master the French haute parfumerie ritual of fragrance laye
                       height="160"
                       loading="lazy"
                       decoding="async"
-                      class="flacon-img"
+                      class="bottle-img"
                     />
                   </div>
-                  <div class="flacon-meta">
-                    <span class="flacon-brand">{base.brand}</span>
-                    <h3 class="flacon-name">{base.name}</h3>
-                    <span class="flacon-specs">{base.concentration} · {base.sizeDisplay}</span>
-                    <span class="flacon-price">{base.priceDisplay}</span>
+                  <div class="bottle-meta">
+                    <span class="bottle-brand">{base.brand}</span>
+                    <h3 class="bottle-name">{base.name}</h3>
+                    <span class="bottle-specs">{base.concentration} · {base.sizeDisplay}</span>
+                    <span class="bottle-price">{base.priceDisplay}</span>
                   </div>
                 </a>
 
@@ -138,13 +138,13 @@ const description = "Master the French haute parfumerie ritual of fragrance laye
                   <span class="connector-label">Layer</span>
                 </div>
 
-                <!-- Top Veil Flacon -->
-                <a href={`/perfumes/${top.slug}/`} class="duet-flacon-unit" aria-label={`View Veil: ${top.brand} ${top.name}`}>
-                  <div class="flacon-role-badge top-badge">
+                <!-- Top Veil Bottle -->
+                <a href={`/perfumes/${top.slug}/`} class="duet-bottle-unit" aria-label={`View Veil: ${top.brand} ${top.name}`}>
+                  <div class="bottle-role-badge top-badge">
                     <span class="role-num">2</span>
                     <span class="role-text">Top Veil</span>
                   </div>
-                  <div class="flacon-thumb-box">
+                  <div class="bottle-thumb-box">
                     <img
                       src={top.image}
                       alt={`${top.brand} ${top.name}`}
@@ -152,14 +152,14 @@ const description = "Master the French haute parfumerie ritual of fragrance laye
                       height="160"
                       loading="lazy"
                       decoding="async"
-                      class="flacon-img"
+                      class="bottle-img"
                     />
                   </div>
-                  <div class="flacon-meta">
-                    <span class="flacon-brand">{top.brand}</span>
-                    <h3 class="flacon-name">{top.name}</h3>
-                    <span class="flacon-specs">{top.concentration} · {top.sizeDisplay}</span>
-                    <span class="flacon-price">{top.priceDisplay}</span>
+                  <div class="bottle-meta">
+                    <span class="bottle-brand">{top.brand}</span>
+                    <h3 class="bottle-name">{top.name}</h3>
+                    <span class="bottle-specs">{top.concentration} · {top.sizeDisplay}</span>
+                    <span class="bottle-price">{top.priceDisplay}</span>
                   </div>
                 </a>
               </div>
@@ -523,7 +523,7 @@ const description = "Master the French haute parfumerie ritual of fragrance laye
     margin: 0 0 1rem;
   }
 
-  /* Two Flacons Visual Formula */
+  /* Two Bottles Visual Formula */
   .duet-stage {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
@@ -536,7 +536,7 @@ const description = "Master the French haute parfumerie ritual of fragrance laye
     margin-bottom: 0.85rem;
   }
 
-  .duet-flacon-unit {
+  .duet-bottle-unit {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -547,11 +547,11 @@ const description = "Master the French haute parfumerie ritual of fragrance laye
     transition: transform 180ms ease;
   }
 
-  .duet-flacon-unit:hover {
+  .duet-bottle-unit:hover {
     transform: translateY(-2px);
   }
 
-  .flacon-role-badge {
+  .bottle-role-badge {
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
@@ -600,7 +600,7 @@ const description = "Master the French haute parfumerie ritual of fragrance laye
     color: var(--color-brand-cognac, #9E532B);
   }
 
-  .flacon-thumb-box {
+  .bottle-thumb-box {
     width: 100%;
     height: 115px;
     display: flex;
@@ -613,7 +613,7 @@ const description = "Master the French haute parfumerie ritual of fragrance laye
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
   }
 
-  .flacon-img {
+  .bottle-img {
     max-height: 100%;
     max-width: 100%;
     width: auto;
@@ -622,18 +622,18 @@ const description = "Master the French haute parfumerie ritual of fragrance laye
     transition: transform 220ms ease;
   }
 
-  .duet-flacon-unit:hover .flacon-img {
+  .duet-bottle-unit:hover .bottle-img {
     transform: scale(1.06);
   }
 
-  .flacon-meta {
+  .bottle-meta {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
   }
 
-  .flacon-brand {
+  .bottle-brand {
     font-size: .875rem;
     font-weight: 600;
     letter-spacing: 0.08em;
@@ -642,7 +642,7 @@ const description = "Master the French haute parfumerie ritual of fragrance laye
     margin-bottom: 0.15rem;
   }
 
-  .flacon-name {
+  .bottle-name {
     font-family: var(--font-body);
     font-size: 1rem;
     font-weight: 600;
@@ -653,13 +653,13 @@ const description = "Master the French haute parfumerie ritual of fragrance laye
     text-align: center;
   }
 
-  .flacon-specs {
+  .bottle-specs {
     font-size: .875rem;
     color: var(--color-text-light);
     margin-bottom: 0.2rem;
   }
 
-  .flacon-price {
+  .bottle-price {
     font-size: 1rem;
     font-weight: 700;
     color: #1A1715;
@@ -782,7 +782,7 @@ const description = "Master the French haute parfumerie ritual of fragrance laye
     color: #FFFFFF;
   }
 
-  .link-view-flacon {
+  .link-view-bottle {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -801,7 +801,7 @@ const description = "Master the French haute parfumerie ritual of fragrance laye
     transition: all 180ms ease;
   }
 
-  .link-view-flacon:hover {
+  .link-view-bottle:hover {
     background: #FAF8F5;
     border-color: #1A1715;
     color: #1A1715;

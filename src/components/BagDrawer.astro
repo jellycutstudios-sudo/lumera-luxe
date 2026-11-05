@@ -95,19 +95,19 @@
   </div>
 </aside>
 
-<!-- Haute Parfumerie "Added to Bag" Notification -->
-<div class="toast-notification luxury-toast" id="toast-notify" role="dialog" aria-modal="false" aria-label="Item added to shopping bag" hidden>
+<div class="sr-only" id="toast-announcement" role="status"></div>
+<div class="toast-notification" id="toast-notify" role="region" aria-label="Shopping bag update" hidden>
   <div class="toast-header-bar">
     <div class="toast-status">
       <span class="toast-check-icon" aria-hidden="true">
-        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="20 6 9 17 4 12"></polyline>
         </svg>
       </span>
-      <span class="toast-status-kicker" id="toast-kicker">Added to Your Bag</span>
+      <span class="toast-status-text" id="toast-kicker">Added to your bag</span>
     </div>
     <button type="button" class="toast-close-btn" id="toast-close-btn" aria-label="Dismiss notification" data-action="dismiss-toast">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <line x1="18" y1="6" x2="6" y2="18"></line>
         <line x1="6" y1="6" x2="18" y2="18"></line>
       </svg>
@@ -115,37 +115,31 @@
   </div>
 
   <div class="toast-body" id="toast-product-body">
-    <div class="toast-thumb-wrap" id="toast-thumb-wrap">
-      <img src="" alt="" class="toast-thumb-img" id="toast-img" width="46" height="58" loading="lazy" />
+    <div class="toast-thumb-wrap" id="toast-thumb-wrap" hidden>
+      <img alt="" class="toast-thumb-img" id="toast-img" width="58" height="58" decoding="async" />
     </div>
     <div class="toast-meta">
       <span class="toast-brand" id="toast-brand"></span>
-      <div class="toast-name-row">
-        <span class="toast-name" id="toast-name">Added to bag</span>
-      </div>
+      <span class="toast-name" id="toast-name"></span>
       <div class="toast-details-row">
         <span class="toast-size" id="toast-size"></span>
-        <span class="toast-dot" id="toast-dot">·</span>
+        <span class="toast-dot" id="toast-dot" aria-hidden="true">·</span>
         <span class="toast-price" id="toast-price"></span>
       </div>
     </div>
   </div>
 
-  <div class="toast-actions">
+  <div class="toast-actions" id="toast-actions">
     <button type="button" class="toast-btn-view" id="toast-view-btn" data-action="open-bag">
-      <span>VIEW BAG</span>
-      <span class="toast-count-pill" id="toast-bag-count"></span>
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <line x1="5" y1="12" x2="19" y2="12"></line>
-        <polyline points="12 5 19 12 12 19"></polyline>
-      </svg>
+      <span>View bag</span>
+      <span class="toast-count-pill" id="toast-bag-count" aria-hidden="true"></span>
     </button>
     <a href="/checkout/" class="toast-btn-checkout" id="toast-checkout-btn">
-      <span>CHECKOUT</span>
+      Checkout
     </a>
   </div>
 
-  <div class="toast-progress-track">
+  <div class="toast-progress-track" aria-hidden="true">
     <div class="toast-progress-bar" id="toast-progress-bar"></div>
   </div>
 </div>
@@ -744,293 +738,245 @@
     color: #FFFFFF;
   }
 
-  /* ==========================================================
-     PREMIUM LUXURY "ADDED TO BAG" NOTIFICATION CARD
-     ========================================================== */
+  /* Shopping bag notification */
   .toast-notification {
+    --toast-gold: #e9ca93;
+    --toast-text: #fff8ee;
+    --toast-muted: #d9c7b9;
+
     position: fixed;
     z-index: 1200;
-    background: #181513;
-    color: #FFFFFF;
-    border: 1px solid rgba(197, 160, 89, 0.35);
-    border-radius: 4px;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.06);
+    inset: auto max(1.5rem, env(safe-area-inset-right, 0px))
+      max(1.5rem, env(safe-area-inset-bottom, 0px)) auto;
+    width: min(23rem, calc(100% - 3rem));
+    padding: 0.75rem 1rem 1rem;
+    display: grid;
+    gap: 0.75rem;
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    animation: toastSlideUp 320ms cubic-bezier(0.16, 1, 0.3, 1);
-    transition: opacity 220ms ease, transform 220ms ease;
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
+    background: #211914;
+    color: var(--toast-text);
+    border: 1px solid #5b4737;
+    border-radius: 1rem;
+    box-shadow: 0 12px 32px rgb(33 25 20 / 28%);
+    animation: toastSlideUp 240ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .toast-notification.is-hiding {
-    opacity: 0;
-    transform: translateY(12px) scale(0.97);
-    pointer-events: none;
-  }
-
-  /* Desktop layout: bottom right luxury card */
-  @media (min-width: 769px) {
+  @media (max-width: 767px) {
     .toast-notification {
-      bottom: 2rem;
-      right: 2rem;
-      width: 380px;
-      max-width: calc(100vw - 3rem);
-    }
-  }
-
-  /* Mobile layout: centered & floating cleanly above mobile bottom nav / PDP sticky bar */
-  @media (max-width: 768px) {
-    .toast-notification {
-      left: 1rem;
-      right: 1rem;
-      margin: 0 auto;
-      max-width: 420px;
-      bottom: calc(72px + env(safe-area-inset-bottom, 10px));
+      inset-inline: max(0.75rem, env(safe-area-inset-left, 0px))
+        max(0.75rem, env(safe-area-inset-right, 0px));
+      bottom: calc(5.25rem + env(safe-area-inset-bottom, 0px));
+      width: auto;
+      max-width: 23rem;
+      margin-inline: auto;
     }
   }
 
   @keyframes toastSlideUp {
     from {
       opacity: 0;
-      transform: translateY(24px) scale(0.96);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
+      transform: translateY(0.5rem);
     }
   }
 
-  /* Header Bar */
-  .toast-header-bar {
+  .toast-header-bar,
+  .toast-status {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 0.65rem 0.95rem 0.55rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    background: rgba(255, 255, 255, 0.02);
   }
 
-  .toast-status {
-    display: inline-flex;
-    align-items: center;
+  .toast-header-bar {
+    justify-content: space-between;
     gap: 0.5rem;
   }
 
-  .toast-check-icon {
-    width: 17px;
-    height: 17px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #E6C875 0%, #C5A059 100%);
-    color: #181513;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    box-shadow: 0 2px 6px rgba(197, 160, 89, 0.4);
+  .toast-status {
+    gap: 0.625rem;
   }
 
-  .toast-status-kicker {
-    font-family: var(--font-body);
-    font-size: 0.75rem;
+  .toast-status-text {
+    font-size: 0.9375rem;
     font-weight: 700;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: #E6C875;
+    line-height: 1.3;
+  }
+
+  .toast-check-icon,
+  .toast-close-btn {
+    display: grid;
+    place-items: center;
+    flex: none;
+    border-radius: 50%;
+  }
+
+  .toast-check-icon {
+    width: 1.75rem;
+    height: 1.75rem;
+    background: #49382b;
+    color: var(--toast-gold);
   }
 
   .toast-close-btn {
-    width: 28px;
-    height: 28px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-    border: none;
-    color: #9C968F;
-    cursor: pointer;
-    border-radius: 50%;
-    transition: color 0.2s ease, background-color 0.2s ease;
+    width: 44px;
+    height: 44px;
+    margin-block: -0.25rem;
+    margin-inline-end: -0.375rem;
     padding: 0;
-    touch-action: manipulation;
+    background: transparent;
+    color: var(--toast-muted);
+    border: 0;
+    cursor: pointer;
   }
 
   .toast-close-btn:hover {
-    color: #FFFFFF;
-    background: rgba(255, 255, 255, 0.1);
+    color: var(--toast-text);
+    background: #392b23;
   }
 
-  /* Product Body */
   .toast-body {
     display: flex;
     align-items: center;
-    gap: 0.85rem;
-    padding: 0.85rem 0.95rem;
+    gap: 0.75rem;
+    padding: 0.625rem;
+    border: 1px solid #49372b;
+    border-radius: 0.75rem;
+    background: #2d221b;
   }
 
   .toast-thumb-wrap {
-    width: 48px;
-    height: 60px;
-    background-color: #FFFFFF;
-    border-radius: 3px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.25rem;
-    flex-shrink: 0;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    width: 3.625rem;
+    height: 3.625rem;
+    flex: none;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    background: #fff;
   }
 
   .toast-thumb-img {
-    max-width: 100%;
-    max-height: 100%;
-    width: auto;
-    height: auto;
+    display: block;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
   }
 
   .toast-meta {
-    flex: 1;
+    display: grid;
     min-width: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
+    gap: 0.1875rem;
+    line-height: 1.3;
   }
 
   .toast-brand {
-    font-size: 0.72rem;
-    font-weight: 700;
+    color: var(--toast-gold);
+    font-size: 0.6875rem;
+    font-weight: 650;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    letter-spacing: 0.15em;
-    color: #C5A059;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
-  .toast-name-row {
-    font-family: var(--font-display);
-    font-size: 1rem;
-    font-weight: 500;
-    letter-spacing: 0.02em;
-    color: #FAF8F5;
-    white-space: nowrap;
+  .toast-name {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
     overflow: hidden;
-    text-overflow: ellipsis;
-    line-height: 1.25;
+    font-size: 1rem;
+    font-weight: 650;
   }
 
   .toast-details-row {
     display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: .875rem;
-    color: #B3ADA6;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.125rem 0.375rem;
+    color: var(--toast-muted);
+    font-size: 0.8125rem;
   }
 
   .toast-price {
     font-weight: 700;
-    color: #FFFFFF;
-  }
-
-  .toast-dot {
-    color: #6C665F;
-  }
-
-  /* Actions */
-  .toast-actions {
-    display: flex;
-    align-items: stretch;
-    gap: 0.5rem;
-    padding: 0 0.95rem 0.85rem;
-  }
-
-  .toast-btn-view {
-    flex: 1;
-    height: 42px;
-    background: linear-gradient(135deg, #D4AF37 0%, #B8860B 100%);
-    color: #141210;
-    border: none;
-    border-radius: 2px;
-    font-family: var(--font-body);
-    font-size: .875rem;
-    font-weight: 700;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.45rem;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(184, 134, 11, 0.3);
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .toast-btn-view:hover {
-    background: linear-gradient(135deg, #E6C875 0%, #C5A059 100%);
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(184, 134, 11, 0.4);
-  }
-
-  .toast-btn-view:active {
-    transform: scale(0.97);
-  }
-
-  .toast-count-pill {
-    font-size: 0.7rem;
-    font-weight: 700;
-    opacity: 0.9;
-  }
-
-  .toast-btn-checkout {
-    height: 42px;
-    padding: 0 1rem;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.16);
-    border-radius: 2px;
-    color: #FAF8F5;
-    text-decoration: none;
-    font-family: var(--font-body);
-    font-size: .875rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
+    color: var(--toast-text);
     white-space: nowrap;
   }
 
+  .toast-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 0.5rem;
+  }
+
+  .toast-btn-view,
+  .toast-btn-checkout {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.375rem;
+    min-height: 44px;
+    padding: 0.375rem 0.5rem;
+    border: 1px solid transparent;
+    border-radius: 0.625rem;
+    font: 700 0.875rem/1.2 var(--font-body);
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    touch-action: manipulation;
+    transition: background-color 160ms ease;
+  }
+
+  .toast-btn-view {
+    background: var(--toast-gold);
+    color: #211914;
+  }
+
+  .toast-btn-view:hover {
+    background: #f7dcb0;
+  }
+
+  .toast-count-pill {
+    flex: none;
+    min-width: 1.375rem;
+    padding: 0.1875rem 0.25rem;
+    border-radius: 1rem;
+    background: rgb(33 25 20 / 12%);
+    font-size: 0.6875rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .toast-btn-checkout {
+    border-color: #705b49;
+    background: #31251d;
+    color: var(--toast-text);
+  }
+
   .toast-btn-checkout:hover {
-    background: rgba(255, 255, 255, 0.18);
-    color: #FFFFFF;
-    border-color: rgba(255, 255, 255, 0.3);
+    background: #47362a;
+    color: var(--toast-text);
   }
 
-  .toast-btn-checkout:active {
-    transform: scale(0.97);
+  .toast-notification :focus-visible {
+    outline: 2px solid var(--toast-gold);
+    outline-offset: 2px;
   }
 
-  /* Progress Track */
   .toast-progress-track {
-    width: 100%;
+    position: absolute;
+    inset: auto 0 0;
     height: 2px;
-    background: rgba(255, 255, 255, 0.08);
-    overflow: hidden;
+    background: #392b23;
   }
 
   .toast-progress-bar {
     height: 100%;
-    width: 100%;
-    background: linear-gradient(90deg, #C5A059, #E6C875);
+    background: #bb975f;
     transform-origin: left;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .toast-notification {
+      animation: none;
+    }
+
+    .toast-progress-track {
+      visibility: hidden;
+    }
   }
 
   /* Global feedback styles for Add-to-Bag buttons across the site */
@@ -1224,13 +1170,7 @@
   function openBag() {
     hideToast();
 
-    // Close any conflicting mobile sheets
-    const familiesModal = document.getElementById('families-modal');
-    if (familiesModal) familiesModal.classList.remove('is-open');
-    const discoveryModal = document.getElementById('discovery-modal');
-    if (discoveryModal) discoveryModal.classList.remove('is-open');
-    const navBackdrop = document.getElementById('nav-modal-backdrop');
-    if (navBackdrop) navBackdrop.classList.remove('is-open');
+    (window as Window & { closeAllNavModals?: () => void }).closeAllNavModals?.();
 
     const backdrop = document.getElementById('bag-backdrop');
     const drawer = document.getElementById('bag-drawer');
@@ -1268,8 +1208,10 @@
     // Open Bag trigger (from header, toast, or buttons)
     if (target.closest('#open-bag-btn, .bag-trigger, #toast-view-btn, .toast-btn-view, [data-action="open-bag"]')) {
       e.preventDefault();
-      hideToast();
       openBag();
+      if (target.closest('#toast-view-btn')) {
+        document.getElementById('bag-close-btn')?.focus({ preventScroll: true });
+      }
       return;
     }
 
@@ -1293,8 +1235,12 @@
   });
 
   window.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape' || e.defaultPrevented) return;
+    const toast = document.getElementById('toast-notify');
     const drawer = document.getElementById('bag-drawer');
-    if (e.key === 'Escape' && drawer && !drawer.hidden) {
+    if (toast && !toast.hidden) {
+      hideToast();
+    } else if (drawer && !drawer.hidden) {
       closeBag();
     }
   });
@@ -1328,7 +1274,7 @@
       }
       saveCartItems(items);
 
-      // Extract item metadata for rich luxury toast notification
+      // Use the details on the add button, with the catalog as a fallback.
       let pName = target.getAttribute('data-name') || '';
       let pBrand = target.getAttribute('data-brand') || '';
       let pSize = target.getAttribute('data-size') || target.getAttribute('data-concentration') || '';
@@ -1349,13 +1295,13 @@
       }
 
       showToast({
-        kicker: 'Added to Your Bag',
+        kicker: 'Added to your bag',
         name: pName,
         brand: pBrand,
         size: pSize,
         price: pPrice,
         image: pImage
-      });
+      }, target);
 
       // Tactile button response on PDP and cards
       const btnLabel = target.querySelector('.btn-text, span:not(.sr-only), span');
@@ -1402,12 +1348,10 @@
         });
         saveCartItems(items);
         showToast({
-          kicker: 'Scent Duet Added to Bag',
-          name: 'Curated 2-Flacon Fragrance Duet',
-          brand: 'Lumèra Luxe Curation',
-          size: 'Layering Pairing',
-          price: ''
-        });
+          kicker: 'Perfume pair added to your bag',
+          name: 'Two-Bottle Fragrance Set',
+          brand: 'LUMÈRA LUXE'
+        }, target);
 
         // Tactile button response
         const btnText = target.querySelector('.btn-duet-text') || target.querySelector('span');
@@ -1430,7 +1374,7 @@
           setTimeout(() => headerCount.classList.remove('bump'), 300);
         }
 
-        // Open bag drawer so customer immediately views both flacons
+        // Open bag drawer so customer immediately views both bottles
         setTimeout(() => {
           openBag();
         }, 350);
@@ -1462,29 +1406,30 @@
       let items = getCartItems();
       items = items.filter(it => it.id !== id);
       saveCartItems(items);
-      showToast({ kicker: 'Removed from bag' });
+      showToast({ kicker: 'Removed from your bag' }, target);
     }
   });
 
-  // Premium Toast Notification Logic
   interface ToastOptions {
-    message?: string;
-    kicker?: string;
+    kicker: string;
     brand?: string;
     name?: string;
     size?: string;
-    price?: string | number;
+    price?: string;
     image?: string;
   }
 
-  let toastTimer: number;
+  let toastCountdown: Animation | undefined;
+  let toastEvents: AbortController | undefined;
+  let toastTrigger: HTMLElement | undefined;
 
-  function showToast(opt: string | ToastOptions) {
+  function showToast({ kicker, brand, name, size, price, image }: ToastOptions, trigger: Element) {
     const toast = document.getElementById('toast-notify');
-    if (!toast) return;
+    const progressBar = document.getElementById('toast-progress-bar');
+    if (!toast || !progressBar) return;
 
-    const isObj = typeof opt === 'object';
     const kickerEl = document.getElementById('toast-kicker');
+    const announcement = document.getElementById('toast-announcement');
     const brandEl = document.getElementById('toast-brand');
     const nameEl = document.getElementById('toast-name');
     const sizeEl = document.getElementById('toast-size');
@@ -1493,70 +1438,89 @@
     const imgEl = document.getElementById('toast-img') as HTMLImageElement | null;
     const thumbWrap = document.getElementById('toast-thumb-wrap');
     const productBody = document.getElementById('toast-product-body');
+    const actions = document.getElementById('toast-actions');
+    const viewButton = document.getElementById('toast-view-btn');
     const countEl = document.getElementById('toast-bag-count');
 
     const totalCount = getCartItems().reduce((sum, it) => sum + (it.quantity || 1), 0);
-    if (countEl) countEl.textContent = totalCount > 0 ? `(${totalCount})` : '';
+    const itemCount = `${totalCount} item${totalCount === 1 ? '' : 's'}`;
+    if (countEl) countEl.textContent = String(totalCount);
+    viewButton?.setAttribute('aria-label', `View bag, ${itemCount}`);
+    if (actions) actions.hidden = totalCount === 0;
 
-    if (isObj && (opt.name || opt.brand)) {
-      if (kickerEl) kickerEl.textContent = opt.kicker || 'Added to Your Bag';
-      if (brandEl) {
-        brandEl.textContent = opt.brand || '';
-        brandEl.style.display = opt.brand ? 'block' : 'none';
-      }
-      if (nameEl) nameEl.textContent = opt.name || 'Selected Fragrance';
-      if (sizeEl) sizeEl.textContent = opt.size || '';
-      if (priceEl) priceEl.textContent = opt.price ? String(opt.price) : '';
-      if (dotEl) dotEl.style.display = (opt.size && opt.price) ? 'inline' : 'none';
-
-      if (imgEl && thumbWrap) {
-        if (opt.image) {
-          imgEl.src = opt.image;
-          imgEl.alt = opt.name || 'Product';
-          thumbWrap.style.display = 'flex';
-        } else {
-          thumbWrap.style.display = 'none';
-        }
-      }
-      if (productBody) productBody.style.display = 'flex';
-    } else {
-      const msg = typeof opt === 'string' ? opt : (opt.message || opt.kicker || 'Updated bag');
-      if (kickerEl) kickerEl.textContent = msg;
-      if (brandEl) brandEl.style.display = 'none';
-      if (nameEl) nameEl.textContent = '';
-      if (sizeEl) sizeEl.textContent = '';
-      if (priceEl) priceEl.textContent = '';
-      if (dotEl) dotEl.style.display = 'none';
-      if (productBody) productBody.style.display = 'none';
+    if (kickerEl) kickerEl.textContent = kicker;
+    if (brandEl) {
+      brandEl.textContent = brand || '';
+      brandEl.hidden = !brand;
     }
+    if (nameEl) nameEl.textContent = name || 'Selected perfume';
+    if (sizeEl) {
+      sizeEl.textContent = size || '';
+      sizeEl.hidden = !size;
+    }
+    if (priceEl) {
+      priceEl.textContent = price || '';
+      priceEl.hidden = !price;
+    }
+    if (dotEl) dotEl.hidden = !size || !price;
+    if (imgEl && image && imgEl.getAttribute('src') !== image) imgEl.src = image;
+    if (thumbWrap) thumbWrap.hidden = !image;
+    if (productBody) productBody.hidden = !(name || brand || image);
+    if (announcement) announcement.textContent = [kicker, name, itemCount].filter(Boolean).join('. ');
 
+    toastTrigger = trigger instanceof HTMLElement ? trigger : undefined;
     toast.hidden = false;
-    toast.classList.remove('is-hiding');
+    toastCountdown?.cancel();
+    toastEvents?.abort();
+    toastEvents = new AbortController();
+    const { signal } = toastEvents;
+    const countdown = progressBar.animate(
+      [{ transform: 'scaleX(1)' }, { transform: 'scaleX(0)' }],
+      { duration: 6000, fill: 'forwards' }
+    );
+    toastCountdown = countdown;
+    countdown.onfinish = () => {
+      if (toastCountdown === countdown) hideToast();
+    };
 
-    const progressBar = document.getElementById('toast-progress-bar');
-    if (progressBar) {
-      progressBar.style.transition = 'none';
-      progressBar.style.width = '100%';
-      void progressBar.offsetWidth;
-      progressBar.style.transition = 'width 4800ms linear';
-      progressBar.style.width = '0%';
+    let hovered = window.matchMedia('(hover: hover)').matches && toast.matches(':hover');
+    function syncCountdown() {
+      if (toastCountdown !== countdown) return;
+      if (hovered || toast?.contains(document.activeElement)) {
+        countdown.pause();
+      } else {
+        countdown.play();
+      }
     }
 
-    window.clearTimeout(toastTimer);
-    toastTimer = window.setTimeout(() => {
-      hideToast();
-    }, 5000);
+    toast.addEventListener('pointerenter', (event) => {
+      if (event.pointerType === 'touch') return;
+      hovered = true;
+      syncCountdown();
+    }, { signal });
+    toast.addEventListener('pointerleave', (event) => {
+      if (event.pointerType === 'touch') return;
+      hovered = false;
+      syncCountdown();
+    }, { signal });
+    toast.addEventListener('focusin', syncCountdown, { signal });
+    toast.addEventListener('focusout', () => queueMicrotask(syncCountdown), { signal });
+    syncCountdown();
   }
 
   function hideToast() {
+    const countdown = toastCountdown;
+    toastCountdown = undefined;
+    countdown?.cancel();
+    toastEvents?.abort();
+    toastEvents = undefined;
+
     const toast = document.getElementById('toast-notify');
     if (!toast || toast.hidden) return;
-    toast.classList.add('is-hiding');
-    window.clearTimeout(toastTimer);
-    setTimeout(() => {
-      toast.hidden = true;
-      toast.classList.remove('is-hiding');
-    }, 220);
+    const restoreFocus = toast.contains(document.activeElement);
+    toast.hidden = true;
+    if (restoreFocus && toastTrigger?.isConnected) toastTrigger.focus({ preventScroll: true });
+    toastTrigger = undefined;
   }
 
   // Initial load sync
