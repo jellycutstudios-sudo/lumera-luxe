@@ -68,27 +68,21 @@ import { siteConfig } from '../data/site';
 
     <!-- Main Footer Columns -->
     <div class="footer-layout">
-      <!-- Left: Iconic Brand Wordmark & Copyright -->
+      <!-- Left: Brand wordmark -->
       <div class="footer-brand-side">
         <a href="/" class="footer-wordmark-link" aria-label="LUMÈRA LUXE">
           <img
             src="/assets/lumera-logo.svg"
             alt="LUMÈRA LUXE"
             class="footer-logo-minimal"
-            width="180"
-            height="32"
+            width="344"
+            height="52"
             loading="lazy"
             decoding="async"
           />
         </a>
         <p class="footer-tagline">
           Haute Parfumerie · Authentic Fragrances in Qatar.
-        </p>
-        <p class="footer-legal-copy">
-          &copy; {new Date().getFullYear()} {siteConfig.legalEntityName} · C.R. #{siteConfig.commercialRegistrationNumber} · Doha, State of Qatar.
-        </p>
-        <p class="footer-registration-note">
-          Licensed under the Ministry of Commerce & Industry (State of Qatar). Assisted concierge order confirmation via WhatsApp.
         </p>
       </div>
 
@@ -143,22 +137,34 @@ import { siteConfig } from '../data/site';
         </div>
       </div>
     </div>
+
+    <div class="footer-meta">
+      <p class="footer-legal-copy">
+        &copy; {new Date().getFullYear()} {siteConfig.legalEntityName} · C.R. #{siteConfig.commercialRegistrationNumber} · Doha, State of Qatar.
+      </p>
+      <p class="footer-registration-note">
+        Licensed under the Ministry of Commerce & Industry (State of Qatar). Assisted concierge order confirmation via WhatsApp.
+      </p>
+    </div>
   </div>
 </footer>
 
 <style>
   .site-footer {
-    background-color: #FFFFFF;
-    border-top: 1px solid var(--color-border);
+    --footer-ink: #fff8ef;
+    --footer-muted: #f1ded1;
+    --footer-line: rgb(255 237 221 / 24%);
+    background-color: #602719;
+    background-image: linear-gradient(112deg, #853620, #602719 46%, #361a14);
+    color: var(--footer-ink);
+    border-top: 1px solid #b57153;
     padding-top: clamp(1.75rem, 3.5vw, 2.75rem);
     padding-bottom: clamp(2.5rem, 4vw, 3.75rem);
     margin-top: auto;
   }
 
-  @media (max-width: 767px) {
-    .site-footer {
-      padding-bottom: calc(clamp(2.5rem, 4vw, 3.75rem) + 64px);
-    }
+  .site-footer a:focus-visible {
+    outline-color: var(--footer-ink);
   }
 
   /* Guarantees bar */
@@ -168,7 +174,7 @@ import { siteConfig } from '../data/site';
     gap: 1.25rem clamp(1rem, 2vw, 2rem);
     padding-bottom: clamp(1.75rem, 3vw, 2.5rem);
     margin-bottom: clamp(1.75rem, 3vw, 2.5rem);
-    border-bottom: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--footer-line);
   }
 
   @media (min-width: 560px) {
@@ -193,12 +199,12 @@ import { siteConfig } from '../data/site';
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background-color: #FAF9F6;
-    border: 1px solid #ECEAE5;
+    background-color: rgb(255 237 221 / 8%);
+    border: 1px solid var(--footer-line);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--color-accent);
+    color: #ffdfbd;
     flex-shrink: 0;
   }
 
@@ -209,31 +215,28 @@ import { siteConfig } from '../data/site';
   }
 
   .guarantee-title {
-    font-size: clamp(0.8125rem, 1.2vw, 0.875rem);
+    font-size: .9375rem;
     font-weight: 700;
     letter-spacing: 0.05em;
     text-transform: uppercase;
-    color: var(--color-text-main);
+    color: var(--footer-ink);
   }
 
   .guarantee-sub {
-    font-size: clamp(0.75rem, 1.1vw, 0.8125rem);
-    color: var(--color-text-muted);
+    font-size: .9375rem;
+    color: var(--footer-muted);
     line-height: 1.35;
   }
 
   .footer-layout {
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
+    display: grid;
+    gap: clamp(1.75rem, 4vw, 3.5rem);
   }
 
   @media (min-width: 860px) {
     .footer-layout {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 4rem;
+      grid-template-columns: minmax(0, .85fr) minmax(0, 1.75fr);
+      gap: clamp(2rem, 6vw, 6rem);
     }
   }
 
@@ -242,56 +245,65 @@ import { siteConfig } from '../data/site';
     flex-direction: column;
   }
 
+  .footer-wordmark-link {
+    align-self: flex-start;
+    margin-bottom: .9rem;
+  }
+
   .footer-logo-minimal {
-    height: 30px;
-    width: auto;
-    margin-bottom: 1rem;
+    width: clamp(11.5rem, 16vw, 15rem);
+    height: auto;
+    filter: brightness(0) invert(1);
+    opacity: .96;
   }
 
   .footer-tagline {
-    font-size: clamp(0.84rem, 1.2vw, 0.9rem);
-    color: var(--color-text-muted);
-    margin-bottom: 1rem;
+    font-size: 1rem;
+    color: var(--footer-muted);
+    max-width: 38ch;
   }
 
-  .footer-legal-copy {
-    font-size: clamp(0.72rem, 1vw, 0.76rem);
-    letter-spacing: 0.05em;
-    color: var(--color-text-light);
-    text-transform: uppercase;
-    margin-bottom: 0.5rem;
-    line-height: 1.45;
+  .footer-meta {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: .6rem 2rem;
+    margin-top: clamp(1.75rem, 3.5vw, 3rem);
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--footer-line);
+  }
+
+  .footer-legal-copy,
+  .footer-registration-note {
+    font-size: .875rem;
+    color: var(--footer-muted);
+    line-height: 1.5;
   }
 
   .footer-registration-note {
-    font-size: clamp(0.75rem, 1vw, 0.8125rem);
-    line-height: 1.5;
-    color: var(--color-text-muted);
-    max-width: 340px;
-    margin: 0;
+    max-width: 54ch;
   }
 
   .footer-links-columns {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2.5rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.75rem clamp(1rem, 3vw, 3rem);
   }
 
   @media (min-width: 640px) {
     .footer-links-columns {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 3.5rem;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 
   .col-title {
     font-family: var(--font-body);
-    font-size: clamp(0.75rem, 1.1vw, 0.8125rem);
+    font-size: .875rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.12em;
-    color: var(--color-text-main);
-    margin-bottom: 1.25rem;
+    color: var(--footer-ink);
+    margin-bottom: .9rem;
   }
 
   .col-list {
@@ -302,30 +314,40 @@ import { siteConfig } from '../data/site';
   }
 
   .col-list a {
-    font-size: clamp(0.78125rem, 1.1vw, 0.84375rem);
-    letter-spacing: 0.04em;
-    color: var(--color-text-muted);
-    text-transform: uppercase;
+    font-size: .9375rem;
+    color: var(--footer-muted);
     text-decoration: none;
     transition: color var(--transition-fast);
   }
 
-  .col-list a:hover {
-    color: var(--color-text-main);
+  .col-list a:hover,
+  .col-list a:focus-visible {
+    color: var(--footer-ink);
+    text-decoration: underline;
+    text-underline-offset: .2em;
+  }
+
+  @media (width < 768px) {
+    .site-footer {
+      /* Keep the fixed mobile controls clear of footer text and links. */
+      padding-bottom: calc(clamp(2.5rem, 4vw, 3.75rem) + 76px + env(safe-area-inset-bottom, 0px));
+    }
+
+    .guarantee-title,
+    .guarantee-sub,
+    .footer-registration-note,
+    .col-list a {
+      font-size: .875rem;
+    }
+
+    .col-title {
+      font-size: .8125rem;
+    }
   }
 
   .social-link-item {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-  }
-
-  .social-link-item svg {
-    color: var(--color-text-light);
-    transition: color var(--transition-fast);
-  }
-
-  .social-link-item:hover svg {
-    color: var(--color-accent);
   }
 </style>

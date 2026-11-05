@@ -3,7 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProductCard from '../../components/ProductCard.astro';
 import productsData from '../../data/products.json';
 import { siteConfig } from '../../data/site';
-import { getDeliveryFeeQar } from '../../lib/delivery';
+import { QATAR_DELIVERY_AREAS } from '../../lib/delivery';
 import { findSimilarFragrances } from '../../lib/fragrance-matcher';
 import { CURATED_LAYERING_PAIRS } from '../../data/fragrance-discovery';
 
@@ -30,7 +30,6 @@ const companionSlug = activeLayeringPair?.baseSlug === product.slug
   : activeLayeringPair?.baseSlug;
 const pairedProduct = productsData.find((item) => item.slug === companionSlug && !item.isDraft);
 const duetPriceTotal = pairedProduct ? Math.round((product.priceMinor + pairedProduct.priceMinor) / 100) : 0;
-const productDeliveryFee = getDeliveryFeeQar(product.priceMinor);
 const checkoutHref = `/checkout/?product=${encodeURIComponent(product.slug)}&qty=1`;
 
 // Schema.org Product structured data (Enhanced for Google Merchant & AEO Rich Snippets)
@@ -61,18 +60,6 @@ const productSchema = {
       hasMerchantReturnPolicy: {
         '@type': 'MerchantReturnPolicy',
         merchantReturnLink: 'https://lumeraluxe.com.qa/returns-refunds/'
-      }
-    },
-    shippingDetails: {
-      '@type': 'OfferShippingDetails',
-      shippingRate: {
-        '@type': 'MonetaryAmount',
-        value: productDeliveryFee,
-        currency: 'QAR'
-      },
-      shippingDestination: {
-        '@type': 'DefinedRegion',
-        addressCountry: 'QA'
       }
     }
   }
@@ -182,7 +169,18 @@ const productSchema = {
           </div>
 
           <div class="pdp-micro-assurances">
-            <a href="/shipping-delivery/">{productDeliveryFee === 0 ? 'Free delivery' : `${productDeliveryFee} QAR delivery`} within 6 hours</a>
+            <details class="pdp-delivery-check">
+              <summary>Check delivery</summary>
+              <div class="pdp-delivery-fields">
+                <label for="pdp-delivery-area">Delivery area</label>
+                <select id="pdp-delivery-area">
+                  <option value="">Select your area</option>
+                  {QATAR_DELIVERY_AREAS.map(({ value, label }) => <option value={value}>{label}</option>)}
+                  <option value="outside-qatar">Outside Qatar</option>
+                </select>
+                <output id="pdp-delivery-status" for="pdp-delivery-area">We’ll confirm the delivery fee and timing before finalizing your order.</output>
+              </div>
+            </details>
             <a href="/returns-refunds/">Returns & exchanges</a>
           </div>
           <a
@@ -495,16 +493,46 @@ const productSchema = {
   .pdp-micro-assurances {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: .3rem 1rem;
     margin-top: .8rem;
     color: #665449;
     font-size: .79rem;
   }
 
-  .pdp-micro-assurances a, .layering-intro a {
+  .pdp-micro-assurances a, .pdp-delivery-check summary, .layering-intro a {
     color: inherit;
     text-decoration: underline;
     text-underline-offset: .22em;
+  }
+
+  .pdp-delivery-check[open] {
+    flex-basis: 100%;
+  }
+
+  .pdp-delivery-check summary {
+    cursor: pointer;
+  }
+
+  .pdp-delivery-fields {
+    display: grid;
+    gap: .4rem;
+    margin-top: .5rem;
+    padding: .8rem;
+    border: 1px solid #e7dbce;
+    border-radius: .5rem;
+    background: var(--color-surface);
+    font-size: .875rem;
+  }
+
+  .pdp-delivery-fields select {
+    width: 100%;
+    min-height: 44px;
+    padding: .4rem .65rem;
+    border: 1px solid #cdbcae;
+    border-radius: .3rem;
+    background: #fff;
+    color: var(--color-text-main);
   }
 
   .pdp-whatsapp-help {
@@ -738,6 +766,29 @@ const productSchema = {
     text-align: center;
     font-size: .9rem;
   }
+  @media (min-width: 768px) {
+    .pdp-breadcrumb,
+    .pdp-brand {
+      font-size: .875rem;
+    }
+
+    .btn-pdp-add-bag,
+    .btn-pdp-buy-now,
+    .btn-buy-duet,
+    .pdp-micro-assurances,
+    .layering-intro a,
+    .related-section .see-all-link {
+      font-size: .9375rem;
+    }
+
+    .pdp-variant-details,
+    .pdp-description,
+    .pdp-scent-details,
+    .pdp-delivery-fields,
+    .layering-intro p {
+      font-size: 1rem;
+    }
+  }
 </style>
 
 <script>
@@ -754,6 +805,23 @@ const productSchema = {
 
     const controller = new AbortController();
     const { signal } = controller;
+    const deliveryArea = document.querySelector<HTMLSelectElement>('#pdp-delivery-area');
+    const deliveryStatus = document.querySelector<HTMLOutputElement>('#pdp-delivery-status');
+    if (deliveryArea && deliveryStatus) {
+      const confirmationNote = deliveryStatus.defaultValue;
+      const updateDeliveryStatus = () => {
+        if (deliveryArea.value === 'outside-qatar') {
+          deliveryStatus.value = 'We currently deliver within Qatar only.';
+        } else if (deliveryArea.value) {
+          deliveryStatus.value = `Delivery is available in your area. ${confirmationNote}`;
+        } else {
+          deliveryStatus.value = confirmationNote;
+        }
+      };
+      deliveryArea.addEventListener('change', updateDeliveryStatus, { signal });
+      updateDeliveryStatus();
+    }
+
     const productId = favorite.dataset.id;
     const syncFavorite = () => {
       if (!productId) return;

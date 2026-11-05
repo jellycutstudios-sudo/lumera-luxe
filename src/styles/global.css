@@ -39,11 +39,11 @@
   --shadow-luxury: 0 10px 30px rgba(17, 15, 13, 0.07);
   --shadow-luxury-hover: 0 18px 42px rgba(17, 15, 13, 0.12);
 
-  /* Typography System (Strictly 2 Curated Fonts: Tenor Sans & Inter) */
-  --font-serif: 'Tenor Sans', -apple-system, BlinkMacSystemFont, serif;
-  --font-display: 'Tenor Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Typography */
+  --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: var(--font-sans);
+  --font-display: var(--font-sans);
+  --font-serif: var(--font-display);
 
   /* Spacing */
   --content-max-width: 1600px;
@@ -720,13 +720,6 @@ a.btn:active,
   transition: transform 70ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Mobile Bottom Safe Spacing (when MobileBottomNav is mounted) */
-@media (max-width: 767px) {
-  body:not(.is-checkout-page) {
-    padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px));
-  }
-}
-
 /* ==========================================================================
    NATIVE APP VIEW TRANSITIONS (Astro SPA Engine)
    ========================================================================== */
@@ -764,7 +757,6 @@ a.btn:active,
    PERFORMANCE & COMPUTE OPTIMIZATION (60fps Mobile Scroll)
    ========================================================================== */
 .footer-layout,
-.footer-registration-note,
 .section-home:nth-of-type(n+5) {
   content-visibility: auto;
   contain-intrinsic-size: auto 500px;

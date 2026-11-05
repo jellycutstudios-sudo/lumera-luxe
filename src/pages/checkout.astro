@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { siteConfig } from '../data/site';
+import { QATAR_DELIVERY_AREAS } from '../lib/delivery';
 
 const title = `Checkout | ${siteConfig.brandName}`;
 const description = `Complete your luxury fragrance order with doorstep delivery across Qatar.`;
@@ -132,14 +133,9 @@ const description = `Complete your luxury fragrance order with doorstep delivery
                 <label for="select-municipality" class="form-label">Area / Municipality in Qatar <span class="req">*</span></label>
                 <div class="input-wrapper select-wrapper">
                   <select id="select-municipality" class="form-control" required>
-                    <option value="Doha" selected>Doha (Ad-Dawhah)</option>
-                    <option value="The Pearl & Lusail">The Pearl & Lusail</option>
-                    <option value="Al Rayyan & Education City">Al Rayyan & Education City</option>
-                    <option value="Al Wakrah & Wukair">Al Wakrah & Wukair</option>
-                    <option value="Al Daayen">Al Daayen</option>
-                    <option value="Umm Salal">Umm Salal</option>
-                    <option value="Al Khor">Al Khor</option>
-                    <option value="Other Qatar Area">Other Municipality (All Qatar Covered)</option>
+                    {QATAR_DELIVERY_AREAS.map(({ value, label }) => (
+                      <option value={value} selected={value === 'Doha'}>{label}</option>
+                    ))}
                   </select>
                 </div>
               </div>
@@ -1159,6 +1155,35 @@ const description = `Complete your luxury fragrance order with doorstep delivery
     max-width: 260px;
     margin: 0 auto;
     text-decoration: none;
+  }
+  @media (min-width: 768px) {
+    .checkout-back-btn,
+    .checkout-sub-title,
+    .form-label .opt-label,
+    .field-error-text,
+    .btn-notes-toggle,
+    .notice-text span,
+    .checkout-policy-notice,
+    .checkout-assurances {
+      font-size: .875rem;
+    }
+
+    .form-label,
+    .notice-text strong,
+    .btn-checkout-submit,
+    .summary-line-row {
+      font-size: .9375rem;
+    }
+
+    :global(.cart-item-meta),
+    :global(.cart-item-qty) {
+      font-size: .875rem !important;
+    }
+
+    :global(.cart-item-title),
+    :global(.cart-item-price) {
+      font-size: 1rem !important;
+    }
   }
 </style>
 

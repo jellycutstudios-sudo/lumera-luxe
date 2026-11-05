@@ -401,22 +401,46 @@ const { product, priority = false, isLarge = false } = Astro.props;
     border-width: 0;
   }
 
+  @media (min-width: 768px) {
+    .card-brand,
+    .card-specs,
+    .card-sticker-price,
+    .card-buy-btn,
+    .card-bag-btn {
+      font-size: .875rem;
+    }
+
+    .card-title {
+      font-size: clamp(1rem, 1.2vw, 1.0625rem);
+    }
+  }
+
+  @media (width < 768px) {
+    .card-brand {
+      font-size: .8125rem;
+      letter-spacing: .05em;
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+
+    .card-title {
+      font-size: 1rem;
+    }
+
+    .card-specs,
+    .card-buy-btn,
+    .card-bag-btn {
+      font-size: .875rem;
+    }
+  }
+
   @media (max-width: 540px) {
     .luxury-product-card {
       padding: .58rem;
     }
 
-    .card-brand {
-      font-size: .68rem;
-      letter-spacing: .07em;
-    }
-
     .card-price {
       font-size: 1rem;
-    }
-
-    .card-sticker-price {
-      font-size: .72rem;
     }
 
     .card-fav-btn {

@@ -53,11 +53,11 @@ const featuredHouses = [
   { name: 'Tom Ford', logo: 'tom-ford.svg' },
   { name: 'Guerlain', logo: 'guerlain.svg' },
   { name: 'Boucheron', logo: 'boucheron.svg' },
-  { name: 'Dolce & Gabbana', logo: 'dolce-gabbana.svg' },
-  { name: 'Paco Rabanne', logo: 'paco-rabanne.svg' },
-  { name: 'Burberry', logo: 'burberry.svg' },
-  { name: 'Gucci', logo: 'gucci.svg' },
-  { name: 'Narciso Rodriguez', logo: 'narciso-rodriguez.svg' }
+  { name: 'Dolce & Gabbana', logo: 'dolce-gabbana.svg', logoSize: 'wide' },
+  { name: 'Paco Rabanne', logo: 'paco-rabanne.svg', logoSize: 'wide' },
+  { name: 'Burberry', logo: 'burberry.svg', logoSize: 'compact' },
+  { name: 'Gucci', logo: 'gucci.svg', logoSize: 'compact' },
+  { name: 'Narciso Rodriguez', logo: 'narciso-rodriguez.svg', logoSize: 'wide' }
 ]
   .map((house) => ({ ...house, count: catalog.filter((product) => product.brand === house.name).length }))
   .filter((house) => house.count > 0);
@@ -78,28 +78,24 @@ const selectedScents = curatedHomeSlugs
 const categories = [
   {
     label: 'Fresh & Citrus',
-    subtitle: 'Crisp Bergamot · Neroli · Marine Accord',
     href: '/shop/?family=fresh',
     img: '/assets/brand/family-fresh-citrus.webp',
     alt: 'Fresh & Citrus perfumes featuring Dolce & Gabbana Light Blue and Acqua di Parma Colonia'
   },
   {
     label: 'Floral & Rose',
-    subtitle: 'Damask Rose · Sambac Jasmine · French Peony',
     href: '/shop/?family=floral',
     img: '/assets/brand/family-floral-rose.webp',
     alt: 'Floral & Rose perfumes featuring Chloé and Miss Dior'
   },
   {
     label: 'Amber & Oriental',
-    subtitle: 'Warm Amber · Madagascar Vanilla · Golden Oud',
     href: '/shop/?family=oriental',
     img: '/assets/brand/family-amber-oriental.webp',
     alt: 'Amber & Oriental perfumes featuring YSL Black Opium and Chanel Coco Mademoiselle'
   },
   {
     label: 'Woody & Earthy',
-    subtitle: 'Smoky Sandalwood · Cedarwood · Crisp Vetiver',
     href: '/shop/?family=woody',
     img: '/assets/brand/family-woody-fresh.webp',
     alt: 'Woody & Earthy perfumes featuring Terre d’Hermès and Le Labo Santal 33'
@@ -308,9 +304,9 @@ const homeStructuredData = {
           </div>
         </div>
         <div class="home-house-track" id="home-house-track">
-          {featuredHouses.map(({ name, logo, count }) => (
+          {featuredHouses.map(({ name, logo, logoSize, count }) => (
             <a class="home-house-link" href={`/shop/?brand=${encodeURIComponent(name)}`}>
-              <span class="home-house-logo">
+              <span class="home-house-logo" data-logo-size={logoSize}>
                 <img src={`/assets/brand/houses/${logo}`} alt={name} loading="lazy" decoding="async" />
               </span>
               <span class="home-house-count">{count} {count === 1 ? 'fragrance' : 'fragrances'}</span>
@@ -362,10 +358,7 @@ const homeStructuredData = {
           {occasions.map((occasion) => (
             <a class="home-browse-card" href={`/shop/?edit=${occasion.id}`}>
               <img src={occasion.image} alt="" width="640" height="480" loading="lazy" decoding="async" />
-              <span class="home-browse-copy">
-                <span class="home-browse-title">{occasion.title} <span aria-hidden="true">↗</span></span>
-                <span class="home-browse-description">{occasion.description}</span>
-              </span>
+              <span class="home-browse-title">{occasion.title} <span aria-hidden="true">↗</span></span>
             </a>
           ))}
         </div>
@@ -395,10 +388,7 @@ const homeStructuredData = {
           {categories.map((category) => (
             <a href={category.href} class="home-browse-card">
               <img src={category.img} alt={category.alt} loading="lazy" decoding="async" width="640" height="480" />
-              <span class="home-browse-copy">
-                <span class="home-browse-title">{category.label} <span aria-hidden="true">↗</span></span>
-                <span class="home-browse-description">{category.subtitle}</span>
-              </span>
+              <span class="home-browse-title">{category.label} <span aria-hidden="true">↗</span></span>
             </a>
           ))}
         </div>
@@ -777,10 +767,18 @@ const homeStructuredData = {
 
   .home-house-logo img {
     display: block;
-    width: auto;
-    height: auto;
-    max-width: min(100%, 9rem);
-    max-height: 2rem;
+    width: 100%;
+    max-width: var(--house-logo-width, 6rem);
+    height: 1.25rem;
+    object-fit: contain;
+  }
+
+  .home-house-logo[data-logo-size='compact'] {
+    --house-logo-width: 5.5rem;
+  }
+
+  .home-house-logo[data-logo-size='wide'] {
+    --house-logo-width: 7.5rem;
   }
 
   .minimal-storefront .home-house-heading {
@@ -797,15 +795,7 @@ const homeStructuredData = {
     display: none;
   }
 
-  .home-browse-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: .25rem;
-  }
-
-  .home-house-count,
-  .home-browse-description {
+  .home-house-count {
     color: #665449;
     font-size: .79rem;
     line-height: 1.4;
@@ -822,8 +812,14 @@ const homeStructuredData = {
       height: 2rem;
     }
 
-    .home-house-count {
-      font-size: .72rem;
+    .home-house-logo img {
+      height: 1rem;
+    }
+  }
+
+  @media (width < 375px) {
+    .home-house-track {
+      --house-columns: 2;
     }
   }
 
@@ -850,14 +846,12 @@ const homeStructuredData = {
     object-position: center 25%;
   }
 
-  .home-browse-copy {
-    display: grid;
-    align-content: start;
-    gap: .35rem;
-    padding: clamp(.65rem, 2vw, 1.1rem);
-  }
-
   .home-browse-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: .25rem;
+    padding: clamp(.65rem, 2vw, 1.1rem);
     font-family: var(--font-display);
     font-size: clamp(.98rem, 1.7vw, 1.4rem);
     line-height: 1.2;
@@ -1039,8 +1033,7 @@ const homeStructuredData = {
     }
 
     .hero-slide-picture {
-      aspect-ratio: auto;
-      height: clamp(105vw, 57svh, 117vw);
+      aspect-ratio: 896 / 1200;
     }
 
     .hero-slide-image {
@@ -1053,11 +1046,30 @@ const homeStructuredData = {
       --home-section-gap: 3.5rem;
     }
 
+    .home-kicker,
+    .minimal-storefront :global(.edit-kicker) {
+      display: none;
+    }
+
+    .btn-hero-shop-now,
+    .hero-slide-count,
+    .home-house-count,
+    .shopping-help-link {
+      font-size: .875rem;
+    }
+
+    .home-story-copy p,
+    .shopping-help-card p,
+    .home-faq-list p {
+      font-size: 1rem;
+    }
+
     .hero-editorial-section {
       margin-bottom: var(--home-section-gap);
     }
 
     .minimal-storefront :global(.section-header-minimal) {
+      align-items: center;
       margin-bottom: 1.15rem;
       padding-bottom: .65rem;
     }
@@ -1068,6 +1080,7 @@ const homeStructuredData = {
       gap: .25rem;
       min-height: 44px;
       flex-shrink: 0;
+      font-size: .875rem;
     }
 
     .minimal-storefront :global(.home-preview-grid > .product-card:nth-of-type(n + 3)),
@@ -1077,6 +1090,27 @@ const homeStructuredData = {
 
     .home-browse-grid {
       gap: .85rem;
+    }
+  }
+
+  @media (min-width: 768px) {
+    .home-kicker,
+    .minimal-storefront :global(.edit-kicker),
+    .hero-slide-count,
+    .home-house-count {
+      font-size: .875rem;
+    }
+
+    .btn-hero-shop-now,
+    .minimal-storefront :global(.section-header-minimal .see-all-link),
+    .shopping-help-link {
+      font-size: .9375rem;
+    }
+
+    .home-story-copy p,
+    .shopping-help-card p,
+    .home-faq-list p {
+      font-size: 1rem;
     }
   }
 

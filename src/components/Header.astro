@@ -630,9 +630,9 @@ const searchHighlights = productsData.filter((p) => p.featured && isEligibleForS
 
   .nav-link {
     font-family: var(--font-body);
-    font-size: clamp(0.75rem, 0.88vw, 0.8125rem);
+    font-size: .875rem;
     font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: .06em;
     color: #110F0D;
     text-transform: uppercase;
     text-decoration: none;
@@ -746,7 +746,7 @@ const searchHighlights = productsData.filter((p) => p.featured && isEligibleForS
   .dropdown-header {
     padding: .25rem .55rem .45rem;
     color: #855339;
-    font-size: .69rem;
+    font-size: .875rem;
     font-weight: 700;
     letter-spacing: .09em;
     text-transform: uppercase;
@@ -761,7 +761,7 @@ const searchHighlights = productsData.filter((p) => p.featured && isEligibleForS
     padding: .45rem .55rem;
     border-radius: 4px;
     color: #2D2722;
-    font-size: .83rem;
+    font-size: .9375rem;
     line-height: 1.35;
     text-decoration: none;
   }
@@ -797,7 +797,7 @@ const searchHighlights = productsData.filter((p) => p.featured && isEligibleForS
 
   .brands-col-title {
     font-family: var(--font-body);
-    font-size: 0.6875rem;
+    font-size: .875rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.12em;
@@ -809,7 +809,7 @@ const searchHighlights = productsData.filter((p) => p.featured && isEligibleForS
 
   .dropdown-brand-link {
     font-family: var(--font-body);
-    font-size: 0.8125rem;
+    font-size: .9375rem;
     color: #2D2722;
     text-decoration: none;
     padding: 0.25rem 0;
@@ -832,7 +832,7 @@ const searchHighlights = productsData.filter((p) => p.featured && isEligibleForS
 
   .brands-all-link {
     font-family: var(--font-body);
-    font-size: 0.78125rem;
+    font-size: .875rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -1008,33 +1008,69 @@ const searchHighlights = productsData.filter((p) => p.featured && isEligibleForS
     background-color: rgba(37, 211, 102, 0.08) !important;
   }
 
-  @media (max-width: 767px) {
-    .whatsapp-header-btn {
-      display: none;
+  @media (width < 768px) {
+    .site-header {
+      background-color: #fffcf8;
+      border-bottom-color: #e8dacb;
     }
-  }
 
-  @media (max-width: 540px) {
-    .header-container,
+    .header-container {
+      height: 68px;
+      gap: .5rem;
+      padding-inline: clamp(.625rem, 3vw, 1.25rem);
+    }
+
     .header-left {
       gap: .25rem;
+      min-width: 0;
+      flex-shrink: 1;
+    }
+
+    .brand-link {
+      min-width: 0;
+      min-height: 44px;
+    }
+
+    .brand-logo {
+      width: min(38vw, 152px);
+      max-width: 100%;
+      height: auto;
     }
 
     .header-right {
       gap: 0;
     }
 
-    .mobile-toggle-btn,
-    .header-action-btn {
-      min-width: 44px;
-      min-height: 44px;
+    .whatsapp-header-btn {
+      display: none;
     }
 
-  }
+    .mobile-toggle-btn,
+    .header-action-btn {
+      width: 44px;
+      height: 44px;
+      color: #38261f;
+    }
 
-  @media (max-width: 360px) {
-    .brand-logo {
-      max-width: 104px;
+    .hamburger-svg,
+    .header-line-icon {
+      width: 20px;
+      height: 20px;
+      stroke-width: 1.5;
+      color: inherit;
+    }
+
+    .bag-icon-frame {
+      width: 36px;
+      height: 36px;
+      border: 1px solid #e8dacb;
+      border-radius: 50%;
+      background-color: #f5ede4;
+    }
+
+    .header-bag-badge {
+      top: -2px;
+      right: -2px;
     }
   }
 
@@ -1549,6 +1585,27 @@ const searchHighlights = productsData.filter((p) => p.featured && isEligibleForS
     flex-wrap: wrap;
     justify-content: center;
     gap: 0.4rem;
+  }
+
+  @media (min-width: 768px) {
+    .header-top-ribbon,
+    .search-close-btn,
+    :global(.search-section-title),
+    :global(.search-section-link),
+    :global(.search-suggestion-chip),
+    :global(.search-item-brand),
+    :global(.search-item-meta),
+    :global(.search-family-badge),
+    :global(.search-results-meta) {
+      font-size: .875rem;
+    }
+
+    .quick-search-field,
+    :global(.search-item-name),
+    :global(.search-item-price),
+    :global(.search-zero-desc) {
+      font-size: 1rem;
+    }
   }
 </style>
 

@@ -5,6 +5,12 @@ import productsData from '../data/products.json';
 
 // Only display approved, verified products on public catalog (175 products)
 const publicProducts = productsData.filter((p) => !p.isDraft);
+const iconistaIndex = publicProducts.findIndex((product) => product.slug === 'aigner-iconista');
+if (iconistaIndex !== -1) {
+  const middleIndex = Math.floor(publicProducts.length / 2);
+  const [iconista] = publicProducts.splice(iconistaIndex, 1);
+  publicProducts.splice(middleIndex, 0, iconista);
+}
 
 // Unique brands from approved catalog
 const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
@@ -339,7 +345,7 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
   @media (min-width: 768px) {
     .search-input {
       height: 44px;
-      font-size: 0.875rem;
+      font-size: 1rem;
       padding: 0 2.2rem 0 2.35rem;
     }
   }
@@ -417,7 +423,7 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
   @media (min-width: 768px) {
     .toolbar-select {
       height: 44px;
-      font-size: 0.84375rem;
+      font-size: .9375rem;
       padding: 0 1.6rem 0 0.85rem;
       background-position: right 0.55rem center;
       background-size: 13px;
@@ -890,6 +896,23 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
     white-space: nowrap;
     border-width: 0;
   }
+  @media (min-width: 768px) {
+    .shop-eyebrow,
+    .clear-all-btn,
+    :global(.filter-tag) {
+      font-size: .875rem;
+    }
+
+    .catalog-status-bar,
+    .family-pill,
+    .mobile-filter-drawer-btn {
+      font-size: .9375rem;
+    }
+
+    .shop-description {
+      font-size: 1rem;
+    }
+  }
 </style>
 
 <script>
@@ -909,6 +932,7 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
     const gridEl = document.getElementById('catalogue-grid');
     if (!gridEl || gridEl.dataset.initialized) return;
     gridEl.dataset.initialized = 'true';
+    const defaultCards = Array.from(gridEl.querySelectorAll<HTMLElement>('.product-card'));
 
     const shopTitle = document.querySelector('.shop-title');
     const searchInput = document.getElementById('catalogue-search') as HTMLInputElement;
@@ -1364,7 +1388,8 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
 
     // Sort visible cards
     if (gridEl) {
-      const sortedCards = cards.slice().sort((a, b) => {
+      const isDefaultView = sort === 'featured' && !q && !selectedBrand && selectedPrice === 'all' && !activeFamily && !activeStyle && !activeEdit;
+      const sortedCards = isDefaultView ? defaultCards : cards.slice().sort((a, b) => {
         const prodA = productsData.find((p) => p.id === a.getAttribute('data-product-id'))!;
         const prodB = productsData.find((p) => p.id === b.getAttribute('data-product-id'))!;
 

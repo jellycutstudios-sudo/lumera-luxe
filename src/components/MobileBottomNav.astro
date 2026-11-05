@@ -17,9 +17,8 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
       <!-- 1. SCENT FAMILIES BOTTOM MODAL -->
       <aside
         id="families-modal"
-        class="nav-bottom-sheet"
+        class="nav-bottom-sheet nav-panel"
         role="dialog"
-        aria-modal="true"
         aria-label="Olfactive Scent Families"
       >
         <div class="sheet-handle-wrap">
@@ -147,9 +146,8 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
       <!-- 2. DISCOVERY & CONSULTATION BOTTOM MODAL -->
       <aside
         id="discovery-modal"
-        class="nav-bottom-sheet"
+        class="nav-bottom-sheet nav-panel"
         role="dialog"
-        aria-modal="true"
         aria-label="Curated Fragrance Discovery"
       >
         <div class="sheet-handle-wrap">
@@ -477,14 +475,32 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
 }
 
 <style>
+  .mobile-bottom-nav,
+  .nav-panel {
+    --nav-bar-height: 4.125rem;
+    --nav-bottom-inset: calc(8px + env(safe-area-inset-bottom, 0px));
+  }
+
   .mobile-bottom-nav {
     position: fixed;
     inset: auto 0 0;
     z-index: 90;
     padding: 0 max(8px, env(safe-area-inset-right, 0px))
-      calc(8px + env(safe-area-inset-bottom, 0px))
+      var(--nav-bottom-inset)
       max(8px, env(safe-area-inset-left, 0px));
     pointer-events: none;
+    transition: transform 220ms ease, opacity 220ms ease;
+  }
+
+  .mobile-bottom-nav.is-scroll-hidden:not(:has(:focus-visible)) {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-bottom-nav {
+      transition: none;
+    }
   }
 
   /* Hide on desktop */
@@ -505,8 +521,8 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
 
   .bottom-nav-container {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    min-height: 66px;
+    grid-template-columns: repeat(5, minmax(max-content, 1fr));
+    min-height: var(--nav-bar-height);
     max-width: 500px;
     margin-inline: auto;
     padding: 4px;
@@ -527,7 +543,7 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
     padding: 4px 0;
     border: 0;
     border-radius: 14px;
-    background: transparent;
+    background: var(--nav-tab-background, transparent);
     color: #55483f;
     text-decoration: none;
     cursor: pointer;
@@ -537,14 +553,16 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
     transition: background-color 160ms ease, color 160ms ease;
   }
 
-  .bottom-nav-item.active {
-    background: #efe3d7;
+  .bottom-nav-item.active:not(.nav-panel.is-open ~ .mobile-bottom-nav .bottom-nav-item),
+  .nav-panel.is-open ~ .mobile-bottom-nav .bottom-nav-item[aria-expanded='true'] {
+    --nav-tab-background: #efe3d7;
+    --nav-tab-label-weight: 700;
     color: #4b2e21;
   }
 
   @media (hover: hover) {
-    .bottom-nav-item:not(.active):hover {
-      background: #f5eee7;
+    .bottom-nav-item:hover {
+      background: var(--nav-tab-background, #f5eee7);
     }
   }
 
@@ -574,12 +592,8 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
   }
 
   .bottom-nav-label {
-    font: 600 .7rem/1.2 var(--font-body);
+    font: var(--nav-tab-label-weight, 600) .75rem/1.2 var(--font-body);
     text-align: center;
-  }
-
-  .bottom-nav-item.active .bottom-nav-label {
-    font-weight: 700;
   }
 
   /* ==========================================================
@@ -620,11 +634,27 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
     padding-bottom: max(env(safe-area-inset-bottom, 1rem), 1rem);
     overflow: hidden;
     visibility: hidden;
+    pointer-events: none;
   }
 
   .nav-bottom-sheet.is-open {
     transform: translateY(0);
     visibility: visible;
+    pointer-events: auto;
+  }
+
+  .nav-panel {
+    --nav-panel-bottom: calc(var(--nav-bar-height) + var(--nav-bottom-inset) + 8px);
+    bottom: var(--nav-panel-bottom);
+    max-height: min(88vh, calc(100dvh - var(--nav-panel-bottom) - 12px));
+    border-radius: 20px;
+    padding-bottom: .5rem;
+  }
+
+  .nav-panel.is-open ~ .mobile-bottom-nav {
+    z-index: 1000;
+    transform: none;
+    opacity: 1;
   }
 
   .sheet-handle-wrap {
@@ -683,7 +713,7 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
     background: #FFFFFF;
     color: var(--color-text-muted);
     cursor: pointer;
-    transition: all var(--transition-fast);
+    transition: background-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
   }
@@ -1221,23 +1251,20 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
     var discBtn = document.getElementById('bottom-nav-discovery-btn');
     if (modal) modal.classList.add('is-open');
     if (backdrop) backdrop.classList.add('is-open');
-    if (discBtn) {
-      discBtn.classList.add('active');
-      discBtn.setAttribute('aria-expanded', 'true');
-    }
+    discBtn?.setAttribute('aria-expanded', 'true');
     document.body.style.overflow = 'hidden';
+    modal?.querySelector('.sheet-close-btn')?.focus({ preventScroll: true });
   };
 
   window.closeDiscoveryModal = function () {
     var modal = document.getElementById('discovery-modal');
     var backdrop = document.getElementById('nav-modal-backdrop');
     var discBtn = document.getElementById('bottom-nav-discovery-btn');
+    var restoreFocus = modal?.contains(document.activeElement);
     if (modal) modal.classList.remove('is-open');
-    var path = window.location.pathname;
-    var isDiscoveryPage = path.startsWith('/fragrance-finder') || path.startsWith('/scent-styling') || path.startsWith('/layering');
     if (discBtn) {
-      discBtn.classList.toggle('active', isDiscoveryPage);
       discBtn.setAttribute('aria-expanded', 'false');
+      if (restoreFocus) discBtn.focus({ preventScroll: true });
     }
     if (!document.getElementById('families-modal')?.classList.contains('is-open') &&
         !document.getElementById('support-modal')?.classList.contains('is-open')) {
@@ -1266,21 +1293,20 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
     var famBtn = document.getElementById('bottom-nav-families-btn');
     if (modal) modal.classList.add('is-open');
     if (backdrop) backdrop.classList.add('is-open');
-    if (famBtn) {
-      famBtn.classList.add('active');
-      famBtn.setAttribute('aria-expanded', 'true');
-    }
+    famBtn?.setAttribute('aria-expanded', 'true');
     document.body.style.overflow = 'hidden';
+    modal?.querySelector('.sheet-close-btn')?.focus({ preventScroll: true });
   };
 
   window.closeFamiliesModal = function () {
     var modal = document.getElementById('families-modal');
     var backdrop = document.getElementById('nav-modal-backdrop');
     var famBtn = document.getElementById('bottom-nav-families-btn');
+    var restoreFocus = modal?.contains(document.activeElement);
     if (modal) modal.classList.remove('is-open');
     if (famBtn) {
-      famBtn.classList.remove('active');
       famBtn.setAttribute('aria-expanded', 'false');
+      if (restoreFocus) famBtn.focus({ preventScroll: true });
     }
     if (!document.getElementById('discovery-modal')?.classList.contains('is-open') &&
         !document.getElementById('support-modal')?.classList.contains('is-open')) {
@@ -1481,8 +1507,8 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
       return;
     }
 
-    // Auto-close any nav bottom modal when clicking any navigation link inside
-    if (target.closest('.nav-bottom-sheet a')) {
+    // Close panels when following a link in the sheet or bottom bar.
+    if (target.closest('.nav-bottom-sheet a, .mobile-bottom-nav a')) {
       window.closeAllNavModals();
       return;
     }
@@ -1520,6 +1546,41 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
     }
   });
 
+  var navScrollAnchor = Math.max(0, window.scrollY);
+
+  function releaseNavFocusOnPointerScroll(event) {
+    if (event.type === 'wheel' && (event.ctrlKey || Math.abs(event.deltaY) <= Math.abs(event.deltaX))) return;
+
+    var focused = document.activeElement;
+    if (focused?.closest('.mobile-bottom-nav') && !document.querySelector('.nav-panel.is-open')) {
+      focused.blur();
+    }
+  }
+
+  window.addEventListener('wheel', releaseNavFocusOnPointerScroll, { passive: true });
+  window.addEventListener('touchmove', releaseNavFocusOnPointerScroll, { passive: true });
+
+  window.addEventListener('scroll', function () {
+    var navBar = document.querySelector('.mobile-bottom-nav');
+    var scrollRoot = document.scrollingElement;
+    if (!navBar || !scrollRoot) return;
+
+    var maxScrollY = scrollRoot.scrollHeight - scrollRoot.clientHeight;
+    var scrollY = Math.max(0, Math.min(window.scrollY, maxScrollY));
+    var isHidden = navBar.classList.contains('is-scroll-hidden');
+
+    if (scrollY <= 24 || (isHidden && navScrollAnchor - scrollY >= 4)) {
+      navBar.classList.remove('is-scroll-hidden');
+      navScrollAnchor = scrollY;
+    } else if (!isHidden && scrollY - navScrollAnchor >= 12) {
+      navBar.classList.add('is-scroll-hidden');
+      navScrollAnchor = scrollY;
+    } else {
+      // Measure the next reversal from the furthest point in the current direction.
+      navScrollAnchor = isHidden ? Math.max(navScrollAnchor, scrollY) : Math.min(navScrollAnchor, scrollY);
+    }
+  }, { passive: true });
+
   // Smooth App View Transition Tab Synchronizer
   function syncBottomNavTab() {
     var path = window.location.pathname;
@@ -1552,7 +1613,9 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
       var isCheckout = path.startsWith('/checkout');
       var isPdp = path.startsWith('/perfumes/');
       navBar.classList.toggle('hide-on-pdp', isPdp);
+      navBar.classList.remove('is-scroll-hidden');
       navBar.style.display = isCheckout ? 'none' : '';
+      navScrollAnchor = Math.max(0, window.scrollY);
     }
   }
 
