@@ -1,266 +1,44 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import PolicyLayout from '../layouts/PolicyLayout.astro';
 import { siteConfig } from '../data/site';
 ---
 
-<BaseLayout
-  title={`Privacy Policy | ${siteConfig.brandName} Doha`}
+<PolicyLayout
+  title="Privacy Policy"
   description="How LUMÈRA LUXE handles your data, respects your privacy, and safeguards your personal correspondence."
+  intro="How we handle your information when you browse, use your shopping bag, or contact us on WhatsApp."
+  links={[
+    { id: 'your-privacy', label: 'Your privacy' },
+    { id: 'shopping-bag', label: 'Shopping bag' },
+    { id: 'whatsapp', label: 'WhatsApp' }
+  ]}
+  contact={{
+    title: "Questions about privacy?",
+    text: "Contact us with privacy questions or to request deletion of past communication records.",
+    email: siteConfig.email
+  }}
 >
-  <div class="policy-page">
-    <header class="policy-header">
-      <div class="container-narrow text-center">
-        <span class="eyebrow">Data & Discretion · Doha, Qatar</span>
-        <h1 class="policy-title">
-          Privacy & Client Discretion,<br />
-          <span class="title-italic">Guaranteed.</span>
-        </h1>
-        <p class="policy-lead">
-          We honor your privacy and adhere to total discretion regarding your personal information.
-        </p>
-      </div>
-    </header>
+  <section id="your-privacy">
+    <h2>How we handle your information</h2>
+    <p>
+      At LUMÈRA LUXE, personal privacy is an essential tenet of luxury. Our digital boutique is engineered on a privacy-first architecture, purposely avoiding invasive user trackers, data brokers, or advertising pixels.
+    </p>
+  </section>
 
-    <div class="container policy-body-container">
-      <div class="policy-content">
-        <section class="policy-section">
-          <div class="section-meta-header">
-            <span class="section-idx">01</span>
-            <h2 class="policy-section-heading">Overview & Ethos</h2>
-          </div>
-          <p>
-            At LUMÈRA LUXE, personal privacy is an essential tenet of luxury. Our digital boutique is engineered on a privacy-first architecture, purposely avoiding invasive user trackers, data brokers, or advertising pixels.
-          </p>
-        </section>
+  <section id="shopping-bag">
+    <h2>Information saved in your browser</h2>
+    <p>
+      When you add perfumes to your shopping bag, details are stored locally in your browser's private local storage (<code>localStorage</code>). We do not record or store financial payment details, banking credentials, or personal profiles on remote marketing servers.
+    </p>
+  </section>
 
-        <section class="policy-section">
-          <div class="section-meta-header">
-            <span class="section-idx">02</span>
-            <h2 class="policy-section-heading">Local Storage & Bag Selection</h2>
-          </div>
-          <p>
-            When you add perfumes to your shopping bag, details are stored locally in your browser's private local storage (<code>localStorage</code>). We do not record or store financial payment details, banking credentials, or personal profiles on remote marketing servers.
-          </p>
-        </section>
-
-        <section class="policy-section">
-          <div class="section-meta-header">
-            <span class="section-idx">03</span>
-            <h2 class="policy-section-heading">Encrypted WhatsApp Consultation</h2>
-          </div>
-          <p>
-            When you initiate an order inquiry via WhatsApp, your product selections and notes are transmitted directly into your personal WhatsApp application. Your communication is shielded by WhatsApp's end-to-end encryption.
-          </p>
-          <p>
-            We use your correspondence exclusively to verify inventory, calculate transparent courier rates, and deliver your parcel in Qatar. We never commercialize or share client phone numbers with third-party advertisers.
-          </p>
-        </section>
-
-        <div class="concierge-callout">
-          <div class="section-meta-header">
-            <span class="section-idx">04</span>
-            <h2 class="policy-section-heading">Client Inquiries</h2>
-          </div>
-          <p>
-            If you have questions regarding data privacy or wish to request deletion of past communication records, connect with our boutique:
-          </p>
-          <div class="concierge-links">
-            <a
-              href={`https://wa.me/${siteConfig.whatsappNumber}`}
-              class="btn-callout-action"
-              target="_blank"
-              rel="noopener"
-            >
-              WhatsApp Concierge: {siteConfig.whatsappDisplay}
-            </a>
-            <a href={`mailto:${siteConfig.email}`} class="email-direct">
-              {siteConfig.email}
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</BaseLayout>
-
-<style>
-  .policy-page {
-    background-color: var(--color-bg);
-    color: var(--color-text-main);
-  }
-
-  .container-narrow {
-    width: 100%;
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 0 var(--page-gutter);
-  }
-
-  .text-center {
-    text-align: center;
-  }
-
-  .policy-header {
-    background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-bg) 100%);
-    border-bottom: 1px solid var(--color-border-subtle);
-    padding: clamp(3.5rem, 6vw, 5.5rem) 0 clamp(2.5rem, 4vw, 4rem);
-  }
-
-  .eyebrow {
-    font-size: 0.6875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: var(--color-brand-cognac);
-    margin-bottom: 1rem;
-    display: inline-block;
-  }
-
-  .policy-title {
-    font-family: var(--font-serif);
-    font-size: clamp(2.2rem, 5vw, 3.5rem);
-    font-weight: 400;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    color: var(--color-text-main);
-    margin-bottom: 1.25rem;
-  }
-
-  .title-italic {
-    font-style: italic;
-    color: var(--color-brand-cognac-dark);
-  }
-
-  .policy-lead {
-    font-size: clamp(1rem, 1.8vw, 1.125rem);
-    font-weight: 300;
-    line-height: 1.7;
-    color: var(--color-text-muted);
-    max-width: 580px;
-    margin: 0 auto;
-  }
-
-  .policy-body-container {
-    padding-top: clamp(2.5rem, 5vw, 4.5rem);
-    padding-bottom: 5.5rem;
-  }
-
-  .policy-content {
-    max-width: 760px;
-    margin: 0 auto;
-  }
-
-  .policy-section {
-    margin-bottom: 3.5rem;
-    padding-bottom: 2.5rem;
-    border-bottom: 1px solid var(--color-border-subtle);
-  }
-
-  .policy-section:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-    padding-bottom: 0;
-  }
-
-  .section-meta-header {
-    display: flex;
-    align-items: baseline;
-    gap: 0.85rem;
-    margin-bottom: 1.15rem;
-  }
-
-  .section-idx {
-    font-family: var(--font-serif);
-    font-size: 1.5rem;
-    font-style: italic;
-    font-weight: 400;
-    color: var(--color-brand-cognac);
-    opacity: 0.85;
-  }
-
-  .policy-section-heading {
-    font-family: var(--font-serif);
-    font-size: clamp(1.4rem, 2.8vw, 1.85rem);
-    font-weight: 400;
-    color: var(--color-text-main);
-  }
-
-  .policy-section p {
-    font-size: 1rem;
-    line-height: 1.75;
-    margin-bottom: 1.25rem;
-    color: var(--color-text-muted);
-  }
-
-  .policy-section p code {
-    font-family: var(--font-body);
-    font-size: 0.875em;
-    font-weight: 500;
-    background-color: var(--color-surface);
-    padding: 0.15em 0.4em;
-    border: 1px solid var(--color-border);
-    border-radius: 3px;
-  }
-
-  .concierge-callout {
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius-sm);
-    padding: clamp(2rem, 4vw, 2.75rem) clamp(1.5rem, 3.5vw, 2.5rem);
-    margin-top: 3.5rem;
-    margin-bottom: 2rem;
-  }
-
-  .concierge-callout p {
-    font-size: 1rem;
-    line-height: 1.7;
-    margin-bottom: 1.5rem;
-    color: var(--color-text-muted);
-  }
-
-  .concierge-links {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-    margin: 0;
-  }
-
-  .btn-callout-action {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #1A1A1A;
-    color: #FFFFFF;
-    font-size: .875rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 0.85rem 1.65rem;
-    min-height: 44px;
-    border-radius: 2px;
-    text-decoration: none;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-    transition: all 0.2s ease;
-  }
-
-  .btn-callout-action:hover {
-    background-color: #000000;
-    color: #FFFFFF;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
-  }
-
-  .email-direct {
-    font-weight: 500;
-    font-size: .875rem;
-    color: var(--color-text-main);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    transition: color 0.15s ease;
-  }
-
-  .email-direct:hover {
-    color: var(--color-brand-cognac);
-  }
-</style>
+  <section id="whatsapp">
+    <h2>WhatsApp messages</h2>
+    <p>
+      When you initiate an order inquiry via WhatsApp, your product selections and notes are transmitted directly into your personal WhatsApp application. Your communication is shielded by WhatsApp's end-to-end encryption.
+    </p>
+    <p>
+      We use your correspondence exclusively to verify inventory, calculate transparent courier rates, and deliver your parcel in Qatar. We never commercialize or share client phone numbers with third-party advertisers.
+    </p>
+  </section>
+</PolicyLayout>

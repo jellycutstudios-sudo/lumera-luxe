@@ -1,395 +1,74 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import PolicyLayout from '../layouts/PolicyLayout.astro';
 import { siteConfig } from '../data/site';
 ---
 
-<BaseLayout
-  title={`Returns & Refunds Policy | ${siteConfig.brandName} Doha`}
+<PolicyLayout
+  title="Returns & Refunds"
   description="Learn how to return or exchange a perfume from LUMÈRA LUXE in Qatar and when you can get a refund."
+  intro="Learn how to return or exchange a perfume and what to do if it arrives damaged. Qatar Law No. 8 of 2008 protects your rights as a customer."
+  links={[
+    { id: 'trial-guarantee', label: '6-hour trial' },
+    { id: 'damaged-or-faulty', label: 'Damaged items' },
+    { id: 'how-to-return', label: 'How to return' },
+    { id: 'refunds', label: 'Refunds' }
+  ]}
+  contact={{
+    title: "Start a return",
+    text: "Message us to request a return or exchange.",
+    message: "Hello LUMÈRA LUXE, I would like to request an exchange or return.",
+    label: "Start a return on WhatsApp"
+  }}
 >
-  <div class="policy-page">
-    <header class="policy-header">
-      <div class="container-narrow text-center">
-        <span class="eyebrow">Customer Support · Doha, Qatar</span>
-        <h1 class="policy-title">Returns & Refunds</h1>
-        <p class="policy-lead">
-          Learn how to return or exchange a perfume and what to do if it arrives damaged. Qatar Law No. 8 of 2008 protects your rights as a customer.
-        </p>
-      </div>
-    </header>
+  <section id="trial-guarantee">
+    <h2>6-hour trial guarantee</h2>
+    <p>
+      Try the perfume on your skin to see if you like the scent and how long it lasts.
+    </p>
+    <ul>
+      <li>Ask for a return or exchange within <strong>six hours</strong> of delivery.</li>
+      <li>You can return or exchange the perfume even if you’ve opened and tried it.</li>
+      <li>Return the bottle, box, and cap in good condition. They must be undamaged and free of tampering.</li>
+    </ul>
+    <p>
+      <em>Message us on WhatsApp at +974 6667 5166 with your order details. Our courier will arrange to pick up the perfume from your door.</em>
+    </p>
+  </section>
 
-    <div class="container policy-body-container">
-      <div class="policy-content">
-        <!-- Highlights Bar -->
-        <div class="policy-kpi-grid">
-          <div class="kpi-card">
-            <span class="kpi-num">6 Hours</span>
-            <span class="kpi-label">To Request a Return or Exchange</span>
-            <span class="kpi-desc">From the time your order arrives</span>
-          </div>
-          <div class="kpi-card">
-            <span class="kpi-num">100%</span>
-            <span class="kpi-label">Perfume Trial Guarantee</span>
-            <span class="kpi-desc">You can open and try the perfume</span>
-          </div>
-          <div class="kpi-card">
-            <span class="kpi-num">Instant</span>
-            <span class="kpi-label">Help with Returns</span>
-            <span class="kpi-desc">Message us on WhatsApp (+974 6667 5166)</span>
-          </div>
-        </div>
+  <section id="damaged-or-faulty">
+    <h2>Damaged or faulty perfume</h2>
+    <p>
+      We check and pack each bottle by hand before delivery. If your bottle arrives damaged, leaks, or has a faulty spray nozzle, follow these steps.
+    </p>
+    <ul>
+      <li>Message us on WhatsApp within <strong>24 hours</strong> of delivery. Send clear photos of the outer packaging and the bottle.</li>
+      <li>Our courier will pick up the bottle for free.</li>
+      <li>Once we confirm the damage or fault, you can choose an immediate replacement or a full refund.</li>
+    </ul>
+  </section>
 
-        <section class="policy-section">
-          <div class="section-meta-header">
-            <span class="section-idx">01</span>
-            <h2 class="policy-section-heading">6-Hour Trial Guarantee</h2>
-          </div>
-          <p>
-            Try the perfume on your skin to see if you like the scent and how long it lasts.
-          </p>
-          <ul class="policy-list">
-            <li>Ask for a return or exchange within <strong>six hours</strong> of delivery.</li>
-            <li>You can return or exchange the perfume even if you’ve opened and tried it.</li>
-            <li>Return the bottle, box, and cap in good condition. They must be undamaged and free of tampering.</li>
-          </ul>
-          <p>
-            <em>Message us on WhatsApp at +974 6667 5166 with your order details. Our courier will arrange to pick up the perfume from your door.</em>
-          </p>
-        </section>
+  <section id="how-to-return">
+    <h2>How to return a perfume</h2>
+    <ol>
+      <li>
+        <strong>Send a message.</strong> Message us on WhatsApp at <a href={`https://wa.me/${siteConfig.whatsappNumber}`} class="policy-link">{siteConfig.whatsappDisplay}</a> with the name on your order and photos of the bottle, box, and batch code.
+      </li>
+      <li>
+        <strong>Arrange pickup.</strong> Once we approve your return, we’ll arrange for a courier to pick up the perfume at your door.
+      </li>
+      <li>
+        <strong>We check your return.</strong> We check the bottle and packaging within 24 hours of pickup.
+      </li>
+      <li>
+        <strong>Get your refund.</strong> We issue approved refunds right away. We refund cash payments at pickup and electronic payments by bank transfer.
+      </li>
+    </ol>
+  </section>
 
-        <section class="policy-section">
-          <div class="section-meta-header">
-            <span class="section-idx">02</span>
-            <h2 class="policy-section-heading">Damaged or Faulty Perfume</h2>
-          </div>
-          <p>
-            We check and pack each bottle by hand before delivery. If your bottle arrives damaged, leaks, or has a faulty spray nozzle, follow these steps.
-          </p>
-          <ul class="policy-list">
-            <li>Message us on WhatsApp within <strong>24 hours</strong> of delivery. Send clear photos of the outer packaging and the bottle.</li>
-            <li>Our courier will pick up the bottle for free.</li>
-            <li>Once we confirm the damage or fault, you can choose an immediate replacement or a full refund.</li>
-          </ul>
-        </section>
-
-        <section class="policy-section">
-          <div class="section-meta-header">
-            <span class="section-idx">03</span>
-            <h2 class="policy-section-heading">How to Return a Perfume</h2>
-          </div>
-          <ol class="numbered-process">
-            <li>
-              <strong>Send a message.</strong> Message us on WhatsApp at <a href={`https://wa.me/${siteConfig.whatsappNumber}`} class="policy-link">{siteConfig.whatsappDisplay}</a> with the name on your order and photos of the bottle, box, and batch code.
-            </li>
-            <li>
-              <strong>Arrange pickup.</strong> Once we approve your return, we’ll arrange for a courier to pick up the perfume at your door.
-            </li>
-            <li>
-              <strong>We check your return.</strong> We check the bottle and packaging within 24 hours of pickup.
-            </li>
-            <li>
-              <strong>Get your refund.</strong> We issue approved refunds right away. We refund cash payments at pickup and electronic payments by bank transfer.
-            </li>
-          </ol>
-        </section>
-
-        <section class="policy-section">
-          <div class="section-meta-header">
-            <span class="section-idx">04</span>
-            <h2 class="policy-section-heading">What Your Refund Covers</h2>
-          </div>
-          <p>
-            If we approve your refund, you get back the full price you paid for the perfume. If you return it because you don’t like it, your refund excludes any delivery fee you paid. If we send a faulty or incorrect item, we refund all charges, including delivery.
-          </p>
-        </section>
-
-        <div class="concierge-callout">
-          <div class="section-meta-header">
-            <span class="section-idx">05</span>
-            <h2 class="policy-section-heading">Start a Return</h2>
-          </div>
-          <p>
-            Message us to request a return or exchange.
-          </p>
-          <div class="concierge-links">
-            <a
-              href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent("Hello LUMÈRA LUXE, I would like to request an exchange or return.")}`}
-              class="btn-callout-action"
-              target="_blank"
-              rel="noopener"
-            >
-              Start a Return on WhatsApp
-            </a>
-            <a href={`mailto:${siteConfig.customerSupportEmail}`} class="email-direct">
-              {siteConfig.customerSupportEmail}
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</BaseLayout>
-
-<style>
-  .policy-page {
-    background-color: var(--color-bg);
-    color: var(--color-text-main);
-  }
-
-  .container-narrow {
-    width: 100%;
-    max-width: 760px;
-    margin: 0 auto;
-    padding: 0 var(--page-gutter);
-  }
-
-  .text-center {
-    text-align: center;
-  }
-
-  .policy-header {
-    background: linear-gradient(180deg, var(--color-surface) 0%, var(--color-bg) 100%);
-    border-bottom: 1px solid var(--color-border-subtle);
-    padding: clamp(3.5rem, 6vw, 5.5rem) 0 clamp(2.5rem, 4vw, 4rem);
-  }
-
-  .eyebrow {
-    font-size: 0.6875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: var(--color-brand-cognac);
-    margin-bottom: 1rem;
-    display: inline-block;
-  }
-
-  .policy-title {
-    font-family: var(--font-serif);
-    font-size: clamp(2.2rem, 5vw, 3.5rem);
-    font-weight: 400;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    color: var(--color-text-main);
-    margin-bottom: 1.25rem;
-  }
-
-  .policy-lead {
-    font-size: clamp(1rem, 1.8vw, 1.125rem);
-    font-weight: 300;
-    line-height: 1.7;
-    color: var(--color-text-muted);
-    max-width: 580px;
-    margin: 0 auto;
-  }
-
-  .policy-body-container {
-    padding-top: clamp(2.5rem, 5vw, 4.5rem);
-    padding-bottom: 5.5rem;
-  }
-
-  .policy-content {
-    max-width: 760px;
-    margin: 0 auto;
-  }
-
-  .policy-kpi-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.25rem;
-    margin-bottom: 3.5rem;
-  }
-
-  @media (max-width: 640px) {
-    .policy-kpi-grid {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
-  }
-
-  .kpi-card {
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius-sm);
-    padding: 1.5rem;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .kpi-num {
-    font-family: var(--font-serif);
-    font-size: 1.85rem;
-    font-style: italic;
-    color: var(--color-brand-cognac);
-    margin-bottom: 0.35rem;
-  }
-
-  .kpi-label {
-    font-size: .875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-text-main);
-    margin-bottom: 0.35rem;
-  }
-
-  .kpi-desc {
-    font-size: .875rem;
-    color: var(--color-text-muted);
-    line-height: 1.4;
-  }
-
-  .policy-section {
-    margin-bottom: 3rem;
-    padding-bottom: 2.25rem;
-    border-bottom: 1px solid var(--color-border-subtle);
-  }
-
-  .policy-section:last-child {
-    border-bottom: none;
-    margin-bottom: 0;
-    padding-bottom: 0;
-  }
-
-  .section-meta-header {
-    display: flex;
-    align-items: baseline;
-    gap: 0.85rem;
-    margin-bottom: 1.15rem;
-  }
-
-  .section-idx {
-    font-family: var(--font-serif);
-    font-size: 1.5rem;
-    font-style: italic;
-    font-weight: 400;
-    color: var(--color-brand-cognac);
-    opacity: 0.85;
-  }
-
-  .policy-section-heading {
-    font-family: var(--font-serif);
-    font-size: clamp(1.35rem, 2.5vw, 1.75rem);
-    font-weight: 400;
-    color: var(--color-text-main);
-  }
-
-  .policy-section p {
-    font-size: 1rem;
-    line-height: 1.75;
-    margin-bottom: 1.25rem;
-    color: var(--color-text-muted);
-  }
-
-  .policy-link {
-    color: var(--color-text-main);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-
-  .policy-list {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 1.25rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .policy-list li {
-    font-size: 0.92rem;
-    line-height: 1.6;
-    color: var(--color-text-muted);
-    padding-left: 1.5rem;
-    position: relative;
-  }
-
-  .policy-list li::before {
-    content: "·";
-    position: absolute;
-    left: 0.25rem;
-    font-weight: 700;
-    color: var(--color-brand-cognac);
-  }
-
-  .numbered-process {
-    padding-left: 1.25rem;
-    margin: 0 0 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .numbered-process li {
-    font-size: 1rem;
-    line-height: 1.65;
-    color: var(--color-text-muted);
-  }
-
-  .numbered-process li strong {
-    color: var(--color-text-main);
-  }
-
-  .concierge-callout {
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius-sm);
-    padding: clamp(2rem, 4vw, 2.75rem) clamp(1.5rem, 3.5vw, 2.5rem);
-    margin-top: 3.5rem;
-    margin-bottom: 2rem;
-  }
-
-  .concierge-callout p {
-    font-size: 1rem;
-    line-height: 1.7;
-    margin-bottom: 1.5rem;
-    color: var(--color-text-muted);
-  }
-
-  .concierge-links {
-    display: flex;
-    align-items: center;
-    gap: 1.5rem;
-    flex-wrap: wrap;
-    margin: 0;
-  }
-
-  .btn-callout-action {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #1A1A1A;
-    color: #FFFFFF;
-    font-size: .875rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 0.85rem 1.65rem;
-    min-height: 44px;
-    border-radius: 2px;
-    text-decoration: none;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-    transition: all 0.2s ease;
-  }
-
-  .btn-callout-action:hover {
-    background-color: #000000;
-    color: #FFFFFF;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
-  }
-
-  .email-direct {
-    font-weight: 500;
-    font-size: .875rem;
-    color: var(--color-text-main);
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    transition: color 0.15s ease;
-  }
-
-  .email-direct:hover {
-    color: var(--color-brand-cognac);
-  }
-</style>
+  <section id="refunds">
+    <h2>What your refund covers</h2>
+    <p>
+      If we approve your refund, you get back the full price you paid for the perfume. If you return it because you don’t like it, your refund excludes any delivery fee you paid. If we send a faulty or incorrect item, we refund all charges, including delivery.
+    </p>
+  </section>
+</PolicyLayout>

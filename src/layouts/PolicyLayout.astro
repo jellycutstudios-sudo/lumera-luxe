@@ -1,0 +1,169 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { siteConfig } from '../data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  intro: string;
+  links: { id: string; label: string }[];
+  contact: {
+    title: string;
+    text: string;
+    message?: string;
+    label?: string;
+    email?: string;
+  };
+}
+
+const { title, description, intro, links, contact } = Astro.props;
+const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}`;
+const contactUrl = contact.message
+  ? `${whatsappUrl}?text=${encodeURIComponent(contact.message)}`
+  : whatsappUrl;
+const email = contact.email ?? siteConfig.customerSupportEmail;
+---
+
+<BaseLayout title={`${title} | ${siteConfig.brandName} Doha`} description={description}>
+  <div class="container policy-content">
+    <header class="policy-header">
+      <p class="policy-kicker">Customer Support</p>
+      <h1>{title}</h1>
+      <p>{intro}</p>
+    </header>
+
+    <nav class="policy-nav" aria-label="On this page">
+      {links.map(({ id, label }) => <a href={`#${id}`}>{label}</a>)}
+    </nav>
+
+    <div class="policy-sections">
+      <slot />
+    </div>
+
+    <section class="policy-contact" aria-labelledby="policy-contact-heading">
+      <h2 id="policy-contact-heading">{contact.title}</h2>
+      <p>{contact.text}</p>
+      <div class="contact-links">
+        <a class="btn btn-primary contact-button" href={contactUrl} target="_blank" rel="noopener">
+          {contact.label ?? 'Message us on WhatsApp'}
+        </a>
+        <a class="policy-link" href={`mailto:${email}`}>{email}</a>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .policy-content {
+    max-width: calc(44rem + 2 * var(--page-gutter));
+    padding-block: clamp(2rem, 5vw, 4rem) clamp(3rem, 6vw, 5rem);
+  }
+
+  .policy-header {
+    margin-bottom: 1.25rem;
+  }
+
+  .policy-kicker {
+    color: var(--color-brand-cognac-dark);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  .policy-header h1 {
+    font-size: clamp(2rem, 4vw, 3.25rem);
+    font-weight: 550;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+    margin-block: 0.35rem 0.65rem;
+  }
+
+  .policy-nav {
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: clamp(1rem, 3vw, 1.5rem);
+    border-block: 1px solid var(--color-border-subtle);
+  }
+
+  @media (max-width: 480px) {
+    .policy-nav {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .policy-nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .policy-nav a:hover,
+  .policy-nav a:focus-visible {
+    color: var(--color-brand-cognac-dark);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .policy-sections > :global(section),
+  .policy-contact {
+    padding-block: clamp(1.2rem, 3vw, 1.8rem);
+  }
+
+  .policy-sections > :global(section) {
+    scroll-margin-top: 8rem;
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  .policy-content :global(h2) {
+    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+    font-weight: 600;
+    letter-spacing: 0;
+    margin-bottom: 0.5rem;
+  }
+
+  .policy-sections :global(p + p),
+  .policy-sections :global(p + ul),
+  .policy-sections :global(ul + p) {
+    margin-top: 0.65rem;
+  }
+
+  .policy-sections :global(ul),
+  .policy-sections :global(ol) {
+    padding-inline-start: 1.35rem;
+    color: var(--color-text-muted);
+  }
+
+  .policy-sections :global(li + li) {
+    margin-top: 0.45rem;
+  }
+
+  .contact-links {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+    margin-top: 0.85rem;
+  }
+
+  .contact-button {
+    min-height: 44px;
+    padding: 0.65rem 1rem;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .policy-content :global(.policy-link) {
+    color: var(--color-text-main);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .policy-content :global(.policy-link:hover) {
+    color: var(--color-brand-cognac-dark);
+  }
+</style>
