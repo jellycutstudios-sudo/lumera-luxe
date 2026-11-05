@@ -243,7 +243,7 @@ const { product, priority = false, isLarge = false } = Astro.props;
 
   .card-brand {
     font-family: var(--font-body);
-    font-size: 0.78125rem;
+    font-size: 0.875rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -251,26 +251,17 @@ const { product, priority = false, isLarge = false } = Astro.props;
     margin-bottom: 0.3rem;
     line-height: 1.25;
     min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 
   .card-title {
     font-family: var(--font-body);
-    font-size: clamp(0.96875rem, 1.2vw, 1.0625rem);
+    font-size: clamp(1rem, 1.2vw, 1.0625rem);
     font-weight: 600;
     letter-spacing: 0.01em;
     color: #110F0D;
     margin-bottom: 0.35rem;
     line-height: 1.35;
     min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    white-space: normal;
     min-height: 2.7em;
   }
 
@@ -285,7 +276,7 @@ const { product, priority = false, isLarge = false } = Astro.props;
   }
 
   .card-specs {
-    font-size: clamp(.7rem, 1vw, .8rem);
+    font-size: .875rem;
     color: #605248;
     line-height: 1.4;
     margin: 0 0 .65rem;
@@ -314,17 +305,15 @@ const { product, priority = false, isLarge = false } = Astro.props;
     font-size: clamp(1.15rem, 1.4vw, 1.25rem);
     font-weight: 700;
     color: #110F0D;
-    white-space: nowrap;
     letter-spacing: -0.01em;
   }
 
   .card-sticker-price {
     font-family: var(--font-body);
-    font-size: 0.8125rem;
+    font-size: 0.875rem;
     font-weight: 500;
-    color: #8C847B;
+    color: var(--color-text-light);
     text-decoration: line-through;
-    white-space: nowrap;
   }
 
   .card-actions-row {
@@ -349,7 +338,7 @@ const { product, priority = false, isLarge = false } = Astro.props;
     background: #fff;
     color: #38261f;
     font-family: var(--font-body);
-    font-size: clamp(.75rem, 1.1vw, .82rem);
+    font-size: .875rem;
     font-weight: 600;
     line-height: 1.2;
     text-align: center;
@@ -384,8 +373,8 @@ const { product, priority = false, isLarge = false } = Astro.props;
   }
 
   .card-bag-btn.added-success {
-    background: #25D366 !important;
-    border-color: #25D366 !important;
+    background: #16604a !important;
+    border-color: #16604a !important;
     color: #FFFFFF !important;
   }
 
@@ -401,36 +390,9 @@ const { product, priority = false, isLarge = false } = Astro.props;
     border-width: 0;
   }
 
-  @media (min-width: 768px) {
-    .card-brand,
-    .card-specs,
-    .card-sticker-price,
-    .card-buy-btn,
-    .card-bag-btn {
-      font-size: .875rem;
-    }
-
-    .card-title {
-      font-size: clamp(1rem, 1.2vw, 1.0625rem);
-    }
-  }
-
   @media (width < 768px) {
     .card-brand {
-      font-size: .8125rem;
       letter-spacing: .05em;
-      white-space: normal;
-      overflow-wrap: anywhere;
-    }
-
-    .card-title {
-      font-size: 1rem;
-    }
-
-    .card-specs,
-    .card-buy-btn,
-    .card-bag-btn {
-      font-size: .875rem;
     }
   }
 

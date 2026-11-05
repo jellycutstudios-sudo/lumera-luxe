@@ -257,7 +257,7 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
   .shop-description {
     margin: .6rem 0 0;
     color: #665449;
-    font-size: .93rem;
+    font-size: 1rem;
     line-height: 1.5;
   }
 
@@ -488,7 +488,7 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
     padding: 0.42rem 0.95rem;
     min-height: 44px;
     font-family: var(--font-body);
-    font-size: clamp(0.78125rem, 1.1vw, 0.84375rem);
+    font-size: .875rem;
     font-weight: 600;
     letter-spacing: 0.02em;
     border-radius: .4rem;
@@ -541,7 +541,7 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
     border-bottom: 2px solid transparent;
     background: transparent;
     color: #665449;
-    font: 500 clamp(.79rem, 1.05vw, .88rem)/1.2 var(--font-body);
+    font: 500 .875rem/1.2 var(--font-body);
     white-space: nowrap;
     cursor: pointer;
   }
@@ -703,7 +703,7 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
   }
 
   .drawer-subtitle {
-    font-size: 0.6875rem;
+    font-size: .875rem;
     color: var(--color-text-light);
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -739,13 +739,15 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
 
   .drawer-section-header {
     display: flex;
+    flex-wrap: wrap;
+    gap: .25rem .5rem;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 0.55rem;
   }
 
   .drawer-section-title {
-    font-size: 0.75rem;
+    font-size: .875rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.12em;
@@ -753,7 +755,7 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
   }
 
   .drawer-section-selected {
-    font-size: 0.71875rem;
+    font-size: .875rem;
     font-weight: 600;
     color: var(--color-brand-cognac);
   }
@@ -778,7 +780,7 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
     background: var(--color-surface);
     color: var(--color-text-main);
     font-family: var(--font-body);
-    font-size: 0.71875rem;
+    font-size: .875rem;
     font-weight: 500;
     cursor: pointer;
     transition: all var(--transition-fast);
@@ -799,6 +801,7 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
 
   .drawer-footer {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 0.75rem;
@@ -810,7 +813,7 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
 
   .drawer-reset-btn {
     font-family: var(--font-body);
-    font-size: 0.75rem;
+    font-size: .875rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.06em;
@@ -827,17 +830,18 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
   }
 
   .drawer-apply-btn {
-    flex: 1;
+    flex: 1 1 10rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 40px;
+    min-height: 44px;
+    padding: .45rem .65rem;
     background: var(--color-brand-gradient);
     color: #FFFFFF;
     border: none;
     border-radius: var(--border-radius-sm);
     font-family: var(--font-body);
-    font-size: 0.8125rem;
+    font-size: .875rem;
     font-weight: 600;
     letter-spacing: 0.04em;
     cursor: pointer;
@@ -880,7 +884,7 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
   }
 
   .zero-subtitle {
-    font-size: 0.9rem;
+    font-size: 1rem;
     color: var(--color-text-muted);
     margin-bottom: 1.25rem;
   }
@@ -906,7 +910,7 @@ const brands = Array.from(new Set(publicProducts.map((p) => p.brand))).sort();
     .catalog-status-bar,
     .family-pill,
     .mobile-filter-drawer-btn {
-      font-size: .9375rem;
+      font-size: .875rem;
     }
 
     .shop-description {

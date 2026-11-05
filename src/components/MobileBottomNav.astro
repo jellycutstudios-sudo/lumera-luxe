@@ -400,7 +400,7 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
           <a
             href="/shop/"
             class:list={['bottom-nav-item', { active: currentPath.startsWith('/shop') }]}
-            aria-label="Fragrances Collection"
+            aria-label="Shop fragrances"
             id="bottom-nav-collection-link"
             aria-current={currentPath.startsWith('/shop') ? 'page' : undefined}
             data-astro-prefetch
@@ -413,14 +413,14 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
                 <line x1="9" y1="13" x2="15" y2="13"></line>
               </svg>
             </div>
-            <span class="bottom-nav-label">Collection</span>
+            <span class="bottom-nav-label">Shop</span>
           </a>
 
           <!-- Tab 3: Scent Families / Notes (Fragrance Droplet Icon) -->
           <button
             type="button"
             class="bottom-nav-item"
-            aria-label="Explore Scent Families"
+            aria-label="Scents by family"
             id="bottom-nav-families-btn"
             aria-haspopup="dialog"
             aria-expanded="false"
@@ -432,7 +432,7 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
                 <circle cx="12" cy="14" r="2.5"></circle>
               </svg>
             </div>
-            <span class="bottom-nav-label">Families</span>
+            <span class="bottom-nav-label">Scents</span>
           </button>
 
           <!-- Tab 4: Discovery Menu (Compass Line Icon & Discovery Sheet Modal) -->
@@ -440,7 +440,7 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
             type="button"
             class:list={['bottom-nav-item', 'discovery-tab', { active: currentPath.startsWith('/fragrance-finder') || currentPath.startsWith('/scent-styling') || currentPath.startsWith('/layering') }]}
             id="bottom-nav-discovery-btn"
-            aria-label="Curated Fragrance Discovery"
+            aria-label="Explore fragrance guides"
             aria-haspopup="dialog"
             aria-expanded="false"
             aria-controls="discovery-modal"
@@ -451,7 +451,7 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
                 <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"></polygon>
               </svg>
             </div>
-            <span class="bottom-nav-label">Discovery</span>
+            <span class="bottom-nav-label">Explore</span>
           </button>
           <a
             href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent('Hello LUMÈRA LUXE, I would like help choosing a fragrance.')}`}
@@ -466,7 +466,7 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
                 <path d="M15.5 13.5v1.2a1.3 1.3 0 0 1-1.4 1.3 7.8 7.8 0 0 1-5.6-5.6 1.3 1.3 0 0 1 1.3-1.4h1.2a.9.9 0 0 1 .9.7l.3 1.2a.9.9 0 0 1-.3.9l-.6.6a5.5 5.5 0 0 0 2.6 2.6l.6-.6a.9.9 0 0 1 .9-.3l1.2.3a.9.9 0 0 1 .7.9z" />
               </svg>
             </span>
-            <span class="bottom-nav-label">WhatsApp</span>
+            <span class="bottom-nav-label">Chat</span>
           </a>
         </div>
       </nav>
@@ -521,7 +521,7 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
 
   .bottom-nav-container {
     display: grid;
-    grid-template-columns: repeat(5, minmax(max-content, 1fr));
+    grid-template-columns: repeat(5, minmax(0, 1fr));
     min-height: var(--nav-bar-height);
     max-width: 500px;
     margin-inline: auto;
@@ -592,7 +592,8 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
   }
 
   .bottom-nav-label {
-    font: var(--nav-tab-label-weight, 600) .75rem/1.2 var(--font-body);
+    max-width: 100%;
+    font: var(--nav-tab-label-weight, 600) .875rem/1.2 var(--font-body);
     text-align: center;
   }
 
@@ -789,6 +790,7 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
 
   .family-item-headline {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 0.5rem;
     margin-bottom: 0.2rem;
@@ -796,7 +798,7 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
 
   .family-item-name {
     font-family: var(--font-body);
-    font-size: 0.875rem;
+    font-size: 1rem;
     font-weight: 600;
     color: var(--color-text-main);
     letter-spacing: 0.01em;
@@ -814,13 +816,10 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
   }
 
   .family-item-desc {
-    font-size: 0.75rem;
+    font-size: .875rem;
     color: var(--color-text-muted);
     line-height: 1.35;
     margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   .family-item-arrow {
@@ -854,7 +853,7 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
     color: #FFFFFF;
     text-decoration: none;
     font-family: var(--font-body);
-    font-size: 0.75rem;
+    font-size: .875rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -871,7 +870,7 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
     align-items: center;
     justify-content: center;
     gap: 0.45rem;
-    font-size: 0.75rem;
+    font-size: .875rem;
     font-weight: 600;
     color: var(--color-accent);
     text-decoration: none;
@@ -940,6 +939,7 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
 
   .discovery-item-headline {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 0.45rem;
@@ -949,13 +949,10 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
 
   .discovery-item-name {
     font-family: var(--font-body);
-    font-size: 0.8125rem;
+    font-size: 1rem;
     font-weight: 600;
     color: #141210;
     letter-spacing: 0.01em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     min-width: 0;
   }
 
@@ -978,13 +975,10 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
   }
 
   .discovery-item-desc {
-    font-size: 0.72rem;
-    color: #8C827A;
+    font-size: .875rem;
+    color: var(--color-text-light);
     line-height: 1.35;
     margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   .discovery-item-arrow {
@@ -1012,7 +1006,7 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
   }
 
   .quick-filters-label {
-    font-size: 0.625rem;
+    font-size: .875rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -1033,7 +1027,7 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
     background: #FFFFFF;
     border: 1px solid var(--color-border);
     border-radius: 999px;
-    font-size: 0.7rem;
+    font-size: .875rem;
     font-weight: 500;
     color: var(--color-text-main);
     text-decoration: none;
@@ -1075,7 +1069,7 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
     border-radius: 6px;
     color: var(--color-text-muted);
     font-family: var(--font-body);
-    font-size: 0.72rem;
+    font-size: .875rem;
     font-weight: 500;
     cursor: pointer;
     transition: all var(--transition-fast);
@@ -1092,7 +1086,7 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
      SUPPORT MODAL & FORM STYLING
      ========================================================== */
   .support-intro-text {
-    font-size: 0.8125rem;
+    font-size: 1rem;
     color: var(--color-text-muted);
     line-height: 1.5;
     margin: 0 0 1rem;
@@ -1112,14 +1106,14 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
 
   .form-field-label {
     font-family: var(--font-body);
-    font-size: 0.75rem;
+    font-size: 1rem;
     font-weight: 600;
     color: var(--color-text-main);
     letter-spacing: 0.02em;
   }
 
   .label-optional {
-    font-size: 0.6875rem;
+    font-size: .875rem;
     color: var(--color-text-light);
     font-weight: 400;
   }
@@ -1141,7 +1135,7 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
     white-space: nowrap;
     padding: 0.4rem 0.8rem;
     font-family: var(--font-body);
-    font-size: 0.71875rem;
+    font-size: .875rem;
     font-weight: 500;
     border-radius: 999px;
     border: 1px solid var(--color-border);
@@ -1205,12 +1199,12 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
     gap: 0.65rem;
     width: 100%;
     padding: 0.95rem;
-    background: #128C7E;
+    background: #16604a;
     color: #FFFFFF;
     border: none;
     border-radius: var(--border-radius-sm);
     font-family: var(--font-body);
-    font-size: 0.8125rem;
+    font-size: 1rem;
     font-weight: 700;
     letter-spacing: 0.05em;
     text-transform: uppercase;
@@ -1230,7 +1224,7 @@ const totalFragrances = productsData.filter((p) => !p.isDraft).length;
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
-    font-size: 0.6875rem;
+    font-size: .875rem;
     color: var(--color-text-muted);
     letter-spacing: 0.02em;
   }

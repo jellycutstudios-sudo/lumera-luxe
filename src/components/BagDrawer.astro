@@ -211,8 +211,9 @@
 
   .bag-drawer-title-group {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 0.85rem;
+    gap: .35rem .85rem;
     min-width: 0;
   }
 
@@ -224,12 +225,11 @@
     text-transform: uppercase;
     color: #181513;
     margin: 0;
-    white-space: nowrap;
   }
 
   .bag-drawer-badge {
     font-family: var(--font-body);
-    font-size: 0.6875rem;
+    font-size: .875rem;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -238,8 +238,6 @@
     border: 1px solid #E8E3DC;
     padding: 0.25rem 0.65rem;
     border-radius: 999px;
-    white-space: nowrap;
-    flex-shrink: 0;
   }
 
   .bag-close-btn {
@@ -374,7 +372,7 @@
   }
 
   .empty-subtitle {
-    font-size: 0.85rem;
+    font-size: 1rem;
     color: #6D6760;
     line-height: 1.55;
     max-width: 290px;
@@ -388,7 +386,7 @@
     background-color: #181513;
     color: #FFFFFF;
     text-decoration: none;
-    font-size: 0.75rem;
+    font-size: .875rem;
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
@@ -426,7 +424,7 @@
   }
 
   .perk-text {
-    font-size: 0.75rem;
+    font-size: .875rem;
     font-weight: 500;
     color: var(--color-text-main);
     line-height: 1.4;
@@ -530,11 +528,11 @@
   }
 
   :global(.bag-item-brand) {
-    font-size: clamp(0.72rem, 1vw, 0.78125rem);
+    font-size: .875rem;
     text-transform: uppercase;
     font-weight: 600;
     letter-spacing: 0.1em;
-    color: #8F8880;
+    color: var(--color-text-light);
   }
 
   :global(.bag-item-name) {
@@ -547,13 +545,14 @@
   }
 
   :global(.bag-item-meta) {
-    font-size: clamp(0.75rem, 1vw, 0.8125rem);
+    font-size: .875rem;
     color: #76706B;
     margin-bottom: 0.75rem;
   }
 
   :global(.bag-item-bottom) {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     margin-top: auto;
@@ -570,9 +569,9 @@
     background: transparent;
     border: none;
     font-family: var(--font-body);
-    font-size: clamp(0.75rem, 1vw, 0.8125rem);
+    font-size: .875rem;
     font-weight: 500;
-    color: #8F8880;
+    color: var(--color-text-light);
     cursor: pointer;
     text-decoration: underline;
     text-underline-offset: 2px;
@@ -671,7 +670,7 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 0.75rem;
+    font-size: .875rem;
     color: #76706B;
   }
 
@@ -695,7 +694,7 @@
     text-decoration: none;
     font-weight: 600;
     min-height: 52px;
-    font-size: clamp(0.8125rem, 1.1vw, 0.875rem);
+    font-size: 1rem;
     letter-spacing: 0.12em;
     display: flex;
     align-items: center;
@@ -723,7 +722,7 @@
     background-color: #FAF8F5;
     color: #181513;
     text-decoration: none;
-    font-size: 0.75rem;
+    font-size: .875rem;
     font-weight: 500;
     letter-spacing: 0.04em;
     border-radius: 2px;
@@ -927,7 +926,7 @@
     display: flex;
     align-items: center;
     gap: 0.4rem;
-    font-size: 0.78125rem;
+    font-size: .875rem;
     color: #B3ADA6;
   }
 
@@ -956,7 +955,7 @@
     border: none;
     border-radius: 2px;
     font-family: var(--font-body);
-    font-size: 0.75rem;
+    font-size: .875rem;
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -996,7 +995,7 @@
     color: #FAF8F5;
     text-decoration: none;
     font-family: var(--font-body);
-    font-size: 0.71875rem;
+    font-size: .875rem;
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;

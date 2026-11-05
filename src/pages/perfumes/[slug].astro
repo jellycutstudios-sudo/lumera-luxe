@@ -301,7 +301,7 @@ const productSchema = {
     gap: .35rem .6rem;
     margin-bottom: clamp(.9rem, 2vw, 1.6rem);
     color: var(--color-text-muted);
-    font-size: .76rem;
+    font-size: .875rem;
     overflow-wrap: anywhere;
   }
 
@@ -387,7 +387,7 @@ const productSchema = {
     display: block;
     margin-bottom: .45rem;
     color: #784b34;
-    font-size: .74rem;
+    font-size: .875rem;
     font-weight: 650;
     letter-spacing: .13em;
     text-transform: uppercase;
@@ -403,7 +403,7 @@ const productSchema = {
 
   .pdp-variant-details {
     color: var(--color-text-muted);
-    font-size: .92rem;
+    font-size: 1rem;
   }
 
   .pdp-price-row {
@@ -420,7 +420,7 @@ const productSchema = {
   }
 
   .pdp-sticker-price {
-    color: #6f6158;
+    color: var(--color-text-light);
     font-size: .9rem;
   }
 
@@ -430,7 +430,7 @@ const productSchema = {
     border-left: 2px solid #784b34;
     background: #fbf8f4;
     color: #584a40;
-    font-size: .85rem;
+    font-size: .875rem;
   }
 
   .pdp-draft-notice p {
@@ -458,7 +458,7 @@ const productSchema = {
     border-radius: .4rem;
     background: transparent;
     color: #38261f;
-    font: 650 .83rem/1.25 var(--font-body);
+    font: 650 .875rem/1.25 var(--font-body);
     text-decoration: none;
     text-align: center;
     cursor: pointer;
@@ -497,7 +497,7 @@ const productSchema = {
     gap: .3rem 1rem;
     margin-top: .8rem;
     color: #665449;
-    font-size: .79rem;
+    font-size: .875rem;
   }
 
   .pdp-micro-assurances a, .pdp-delivery-check summary, .layering-intro a {
@@ -541,7 +541,7 @@ const productSchema = {
     gap: .35rem;
     min-height: 44px;
     color: #16604a;
-    font-size: .83rem;
+    font-size: .875rem;
     font-weight: 650;
     text-decoration: underline;
     text-underline-offset: .22em;
@@ -570,7 +570,7 @@ const productSchema = {
   .pdp-description, .layering-intro p {
     max-width: 62ch;
     color: #584a40;
-    font-size: .94rem;
+    font-size: 1rem;
     line-height: 1.65;
   }
 
@@ -578,7 +578,7 @@ const productSchema = {
     display: grid;
     gap: .65rem;
     margin: .95rem 0 0;
-    font-size: .85rem;
+    font-size: 1rem;
   }
 
   .pdp-scent-details dt {
@@ -603,7 +603,7 @@ const productSchema = {
 
   .layering-intro a {
     color: #694b3a;
-    font-size: .83rem;
+    font-size: .875rem;
   }
 
   .layering-selection {
@@ -659,7 +659,7 @@ const productSchema = {
 
   .related-section .see-all-link {
     color: #694b3a;
-    font-size: .75rem;
+    font-size: .875rem;
     letter-spacing: 0;
     text-align: right;
     text-transform: none;
@@ -767,25 +767,16 @@ const productSchema = {
     font-size: .9rem;
   }
   @media (min-width: 768px) {
-    .pdp-breadcrumb,
-    .pdp-brand {
-      font-size: .875rem;
-    }
-
     .btn-pdp-add-bag,
     .btn-pdp-buy-now,
     .btn-buy-duet,
     .pdp-micro-assurances,
     .layering-intro a,
     .related-section .see-all-link {
-      font-size: .9375rem;
+      font-size: .875rem;
     }
 
-    .pdp-variant-details,
-    .pdp-description,
-    .pdp-scent-details,
-    .pdp-delivery-fields,
-    .layering-intro p {
+    .pdp-delivery-fields {
       font-size: 1rem;
     }
   }

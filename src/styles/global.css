@@ -69,7 +69,7 @@
 
 html {
   font-family: var(--font-body);
-  font-size: 16px;
+  font-size: 100%;
   line-height: 1.6;
   background-color: var(--color-bg);
   color: var(--color-text-main);
@@ -88,6 +88,7 @@ body {
   background-color: var(--color-bg);
   color: var(--color-text-main);
   overflow-x: hidden;
+  overflow-wrap: anywhere;
   -webkit-overflow-scrolling: touch;
 }
 
@@ -150,7 +151,7 @@ input, select, textarea {
 /* Prevent iOS Safari 100% zoom-in on input focus */
 @media screen and (max-width: 767px) {
   input, select, textarea {
-    font-size: 16px !important;
+    font-size: max(16px, 1rem) !important;
   }
 }
 
@@ -211,7 +212,7 @@ input, select, textarea {
   align-items: center;
   justify-content: center;
   gap: 0.55rem;
-  font-size: clamp(0.8125rem, 1.2vw, 0.875rem);
+  font-size: 0.875rem;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;

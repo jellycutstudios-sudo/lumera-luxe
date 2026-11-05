@@ -35,7 +35,7 @@ const elementalCollections = [
     title: 'Desert Fire',
     zodiacEnergy: 'Aries · Leo · Sagittarius',
     essence: 'Solar Ambers, Spiced Saffron, & Sacred Frankincense',
-    description: 'Dynamic, magnetic presence. Scents that radiate with fiery conviction, roasted spices, and enduring amber sillage in the cool evening air.',
+    description: 'Warm, bold fragrances with roasted spices and a lasting amber scent trail.',
     slugs: ['chopard-black-incense-malaki', 'dolce-and-gabbana-velvet-desert-oud']
   },
   {
@@ -217,7 +217,7 @@ const elementalCollections = [
             <span class="section-kicker">Maison Rituals</span>
             <h2 class="invitation-title">The Art of Layering: 10 Curated Scent Duets</h2>
             <p class="invitation-desc">
-              Discover how foundation bases and harmonizing veils combine to create an olfactory signature that is exclusively yours. Explore our 10 sommelier-crafted two-flacon combinations complete with ritual guides and direct checkout.
+              Explore 10 fragrance pairs with tips on which scent to apply first and how to wear them together.
             </p>
             <div class="invitation-tags">
               <span class="inv-tag">Warm Amber & Oud</span>
@@ -252,12 +252,12 @@ const elementalCollections = [
       <div class="container">
         <div class="cta-inner-card">
           <span class="cta-kicker">Interactive Scent Consultation</span>
-          <h2 class="cta-title">Find Your Personalized Signature Flacon</h2>
+          <h2 class="cta-title">Find Your Signature Scent</h2>
           <p class="cta-lead">
-            Take our 4-question interactive consultation. Answer questions on your fragrance family, desired longevity, sillage trail, and occasions to receive three tailor-made flacon recommendations.
+            Answer four questions about the scents you like, how long they should last, how noticeable they should be, and where you’ll wear them. We’ll suggest three fragrances.
           </p>
           <a href="/fragrance-finder/" class="btn-cta-quiz">
-            <span>Begin Fragrance Consultation (1 Min)</span>
+            <span>Start fragrance quiz</span>
             <span aria-hidden="true">→</span>
           </a>
         </div>
@@ -343,7 +343,7 @@ const elementalCollections = [
     align-items: center;
     flex-shrink: 0;
     white-space: nowrap;
-    font-size: 0.75rem;
+    font-size: .875rem;
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -415,7 +415,7 @@ const elementalCollections = [
   }
 
   .section-desc {
-    font-size: 0.95rem;
+    font-size: 1rem;
     line-height: 1.6;
     color: var(--color-text-muted, #6B635B);
     margin: 0;
@@ -458,7 +458,7 @@ const elementalCollections = [
 
   .metal-badge {
     display: inline-block;
-    font-size: 0.6875rem;
+    font-size: .875rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -469,7 +469,7 @@ const elementalCollections = [
 
   .gold-card .metal-badge {
     background-color: #FDF6E2;
-    color: #996B16;
+    color: #805911;
   }
 
   .silver-card .metal-badge {
@@ -491,14 +491,14 @@ const elementalCollections = [
   }
 
   .metal-notes-line {
-    font-size: 0.84375rem;
+    font-size: .875rem;
     font-weight: 600;
     color: var(--color-brand-cognac, #9E532B);
     margin: 0 0 0.75rem;
   }
 
   .metal-copy {
-    font-size: 0.9375rem;
+    font-size: 1rem;
     line-height: 1.55;
     color: var(--color-text-muted, #6B635B);
     margin: 0;
@@ -529,7 +529,7 @@ const elementalCollections = [
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 0.8125rem;
+    font-size: .875rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.06em;
@@ -572,7 +572,7 @@ const elementalCollections = [
   }
 
   .element-tag {
-    font-size: 0.75rem;
+    font-size: .875rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
@@ -580,7 +580,7 @@ const elementalCollections = [
   }
 
   .element-energy {
-    font-size: 0.75rem;
+    font-size: .875rem;
     color: var(--color-text-muted, #6B635B);
     font-style: italic;
   }
@@ -594,7 +594,7 @@ const elementalCollections = [
   }
 
   .element-desc {
-    font-size: 0.84375rem;
+    font-size: 1rem;
     line-height: 1.5;
     color: var(--color-text-muted, #6B635B);
     margin: 0 0 1.25rem;
@@ -630,7 +630,7 @@ const elementalCollections = [
   }
 
   .chip-brand {
-    font-size: 0.6875rem;
+    font-size: .875rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.06em;
@@ -638,13 +638,13 @@ const elementalCollections = [
   }
 
   .chip-name {
-    font-size: 0.84375rem;
+    font-size: .875rem;
     font-weight: 600;
     color: var(--color-text-main, #1A1715);
   }
 
   .chip-price {
-    font-size: 0.75rem;
+    font-size: .875rem;
     color: var(--color-text-muted, #6B635B);
   }
 
@@ -653,16 +653,16 @@ const elementalCollections = [
     background: #FAF8F5;
     border: 1px solid var(--color-border, #EAE5DE);
     border-radius: 4px;
-    padding: clamp(2rem, 4vw, 3rem);
+    padding: clamp(1rem, 4vw, 3rem);
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 2rem;
     align-items: center;
   }
 
   @media (min-width: 900px) {
     .layering-invitation-card {
-      grid-template-columns: 1.2fr 0.8fr;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr);
       gap: 3rem;
     }
   }
@@ -677,7 +677,7 @@ const elementalCollections = [
   }
 
   .invitation-desc {
-    font-size: 0.9375rem;
+    font-size: 1rem;
     line-height: 1.6;
     color: var(--color-text-muted, #6B635B);
     margin: 0 0 1.25rem;
@@ -691,7 +691,7 @@ const elementalCollections = [
   }
 
   .inv-tag {
-    font-size: 0.6875rem;
+    font-size: .875rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -709,7 +709,7 @@ const elementalCollections = [
     background: #1A1715;
     color: #FAF8F5;
     font-weight: 600;
-    font-size: 0.8125rem;
+    font-size: .875rem;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     text-decoration: none;
@@ -728,8 +728,8 @@ const elementalCollections = [
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
-    padding: 1.5rem;
+    gap: clamp(.35rem, 2vw, 1rem);
+    padding: clamp(.65rem, 3vw, 1.5rem);
     background: #FFFFFF;
     border: 1px solid #EAE5DE;
     border-radius: 4px;
@@ -742,6 +742,7 @@ const elementalCollections = [
     align-items: center;
     text-align: center;
     width: 110px;
+    min-width: 0;
   }
 
   .duet-preview-flacon img {
@@ -752,12 +753,11 @@ const elementalCollections = [
   }
 
   .preview-role {
-    font-size: 0.6875rem;
+    font-size: .875rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     color: var(--color-brand-cognac, #9E532B);
-    white-space: nowrap;
   }
 
   .preview-plus {
@@ -801,7 +801,7 @@ const elementalCollections = [
   }
 
   .cta-lead {
-    font-size: 0.95rem;
+    font-size: 1rem;
     line-height: 1.6;
     color: #D1C7BD;
     max-width: 580px;

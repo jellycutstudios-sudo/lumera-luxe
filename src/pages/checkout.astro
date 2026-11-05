@@ -76,7 +76,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
           <div class="checkout-card">
             <div class="checkout-header-group">
               <h1 class="checkout-main-title">Delivery Details</h1>
-              <p class="checkout-sub-title">Enter your Qatar address. Order confirmed directly via WhatsApp concierge.</p>
+              <p class="checkout-sub-title">Enter your Qatar address. We’ll confirm your order on WhatsApp.</p>
             </div>
 
             <form id="form-delivery" onsubmit="return false;" novalidate>
@@ -181,8 +181,8 @@ const description = `Complete your luxury fragrance order with doorstep delivery
                   </svg>
                 </div>
                 <div class="notice-text">
-                  <strong>Doorstep Delivery & WhatsApp Confirmation</strong>
-                  <span>Pay upon arrival in Qatar (Cash or Card POS) or via bank transfer.</span>
+                  <strong>Payment and delivery</strong>
+                  <span>Pay by cash or card on delivery, or by bank transfer.</span>
                 </div>
               </div>
 
@@ -193,7 +193,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
                     <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"></path>
                     <path d="M15.5 13.5v1.2a1.3 1.3 0 0 1-1.4 1.3 7.8 7.8 0 0 1-5.6-5.6 1.3 1.3 0 0 1 1.3-1.4h1.2a.9.9 0 0 1 .9.7l.3 1.2a.9.9 0 0 1-.3.9l-.6.6a5.5 5.5 0 0 0 2.6 2.6l.6-.6a.9.9 0 0 1 .9-.3l1.2.3a.9.9 0 0 1 .7.9z"></path>
                   </svg>
-                  <span>ORDER VIA WHATSAPP · <span id="btn-order-amount">0 QAR</span></span>
+                  <span>Send order request on WhatsApp · <span id="btn-order-amount">0 QAR</span></span>
                 </button>
               </div>
 
@@ -270,7 +270,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
               <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"></path>
               <path d="M15.5 13.5v1.2a1.3 1.3 0 0 1-1.4 1.3 7.8 7.8 0 0 1-5.6-5.6 1.3 1.3 0 0 1 1.3-1.4h1.2a.9.9 0 0 1 .9.7l.3 1.2a.9.9 0 0 1-.3.9l-.6.6a5.5 5.5 0 0 0 2.6 2.6l.6-.6a.9.9 0 0 1 .9-.3l1.2.3a.9.9 0 0 1 .7.9z"></path>
             </svg>
-            <span>ORDER VIA WHATSAPP</span>
+            <span>Send order request on WhatsApp</span>
           </button>
         </div>
       </aside>
@@ -315,6 +315,8 @@ const description = `Complete your luxury fragrance order with doorstep delivery
   /* Single-Line Top Navigation Bar */
   .checkout-topbar {
     display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
     align-items: center;
     justify-content: space-between;
     padding-bottom: clamp(0.85rem, 1.5vw, 1.25rem);
@@ -329,7 +331,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
     color: var(--color-text-main);
     text-decoration: none;
     font-family: var(--font-body);
-    font-size: 0.8125rem;
+    font-size: .875rem;
     font-weight: 500;
     transition: color var(--transition-fast), transform var(--transition-fast);
   }
@@ -344,7 +346,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
     align-items: center;
     gap: 0.4rem;
     font-family: var(--font-body);
-    font-size: 0.6875rem;
+    font-size: .875rem;
     font-weight: 600;
     letter-spacing: 0.05em;
     color: #55504A;
@@ -440,12 +442,9 @@ const description = `Complete your luxury fragrance order with doorstep delivery
 
   .mobile-summary-title {
     font-family: var(--font-body);
-    font-size: 0.8125rem;
+    font-size: .875rem;
     font-weight: 600;
     color: var(--color-text-main);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   .mobile-summary-action {
@@ -453,7 +452,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
     align-items: center;
     gap: 0.3rem;
     font-family: var(--font-body);
-    font-size: 0.6875rem;
+    font-size: .875rem;
     color: var(--color-brand-cognac);
     font-weight: 500;
   }
@@ -470,14 +469,13 @@ const description = `Complete your luxury fragrance order with doorstep delivery
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-    flex-shrink: 0;
+    flex: 0 1 auto;
+    text-align: end;
   }
 
   .mobile-total-label {
-    font-size: 0.625rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: #8C867F;
+    font-size: .875rem;
+    color: var(--color-text-light);
   }
 
   .mobile-total-val {
@@ -531,9 +529,9 @@ const description = `Complete your luxury fragrance order with doorstep delivery
 
   .checkout-sub-title {
     font-family: var(--font-body);
-    font-size: 0.78125rem;
-    color: #7A746E;
-    line-height: 1.45;
+    font-size: 1rem;
+    color: var(--color-text-light);
+    line-height: 1.5;
   }
 
   /* Form Elements */
@@ -544,7 +542,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
   .form-label {
     display: block;
     font-family: var(--font-body);
-    font-size: 0.75rem;
+    font-size: 1rem;
     font-weight: 600;
     color: #403C38;
     margin-bottom: 0.35rem;
@@ -556,9 +554,9 @@ const description = `Complete your luxury fragrance order with doorstep delivery
   }
 
   .form-label .opt-label {
-    font-size: 0.72rem;
+    font-size: .875rem;
     font-weight: 400;
-    color: #7D756D;
+    color: var(--color-text-light);
     margin-left: 0.35rem;
   }
 
@@ -572,13 +570,13 @@ const description = `Complete your luxury fragrance order with doorstep delivery
   .form-control {
     width: 100%;
     min-width: 0;
-    height: 48px;
+    min-height: 48px;
     background-color: #FAFAF8;
     border: 1px solid #D5D0C9;
     border-radius: 8px;
-    padding: 0 0.95rem;
+    padding: .6em 0.95rem;
     font-family: var(--font-body);
-    font-size: 16px;
+    font-size: max(16px, 1rem);
     color: var(--color-text-main);
     outline: none;
     -webkit-appearance: none;
@@ -586,9 +584,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
   }
 
   .form-control::placeholder {
-    color: #A39D95;
-    font-size: 0.875rem;
-    font-weight: 300;
+    color: var(--color-text-light);
   }
 
   .form-control:focus {
@@ -604,7 +600,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
 
   .field-error-text {
     font-family: var(--font-body);
-    font-size: 0.6875rem;
+    font-size: .875rem;
     color: #C0392B;
     margin-top: 0.3rem;
     display: none;
@@ -636,11 +632,11 @@ const description = `Complete your luxury fragrance order with doorstep delivery
   .phone-flag {
     padding: 0 0.75rem;
     font-family: var(--font-body);
-    font-size: 0.8125rem;
+    font-size: .875rem;
     font-weight: 600;
     color: var(--color-text-main);
     background-color: #EFECE6;
-    height: 48px;
+    align-self: stretch;
     display: inline-flex;
     align-items: center;
     border-right: 1px solid #D5D0C9;
@@ -676,7 +672,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
     border: none;
     padding: 0.35rem 0;
     font-family: var(--font-body);
-    font-size: 0.75rem;
+    font-size: .875rem;
     font-weight: 500;
     color: var(--color-brand-cognac);
     cursor: pointer;
@@ -721,16 +717,16 @@ const description = `Complete your luxury fragrance order with doorstep delivery
 
   .notice-text strong {
     font-family: var(--font-body);
-    font-size: 0.78125rem;
+    font-size: 1rem;
     font-weight: 600;
     color: var(--color-text-main);
   }
 
   .notice-text span {
     font-family: var(--font-body);
-    font-size: 0.71875rem;
-    color: #6E6862;
-    line-height: 1.4;
+    font-size: 1rem;
+    color: var(--color-text-light);
+    line-height: 1.5;
   }
 
   /* Submit Button */
@@ -745,16 +741,16 @@ const description = `Complete your luxury fragrance order with doorstep delivery
     align-items: center;
     justify-content: center;
     gap: 0.7rem;
+    padding: .65rem .75rem;
     background-color: #1A1A1A;
     color: #FFFFFF;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     font-family: var(--font-body);
-    font-size: 0.8125rem;
+    font-size: 1rem;
     font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    line-height: 1.35;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
     transition: all var(--transition-fast);
   }
@@ -777,7 +773,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
   /* Mandatory Policy Notice in Checkout */
   .checkout-policy-notice {
     text-align: center;
-    font-size: 0.72rem;
+    font-size: .875rem;
     color: var(--color-text-muted);
     line-height: 1.4;
     margin-top: 0.85rem;
@@ -816,8 +812,8 @@ const description = `Complete your luxury fragrance order with doorstep delivery
     justify-content: center;
     gap: 0.45rem;
     font-family: var(--font-body);
-    font-size: 0.6875rem;
-    color: #8C867F;
+    font-size: .875rem;
+    color: var(--color-text-light);
     text-align: center;
   }
 
@@ -872,7 +868,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
     justify-content: space-between;
     margin-bottom: 0.8rem;
     font-family: var(--font-body);
-    font-size: 0.8125rem;
+    font-size: .9375rem;
     color: #6E6862;
   }
 
@@ -966,28 +962,26 @@ const description = `Complete your luxury fragrance order with doorstep delivery
 
   :global(.cart-item-title) {
     font-family: var(--font-display) !important;
-    font-size: 0.875rem !important;
+    font-size: 1rem !important;
     font-weight: 600 !important;
     color: var(--color-text-main) !important;
     line-height: 1.25 !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
   }
 
   :global(.cart-item-meta) {
     font-family: var(--font-body) !important;
-    font-size: 0.71875rem !important;
+    font-size: .875rem !important;
     color: #7A746E !important;
     line-height: 1.25 !important;
   }
 
   :global(.cart-item-qty) {
     display: inline-flex !important;
+    flex-wrap: wrap;
     align-items: center !important;
     gap: 0.4rem !important;
     font-family: var(--font-body) !important;
-    font-size: 0.71875rem !important;
+    font-size: .875rem !important;
     color: #7A746E !important;
     margin-top: 0.15rem !important;
   }
@@ -1003,7 +997,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
     align-items: center !important;
     justify-content: center !important;
     cursor: pointer !important;
-    font-size: 0.75rem !important;
+    font-size: .875rem !important;
     line-height: 1 !important;
     transition: all 150ms ease !important;
   }
@@ -1016,10 +1010,10 @@ const description = `Complete your luxury fragrance order with doorstep delivery
 
   :global(.cart-item-price) {
     font-family: var(--font-body) !important;
-    font-size: 0.875rem !important;
+    font-size: 1rem !important;
     font-weight: 700 !important;
     color: var(--color-text-main) !important;
-    white-space: nowrap !important;
+    text-align: end;
   }
 
   @media (max-width: 380px) {
@@ -1060,7 +1054,8 @@ const description = `Complete your luxury fragrance order with doorstep delivery
   .mobile-sticky-content {
     max-width: 500px;
     margin: 0 auto;
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
     align-items: center;
     justify-content: space-between;
     gap: 0.85rem;
@@ -1073,7 +1068,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
   }
 
   .mobile-sticky-sub {
-    font-size: 0.6875rem;
+    font-size: .875rem;
     color: #6E6862;
     font-weight: 600;
   }
@@ -1090,21 +1085,20 @@ const description = `Complete your luxury fragrance order with doorstep delivery
   }
 
   .btn-mobile-sticky-submit {
-    flex: 1;
     min-height: 46px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
+    padding: .5rem;
     background-color: #1A1A1A;
     color: #FFFFFF;
     border: none;
     border-radius: 8px;
     font-family: var(--font-body);
-    font-size: 0.78125rem;
+    font-size: 1rem;
     font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
+    line-height: 1.3;
     cursor: pointer;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
@@ -1155,35 +1149,6 @@ const description = `Complete your luxury fragrance order with doorstep delivery
     max-width: 260px;
     margin: 0 auto;
     text-decoration: none;
-  }
-  @media (min-width: 768px) {
-    .checkout-back-btn,
-    .checkout-sub-title,
-    .form-label .opt-label,
-    .field-error-text,
-    .btn-notes-toggle,
-    .notice-text span,
-    .checkout-policy-notice,
-    .checkout-assurances {
-      font-size: .875rem;
-    }
-
-    .form-label,
-    .notice-text strong,
-    .btn-checkout-submit,
-    .summary-line-row {
-      font-size: .9375rem;
-    }
-
-    :global(.cart-item-meta),
-    :global(.cart-item-qty) {
-      font-size: .875rem !important;
-    }
-
-    :global(.cart-item-title),
-    :global(.cart-item-price) {
-      font-size: 1rem !important;
-    }
   }
 </style>
 
