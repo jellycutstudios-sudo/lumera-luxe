@@ -61,7 +61,7 @@
           <circle cx="18.5" cy="18.5" r="2.5"></circle>
         </svg>
       </div>
-      <span class="perk-text" id="perk-text">Add 1 more fragrance for complimentary Qatar priority courier!</span>
+      <span class="perk-text" id="perk-text">Free express delivery on orders above 300 QAR</span>
     </div>
 
     <!-- Active Items List -->
@@ -78,7 +78,7 @@
       </div>
       <div class="bag-payment-notice">
         <span class="status-dot"></span>
-        <span>Complimentary Qatar Doorstep Delivery</span>
+        <span id="bag-delivery-notice-text">Express 6-Hour Delivery (Free Above 300 QAR)</span>
       </div>
     </div>
 
@@ -1054,6 +1054,7 @@
 
 <script>
   import { getProductCatalog, getCachedProductCatalog } from '../lib/catalog';
+  import { FREE_DELIVERY_THRESHOLD_QAR, getDeliveryFeeQar } from '../lib/delivery';
 
   // Pre-warm catalog in background for fast synchronous lookups
   getProductCatalog().catch(() => {});
@@ -1128,30 +1129,10 @@
     const perkBanner = document.getElementById('bag-delivery-perk');
     const perkText = document.getElementById('perk-text');
 
-    if (perkBanner && perkText) {
-      if (totalCount === 0) {
-        perkBanner.hidden = true;
-      } else if (totalCount === 1) {
-        perkBanner.hidden = false;
-        perkBanner.classList.remove('unlocked');
-        perkText.textContent = 'Add 1 more fragrance for complimentary Qatar priority delivery!';
-      } else {
-        perkBanner.hidden = false;
-        perkBanner.classList.add('unlocked');
-        perkText.textContent = '✓ Unlocked: Complimentary Qatar Priority Courier Delivery';
-      }
-    }
-
-    if (totalCount === 0) {
-      if (emptyState) emptyState.hidden = false;
-      if (footer) footer.hidden = true;
-      if (list) list.innerHTML = '';
-      return;
-    }
-
-    const items = await getHydratedCart();
+    const items = totalCount ? await getHydratedCart() : [];
 
     if (!items.length) {
+      if (perkBanner) perkBanner.hidden = true;
       if (emptyState) emptyState.hidden = false;
       if (footer) footer.hidden = true;
       if (list) list.innerHTML = '';
@@ -1160,6 +1141,21 @@
 
     if (emptyState) emptyState.hidden = true;
     if (footer) footer.hidden = false;
+
+    const subtotalMinor = items.reduce((sum, item) => sum + item.priceMinor * item.quantity, 0);
+    if (perkBanner && perkText) {
+      const qualifies = getDeliveryFeeQar(subtotalMinor) === 0;
+      perkBanner.hidden = false;
+      perkBanner.classList.toggle('unlocked', qualifies);
+      if (qualifies) {
+        perkText.textContent = 'Free express delivery unlocked';
+      } else {
+        const remainingQar = FREE_DELIVERY_THRESHOLD_QAR - subtotalMinor / 100;
+        perkText.textContent = remainingQar > 0
+          ? `Add more than ${remainingQar.toFixed(2).replace(/\.00$/, '')} QAR for free express delivery.`
+          : `Spend above ${FREE_DELIVERY_THRESHOLD_QAR} QAR for free express delivery.`;
+      }
+    }
 
     // Render list
     if (list) {
@@ -1221,7 +1217,6 @@
     }
 
     // Update Subtotal
-    const subtotalMinor = items.reduce((sum, it) => sum + it.priceMinor * it.quantity, 0);
     const subtotalEl = document.getElementById('bag-subtotal-val');
     if (subtotalEl) subtotalEl.textContent = `${(subtotalMinor / 100).toFixed(0)} QAR`;
   }

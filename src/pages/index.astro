@@ -1,48 +1,66 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProductCard from '../components/ProductCard.astro';
+import StorefrontEdit from '../components/StorefrontEdit.astro';
+import { discoverySlugs, hasSpecialPrice, isEligibleForShowcase, occasions } from '../data/storefront-edits';
 import productsData from '../data/products.json';
 import { siteConfig } from '../data/site';
 
-// Hero Slides featuring Real Iconic Luxury Perfumes (Responsive Desktop 16:9 & Mobile 4:5)
+const catalog = productsData.filter((product) => !product.isDraft);
 const heroSlides = [
   {
-    id: 'chanel-n5',
     title: 'Chanel N°5',
-    mobileImage: '/assets/hero/mobile/hero-chanel-n5-mobile.webp',
-    desktopImage: '/assets/hero/desktop/hero-chanel-n5-desktop.webp',
-    alt: 'Chanel N°5 Eau de Parfum flacon with white camellias on sunlit travertine stone',
-    ctaText: 'Discover N°5',
-    ctaLink: '/perfumes/chanel-n-5/'
+    mobileImage: '/assets/hero/mobile/hero-chanel-n5-campaign.webp',
+    desktopImage: '/assets/hero/desktop/hero-chanel-n5-campaign.webp',
+    alt: 'Chanel N°5: Forever Iconic. The perfume bottle sits on sunlit stone beside white camellias.',
+    slug: 'chanel-n-5'
   },
   {
-    id: 'ysl-libre',
     title: 'YSL Libre',
-    mobileImage: '/assets/hero/mobile/hero-ysl-libre-mobile.webp',
-    desktopImage: '/assets/hero/desktop/hero-ysl-libre-desktop.webp',
-    alt: 'Yves Saint Laurent Libre Eau de Parfum with golden Cassandre emblem and amber crystal',
-    ctaText: 'Discover Libre',
-    ctaLink: '/perfumes/yves-saint-laurent-libre/'
+    mobileImage: '/assets/hero/mobile/hero-ysl-libre-campaign.webp',
+    desktopImage: '/assets/hero/desktop/hero-ysl-libre-campaign.webp',
+    alt: 'Yves Saint Laurent Libre: Freedom, Bottled. The gold perfume bottle sits beside a white orchid.',
+    slug: 'yves-saint-laurent-libre'
   },
   {
-    id: 'good-girl',
-    title: 'Carolina Herrera Good Girl',
-    mobileImage: '/assets/hero/mobile/hero-good-girl-mobile.webp',
-    desktopImage: '/assets/hero/desktop/hero-good-girl-desktop.webp',
-    alt: 'Carolina Herrera Good Girl Eau de Parfum midnight stiletto flacon with gold stiletto heel',
-    ctaText: 'Discover Good Girl',
-    ctaLink: '/perfumes/carolina-herrera-good-girl/'
+    title: 'Black Orchid',
+    mobileImage: '/assets/hero/mobile/hero-black-orchid-campaign.webp',
+    desktopImage: '/assets/hero/desktop/hero-black-orchid-campaign.webp',
+    alt: 'Tom Ford Black Orchid: The Art of Allure. The black perfume bottle sits among dark orchids.',
+    slug: 'tom-ford-black-orchid'
   },
   {
-    id: 'black-orchid',
-    title: 'Tom Ford Black Orchid',
-    mobileImage: '/assets/hero/mobile/hero-black-orchid-mobile.webp',
-    desktopImage: '/assets/hero/desktop/hero-black-orchid-desktop.webp',
-    alt: 'Tom Ford Black Orchid fluted black glass flacon with 24K gold plate and dark orchids',
-    ctaText: 'Discover Black Orchid',
-    ctaLink: '/perfumes/tom-ford-black-orchid/'
+    title: 'Good Girl',
+    mobileImage: '/assets/hero/mobile/hero-good-girl-campaign.webp',
+    desktopImage: '/assets/hero/desktop/hero-good-girl-campaign.webp',
+    alt: 'Carolina Herrera Good Girl: Own the Night. The blue and gold stiletto bottle sits beside white flowers.',
+    slug: 'carolina-herrera-good-girl'
   }
-];
+].flatMap((slide) => {
+  const product = catalog.find((item) => item.slug === slide.slug);
+  return product ? [{ ...slide, checkoutHref: `/checkout/?product=${encodeURIComponent(product.slug)}&qty=1` }] : [];
+});
+const firstHeroSlide = heroSlides[0];
+
+const discoveryScents = discoverySlugs.flatMap((slug) => catalog.filter((product) => product.slug === slug));
+const specialScents = catalog.filter((product) => hasSpecialPrice(product) && isEligibleForShowcase(product))
+  .sort((a, b) => a.priceMinor / (a.stickerPriceMinor ?? 1) - b.priceMinor / (b.stickerPriceMinor ?? 1))
+  .slice(0, 4);
+const featuredHouses = [
+  { name: 'Chanel', logo: 'chanel.svg' },
+  { name: 'Dior', logo: 'dior.svg' },
+  { name: 'Yves Saint Laurent', logo: 'yves-saint-laurent.svg' },
+  { name: 'Tom Ford', logo: 'tom-ford.svg' },
+  { name: 'Guerlain', logo: 'guerlain.svg' },
+  { name: 'Boucheron', logo: 'boucheron.svg' },
+  { name: 'Dolce & Gabbana', logo: 'dolce-gabbana.svg' },
+  { name: 'Paco Rabanne', logo: 'paco-rabanne.svg' },
+  { name: 'Burberry', logo: 'burberry.svg' },
+  { name: 'Gucci', logo: 'gucci.svg' },
+  { name: 'Narciso Rodriguez', logo: 'narciso-rodriguez.svg' }
+]
+  .map((house) => ({ ...house, count: catalog.filter((product) => product.brand === house.name).length }))
+  .filter((house) => house.count > 0);
 
 // Hand-curated flagship perfumes for the home page showcase (leading with global icon YSL Libre)
 const curatedHomeSlugs = [
@@ -53,7 +71,7 @@ const curatedHomeSlugs = [
 ];
 
 const selectedScents = curatedHomeSlugs
-  .map((slug) => productsData.find((p) => p.slug === slug))
+  .map((slug) => catalog.find((p) => p.slug === slug))
   .filter(Boolean) as typeof productsData;
 
 // 4 Olfactive Category representations using LUMÈRA LUXE Brand Photography
@@ -113,7 +131,7 @@ const homeStructuredData = {
       'alternateName': 'لوميرا لوكس للعطور ومستحضرات التجميل ذ.م.م',
       'url': 'https://lumeraluxe.com.qa/',
       'logo': 'https://lumeraluxe.com.qa/assets/lumera-favicon.png',
-      'image': 'https://lumeraluxe.com.qa/assets/hero/hero-floral-parfum.webp',
+      'image': 'https://lumeraluxe.com.qa/assets/brand/hero-floral-collection.webp',
       'description': 'Curated luxury and designer fragrances in Doha, Qatar. Concierge doorstep delivery with verified authentic batch codes.',
       'telephone': '+97466675166',
       'email': siteConfig.customerSupportEmail,
@@ -161,7 +179,7 @@ const homeStructuredData = {
           'name': 'How does perfume delivery work in Doha and across Qatar?',
           'acceptedAnswer': {
             '@type': 'Answer',
-            'text': 'LUMÈRA LUXE offers express doorstep delivery across all Qatar municipalities, including Doha, The Pearl, Lusail, Al Rayyan, and Al Wakrah. Orders confirmed through our official WhatsApp concierge (+974 6667 5166) are scheduled for prompt courier delivery.'
+            'text': 'LUMÈRA LUXE offers express doorstep delivery across all Qatar municipalities, including Doha, The Pearl, Lusail, Al Rayyan, and Al Wakrah. Orders confirmed through our official WhatsApp concierge (+974 6667 5166) are delivered within six hours of confirmation.'
           }
         },
         {
@@ -192,8 +210,8 @@ const homeStructuredData = {
     slot="head"
     rel="preload"
     as="image"
-    href="/assets/hero/mobile/hero-chanel-n5-mobile.webp"
-    media="(max-width: 768px)"
+    href={firstHeroSlide?.mobileImage}
+    media="(max-width: 680px)"
     type="image/webp"
     fetchpriority="high"
   />
@@ -201,68 +219,41 @@ const homeStructuredData = {
     slot="head"
     rel="preload"
     as="image"
-    href="/assets/hero/desktop/hero-chanel-n5-desktop.webp"
-    media="(min-width: 769px)"
+    href={firstHeroSlide?.desktopImage}
+    media="(width > 680px)"
     type="image/webp"
     fetchpriority="high"
   />
 
   <script type="application/ld+json" set:html={JSON.stringify(homeStructuredData)} />
   <div class="minimal-storefront">
-    <!-- BRAND SIGNATURE BANNER ("Authenticity and Luxury Is Our Signature.") -->
-    <section class="brand-signature-section" aria-label="Authenticity and Luxury Is Our Signature">
-      <div class="container brand-signature-container">
-        <div class="brand-signature-content">
-          <picture class="brand-signature-picture">
-            <source
-              srcset="/assets/brand/lumera-signature-banner.webp 1x, /assets/brand/lumera-signature-banner@2x.webp 2x"
-              type="image/webp"
-            />
-            <source
-              srcset="/assets/brand/lumera-signature-banner.png 1x, /assets/brand/lumera-signature-banner@2x.png 2x"
-              type="image/png"
-            />
-            <img
-              src="/assets/brand/lumera-signature-banner.png"
-              alt="Authenticity and Luxury Is Our Signature."
-              class="brand-signature-img"
-              width="575"
-              height="90"
-              loading="eager"
-              decoding="async"
-            />
-          </picture>
-        </div>
-      </div>
-    </section>
-
-    <!-- HERO EDITORIAL SLIDER (LUMÈRA LUXE Brand Photography) -->
-    <section class="hero-editorial-section" aria-label="Featured Collections Carousel">
+    <h1 class="sr-only">LUMÈRA LUXE fragrance boutique in Qatar</h1>
+    <section class="hero-editorial-section" aria-label="Featured Fragrances Showcase">
       <div class="container">
-        <div class="hero-editorial-stage" id="hero-slider" role="region" aria-roledescription="carousel" aria-label="LUMÈRA LUXE Collections">
-          <div class="hero-slides-track">
+        <div class="hero-editorial-stage" id="hero-slider" role="region" aria-roledescription="carousel" aria-label="LUMÈRA LUXE Featured Perfumes">
+          {firstHeroSlide && (
+            <a
+              href={firstHeroSlide.checkoutHref}
+              class="btn-hero-shop-now"
+              aria-label={`Buy now: ${firstHeroSlide.title}`}
+            >
+              Buy now <span aria-hidden="true">↗</span>
+            </a>
+          )}
+          <div class="hero-slides-track" id="hero-slides-track">
             {heroSlides.map((slide, idx) => (
-              <a
-                href={slide.ctaLink}
+              <div
                 class={`hero-slide ${idx === 0 ? 'is-active' : ''}`}
-                data-slide-index={idx}
+                inert={idx !== 0}
                 role="group"
                 aria-roledescription="slide"
                 aria-label={`${idx + 1} of ${heroSlides.length}: ${slide.title}`}
                 aria-hidden={idx === 0 ? 'false' : 'true'}
-                tabindex={idx === 0 ? 0 : -1}
+                data-checkout-href={slide.checkoutHref}
+                data-product-title={slide.title}
               >
                 <picture class="hero-slide-picture">
-                  <source
-                    media="(max-width: 768px)"
-                    srcset={slide.mobileImage}
-                    type="image/webp"
-                  />
-                  <source
-                    media="(min-width: 769px)"
-                    srcset={slide.desktopImage}
-                    type="image/webp"
-                  />
+                  <source media="(max-width: 680px)" srcset={slide.mobileImage} type="image/webp" width="896" height="1200" />
                   <img
                     src={slide.desktopImage}
                     alt={slide.alt}
@@ -270,122 +261,85 @@ const homeStructuredData = {
                     loading={idx === 0 ? 'eager' : 'lazy'}
                     fetchpriority={idx === 0 ? 'high' : 'low'}
                     decoding={idx === 0 ? 'sync' : 'async'}
-                    width="1024"
-                    height="576"
+                    width="1920"
+                    height="1072"
                   />
                 </picture>
-              </a>
+              </div>
             ))}
           </div>
-
-          <!-- Quiet Luxury Floating Island Card (Bottom Corner) -->
-          <aside class="hero-island-card" aria-label="Current Collection">
-            <div class="hero-island-meta">
-              {heroSlides.map((slide, idx) => (
-                <div class={`hero-meta-slide ${idx === 0 ? 'is-active' : ''}`} data-meta-index={idx}>
-                  <h1 class="hero-meta-title">{slide.title}</h1>
-                  <a href={slide.ctaLink} class="hero-meta-link">
-                    <span>{slide.ctaText}</span>
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                      <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
-                  </a>
-                </div>
-              ))}
-            </div>
-
-            <div class="hero-island-controls">
-              <span class="hero-counter" id="hero-counter" aria-live="polite">01 / 0{heroSlides.length}</span>
-              <div class="hero-arrow-duo">
-                <button
-                  type="button"
-                  class="hero-arrow-btn"
-                  id="hero-prev-btn"
-                  aria-label="Previous slide"
-                >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="15 18 9 12 15 6"></polyline>
-                  </svg>
-                </button>
-                <button
-                  type="button"
-                  class="hero-arrow-btn"
-                  id="hero-next-btn"
-                  aria-label="Next slide"
-                >
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="9 18 15 12 9 6"></polyline>
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </aside>
+          <div class="hero-controls" hidden>
+            <div class="hero-progress" aria-hidden="true"><span></span></div>
+            <button type="button" class="rail-icon-btn hero-rotation" aria-label="Pause slideshow" title="Pause slideshow" aria-controls="hero-slides-track">
+              <svg class="rotation-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M9 6v12m6-12v12" /></svg>
+              <svg class="rotation-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m9 6 9 6-9 6z" /></svg>
+            </button>
+            <button type="button" class="rail-icon-btn" id="hero-prev-btn" aria-label="Previous slide" aria-controls="hero-slides-track">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m14.5 6-6 6 6 6" /></svg>
+            </button>
+            <span class="hero-slide-count" aria-hidden="true"><span id="hero-current-slide">01</span><span class="hero-count-divider">/</span>{String(heroSlides.length).padStart(2, '0')}</span>
+            <button type="button" class="rail-icon-btn" id="hero-next-btn" aria-label="Next slide" aria-controls="hero-slides-track">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m9.5 6 6 6-6 6" /></svg>
+            </button>
+          </div>
+          <span class="sr-only" id="hero-slide-status" aria-live="polite"></span>
         </div>
       </div>
     </section>
 
-    <!-- 1. SCENT FAMILIES (Olfactive Exploration) -->
-    <section class="section-home" id="scent-families" style="scroll-margin-top: 5rem;">
+    <section class="section-home" id="fragrance-houses" aria-labelledby="fragrance-houses-title">
       <div class="container">
-        <div class="section-header-minimal">
-          <h2 class="section-title-minimal">Scent Families</h2>
-          <a href="/shop/" class="see-all-link">Explore All</a>
+        <div class="section-header-minimal home-house-heading">
+          <div>
+            <p class="home-kicker">Designer & niche</p>
+            <h2 class="section-title-minimal" id="fragrance-houses-title">Shop by House</h2>
+          </div>
+          <div class="home-house-controls" role="group" aria-label="Shop by House controls" hidden>
+            <button type="button" class="rail-icon-btn home-house-rotation" aria-label="Pause auto-scroll" title="Pause auto-scroll" aria-controls="home-house-track">
+              <svg class="rotation-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M9 6v12m6-12v12" /></svg>
+              <svg class="rotation-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m9 6 9 6-9 6z" /></svg>
+            </button>
+            <button type="button" class="rail-icon-btn" data-house-direction="-1" aria-label="Previous house" aria-controls="home-house-track">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m14.5 6-6 6 6 6" /></svg>
+            </button>
+            <button type="button" class="rail-icon-btn" data-house-direction="1" aria-label="Next house" aria-controls="home-house-track">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m9.5 6 6 6-6 6" /></svg>
+            </button>
+          </div>
         </div>
-
-        <div class="categories-row">
-          {
-            categories.map((cat) => (
-              <a href={cat.href} class="category-item">
-                <div class="category-image-frame">
-                  <img src={cat.img} alt={cat.alt} class="category-img" loading="lazy" decoding="async" width="280" height="340" />
-                  <div class="category-overlay-scrim" aria-hidden="true"></div>
-                  <span class="category-explore-tag" aria-hidden="true">
-                    <span>Explore Family</span>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                      <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
-                  </span>
-                </div>
-                <span class="category-caption">{cat.label}</span>
-              </a>
-            ))
-          }
+        <div class="home-house-track" id="home-house-track">
+          {featuredHouses.map(({ name, logo, count }) => (
+            <a class="home-house-link" href={`/shop/?brand=${encodeURIComponent(name)}`}>
+              <span class="home-house-logo">
+                <img src={`/assets/brand/houses/${logo}`} alt={name} loading="lazy" decoding="async" />
+              </span>
+              <span class="home-house-count">{count} {count === 1 ? 'fragrance' : 'fragrances'}</span>
+            </a>
+          ))}
         </div>
       </div>
     </section>
 
-    <!-- 2. THE CURATED EDIT (Dynamic Personalized 4-Product Showcase) -->
+    <StorefrontEdit
+      id="discovery-edit"
+      kicker="Explore something different"
+      title="Fragrance Discoveries"
+      href="/shop/?edit=discovery"
+      products={discoveryScents}
+    />
+
+    <!-- Signature fragrances -->
     <section class="section-home" id="section-curated-showcase">
       <div class="container">
         <div class="section-header-minimal">
-          <h2 class="section-title-minimal" id="curated-section-title">Curated Fragrances</h2>
-          <a href="/shop/" class="see-all-link">See All ({productsData.length})</a>
+          <div>
+            <p class="home-kicker">The LUMÈRA LUXE selection</p>
+            <h2 class="section-title-minimal" id="curated-section-title">Signature Fragrances</h2>
+          </div>
+          <a href="/shop/" class="see-all-link">See All ({catalog.length})</a>
         </div>
 
-        <!-- Interactive Mood & Personalization Tabs -->
-        <div class="curated-mood-pills" role="tablist" aria-label="Curated Scents">
-          <button type="button" class="mood-pill is-active" data-mood="for-you" id="pill-for-you">
-            <span class="pill-sparkle" aria-hidden="true">✦</span>
-            <span>For You</span>
-            <span class="pill-dot" id="pill-history-dot" style="display: none;"></span>
-          </button>
-          <button type="button" class="mood-pill" data-mood="flagship">
-            <span>Flagship Icons</span>
-          </button>
-          <button type="button" class="mood-pill" data-mood="majlis">
-            <span>Majlis & Oud</span>
-          </button>
-          <button type="button" class="mood-pill" data-mood="fresh">
-            <span>Fresh & Citrus</span>
-          </button>
-          <button type="button" class="mood-pill" data-mood="rose">
-            <span>Rose & Floral</span>
-          </button>
-        </div>
-
-        <div class="grid-products" id="curated-products-grid">
+        <div class="grid-products home-preview-grid">
           {
             selectedScents.slice(0, 4).map((product) => (
               <ProductCard product={product} priority={false} />
@@ -393,183 +347,139 @@ const homeStructuredData = {
           }
         </div>
 
-        <div class="curated-footer-cta">
-          <a href="/shop/" class="btn-luxury-explore" id="curated-explore-cta">
-            <span>Explore Entire Collection</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </a>
+      </div>
+    </section>
+
+    <section class="section-home" id="shop-by-occasion" aria-labelledby="occasion-title">
+      <div class="container">
+        <div class="section-header-minimal">
+          <div>
+            <p class="home-kicker">A scent for the moment</p>
+            <h2 class="section-title-minimal" id="occasion-title">Shop by Occasion</h2>
+          </div>
+        </div>
+        <div class="home-browse-grid">
+          {occasions.map((occasion) => (
+            <a class="home-browse-card" href={`/shop/?edit=${occasion.id}`}>
+              <img src={occasion.image} alt="" width="640" height="480" loading="lazy" decoding="async" />
+              <span class="home-browse-copy">
+                <span class="home-browse-title">{occasion.title} <span aria-hidden="true">↗</span></span>
+                <span class="home-browse-description">{occasion.description}</span>
+              </span>
+            </a>
+          ))}
         </div>
       </div>
     </section>
 
-    <!-- BESPOKE FRAGRANCE CONSULTATION DISCOVERY CARD -->
-    <section class="section-home section-fragrance-finder-banner" aria-label="Personal Fragrance Discovery">
+    <StorefrontEdit
+      id="special-prices"
+      kicker="Selected bottles"
+      title="Special Prices"
+      href="/shop/?edit=special-prices"
+      products={specialScents}
+    />
+
+    <!-- 1. SCENT FAMILIES (Olfactive Exploration) -->
+    <section class="section-home" id="scent-families" aria-labelledby="scent-families-title">
       <div class="container">
-        <div class="finder-invitation-card">
-          <div class="finder-ornament" aria-hidden="true">
-            <span class="ornament-line"></span>
-            <span class="ornament-star">✦</span>
-            <span class="ornament-line"></span>
+        <div class="section-header-minimal">
+          <div>
+            <p class="home-kicker">Explore by notes</p>
+            <h2 class="section-title-minimal" id="scent-families-title">Scent Families</h2>
           </div>
+          <a href="/shop/" class="see-all-link">Explore All</a>
+        </div>
 
-          <div class="finder-invitation-content">
-            <span class="finder-invitation-kicker">Personal Olfactive Consultation</span>
-            <h2 class="finder-invitation-title">Find Your Signature Scent</h2>
-            <p class="finder-invitation-copy">
-              Your style. Your mood. Your signature fragrance. Take a brief, four-question bespoke consultation to discover the flacons that resonate with your presence.
-            </p>
-
-            <div class="finder-perks-strip">
-              <span class="finder-perk-pill">
-                <span class="perk-bullet"></span>
-                <span>4 Guided Questions</span>
+        <div class="home-browse-grid">
+          {categories.map((category) => (
+            <a href={category.href} class="home-browse-card">
+              <img src={category.img} alt={category.alt} loading="lazy" decoding="async" width="640" height="480" />
+              <span class="home-browse-copy">
+                <span class="home-browse-title">{category.label} <span aria-hidden="true">↗</span></span>
+                <span class="home-browse-description">{category.subtitle}</span>
               </span>
-              <span class="finder-perk-pill">
-                <span class="perk-bullet"></span>
-                <span>Personalized Match</span>
-              </span>
-              <span class="finder-perk-pill">
-                <span class="perk-bullet"></span>
-                <span>Bespoke for Qatar</span>
-              </span>
-            </div>
-
-            <div class="finder-invitation-action">
-              <a href="/fragrance-finder/" class="btn-finder-start">
-                <span>Begin Fragrance Consultation</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                  <polyline points="12 5 19 12 12 19"></polyline>
-                </svg>
-              </a>
-            </div>
-          </div>
+            </a>
+          ))}
         </div>
       </div>
     </section>
 
-    <!-- COMING SOON EDITORIAL SHOWCASE (Pure Visual) -->
-    <section class="section-home section-teaser-banner">
+    <section class="section-home" aria-labelledby="shopping-help-title">
       <div class="container">
-        <a href="/our-story/" class="teaser-banner-frame" aria-label="LUMÈRA LUXE The Signature Collection Coming Soon">
+        <div class="section-header-minimal">
+          <div>
+            <p class="home-kicker">Personal service</p>
+            <h2 class="section-title-minimal" id="shopping-help-title">Find Your Fragrance</h2>
+          </div>
+        </div>
+        <div class="shopping-help-grid">
+          <article class="shopping-help-card">
+            <h3>Find your signature scent</h3>
+            <p>Answer four questions to discover fragrances matched to your taste.</p>
+            <a href="/fragrance-finder/" class="shopping-help-link">Take the fragrance quiz <span aria-hidden="true">↗</span></a>
+          </article>
+          <article class="shopping-help-card home-concierge-card">
+            <h3>Talk to our concierge</h3>
+            <p>Ask for a recommendation, check availability, or place an order for delivery across Qatar.</p>
+            <a
+              href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent('Hello LUMÈRA LUXE, I would like help choosing a fragrance.')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="shopping-help-link"
+            >Chat on WhatsApp <span aria-hidden="true">↗</span></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-home" aria-labelledby="home-story-title">
+      <div class="container">
+        <div class="section-header-minimal">
+          <div>
+            <p class="home-kicker">The house</p>
+            <h2 class="section-title-minimal" id="home-story-title">Authentic European Fragrances</h2>
+          </div>
+        </div>
+        <div class="home-story-card">
           <img
-            src="/assets/brand/story-signature-collection.webp"
-            alt="LUMÈRA LUXE The Signature Collection - Coming Soon - The Light She Carries"
-            class="teaser-banner-img"
+            src="/assets/brand/brand-perfume-curation.webp"
+            alt="Designer perfume bottles arranged among pink blossoms"
             loading="lazy"
             decoding="async"
             width="1024"
-            height="576"
+            height="768"
           />
-        </a>
-      </div>
-    </section>
-
-    <!-- 3. BRAND ETHOS & DOHA PACKAGING CRAFT -->
-    <section class="section-home">
-      <div class="container">
-        <div class="section-header-minimal">
-          <h2 class="section-title-minimal">The House</h2>
-        </div>
-
-        <div class="about-grid">
-          <div class="about-media-col">
-            <div class="about-image-frame">
-              <img
-                src="/assets/brand/brand-perfume-curation.webp"
-                alt="LUMÈRA LUXE authentic luxury perfume curation including Chloé, Givenchy, Jimmy Choo, Narciso Rodriguez, Olympéa, and Armani"
-                class="about-editorial-img"
-                loading="lazy"
-                decoding="async"
-                width="1024"
-                height="768"
-              />
-            </div>
-          </div>
-
-          <div class="about-text-col">
-            <span class="about-kicker">Maison Philosophy · Qatar</span>
-            <h3 class="about-editorial-heading">
-              Expressing presence through scent: subtle, intimate, and memorable.
-            </h3>
-            <p class="about-paragraph">
-              Established in Qatar with an uncompromising conviction: bringing authentic, connoisseur-level perfumery within graceful reach. Every flacon is individually examined for scent integrity and delivered across Doha with white-glove care.
-            </p>
-
-            <div class="house-distinctions-strip">
-              <div class="distinction-item">
-                <span class="distinction-icon">✦</span>
-                <div class="distinction-text">
-                  <strong>European Provenance</strong>
-                  <span>100% verified batch codes</span>
-                </div>
-              </div>
-              <div class="distinction-item">
-                <span class="distinction-icon">✦</span>
-                <div class="distinction-text">
-                  <strong>Hand-Packed in Doha</strong>
-                  <span>White-glove luxury presentation</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="about-action">
-              <a href="/our-story/" class="link-underline">Discover Our Story</a>
-            </div>
+          <div class="home-story-copy">
+            <h3>A collection chosen with care</h3>
+            <p>We select designer and niche perfumes from verified European distributors and deliver them across Qatar.</p>
+            <a href="/our-story/" class="shopping-help-link">Our story <span aria-hidden="true">↗</span></a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 4. QATAR CONCIERGE -->
-    <section class="concierge-section" aria-label="Maison Concierge">
+    <section class="section-home home-faq-section" id="shopping-help" aria-labelledby="home-faq-title">
       <div class="container">
-        <div class="concierge-card">
-          <div class="concierge-ornament" aria-hidden="true">
-            <span class="ornament-line"></span>
-            <span class="ornament-star">✦</span>
-            <span class="ornament-line"></span>
+        <div class="home-faq-grid">
+          <div>
+            <p class="home-kicker">Good to know</p>
+            <h2 class="section-title-minimal" id="home-faq-title">Shopping with LUMÈRA LUXE</h2>
+            <a class="shopping-help-link" href="/contact/">Contact our concierge <span aria-hidden="true">↗</span></a>
           </div>
-
-          <span class="concierge-kicker">Maison Concierge · Doha</span>
-          <h2 class="concierge-title">Personal Scent Consultation</h2>
-          <p class="concierge-subtitle">
-            Need guidance selecting notes, finding a rare edition, or scheduling doorstep delivery in Qatar? Speak directly with our fragrance specialist.
-          </p>
-
-          <!-- Minimalist 3-Pillar Badge Ribbon -->
-          <div class="concierge-badges-strip">
-            <span class="concierge-badge-pill">
-              <span class="badge-bullet"></span>
-              100% Verified Provenance
-            </span>
-            <span class="concierge-badge-pill">
-              <span class="badge-bullet"></span>
-              Doorstep Delivery in Qatar
-            </span>
-            <span class="concierge-badge-pill">
-              <span class="badge-bullet"></span>
-              Direct WhatsApp Guidance
-            </span>
-          </div>
-
-          <div class="concierge-cta-row">
-            <a
-              href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent('Hello LUMÈRA LUXE, I would like personal assistance choosing a fragrance from your curated collection.')}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="btn-whatsapp-concierge"
-            >
-              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21"></path>
-                <path d="M15.5 13.5v1.2a1.3 1.3 0 0 1-1.4 1.3 7.8 7.8 0 0 1-5.6-5.6 1.3 1.3 0 0 1 1.3-1.4h1.2a.9.9 0 0 1 .9.7l.3 1.2a.9.9 0 0 1-.3.9l-.6.6a5.5 5.5 0 0 0 2.6 2.6l.6-.6a.9.9 0 0 1 .9-.3l1.2.3a.9.9 0 0 1 .7.9z"></path>
-              </svg>
-              <span>Connect on WhatsApp</span>
-            </a>
-            <span class="concierge-note">Immediate response daily across Doha</span>
+          <div class="home-faq-list">
+            <details>
+              <summary>How much is delivery in Qatar?</summary>
+              <p>Express delivery is complimentary on orders above 300 QAR. Orders of 300 QAR or less have a 25 QAR delivery fee. <a href="/shipping-delivery/">Read the delivery policy.</a></p>
+            </details>
+            <details>
+              <summary>How do I place and pay for an order?</summary>
+              <p>Add your fragrances to the bag and send the order request to our WhatsApp concierge. We confirm availability and delivery with you. You can pay by cash or card on delivery, or arrange a bank transfer.</p>
+            </details>
+            <details>
+              <summary>What if the fragrance is not for me?</summary>
+              <p>Contact our concierge within six hours of delivery to request a return or exchange, even if you’ve opened and used the fragrance. <a href="/returns-refunds/">Read the returns policy.</a></p>
+            </details>
           </div>
         </div>
       </div>
@@ -579,1367 +489,906 @@ const homeStructuredData = {
 
 <style>
   .minimal-storefront {
+    --home-section-gap: clamp(2.8rem, 5vw, 5rem);
     padding-top: 0;
     padding-bottom: 0;
   }
 
-  /* ==========================================================================
-     BRAND SIGNATURE BANNER ("Authenticity and Luxury Is Our Signature.")
-     ========================================================================== */
-  .brand-signature-section {
-    width: 100%;
-    background: linear-gradient(180deg, #FCFAF6 0%, #FAF5EE 55%, #FDFCFA 100%);
-    padding: clamp(0.875rem, 2.2vw, 1.35rem) 1rem clamp(0.875rem, 2.2vw, 1.35rem);
-    margin-bottom: clamp(0.75rem, 1.8vw, 1.25rem);
-    border-bottom: 1px solid rgba(197, 160, 89, 0.12);
-  }
-
-  .brand-signature-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .brand-signature-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-  }
-
-  .brand-signature-picture {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-  }
-
-  .brand-signature-img {
-    width: 100%;
-    max-width: clamp(290px, 86vw, 440px);
-    height: auto;
-    display: block;
-    object-fit: contain;
-    image-rendering: -webkit-optimize-contrast;
-  }
-
-  @media (min-width: 769px) {
-    .brand-signature-section {
-      padding: clamp(1.1rem, 2vw, 1.6rem) 1.5rem clamp(1.1rem, 2vw, 1.6rem);
-      margin-bottom: clamp(1rem, 2vw, 1.5rem);
-    }
-
-    .brand-signature-img {
-      max-width: 480px;
-    }
+  .section-home {
+    margin-bottom: var(--home-section-gap);
   }
 
   .hero-editorial-section {
-    margin-bottom: clamp(2.25rem, 4vw, 3.5rem);
+    margin: clamp(.8rem, 2vw, 1.5rem) 0 clamp(2.75rem, 5vw, 5rem);
   }
 
-  .section-home {
-    margin-bottom: clamp(3.5rem, 6vw, 5.5rem);
-  }
-
-  /* Scent Families / Categories Row */
-  .categories-row {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(0.85rem, 2vw, 1.75rem);
-  }
-
-  @media (min-width: 860px) {
-    .categories-row {
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-  }
-
-  .category-item {
-    display: flex;
-    flex-direction: column;
-    text-decoration: none;
-    transition: transform var(--transition-fast);
-  }
-
-  .category-item:hover {
-    transform: translateY(-4px);
-  }
-
-  .category-image-frame {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    background-color: #F7F6F4;
-    border: 1px solid rgba(197, 160, 89, 0.25);
-    border-radius: 6px;
-    overflow: hidden;
-    margin-bottom: 0.85rem;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
-    transition: all var(--transition-fast);
-  }
-
-  .category-overlay-scrim {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, transparent 55%, rgba(24, 21, 19, 0.5) 100%);
-    opacity: 0;
-    transition: opacity 300ms ease;
-    pointer-events: none;
-  }
-
-  .category-explore-tag {
-    position: absolute;
-    bottom: 0.85rem;
-    left: 50%;
-    transform: translateX(-50%) translateY(8px);
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    color: #181513;
-    font-family: var(--font-body);
-    font-size: 0.6875rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    padding: 0.4rem 0.85rem;
-    border-radius: 999px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-    opacity: 0;
-    transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
-    white-space: nowrap;
-    pointer-events: none;
-  }
-
-  .category-item:hover .category-image-frame {
-    border-color: var(--color-brand-cognac);
-    box-shadow: 0 12px 32px rgba(184, 134, 11, 0.16);
-  }
-
-  .category-item:hover .category-overlay-scrim {
-    opacity: 1;
-  }
-
-  .category-item:hover .category-explore-tag {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-
-  .category-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .category-item:hover .category-img {
-    transform: scale(1.06);
-  }
-
-  .category-caption {
-    font-family: var(--font-body);
-    font-size: clamp(0.8125rem, 1.2vw, 0.9375rem);
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-text-main);
-    transition: color var(--transition-fast);
-  }
-
-  .category-item:hover .category-caption {
-    color: var(--color-brand-cognac);
-  }
-
-  /* Curated Footer CTA */
-  .curated-footer-cta {
-    display: flex;
-    justify-content: center;
-    margin-top: clamp(2rem, 3.5vw, 3rem);
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--color-border);
-  }
-
-  .btn-luxury-explore {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.65rem;
-    font-family: var(--font-body);
-    font-size: clamp(0.8125rem, 1.2vw, 0.875rem);
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-text-main);
-    text-decoration: none;
-    padding: 0.9rem 2rem;
-    min-height: 48px;
-    border: 1px solid var(--color-text-main);
-    border-radius: var(--border-radius-sm);
-    transition: all var(--transition-fast);
-  }
-
-  .btn-luxury-explore:hover {
-    background-color: var(--color-text-main);
-    color: #FFFFFF;
-  }
-
-  /* About Us Two-Column */
-  .about-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2.25rem;
-    align-items: center;
-  }
-
-  @media (min-width: 860px) {
-    .about-grid {
-      grid-template-columns: 1.05fr 1fr;
-      gap: clamp(3.5rem, 6vw, 6.5rem);
-      align-items: center;
-    }
-
-    .about-text-col {
-      padding: 1.5rem 0 1.5rem 0.5rem;
-      max-width: 530px;
-    }
-  }
-
-  .about-image-frame {
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    background-color: #F7F6F4;
-    overflow: hidden;
-    border-radius: var(--border-radius-sm);
-    box-shadow: 0 14px 40px rgba(24, 21, 19, 0.07);
-    border: 1px solid rgba(197, 160, 89, 0.2);
-  }
-
-  .about-editorial-img {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 4 / 3;
-    object-fit: contain;
-    display: block;
-  }
-
-  .about-kicker {
-    display: inline-block;
-    font-family: var(--font-body);
-    font-size: 0.6875rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.18em;
-    color: var(--color-brand-cognac, #9E532B);
-    margin-bottom: 1rem;
-  }
-
-  .about-editorial-heading {
-    font-family: var(--font-display);
-    font-size: clamp(1.4rem, 2.7vw, 1.85rem);
-    font-weight: 400;
-    line-height: 1.35;
-    color: var(--color-text-main);
-    margin-bottom: 1.35rem;
-    letter-spacing: -0.01em;
-  }
-
-  .about-paragraph {
-    font-size: clamp(0.96875rem, 1.3vw, 1.0625rem);
-    line-height: 1.85;
-    color: #5C554F;
-    margin-bottom: 1.75rem;
-  }
-
-  .house-distinctions-strip {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.75rem;
-    margin: 1.75rem 0 1.5rem;
-    padding: 1.25rem 0;
-    border-top: 1px solid rgba(197, 160, 89, 0.22);
-    border-bottom: 1px solid rgba(197, 160, 89, 0.22);
-  }
-
-  .distinction-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.65rem;
-    flex: 1;
-    min-width: 190px;
-  }
-
-  .distinction-icon {
-    color: #C5A059;
-    font-size: 0.85rem;
-    line-height: 1.3;
-    flex-shrink: 0;
-  }
-
-  .distinction-text {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-  }
-
-  .distinction-text strong {
-    font-size: 0.8125rem;
-    font-weight: 600;
-    color: #181513;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-
-  .distinction-text span {
-    font-size: 0.75rem;
-    color: #76706B;
-    line-height: 1.35;
-  }
-
-  .about-action {
-    margin-top: 1.75rem;
-  }
-
-  /* Qatar Concierge Section (Spacious Private Salon Aesthetic) */
-  .concierge-section {
-    margin-top: clamp(4rem, 6.5vw, 6rem);
-    margin-bottom: 0;
-    width: 100%;
-    padding: 0 0 clamp(3.5rem, 6vw, 5.5rem);
-    background: transparent;
-  }
-
-  .concierge-card {
-    background: linear-gradient(135deg, #FAF7F2 0%, #F5EFE6 50%, #FAF7F2 100%);
-    border: 1px solid rgba(197, 160, 89, 0.45);
-    border-radius: var(--border-radius-sm);
-    padding: clamp(3.25rem, 5.5vw, 4.5rem) clamp(1.75rem, 4vw, 3.5rem);
-    text-align: center;
-    max-width: 920px;
-    margin: 0 auto;
-    position: relative;
-    box-shadow: 0 16px 48px rgba(184, 134, 11, 0.06), inset 0 0 0 1px rgba(255, 255, 255, 0.9);
-  }
-
-  .concierge-ornament {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .concierge-kicker {
-    display: inline-block;
-    font-family: var(--font-body);
-    font-size: clamp(0.71875rem, 1vw, 0.78125rem);
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--color-brand-cognac);
-    margin-bottom: 0.85rem;
-  }
-
-  .concierge-title {
-    font-family: var(--font-display);
-    font-size: clamp(1.65rem, 3.2vw, 2.35rem);
-    font-weight: 400;
-    line-height: 1.25;
-    letter-spacing: 0.015em;
-    color: var(--color-text-main);
-    margin-bottom: 1.15rem;
-  }
-
-  .concierge-subtitle {
-    font-family: var(--font-body);
-    font-size: clamp(0.9375rem, 1.3vw, 1.025rem);
-    color: var(--color-text-muted);
-    line-height: 1.75;
-    max-width: 620px;
-    margin: 0 auto clamp(2rem, 3.5vw, 2.75rem);
-  }
-
-  .concierge-badges-strip {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: clamp(0.75rem, 1.8vw, 1.5rem);
-    margin-bottom: clamp(2.25rem, 3.8vw, 3rem);
-  }
-
-  .concierge-badge-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: var(--font-body);
-    font-size: clamp(0.78125rem, 1.05vw, 0.84375rem);
-    font-weight: 500;
-    letter-spacing: 0.03em;
-    color: var(--color-text-main);
-    background-color: rgba(255, 255, 255, 0.85);
-    border: 1px solid rgba(197, 160, 89, 0.28);
-    padding: 0.5rem 1.15rem;
-    border-radius: 9999px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-  }
-
-  .concierge-badge-pill .badge-bullet {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background-color: var(--color-brand-cognac);
-  }
-
-  .concierge-cta-row {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.85rem;
-  }
-
-  .btn-whatsapp-concierge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.75rem;
-    background: var(--color-brand-gradient, linear-gradient(135deg, #B85A28 0%, #9E4518 100%));
-    color: #FFFFFF;
-    text-decoration: none;
-    font-family: var(--font-body);
-    font-size: clamp(0.8125rem, 1.15vw, 0.875rem);
-    font-weight: 700;
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
-    padding: 1rem 2.5rem;
-    min-height: 50px;
-    border-radius: var(--border-radius-sm);
-    box-shadow: 0 6px 20px rgba(184, 90, 40, 0.25);
-    transition: all var(--transition-fast);
-  }
-
-  .btn-whatsapp-concierge:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 24px rgba(184, 90, 40, 0.35);
-    filter: brightness(1.05);
-  }
-
-  .concierge-note {
-    font-family: var(--font-body);
-    font-size: clamp(0.78125rem, 1.05vw, 0.84375rem);
-    color: #8C847B;
-    letter-spacing: 0.03em;
-  }
-
-  /* ==========================================================================
-     HERO EDITORIAL SLIDER (Pure Luxury - Zero Dark Scrim, Clean Card UI)
-     ========================================================================== */
   .hero-editorial-stage {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    max-height: 640px;
-    min-height: 440px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    aspect-ratio: auto;
+    min-height: 0;
+    max-height: none;
     overflow: hidden;
-    background-color: #F6F4F0;
-    border-radius: var(--border-radius-sm);
-    border: 1px solid #ECEAE5;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-  }
-
-  @media (max-width: 768px) {
-    .hero-editorial-stage {
-      aspect-ratio: 4 / 5;
-      min-height: 440px;
-      max-height: 580px;
-    }
+    border: 1px solid #e4d9cc;
+    border-radius: clamp(.7rem, 1.4vw, 1.15rem);
+    background: #fbf7f1;
   }
 
   .hero-slides-track {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+    grid-area: 1 / 1;
+    display: grid;
+    isolation: isolate;
+    touch-action: pan-y pinch-zoom;
   }
 
   .hero-slide {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+    grid-area: 1 / 1;
+    min-width: 0;
+    background: #fbf7f1;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
-                visibility 700ms;
     pointer-events: none;
-    z-index: 1;
-    display: block;
-    text-decoration: none;
-    color: inherit;
+    transition: opacity 0s linear 550ms, visibility 0s linear 550ms;
   }
 
   .hero-slide.is-active {
+    z-index: 1;
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
-    z-index: 2;
+    transition: opacity 550ms cubic-bezier(.25, .46, .45, .94);
   }
 
   .hero-slide-picture {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+    position: relative;
     display: block;
+    aspect-ratio: 2 / 1;
+    overflow: hidden;
+    background: #dec4a7;
   }
 
   .hero-slide-image {
     position: absolute;
     inset: 0;
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center center;
-    display: block;
-    filter: none;
+    object-position: center 20%;
+    transform: scale(1.055);
+    transition: transform 1200ms cubic-bezier(.2, .65, .3, 1);
   }
 
-  /* Quiet Luxury Floating Island Card (Glassmorphism & Adaptive Geometry) */
-  .hero-island-card {
+  .hero-slide.is-active .hero-slide-image {
+    transform: scale(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-slide,
+    .hero-slide-image {
+      transition: none !important;
+      transform: none;
+    }
+  }
+
+  .home-kicker {
+    margin: 0 0 .5rem;
+    color: #855339;
+    font-size: .69rem;
+    font-weight: 700;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+  }
+
+  .btn-hero-shop-now {
+    grid-area: 1 / 1;
+    z-index: 1;
+    place-self: end;
+    margin: clamp(1rem, 2.4vw, 2.5rem);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+    min-height: 44px;
+    min-width: 9rem;
+    padding: .65rem 1.2rem;
+    border-radius: 999px;
+    border: 1px solid #e4d9cc;
+    background: #fff9f2;
+    color: #38261f;
+    box-shadow: 0 3px 14px rgb(39 25 18 / 28%);
+    font-size: .81rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .btn-hero-shop-now:hover {
+    background: #f1e3d3;
+    color: #38261f;
+  }
+
+  .hero-controls {
+    grid-area: 2 / 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .15rem;
+  }
+
+  .hero-progress {
     position: absolute;
-    bottom: clamp(1.25rem, 2.5vw, 2.25rem);
-    left: clamp(1.25rem, 2.5vw, 2.25rem);
-    width: clamp(380px, 56vw, 680px);
-    max-width: calc(100% - 2.5rem);
-    min-height: clamp(96px, 11vw, 114px);
+    inset: auto 0 0;
+    height: 2px;
+    pointer-events: none;
+  }
+
+  .hero-progress span {
+    display: block;
+    height: 100%;
+    background: #a6775b;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-progress {
+      visibility: hidden;
+    }
+  }
+
+  .home-house-controls {
+    display: flex;
+    align-items: center;
+    gap: .15rem;
+  }
+
+  .rail-icon-btn {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid transparent;
+    border-radius: 50%;
+    background: transparent;
+    color: #38261f;
+    cursor: pointer;
+    transition: background-color 180ms ease, border-color 180ms ease;
+  }
+
+  .rail-icon-btn svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .rail-icon-btn:hover {
+    border-color: #e4d9cc;
+    background: #f2e9de;
+  }
+
+  .rail-icon-btn:focus-visible {
+    outline-offset: -2px;
+  }
+
+  .hero-slide-count {
+    display: inline-flex;
+    gap: .3rem;
+    color: #624d40;
+    font-size: .75rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  #hero-current-slide {
+    color: #30211c;
+    font-weight: 700;
+  }
+
+  .hero-count-divider {
+    color: #867467;
+  }
+
+  .section-home[id] {
+    scroll-margin-top: 8rem;
+  }
+
+  .minimal-storefront :global(.section-title-minimal) {
+    color: #30211c;
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 3vw, 2.6rem);
+    font-weight: 400;
+    letter-spacing: -.04em;
+    text-transform: none;
+    line-height: 1.13;
+  }
+
+  .minimal-storefront :global(.section-header-minimal) {
+    gap: .75rem;
+    align-items: end;
+    border-color: #e7dbce;
+  }
+
+  .minimal-storefront :global(.section-header-minimal .see-all-link) {
+    color: #694b3a;
+    font-size: .72rem;
+    letter-spacing: .035em;
+    text-transform: none;
+  }
+
+  .home-browse-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(.65rem, 1.5vw, 1.15rem);
+  }
+
+  .home-house-track {
+    --house-columns: 3;
+    --house-gap: clamp(.65rem, 1.25vw, 1rem);
+    position: relative;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: calc((100% - (var(--house-columns) - 1) * var(--house-gap)) / var(--house-columns));
+    gap: var(--house-gap);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .home-house-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .home-house-link {
+    display: grid;
+    align-content: center;
+    gap: .55rem;
+    min-width: 0;
+    min-height: clamp(6.25rem, 10vw, 7.5rem);
+    padding: .85rem clamp(.6rem, 1.5vw, 1.25rem);
+    border: 1px solid #e7dbce;
+    border-radius: .5rem;
+    background: #fbf8f4;
+    color: #38261f;
+    text-align: center;
+    text-decoration: none;
+    scroll-snap-align: start;
+  }
+
+  .home-house-link:focus-visible {
+    outline-offset: -3px;
+  }
+
+  .home-house-link:hover {
+    background: #f5eee7;
+    border-color: #a6775b;
+  }
+
+  .home-browse-card:hover {
+    border-color: #a6775b;
+    color: #623922;
+  }
+
+  .home-house-logo {
+    display: grid;
+    place-items: center;
+    height: 2.5rem;
+    min-width: 0;
+  }
+
+  .home-house-logo img {
+    display: block;
+    width: auto;
     height: auto;
-    box-sizing: border-box;
+    max-width: min(100%, 9rem);
+    max-height: 2rem;
+  }
+
+  .minimal-storefront .home-house-heading {
+    align-items: center;
+    margin-bottom: clamp(.9rem, 2vw, 1.5rem);
+  }
+
+  .home-house-controls {
+    flex-shrink: 0;
+  }
+
+  .rail-icon-btn:not([data-paused]) .rotation-play,
+  .rail-icon-btn[data-paused] .rotation-pause {
+    display: none;
+  }
+
+  .home-browse-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: .25rem;
+  }
+
+  .home-house-count,
+  .home-browse-description {
+    color: #665449;
+    font-size: .79rem;
+    line-height: 1.4;
+  }
+
+  @media (width < 640px) {
+    .home-house-link {
+      min-height: 5.5rem;
+      gap: .35rem;
+      padding: .65rem clamp(.35rem, 1.5vw, .6rem);
+    }
+
+    .home-house-logo {
+      height: 2rem;
+    }
+
+    .home-house-count {
+      font-size: .72rem;
+    }
+  }
+
+  .home-browse-card {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    overflow: hidden;
+    border: 1px solid #e7dbce;
+    border-radius: .6rem;
+    background: #faf5ef;
+    color: #38261f;
+    text-decoration: none;
+  }
+
+  .home-browse-card img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  #scent-families .home-browse-card img {
+    object-position: center 25%;
+  }
+
+  .home-browse-copy {
+    display: grid;
+    align-content: start;
+    gap: .35rem;
+    padding: clamp(.65rem, 2vw, 1.1rem);
+  }
+
+  .home-browse-title {
+    font-family: var(--font-display);
+    font-size: clamp(.98rem, 1.7vw, 1.4rem);
+    line-height: 1.2;
+  }
+
+  .home-story-card,
+  .home-faq-grid {
+    border: 1px solid #e7dbce;
+    border-radius: .6rem;
+    background: #faf5ef;
+  }
+
+  .home-story-card {
+    display: grid;
+    overflow: hidden;
+  }
+
+  .home-story-card img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+  }
+
+  .home-story-copy {
+    align-self: center;
+    padding: clamp(1.1rem, 3.5vw, 3.5rem);
+  }
+
+  .home-story-copy h3 {
+    margin: 0 0 .55rem;
+    color: #38261f;
+    font: 400 clamp(1.35rem, 2.7vw, 2.4rem)/1.16 var(--font-display);
+    letter-spacing: -.025em;
+    text-wrap: balance;
+  }
+
+  .home-story-copy p {
+    max-width: 46ch;
+    margin: 0 0 .35rem;
+    color: #584a40;
+    font-size: .94rem;
+    line-height: 1.6;
+  }
+
+  .shopping-help-grid {
+    display: grid;
+    gap: .75rem;
+  }
+
+  .shopping-help-card {
+    display: grid;
+    align-content: start;
+    justify-items: start;
+    gap: .45rem;
+    padding: clamp(1.1rem, 3vw, 2rem);
+    border: 1px solid #e7dbce;
+    border-radius: .55rem;
+    background: #faf5ef;
+  }
+
+  .shopping-help-card h3 {
+    color: #30211c;
+    font-family: var(--font-display);
+    font-size: clamp(1.15rem, 2.4vw, 1.7rem);
+    font-weight: 400;
+  }
+
+  .shopping-help-card p {
+    max-width: 42ch;
+    margin: 0;
+    color: #584a40;
+    font-size: .88rem;
+  }
+
+  .shopping-help-link {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    min-height: 44px;
+    color: #694b3a;
+    font-size: .83rem;
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: .2em;
+  }
+
+  .section-home.home-faq-section {
+    margin-bottom: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  .home-faq-grid {
+    display: grid;
+    align-items: start;
+    gap: clamp(.75rem, 3vw, 3rem);
+    padding: clamp(1.15rem, 3vw, 2.75rem);
+  }
+
+  .home-faq-grid h2 {
+    margin-bottom: .35rem;
+    text-wrap: balance;
+  }
+
+  .home-faq-list {
+    border-top: 1px solid #e7dbce;
+  }
+
+  .home-faq-list details {
+    border-bottom: 1px solid #e7dbce;
+  }
+
+  .home-faq-list summary {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: clamp(0.75rem, 1.5vw, 1.25rem);
-    padding: 0.85rem clamp(1.35rem, 2vw, 1.85rem);
-    /* True Luxury Glassmorphism */
-    background: rgba(255, 255, 255, 0.70);
-    backdrop-filter: blur(20px) saturate(190%);
-    -webkit-backdrop-filter: blur(20px) saturate(190%);
-    border: 1px solid rgba(255, 255, 255, 0.75);
-    border-radius: var(--border-radius-sm);
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08),
-                inset 0 1px 1px rgba(255, 255, 255, 0.95),
-                inset 0 -1px 1px rgba(0, 0, 0, 0.03);
-    z-index: 10;
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
-  }
-
-  .hero-island-card:hover {
-    background: rgba(255, 255, 255, 0.82);
-    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.12),
-                inset 0 1px 1px rgba(255, 255, 255, 1);
-    transform: translateY(-1px);
-  }
-
-  @media (max-width: 540px) {
-    .hero-island-card {
-      left: 0.65rem;
-      right: 0.65rem;
-      bottom: 0.65rem;
-      width: auto;
-      max-width: none;
-      min-height: 84px;
-      height: auto;
-      padding: 0.75rem 0.95rem;
-      gap: 0.65rem;
-    }
-
-    .hero-meta-title {
-      font-size: clamp(1.05rem, 3.8vw, 1.25rem);
-      margin: 0 0 0.2rem 0;
-      white-space: normal;
-    }
-
-    .hero-meta-link {
-      font-size: 0.78125rem;
-      letter-spacing: 0.08em;
-      gap: 0.4rem;
-      white-space: nowrap;
-    }
-
-    .hero-island-controls {
-      padding-left: 0.65rem;
-      gap: 0.5rem;
-      height: 36px;
-    }
-
-    .hero-counter {
-      font-size: 0.75rem;
-      letter-spacing: 0.08em;
-    }
-
-    .hero-arrow-btn {
-      width: 32px;
-      height: 32px;
-    }
-
-    .hero-arrow-btn svg {
-      width: 13px;
-      height: 13px;
-    }
-  }
-
-  .hero-island-meta {
-    position: relative;
-    flex: 1;
-    min-width: 0;
-    height: 100%;
-    display: flex;
-    align-items: center;
-  }
-
-  .hero-meta-slide {
-    display: none;
-    width: 100%;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .hero-meta-slide.is-active {
-    display: flex;
-    animation: fadeInMeta 380ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-
-  @keyframes fadeInMeta {
-    from {
-      opacity: 0;
-      transform: translateY(3px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .hero-meta-title {
-    font-family: var(--font-display);
-    font-size: clamp(1.2rem, 2.2vw, 1.75rem);
-    font-weight: 500;
-    letter-spacing: 0.015em;
-    color: var(--color-text-main);
-    margin: 0 0 0.35rem 0;
-    line-height: 1.25;
-    white-space: normal;
-    word-break: normal;
-  }
-
-  .hero-meta-link {
-    font-family: var(--font-body);
-    font-size: clamp(0.78125rem, 1.1vw, 0.85rem);
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--color-brand-cognac);
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    transition: all var(--transition-fast);
-    width: fit-content;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  .hero-meta-link span {
-    white-space: nowrap;
-  }
-
-  .hero-meta-link svg {
-    flex-shrink: 0;
-  }
-
-  .hero-meta-link:hover {
-    color: var(--color-text-main);
-    gap: 0.65rem;
-  }
-
-  /* Controls (Counter & Hairline Arrows) */
-  .hero-island-controls {
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
-    flex-shrink: 0;
-    height: 38px;
-    padding-left: 1rem;
-    border-left: 1px solid rgba(0, 0, 0, 0.08);
-  }
-
-  .hero-counter {
-    font-family: var(--font-body);
-    font-size: clamp(0.75rem, 1.1vw, 0.8125rem);
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    color: var(--color-text-main);
-    font-variant-numeric: tabular-nums;
-    opacity: 0.72;
-  }
-
-  .hero-arrow-duo {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-  }
-
-  .hero-arrow-btn {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.65);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.85);
-    color: var(--color-text-main);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.9);
-    transition: all var(--transition-fast);
-  }
-
-  .hero-arrow-btn:hover {
-    background-color: var(--color-text-main);
-    color: #FFFFFF;
-    border-color: var(--color-text-main);
-    transform: scale(1.06);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  }
-
-  .hero-arrow-btn:active {
-    transform: scale(0.96);
-  }
-
-  .hero-arrow-btn:focus-visible {
-    outline: 2px solid var(--color-brand-cognac);
-    outline-offset: 2px;
-  }
-
-  /* Coming Soon Teaser Banner */
-  .section-teaser-banner {
-    margin-bottom: clamp(3.5rem, 6vw, 5.5rem);
-  }
-
-  .teaser-banner-frame {
-    display: block;
-    position: relative;
-    width: 100%;
-    border-radius: var(--border-radius-sm);
-    overflow: hidden;
-    background-color: #12100E;
-    border: 1px solid rgba(197, 160, 89, 0.28);
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
-    text-decoration: none;
-    transition: all var(--transition-fast);
-  }
-
-  .teaser-banner-img {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .teaser-banner-frame:hover {
-    border-color: rgba(197, 160, 89, 0.55);
-    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.14);
-  }
-
-  .teaser-banner-frame:hover .teaser-banner-img {
-    transform: scale(1.02);
-  }
-
-  /* Fragrance Finder Invitation Card */
-  .section-fragrance-finder-banner {
-    padding-top: 1.5rem;
-    padding-bottom: 2.5rem;
-  }
-
-  .finder-invitation-card {
-    background: linear-gradient(135deg, #FAF7F2 0%, #F5EFE6 50%, #FAF7F2 100%);
-    border: 1px solid rgba(197, 160, 89, 0.45);
-    border-radius: var(--border-radius-sm);
-    padding: 3.5rem 2.5rem;
-    text-align: center;
-    position: relative;
-    box-shadow: 0 16px 48px rgba(184, 134, 11, 0.06), inset 0 0 0 1px rgba(255, 255, 255, 0.9);
-  }
-
-  @media (max-width: 600px) {
-    .finder-invitation-card {
-      padding: 2.25rem 1.25rem;
-    }
-  }
-
-  .finder-ornament {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     gap: 1rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .ornament-line {
-    width: 44px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(197, 160, 89, 0.7), transparent);
-  }
-
-  .ornament-star {
-    color: #C5A059;
-    font-size: 0.9rem;
-  }
-
-  .finder-invitation-content {
-    max-width: 660px;
-    margin: 0 auto;
-  }
-
-  .finder-invitation-kicker {
-    display: inline-block;
-    font-size: clamp(0.78125rem, 1.2vw, 0.85rem);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.16em;
-    color: var(--color-brand-cognac);
-    margin-bottom: 0.75rem;
-  }
-
-  .finder-invitation-title {
-    font-family: var(--font-display);
-    font-size: clamp(1.85rem, 3.8vw, 2.65rem);
-    font-weight: 500;
-    color: var(--color-text-main);
-    line-height: 1.2;
-    margin: 0 0 0.95rem;
-  }
-
-  .finder-invitation-copy {
-    font-size: clamp(0.95rem, 1.5vw, 1.05rem);
-    color: var(--color-text-muted);
-    line-height: 1.7;
-    margin: 0 0 1.5rem;
-  }
-
-  .finder-perks-strip {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 0.65rem 1rem;
-    margin: 0 auto 2rem;
-  }
-
-  .finder-perk-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: var(--font-body);
-    font-size: clamp(0.75rem, 1.1vw, 0.8125rem);
-    font-weight: 500;
-    color: #5A524A;
-    background: rgba(255, 255, 255, 0.85);
-    border: 1px solid rgba(197, 160, 89, 0.35);
-    padding: 0.4rem 0.95rem;
-    border-radius: 999px;
-  }
-
-  .perk-bullet {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
-    background-color: var(--color-brand-cognac);
-  }
-
-  .btn-finder-start {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.65rem;
-    padding: 0.95rem 2.25rem;
-    background-color: var(--color-brand-cognac);
-    color: #FFFFFF;
-    font-size: clamp(0.875rem, 1.3vw, 0.95rem);
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    text-decoration: none;
-    border-radius: var(--border-radius-sm);
     min-height: 52px;
-    transition: all 180ms ease;
+    padding: .75rem .25rem;
+    color: #38261f;
+    cursor: pointer;
+    font-weight: 600;
+    list-style: none;
   }
 
-  .btn-finder-start:hover {
-    background-color: #8C4424;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 18px rgba(166, 83, 45, 0.28);
-  }
-
-  /* Curated Dynamic Section & Mood Tabs */
-  .curated-mood-pills {
-    display: flex;
-    align-items: center;
-    gap: 0.65rem;
-    overflow-x: auto;
-    padding: 0.25rem 0 0.65rem 0;
-    margin-bottom: clamp(1.25rem, 2.5vw, 1.85rem);
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .curated-mood-pills::-webkit-scrollbar {
+  .home-faq-list summary::-webkit-details-marker {
     display: none;
   }
 
-  .mood-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    padding: 0.55rem 1.15rem;
-    min-height: 38px;
-    background: #FAF9F6;
-    border: 1px solid #ECEAE5;
-    border-radius: 999px;
-    font-family: var(--font-body);
-    font-size: clamp(0.78125rem, 1.2vw, 0.85rem);
-    font-weight: 600;
-    color: #5A554E;
-    white-space: nowrap;
-    cursor: pointer;
-    transition: all var(--transition-fast);
+  .home-faq-list summary::after {
+    content: '';
+    width: .5rem;
+    height: .5rem;
+    flex: 0 0 auto;
+    margin-right: .25rem;
+    border: solid currentColor;
+    border-width: 0 1px 1px 0;
+    transform: rotate(45deg);
   }
 
-  .mood-pill:hover {
-    color: #1A1816;
-    border-color: #C5A059;
-    background: #FFFFFF;
+  .home-faq-list details[open] summary::after {
+    transform: rotate(225deg);
   }
 
-  .mood-pill.is-active {
-    background: #1A1816;
-    color: #FFFFFF;
-    border-color: #1A1816;
-    box-shadow: 0 2px 8px rgba(26, 24, 22, 0.12);
+  .home-faq-list summary:hover {
+    color: #784b34;
   }
 
-  .pill-sparkle {
-    color: #C5A059;
-    font-size: 0.8125rem;
+  .home-faq-list p {
+    max-width: 62ch;
+    margin: 0 .25rem 1rem;
+    color: #584a40;
+    font-size: .9rem;
+    line-height: 1.55;
   }
 
-  .mood-pill.is-active .pill-sparkle {
-    color: #F1D8A5;
+  .home-faq-list p a {
+    text-decoration: underline;
   }
 
-  .pill-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #C5A059;
-    box-shadow: 0 0 6px rgba(197, 160, 89, 0.6);
+  @media (max-width: 680px) {
+    .hero-editorial-section {
+      margin-top: 0;
+    }
+
+    .hero-editorial-section > .container {
+      padding-inline: 0;
+    }
+
+    .hero-editorial-stage {
+      border-width: 0 0 1px;
+      border-radius: 0;
+    }
+
+    .btn-hero-shop-now {
+      justify-self: center;
+      margin: 0 0 .85rem;
+      min-width: 8rem;
+    }
+
+    .hero-slide-picture {
+      aspect-ratio: auto;
+      height: clamp(105vw, 57svh, 117vw);
+    }
+
+    .hero-slide-image {
+      object-position: center;
+    }
   }
+
+  @media (width < 768px) {
+    .minimal-storefront {
+      --home-section-gap: 3.5rem;
+    }
+
+    .hero-editorial-section {
+      margin-bottom: var(--home-section-gap);
+    }
+
+    .minimal-storefront :global(.section-header-minimal) {
+      margin-bottom: 1.15rem;
+      padding-bottom: .65rem;
+    }
+
+    .minimal-storefront :global(.section-header-minimal .see-all-link) {
+      display: inline-flex;
+      align-items: center;
+      gap: .25rem;
+      min-height: 44px;
+      flex-shrink: 0;
+    }
+
+    .minimal-storefront :global(.home-preview-grid > .product-card:nth-of-type(n + 3)),
+    .home-concierge-card {
+      display: none;
+    }
+
+    .home-browse-grid {
+      gap: .85rem;
+    }
+  }
+
+  @media (min-width: 640px) {
+    .shopping-help-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+  }
+
+  @media (min-width: 720px) {
+    .home-story-card {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 860px) {
+    .home-faq-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr);
+    }
+
+    .home-faq-grid h2 {
+      max-width: 17ch;
+      text-wrap: wrap;
+    }
+
+    .home-house-track {
+      --house-columns: 4;
+    }
+
+    .home-browse-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+  }
+
+  @media (min-width: 1120px) {
+    .home-house-track {
+      --house-columns: 5;
+    }
+  }
+
+  @media (min-width: 1440px) {
+    .home-house-track {
+      --house-columns: 6;
+    }
+  }
+
 </style>
 
 <script>
   function initHeroSlider() {
     const slider = document.getElementById('hero-slider');
-    if (!slider) return;
+    if (!slider || slider.dataset.initialized) return;
 
     const slides = Array.from(slider.querySelectorAll<HTMLElement>('.hero-slide'));
-    const metaSlides = Array.from(slider.querySelectorAll<HTMLElement>('.hero-meta-slide'));
-    const counter = slider.querySelector<HTMLElement>('#hero-counter');
+    const controls = slider.querySelector<HTMLElement>('.hero-controls');
+    const purchase = slider.querySelector<HTMLAnchorElement>('.btn-hero-shop-now');
+    const current = document.getElementById('hero-current-slide');
+    const track = document.getElementById('hero-slides-track');
     const prevBtn = slider.querySelector<HTMLButtonElement>('#hero-prev-btn');
     const nextBtn = slider.querySelector<HTMLButtonElement>('#hero-next-btn');
+    const rotation = slider.querySelector<HTMLButtonElement>('.hero-rotation');
+    const progress = slider.querySelector<HTMLElement>('.hero-progress span');
+    const status = document.getElementById('hero-slide-status');
+    if (slides.length <= 1 || !controls || !purchase || !track || !rotation || !progress) return;
+    const purchaseLink = purchase;
 
-    if (slides.length <= 1) return;
-
+    slider.dataset.initialized = 'true';
+    controls.hidden = false;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const canHover = window.matchMedia('(hover: hover)');
+    const controller = new AbortController();
+    const { signal } = controller;
     let currentIndex = 0;
-    let timer: number | null = null;
-    const AUTOPLAY_DELAY = 6000;
+    let paused = reducedMotion.matches;
+    let visible = false;
+    let touching = false;
+    let progressAnimation: Animation | undefined;
 
-    function goToSlide(index: number) {
-      if (index < 0) index = slides.length - 1;
-      if (index >= slides.length) index = 0;
-      currentIndex = index;
+    const resetProgress = () => {
+      progressAnimation?.cancel();
+      progressAnimation = undefined;
+    };
 
+    const syncPlayback = () => {
+      if (signal.aborted) return;
+      const focused = document.activeElement;
+      const hasFocus = focused !== rotation && slider.contains(focused);
+      const hovered = canHover.matches && slider.matches(':hover');
+      if (paused || !visible || document.hidden || touching || hasFocus || hovered) {
+        progressAnimation?.pause();
+        return;
+      }
+      if (progressAnimation) {
+        progressAnimation.play();
+        return;
+      }
+
+      const animation = progress.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], 4500);
+      progressAnimation = animation;
+      animation.onfinish = () => {
+        if (progressAnimation === animation) goToSlide(currentIndex + 1, false);
+      };
+    };
+
+    const setPaused = (value: boolean) => {
+      paused = value;
+      const label = paused ? 'Play slideshow' : 'Pause slideshow';
+      rotation.setAttribute('aria-label', label);
+      rotation.title = label;
+      rotation.toggleAttribute('data-paused', paused);
+      syncPlayback();
+    };
+
+    function goToSlide(index: number, announce = true) {
+      currentIndex = (index + slides.length) % slides.length;
       slides.forEach((slide, idx) => {
-        const isActive = idx === currentIndex;
-        slide.classList.toggle('is-active', isActive);
-        slide.setAttribute('aria-hidden', isActive ? 'false' : 'true');
-        slide.setAttribute('tabindex', isActive ? '0' : '-1');
+        const active = idx === currentIndex;
+        slide.classList.toggle('is-active', active);
+        slide.setAttribute('aria-hidden', String(!active));
+        slide.inert = !active;
       });
-
-      metaSlides.forEach((meta, idx) => {
-        meta.classList.toggle('is-active', idx === currentIndex);
-      });
-
-      if (counter) {
-        counter.textContent = `0${currentIndex + 1} / 0${slides.length}`;
+      if (current) current.textContent = String(currentIndex + 1).padStart(2, '0');
+      const activeSlide = slides[currentIndex];
+      const { checkoutHref, productTitle } = activeSlide.dataset;
+      if (checkoutHref && productTitle) {
+        purchaseLink.href = checkoutHref;
+        purchaseLink.setAttribute('aria-label', `Buy now: ${productTitle}`);
       }
+      if (status && announce) status.textContent = activeSlide.getAttribute('aria-label');
+      resetProgress();
+      syncPlayback();
     }
 
-    function nextSlide() {
-      goToSlide(currentIndex + 1);
-    }
+    setPaused(paused);
+    rotation.addEventListener('click', () => setPaused(!paused));
+    slider.addEventListener('pointerenter', syncPlayback);
+    slider.addEventListener('pointerleave', syncPlayback);
+    slider.addEventListener('focusin', syncPlayback);
+    slider.addEventListener('focusout', () => requestAnimationFrame(syncPlayback));
+    document.addEventListener('visibilitychange', syncPlayback, { signal });
+    reducedMotion.addEventListener('change', (event) => {
+      if (event.matches) setPaused(true);
+    }, { signal });
 
-    function prevSlide() {
-      goToSlide(currentIndex - 1);
-    }
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.intersectionRatio >= .5;
+      syncPlayback();
+    }, { threshold: .5 });
+    observer.observe(slider);
 
-    function startAutoplay() {
-      stopAutoplay();
-      timer = window.setInterval(nextSlide, AUTOPLAY_DELAY);
-    }
-
-    function stopAutoplay() {
-      if (timer !== null) {
-        clearInterval(timer);
-        timer = null;
-      }
-    }
-
-    nextBtn?.addEventListener('click', (e) => {
-      e.preventDefault();
-      nextSlide();
-      startAutoplay();
-    });
-
-    prevBtn?.addEventListener('click', (e) => {
-      e.preventDefault();
-      prevSlide();
-      startAutoplay();
-    });
-
-    slider.addEventListener('pointerenter', stopAutoplay);
-    slider.addEventListener('pointerleave', startAutoplay);
-    slider.addEventListener('focusin', stopAutoplay);
-    slider.addEventListener('focusout', startAutoplay);
-
-    slider.addEventListener('keydown', (e) => {
-      if (e.key === 'ArrowLeft') {
-        prevSlide();
-        startAutoplay();
-      } else if (e.key === 'ArrowRight') {
-        nextSlide();
-        startAutoplay();
-      }
+    nextBtn?.addEventListener('click', () => goToSlide(currentIndex + 1));
+    prevBtn?.addEventListener('click', () => goToSlide(currentIndex - 1));
+    controls.addEventListener('keydown', (event) => {
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      event.preventDefault();
+      goToSlide(currentIndex + (event.key === 'ArrowLeft' ? -1 : 1));
     });
 
     let touchStartX = 0;
     let touchStartY = 0;
-
-    slider.addEventListener('touchstart', (e) => {
-      const touch = e.changedTouches[0];
-      touchStartX = touch.clientX;
-      touchStartY = touch.clientY;
-      stopAutoplay();
+    track.addEventListener('touchstart', (event) => {
+      touching = true;
+      touchStartX = event.changedTouches[0].clientX;
+      touchStartY = event.changedTouches[0].clientY;
+      syncPlayback();
+    }, { passive: true });
+    track.addEventListener('touchend', (event) => {
+      touching = false;
+      const touch = event.changedTouches[0];
+      const dx = touch.clientX - touchStartX;
+      const dy = touch.clientY - touchStartY;
+      if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) {
+        goToSlide(currentIndex + (dx < 0 ? 1 : -1));
+      }
+      syncPlayback();
+    }, { passive: true });
+    track.addEventListener('touchcancel', () => {
+      touching = false;
+      syncPlayback();
     }, { passive: true });
 
-    slider.addEventListener('touchend', (e) => {
-      const touch = e.changedTouches[0];
-      const diffX = touch.clientX - touchStartX;
-      const diffY = touch.clientY - touchStartY;
-
-      if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
-        if (diffX < 0) {
-          nextSlide();
-        } else {
-          prevSlide();
-        }
-      }
-      startAutoplay();
-    }, { passive: true });
-
-    document.addEventListener('visibilitychange', () => {
-      if (document.hidden) {
-        stopAutoplay();
-      } else {
-        startAutoplay();
-      }
-    });
-
-    startAutoplay();
+    document.addEventListener('astro:before-swap', () => {
+      controller.abort();
+      observer.disconnect();
+      resetProgress();
+    }, { once: true });
   }
 
-  import { getProductCatalog } from '../lib/catalog';
+  function initHouseCarousel() {
+    const section = document.getElementById('fragrance-houses');
+    const track = document.getElementById('home-house-track');
+    const controls = section?.querySelector<HTMLElement>('.home-house-controls');
+    const rotation = controls?.querySelector<HTMLButtonElement>('.home-house-rotation');
+    if (!section || !track || !controls || !rotation || track.dataset.ready) return;
 
-  function initCuratedPersonalization() {
-    const grid = document.getElementById('curated-products-grid');
-    const pills = document.querySelectorAll<HTMLButtonElement>('.mood-pill');
-    const historyDot = document.getElementById('pill-history-dot');
-    const exploreCta = document.getElementById('curated-explore-cta') as HTMLAnchorElement;
+    const cards = Array.from(track.querySelectorAll<HTMLAnchorElement>('.home-house-link'));
+    if (cards.length < 2) return;
+    track.dataset.ready = 'true';
+    controls.hidden = false;
 
-    if (!grid || pills.length === 0) return;
+    // Repeat the rail on both sides so the visible cards also wrap at the seam.
+    const copyCards = () => cards.map((card) => {
+      const copy = card.cloneNode(true) as HTMLAnchorElement;
+      copy.tabIndex = -1;
+      copy.setAttribute('aria-hidden', 'true');
+      return copy;
+    });
+    const before = copyCards();
+    const after = copyCards();
+    track.prepend(...before);
+    track.append(...after);
+    const railCards = [...before, ...cards, ...after];
+    track.scrollTo({ left: cards[0].offsetLeft, behavior: 'instant' });
 
-    let publicCatalog: Array<any> | null = null;
-    async function getCatalog() {
-      if (!publicCatalog) {
-        const cat = await getProductCatalog();
-        publicCatalog = cat.filter((p) => !p.isDraft);
-      }
-      return publicCatalog;
-    }
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const canHover = window.matchMedia('(hover: hover)');
+    let paused = reducedMotion.matches;
+    let visible = false;
+    let lastScroll = 0;
+    let settleTimer: number;
+    let touching = false;
 
-    // Static Presets
-    const presets: Record<string, { slugs: string[]; hint: string; cta: string; ctaText: string }> = {
-      flagship: {
-        slugs: ['yves-saint-laurent-libre', 'boucheron-quatre-en-bleu', 'chanel-n-5', 'dolce-gabbana-devotion'],
-        hint: "LUMÈRA LUXE's top 4 signature flagships and verified global icons.",
-        cta: '/shop/',
-        ctaText: 'Explore Entire Collection'
-      },
-      majlis: {
-        slugs: ['tom-ford-black-orchid', 'dolce-and-gabbana-velvet-desert-oud', 'chopard-oud-malaki', 'tom-ford-noir-extreme'],
-        hint: 'Deep oud, velvety amber, and nocturnal incense crafted for Qatari soirées.',
-        cta: '/shop/?style=majlis',
-        ctaText: 'Explore All Majlis & Oud Fragrances'
-      },
-      fresh: {
-        slugs: ['dolce-and-gabbana-light-blue', 'boucheron-quatre-en-bleu', 'giorgio-armani-acqua-di-gioia', 'versace-dylan-turquoise'],
-        hint: 'Luminous citrus, crisp minerals, and invigorating Mediterranean sea breezes.',
-        cta: '/shop/?family=fresh',
-        ctaText: 'Explore All Fresh Fragrances'
-      },
-      rose: {
-        slugs: ['parfums-de-marly-delina', 'dior-miss-dior', 'carolina-herrera-good-girl', 'gucci-flora-gorgeous-gardenia'],
-        hint: 'Romantic Damascena rose, blush peony, and delicate blossoming petals.',
-        cta: '/shop/?family=floral',
-        ctaText: 'Explore All Floral & Rose Fragrances'
+    const recenter = () => {
+      if (touching || track.contains(document.activeElement)) return;
+      const start = cards[0].offsetLeft;
+      const period = after[0].offsetLeft - start;
+      if (period <= 0) return;
+
+      const offset = track.scrollLeft - start;
+      // Allow for fractional card widths at the snap points.
+      if (offset >= -2 && offset < period - 2) return;
+      const wrapped = ((offset % period) + period) % period;
+      track.scrollTo({ left: start + (wrapped >= period - 2 ? 0 : wrapped), behavior: 'instant' });
+    };
+
+    const settle = () => {
+      window.clearTimeout(settleTimer);
+      settleTimer = window.setTimeout(recenter, 160);
+    };
+
+    const move = (direction: number) => {
+      recenter();
+      const left = track.scrollLeft;
+      const stops = railCards.map((card) => card.offsetLeft);
+      const target = direction > 0
+        ? stops.find((stop) => stop > left + 2)
+        : stops.findLast((stop) => stop < left - 2);
+
+      if (target !== undefined) {
+        track.scrollTo({ left: target, behavior: reducedMotion.matches ? 'instant' : 'smooth' });
       }
     };
 
-    function computePersonalizedSet(catalog: Array<any>) {
-      let consultationProfile: any = null;
-      let recentlyViewed: any[] = [];
-      let favorites: string[] = [];
+    const syncRotationLabel = () => {
+      const label = paused ? 'Play auto-scroll' : 'Pause auto-scroll';
+      rotation.setAttribute('aria-label', label);
+      rotation.title = label;
+      rotation.toggleAttribute('data-paused', paused);
+    };
 
-      try {
-        consultationProfile = JSON.parse(localStorage.getItem('lumera_consultation_profile') || 'null');
-      } catch {}
-      try {
-        recentlyViewed = JSON.parse(localStorage.getItem('lumera_recently_viewed') || '[]');
-      } catch {}
-      try {
-        favorites = JSON.parse(localStorage.getItem('lumera_favorites_v1') || '[]');
-      } catch {}
-
-      const hasHistory = Boolean(
-        consultationProfile ||
-        (Array.isArray(recentlyViewed) && recentlyViewed.length > 0) ||
-        (Array.isArray(favorites) && favorites.length > 0)
-      );
-
-      if (!hasHistory) {
-        return {
-          hasHistory: false,
-          slugs: presets.flagship.slugs,
-          hint: "Bespoke selection curated for Doha's discerning fragrance lovers.",
-          badge: '',
-          cta: '/shop/',
-          ctaText: 'Explore Entire Collection'
-        };
-      }
-
-      // 1. If Consultation Quiz taken:
-      if (consultationProfile && Array.isArray(consultationProfile.recommendedSlugs) && consultationProfile.recommendedSlugs.length > 0) {
-        const quizSlugs = [...consultationProfile.recommendedSlugs];
-        while (quizSlugs.length < 4) {
-          const filler = catalog.find((p) => p.category === consultationProfile.category && !quizSlugs.includes(p.slug));
-          if (filler) quizSlugs.push(filler.slug);
-          else break;
-        }
-        return {
-          hasHistory: true,
-          slugs: quizSlugs.slice(0, 4),
-          hint: `Personalized for your ${consultationProfile.persona || 'Bespoke'} consultation profile.`,
-          badge: 'From Your Quiz',
-          cta: '/shop/',
-          ctaText: 'Explore Entire Collection'
-        };
-      }
-
-      // 2. If recently viewed perfumes:
-      if (Array.isArray(recentlyViewed) && recentlyViewed.length > 0) {
-        const firstViewed = recentlyViewed[0];
-        const viewedSlug = typeof firstViewed === 'string' ? firstViewed : firstViewed.slug;
-        const targetProd = catalog.find((p) => p.slug === viewedSlug);
-
-        if (targetProd) {
-          const related = catalog
-            .filter((p) => p.slug !== targetProd.slug)
-            .map((p) => {
-              let score = 0;
-              if (p.category === targetProd.category) score += 30;
-              (p.scentFamilies || []).forEach((f: string) => {
-                if (targetProd.scentFamilies.some((tf: string) => tf.toLowerCase() === f.toLowerCase())) score += 20;
-              });
-              (p.keyNotes || []).forEach((k: string) => {
-                if (targetProd.keyNotes.some((tk: string) => tk.toLowerCase() === k.toLowerCase())) score += 10;
-              });
-              if (p.brand === targetProd.brand) score += 15;
-              if (p.featured) score += 5;
-              return { p, score };
-            })
-            .sort((a, b) => b.score - a.score)
-            .slice(0, 4)
-            .map((item) => item.p.slug);
-
-          return {
-            hasHistory: true,
-            slugs: related,
-            hint: `Inspired by your recent discovery of ${targetProd.brand} ${targetProd.name}.`,
-            badge: 'Inspired By Your Browsing',
-            cta: `/shop/?family=${targetProd.category || ''}`,
-            ctaText: `Explore More ${targetProd.category ? targetProd.category.charAt(0).toUpperCase() + targetProd.category.slice(1) : ''} Fragrances`
-          };
-        }
-      }
-
-      // 3. If favorites:
-      if (Array.isArray(favorites) && favorites.length > 0) {
-        const favProds = favorites.map((id) => catalog.find((p) => p.id === id)).filter(Boolean);
-        const favFamilies = new Set(favProds.flatMap((p) => p!.scentFamilies.map((f: string) => f.toLowerCase())));
-        const related = catalog
-          .filter((p) => !favorites.includes(p.id))
-          .map((p) => {
-            let score = 0;
-            (p.scentFamilies || []).forEach((f: string) => {
-              if (favFamilies.has(f.toLowerCase())) score += 20;
-            });
-            if (p.featured) score += 5;
-            return { p, score };
-          })
-          .sort((a, b) => b.score - a.score)
-          .slice(0, 4)
-          .map((item) => item.p.slug);
-
-        return {
-          hasHistory: true,
-          slugs: related.length >= 4 ? related : presets.flagship.slugs,
-          hint: 'Hand-picked to complement your saved wishlist favorites.',
-          badge: 'Wishlist Aligned',
-          cta: '/shop/',
-          ctaText: 'Explore Entire Collection'
-        };
-      }
-
-      return {
-        hasHistory: false,
-        slugs: presets.flagship.slugs,
-        hint: "Bespoke selection curated for Doha's discerning fragrance lovers.",
-        badge: '',
-        cta: '/shop/',
-        ctaText: 'Explore Entire Collection'
-      };
-    }
-
-    function renderCards(slugs: string[], catalog: Array<any>) {
-      const prods = slugs.map((s) => catalog.find((p) => p.slug === s)).filter(Boolean);
-      if (!grid) return;
-      grid.innerHTML = prods
-        .map((p) => {
-          const stickerHtml =
-            p!.stickerPriceMinor && p!.stickerPriceMinor > p!.priceMinor
-              ? `<span class="card-sticker-price">${Math.round(p!.stickerPriceMinor / 100)} QAR</span>`
-              : '';
-          const specParts = [p!.concentration, p!.sizeDisplay].filter(Boolean);
-          const specsHtml = specParts.join(' <span class="card-dot-sep">·</span> ');
-
-          return `
-            <article class="minimal-product-card product-card" data-product-id="${p!.id}">
-              <div class="card-media-wrapper">
-                <a href="/perfumes/${p!.slug}/" class="card-image-link" aria-label="View ${p!.brand} ${p!.name}">
-                  <div class="card-image-surface">
-                    <img src="${p!.image}" alt="${p!.brand} ${p!.name}" loading="lazy" decoding="async" class="bottle-img" width="400" height="400" />
-                  </div>
-                </a>
-                <button type="button" class="card-fav-btn" data-action="toggle-fav" data-id="${p!.id}" aria-label="Save ${p!.brand} ${p!.name} to wishlist" title="Save to Wishlist">
-                  <svg class="card-heart-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                  </svg>
-                  <span class="sr-only">Save to Wishlist</span>
-                </button>
-                <button type="button" class="quick-add-btn" data-action="add-to-bag" data-id="${p!.id}" data-name="${p!.name}" data-brand="${p!.brand}" data-size="${p!.sizeDisplay}" data-concentration="${p!.concentration}" data-price="${p!.priceMinor}" data-image="${p!.image}" aria-label="Quick add ${p!.brand} ${p!.name} to bag" title="Add to Bag">
-                  <span class="plus-icon">+</span>
-                  <span class="btn-text sr-only">Add to Bag</span>
-                </button>
-              </div>
-              <div class="card-caption">
-                <span class="card-brand">${p!.brand}</span>
-                <h3 class="card-title"><a href="/perfumes/${p!.slug}/">${p!.name}</a></h3>
-                <div class="card-specs">${specsHtml}</div>
-                <div class="card-price-row">
-                  ${stickerHtml}
-                  <span class="card-price">${p!.priceDisplay}</span>
-                </div>
-              </div>
-            </article>
-          `;
-        })
-        .join('');
-
-      window.dispatchEvent(new CustomEvent('favorites-updated'));
-    }
-
-    async function setMood(mood: string) {
-      pills.forEach((p) => p.classList.toggle('is-active', p.getAttribute('data-mood') === mood));
-      const catalog = await getCatalog();
-
-      if (mood === 'for-you') {
-        const personalized = computePersonalizedSet(catalog);
-        renderCards(personalized.slugs, catalog);
-        if (exploreCta) {
-          exploreCta.href = personalized.cta;
-          const span = exploreCta.querySelector('span');
-          if (span) span.textContent = personalized.ctaText;
-        }
-      } else {
-        const preset = presets[mood];
-        if (preset) {
-          renderCards(preset.slugs, catalog);
-          if (exploreCta) {
-            exploreCta.href = preset.cta;
-            const span = exploreCta.querySelector('span');
-            if (span) span.textContent = preset.ctaText;
-          }
-        }
-      }
-    }
-
-    pills.forEach((pill) => {
-      pill.addEventListener('click', () => {
-        const mood = pill.getAttribute('data-mood') || 'for-you';
-        setMood(mood);
-      });
+    syncRotationLabel();
+    rotation.addEventListener('click', () => {
+      paused = !paused;
+      syncRotationLabel();
     });
+    controls.querySelectorAll<HTMLButtonElement>('[data-house-direction]').forEach((button) => {
+      button.addEventListener('click', () => move(Number(button.dataset.houseDirection)));
+    });
+    track.addEventListener('scroll', () => {
+      lastScroll = Date.now();
+      settle();
+    }, { passive: true });
+    track.addEventListener('touchstart', () => { touching = true; }, { passive: true });
+    const endTouch = () => {
+      touching = false;
+      settle();
+    };
+    track.addEventListener('touchend', endTouch, { passive: true });
+    track.addEventListener('touchcancel', endTouch, { passive: true });
 
-    let hasHistory = false;
-    try {
-      hasHistory = Boolean(
-        localStorage.getItem('lumera_consultation_profile') ||
-        (JSON.parse(localStorage.getItem('lumera_recently_viewed') || '[]')).length ||
-        (JSON.parse(localStorage.getItem('lumera_favorites_v1') || '[]')).length
-      );
-    } catch {}
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+    }, { threshold: .5 });
+    observer.observe(track);
 
-    if (hasHistory) {
-      if (historyDot) historyDot.style.display = 'inline-block';
-      setMood('for-you');
+    function respectMotionPreference(event: MediaQueryListEvent) {
+      if (event.matches) {
+        paused = true;
+        syncRotationLabel();
+      }
     }
+    reducedMotion.addEventListener('change', respectMotionPreference);
+
+    const interval = window.setInterval(() => {
+      if (!visible || paused || touching || document.hidden || Date.now() - lastScroll < 1500) return;
+      if (section.contains(document.activeElement) || (canHover.matches && section.matches(':hover'))) return;
+      move(1);
+    }, 3000);
+
+    document.addEventListener('astro:before-swap', () => {
+      window.clearInterval(interval);
+      window.clearTimeout(settleTimer);
+      observer.disconnect();
+      reducedMotion.removeEventListener('change', respectMotionPreference);
+    }, { once: true });
   }
 
   function initHome() {
     initHeroSlider();
-    initCuratedPersonalization();
+    initHouseCarousel();
   }
 
   if (document.readyState === 'loading') {

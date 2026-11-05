@@ -1,4 +1,5 @@
 import { siteConfig } from '../data/site';
+import { getDeliveryFeeQar } from './delivery';
 
 export interface CartItem {
   id: string;
@@ -62,11 +63,19 @@ export function formatWhatsAppOrderMessage(
     message += `   • Item Total: *${itemSubtotal} QAR*\n\n`;
   });
 
+  const subtotalNum = Number(subtotalQar);
+  const deliveryFee = getDeliveryFeeQar(subtotalMinor);
+  const totalAmount = subtotalNum + deliveryFee;
+
   message += `────────────────────────\n`;
   message += `💰 *ORDER SUMMARY:*\n`;
   message += `• Products Subtotal: ${subtotalQar} QAR\n`;
-  message += `• Qatar Delivery: *FREE* (Express Courier)\n`;
-  message += `• *Total Amount:* *${subtotalQar} QAR*\n`;
+  if (deliveryFee === 0) {
+    message += `• Qatar Delivery (Within 6 Hours): *FREE* (Above 300 QAR)\n`;
+  } else {
+    message += `• Qatar Delivery (Within 6 Hours): *${deliveryFee} QAR*\n`;
+  }
+  message += `• *Total Amount:* *${totalAmount} QAR*\n`;
 
   if (customerInfo) {
     const fullName = ('fullName' in customerInfo ? customerInfo.fullName : customerInfo.name) || '';
@@ -129,4 +138,23 @@ export function generateWhatsAppLink(
   const message = formatWhatsAppOrderMessage(items, customerInfo);
   const phone = siteConfig.whatsappNumber.replace(/[^0-9]/g, '');
   return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+}
+
+export function generateSingleProductWhatsAppLink(product: {
+  brand: string;
+  name: string;
+  sizeDisplay?: string;
+  concentration?: string;
+  priceDisplay?: string;
+  priceMinor: number;
+}): string {
+  const priceNum = Math.round(product.priceMinor / 100);
+  const price = product.priceDisplay || `${priceNum} QAR`;
+  const size = product.sizeDisplay ? ` (${product.sizeDisplay} · ${product.concentration || 'EDP'})` : '';
+  const deliveryFee = getDeliveryFeeQar(product.priceMinor);
+  const deliveryText = deliveryFee === 0 ? 'FREE (Orders above 300 QAR)' : `${deliveryFee} QAR`;
+  const total = priceNum + deliveryFee;
+  const msg = `Hello LUMÈRA LUXE, I would like to order:\n\n✨ *${product.brand.toUpperCase()} · ${product.name}*${size}\n💰 Price: *${price}*\n🚚 Qatar Delivery (Within 6 Hours): *${deliveryText}*\n💵 Total Amount: *${total} QAR*\n\n✦ 6-Hour Trial Guarantee (Returns and exchanges accepted even if opened and used)\nPlease confirm availability and delivery timing. Thank you!`;
+  const phone = siteConfig.whatsappNumber.replace(/[^0-9]/g, '');
+  return `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
 }

@@ -1,14 +1,23 @@
 ---
 import { siteConfig } from '../data/site';
 import productsData from '../data/products.json';
+import { isEligibleForShowcase } from '../data/storefront-edits';
 
 const currentPath = Astro.url.pathname;
-const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
+const searchHighlights = productsData.filter((p) => p.featured && isEligibleForShowcase(p)).slice(0, 3);
 ---
 
 <header class="site-header" id="main-header">
+  <aside class="header-top-ribbon" aria-label="Qatar delivery and payment">
+    <a href="/shipping-delivery/">Free Qatar delivery above 300 QAR</a>
+    <span class="header-ribbon-payment">Cash or card on delivery</span>
+    {siteConfig.maintenanceMode?.enabled && (
+      <button type="button" class="header-preview-lock" id="maintenance-relock-btn">Lock preview</button>
+    )}
+  </aside>
+
   <div class="container header-container">
-    <!-- Left: Mobile Menu & Search (Mobile) / Desktop Editorial Navigation -->
+    <!-- Left: Mobile Hamburger Toggle + Brand Logo (SouqScent Placement) -->
     <div class="header-left">
       <button
         class="mobile-toggle-btn"
@@ -19,8 +28,8 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
       >
         <svg
           class="hamburger-svg"
-          width="21"
-          height="21"
+          width="22"
+          height="22"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -32,174 +41,232 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
         </svg>
       </button>
 
-      <!-- Mobile Search Button (Left Utility on Mobile for 2:2 Symmetry) -->
-      <button
-        class="header-action-btn search-trigger mobile-search-btn"
-        aria-label="Search fragrances"
-        title="Search fragrances"
-      >
-        <svg
-          class="header-line-icon"
-          width="19"
-          height="19"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.6"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <circle cx="11" cy="11" r="7.5"></circle>
-          <line x1="21" y1="21" x2="16.5" y2="16.5"></line>
-        </svg>
-      </button>
-
-      <!-- Desktop Primary Nav -->
-      <nav class="primary-nav" id="primary-nav" aria-label="Primary navigation">
-        <ul class="nav-list">
-          {
-            siteConfig.navigation.map((item) => {
-              const isDiscovery = item.label === 'Discovery';
-              const isShop = item.label === 'Shop';
-              const isActive =
-                currentPath === item.href ||
-                (item.href !== '/' && currentPath.startsWith(item.href)) ||
-                (isDiscovery && (currentPath.startsWith('/scent-styling') || currentPath.startsWith('/fragrance-finder') || currentPath.startsWith('/layering'))) ||
-                (isShop && currentPath.startsWith('/perfumes/'));
-
-              if (isDiscovery) {
-                return (
-                  <li class="nav-item nav-item-dropdown">
-                    <a
-                      href={item.href}
-                      class:list={['nav-link', 'dropdown-trigger-link', { active: isActive }]}
-                      aria-current={isActive ? 'page' : undefined}
-                      aria-expanded="false"
-                      aria-haspopup="true"
-                    >
-                      <span>{item.label}</span>
-                      <svg class="dropdown-caret" width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <polyline points="6 9 12 15 18 9"></polyline>
-                      </svg>
-                    </a>
-
-                    <!-- Luxury Dropdown Panel -->
-                    <div class="nav-dropdown-panel" role="menu">
-                      <div class="nav-dropdown-inner">
-                        <!-- Column 1: Scent & Style -->
-                        <div class="dropdown-col">
-                          <span class="dropdown-header">Scent & Style Alignment</span>
-                          <a href="/scent-styling/#gold" class="dropdown-item-link" role="menuitem">
-                            <div class="dropdown-item-main">
-                              <span class="dropdown-bullet">✦</span>
-                              <span class="item-title">Wear with Warm Gold</span>
-                            </div>
-                            <span class="dropdown-arrow" aria-hidden="true">→</span>
-                          </a>
-                          <a href="/scent-styling/#silver" class="dropdown-item-link" role="menuitem">
-                            <div class="dropdown-item-main">
-                              <span class="dropdown-bullet">✦</span>
-                              <span class="item-title">Wear with Cool Silver</span>
-                            </div>
-                            <span class="dropdown-arrow" aria-hidden="true">→</span>
-                          </a>
-                          <a href="/scent-styling/#rose-gold" class="dropdown-item-link" role="menuitem">
-                            <div class="dropdown-item-main">
-                              <span class="dropdown-bullet">✦</span>
-                              <span class="item-title">Wear with Rose Gold</span>
-                            </div>
-                            <span class="dropdown-arrow" aria-hidden="true">→</span>
-                          </a>
-                        </div>
-
-                        <!-- Column 2: Rituals & Consultation -->
-                        <div class="dropdown-col">
-                          <span class="dropdown-header">Consultation & Rituals</span>
-                          <a href="/fragrance-finder/" class="dropdown-item-link" role="menuitem">
-                            <div class="dropdown-item-main">
-                              <span class="dropdown-bullet">✦</span>
-                              <span class="item-title">Fragrance Finder Quiz</span>
-                            </div>
-                            <span class="dropdown-arrow" aria-hidden="true">→</span>
-                          </a>
-                          <a href="/layering/" class="dropdown-item-link" role="menuitem" data-astro-prefetch>
-                            <div class="dropdown-item-main">
-                              <span class="dropdown-bullet">✦</span>
-                              <span class="item-title">The Art of Layering</span>
-                            </div>
-                            <span class="dropdown-arrow" aria-hidden="true">→</span>
-                          </a>
-                          <a href="/scent-styling/#elements" class="dropdown-item-link" role="menuitem">
-                            <div class="dropdown-item-main">
-                              <span class="dropdown-bullet">✦</span>
-                              <span class="item-title">The Elemental Wardrobe</span>
-                            </div>
-                            <span class="dropdown-arrow" aria-hidden="true">→</span>
-                          </a>
-                        </div>
-                      </div>
-
-                      <div class="dropdown-footer-bar">
-                        <a href="/scent-styling/" class="dropdown-all-link">
-                          <span>Explore Complete Scent & Style Hub</span>
-                          <span aria-hidden="true">→</span>
-                        </a>
-                      </div>
-                    </div>
-                  </li>
-                );
-              }
-
-              return (
-                <li class="nav-item">
-                  <a
-                    href={item.href}
-                    class:list={['nav-link', { active: isActive }]}
-                    aria-current={isActive ? 'page' : undefined}
-                    data-astro-prefetch
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              );
-            })
-          }
-        </ul>
-      </nav>
-    </div>
-
-    <!-- Center: Iconic Wordmark (Optically Baseline-Centered) -->
-    <div class="header-center">
+      <!-- Brand Logo on the Left -->
       <a href="/" class="brand-link" aria-label="LUMÈRA LUXE Home">
         <img
           src="/assets/lumera-logo.svg"
           alt="LUMÈRA LUXE"
           class="brand-logo"
-          width="135"
-          height="24"
+          width="152"
+          height="26"
           loading="eager"
           decoding="async"
         />
       </a>
     </div>
 
-    <!-- Right: Utility Actions (Search on Desktop, Wishlist, Bag) -->
+    <!-- Center: Horizontal Navigation Menu (SouqScent Direct Layout) -->
+    <nav class="primary-nav" id="primary-nav" aria-label="Primary navigation">
+      <ul class="nav-list">
+        <!-- WOMEN -->
+        <li class="nav-item">
+          <a
+            href="/shop/"
+            class={`nav-link ${currentPath === '/shop/' && !Astro.url.search ? 'active' : ''}`}
+            data-astro-prefetch
+          >
+            WOMEN
+          </a>
+        </li>
+
+        <!-- CATEGORIES DROPDOWN -->
+        <li class="nav-item nav-item-dropdown">
+          <button
+            type="button"
+            class="nav-link dropdown-trigger"
+            aria-expanded="false"
+            aria-controls="nav-categories-panel"
+          >
+            <span>CATEGORIES</span>
+            <svg class="dropdown-caret" width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+
+          <div class="nav-dropdown-panel" id="nav-categories-panel" hidden>
+            <div class="nav-dropdown-inner single-col">
+              <a href="/shop/" class="dropdown-item-link">
+                <span class="item-title">All Perfumes ({productsData.length})</span>
+                <span class="dropdown-arrow" aria-hidden="true">→</span>
+              </a>
+              <a href="/shop/?family=floral" class="dropdown-item-link">
+                <span class="item-title">Floral & Rose</span>
+                <span class="dropdown-arrow" aria-hidden="true">→</span>
+              </a>
+              <a href="/shop/?family=oriental" class="dropdown-item-link">
+                <span class="item-title">Amber & Oriental</span>
+                <span class="dropdown-arrow" aria-hidden="true">→</span>
+              </a>
+              <a href="/shop/?family=woody" class="dropdown-item-link">
+                <span class="item-title">Woody & Earthy</span>
+                <span class="dropdown-arrow" aria-hidden="true">→</span>
+              </a>
+              <a href="/shop/?family=fresh" class="dropdown-item-link">
+                <span class="item-title">Fresh & Citrus</span>
+                <span class="dropdown-arrow" aria-hidden="true">→</span>
+              </a>
+              <a href="/shop/?price=over-350" class="dropdown-item-link">
+                <span class="item-title">Prestige & Luxury (350+ QAR)</span>
+                <span class="dropdown-arrow" aria-hidden="true">→</span>
+              </a>
+            </div>
+          </div>
+        </li>
+
+        <!-- BRANDS DROPDOWN -->
+        <li class="nav-item nav-item-dropdown">
+          <button
+            type="button"
+            class={`nav-link dropdown-trigger ${currentPath === '/shop/' && Astro.url.search.includes('brand') ? 'active' : ''}`}
+            aria-expanded="false"
+            aria-controls="nav-brands-panel"
+          >
+            <span>BRANDS</span>
+            <svg class="dropdown-caret" width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+
+          <div class="nav-dropdown-panel brands-mega-panel" id="nav-brands-panel" hidden>
+            <div class="brands-dropdown-grid">
+              <div class="brands-col">
+                <span class="brands-col-title">Designer Maisons</span>
+                <a href="/shop/?brand=Chanel" class="dropdown-brand-link">Chanel</a>
+                <a href="/shop/?brand=Dior" class="dropdown-brand-link">Dior</a>
+                <a href="/shop/?brand=Tom+Ford" class="dropdown-brand-link">Tom Ford</a>
+                <a href="/shop/?brand=Yves+Saint+Laurent" class="dropdown-brand-link">Yves Saint Laurent</a>
+                <a href="/shop/?brand=Carolina+Herrera" class="dropdown-brand-link">Carolina Herrera</a>
+                <a href="/shop/?brand=Dolce+%26+Gabbana" class="dropdown-brand-link">Dolce & Gabbana</a>
+              </div>
+              <div class="brands-col">
+                <span class="brands-col-title">High Prestige</span>
+                <a href="/shop/?brand=Creed" class="dropdown-brand-link">Creed</a>
+                <a href="/shop/?brand=Boucheron" class="dropdown-brand-link">Boucheron</a>
+                <a href="/shop/?brand=Chopard" class="dropdown-brand-link">Chopard</a>
+                <a href="/shop/?brand=Guerlain" class="dropdown-brand-link">Guerlain</a>
+                <a href="/shop/?brand=Hermès" class="dropdown-brand-link">Hermès</a>
+                <a href="/shop/?brand=Cartier" class="dropdown-brand-link">Cartier</a>
+              </div>
+              <div class="brands-col">
+                <span class="brands-col-title">Modern Icons</span>
+                <a href="/shop/?brand=Givenchy" class="dropdown-brand-link">Givenchy</a>
+                <a href="/shop/?brand=Jean+Paul+Gaultier" class="dropdown-brand-link">Jean Paul Gaultier</a>
+                <a href="/shop/?brand=Narciso+Rodriguez" class="dropdown-brand-link">Narciso Rodriguez</a>
+                <a href="/shop/?brand=Paco+Rabanne" class="dropdown-brand-link">Paco Rabanne</a>
+                <a href="/shop/?brand=Prada" class="dropdown-brand-link">Prada</a>
+                <a href="/shop/?brand=Mugler" class="dropdown-brand-link">Mugler</a>
+              </div>
+            </div>
+            <div class="brands-dropdown-footer">
+              <a href="/shop/" class="brands-all-link">
+                <span>View All 40+ European Fragrance Brands</span>
+                <span aria-hidden="true">→</span>
+              </a>
+            </div>
+          </div>
+        </li>
+
+        <!-- SCENT DROPDOWN -->
+        <li class="nav-item nav-item-dropdown">
+          <button
+            type="button"
+            class={`nav-link dropdown-trigger ${currentPath.startsWith('/scent-styling') || currentPath.startsWith('/layering') ? 'active' : ''}`}
+            aria-expanded="false"
+            aria-controls="nav-scent-panel"
+          >
+            <span>SCENT</span>
+            <svg class="dropdown-caret" width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+
+          <div class="nav-dropdown-panel" id="nav-scent-panel" hidden>
+            <div class="nav-dropdown-inner">
+              <div class="dropdown-col">
+                <span class="dropdown-header">Olfactive Families</span>
+                <a href="/shop/?family=floral" class="dropdown-item-link">
+                  <span class="item-title">Floral & Rose</span>
+                  <span class="dropdown-arrow" aria-hidden="true">→</span>
+                </a>
+                <a href="/shop/?family=oriental" class="dropdown-item-link">
+                  <span class="item-title">Amber & Oriental</span>
+                  <span class="dropdown-arrow" aria-hidden="true">→</span>
+                </a>
+                <a href="/shop/?family=woody" class="dropdown-item-link">
+                  <span class="item-title">Woody & Earthy</span>
+                  <span class="dropdown-arrow" aria-hidden="true">→</span>
+                </a>
+                <a href="/shop/?family=fresh" class="dropdown-item-link">
+                  <span class="item-title">Fresh & Citrus</span>
+                  <span class="dropdown-arrow" aria-hidden="true">→</span>
+                </a>
+              </div>
+              <div class="dropdown-col">
+                <span class="dropdown-header">Guides & Rituals</span>
+                <a href="/fragrance-finder/" class="dropdown-item-link">
+                  <span class="item-title">Fragrance Finder Quiz</span>
+                  <span class="dropdown-arrow" aria-hidden="true">→</span>
+                </a>
+                <a href="/layering/" class="dropdown-item-link">
+                  <span class="item-title">The Art of Layering</span>
+                  <span class="dropdown-arrow" aria-hidden="true">→</span>
+                </a>
+                <a href="/scent-styling/" class="dropdown-item-link">
+                  <span class="item-title">Scent & Style Alignment</span>
+                  <span class="dropdown-arrow" aria-hidden="true">→</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <a href="/#shop-by-occasion" class="nav-link">Occasions</a>
+        </li>
+
+        <!-- DISCOVERY QUIZ -->
+        <li class="nav-item">
+          <a
+            href="/fragrance-finder/"
+            class={`nav-link nav-quiz-badge ${currentPath.startsWith('/fragrance-finder') ? 'active' : ''}`}
+            data-astro-prefetch
+          >
+            <span>DISCOVERY QUIZ</span>
+            <span class="quiz-sparkle" aria-hidden="true">✦</span>
+          </a>
+        </li>
+
+        <!-- OUR STORY -->
+        <li class="nav-item">
+          <a
+            href="/our-story/"
+            class={`nav-link ${currentPath.startsWith('/our-story') ? 'active' : ''}`}
+            data-astro-prefetch
+          >
+            OUR STORY
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Right: Utility Actions (Search, Wishlist, WhatsApp, SouqScent Black Bag Pill, Region Flag) -->
     <div class="header-right">
-      <!-- Desktop Search Line Icon Button -->
+      <!-- Search Line Icon Button (Click opens instant luxury search modal) -->
       <button
-        class="header-action-btn search-trigger desktop-search-btn"
+        type="button"
+        class="header-action-btn search-trigger"
         id="open-search-modal-btn"
         aria-label="Search fragrances"
         title="Search fragrances"
       >
         <svg
           class="header-line-icon"
-          width="19"
-          height="19"
+          width="20"
+          height="20"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          stroke-width="1.6"
+          stroke-width="1.8"
           stroke-linecap="round"
           stroke-linejoin="round"
         >
@@ -208,8 +275,9 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
         </svg>
       </button>
 
-      <!-- Wishlist / Saved Fragrances Line Icon Button -->
+      <!-- Wishlist / Saved Fragrances -->
       <button
+        type="button"
         class="header-action-btn wishlist-trigger"
         id="open-wishlist-btn"
         aria-label="Wishlist / Saved Fragrances"
@@ -218,12 +286,12 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
         <div class="wishlist-icon-frame">
           <svg
             class="header-line-icon wishlist-heart-icon"
-            width="19"
-            height="19"
+            width="20"
+            height="20"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="1.6"
+            stroke-width="1.8"
             stroke-linecap="round"
             stroke-linejoin="round"
           >
@@ -233,7 +301,7 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
         </div>
       </button>
 
-      <!-- Direct WhatsApp Concierge Shortcut Button (Consistent Luxury Line Icon) -->
+      <!-- Direct WhatsApp Concierge Shortcut -->
       <a
         href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent('Hello LUMÈRA LUXE, I would like personal assistance choosing a fragrance from your collection.')}`}
         class="header-action-btn whatsapp-header-btn"
@@ -246,12 +314,12 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
         <div class="whatsapp-icon-frame">
           <svg
             class="header-line-icon whatsapp-icon"
-            width="19"
-            height="19"
+            width="20"
+            height="20"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="1.6"
+            stroke-width="1.8"
             stroke-linecap="round"
             stroke-linejoin="round"
             aria-hidden="true"
@@ -262,23 +330,25 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
         </div>
       </a>
 
-      <!-- Shopping Bag Line Icon Button -->
+      <!-- Shopping bag -->
       <button
+        type="button"
         class="header-action-btn bag-trigger"
         id="open-bag-btn"
         aria-label="Shopping bag"
         aria-haspopup="dialog"
         title="Shopping Bag"
       >
-        <div class="bag-icon-frame">
+        <span class="bag-icon-frame">
           <svg
             class="header-line-icon"
-            width="19"
-            height="19"
+            width="20"
+            height="20"
+            aria-hidden="true"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="1.6"
+            stroke-width="1.8"
             stroke-linecap="round"
             stroke-linejoin="round"
           >
@@ -286,9 +356,15 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
             <line x1="3" y1="6" x2="21" y2="6"></line>
             <path d="M16 10a4 4 0 0 1-8 0"></path>
           </svg>
-          <span class="bag-counter-pill" id="header-bag-count" hidden>0</span>
-        </div>
+          <span class="header-bag-badge" id="header-bag-count" hidden>0</span>
+        </span>
       </button>
+
+      <!-- Qatar Region Indicator (Direct SouqScent Flag & Currency) -->
+      <div class="header-region-item" title="Delivering across Qatar">
+        <span class="region-flag" aria-hidden="true">🇶🇦</span>
+        <span class="region-label">QAR</span>
+      </div>
     </div>
   </div>
 </header>
@@ -409,456 +485,443 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
     position: sticky;
     top: 0;
     z-index: 50;
-    height: 64px;
-    background-color: rgba(255, 255, 255, 0.96);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    background-color: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--color-gold-border-subtle);
     transition: all var(--transition-fast);
   }
 
-  @media (min-width: 768px) {
-    .site-header {
-      height: 68px;
-    }
-  }
-
-  /* Header Layout */
-  .header-container {
-    height: 100%;
+  .header-top-ribbon {
     display: flex;
+    justify-content: center;
     align-items: center;
-    justify-content: space-between;
-    position: relative;
-    padding-left: clamp(0.5rem, 2.5vw, 1.25rem);
-    padding-right: clamp(0.5rem, 2.5vw, 1.25rem);
+    min-height: 30px;
+    gap: 1rem;
+    padding: .25rem var(--page-gutter);
+    background: #30211c;
+    color: #fff7ee;
+    font-size: .72rem;
+    letter-spacing: .02em;
+    text-align: center;
   }
 
-  .header-left {
-    display: flex;
-    align-items: center;
-    gap: 2px;
-    z-index: 2;
-    flex-shrink: 0;
+  .header-top-ribbon a {
+    color: inherit;
+    text-underline-offset: .2em;
   }
 
-  /* Mobile vs Desktop Search Switcher (Ensures exact 2:2 icon symmetry on mobile) */
-  .mobile-search-btn {
+  .header-top-ribbon a:hover {
+    text-decoration: underline;
+  }
+
+  .header-ribbon-payment {
+    border-inline-start: 1px solid #9b7663;
+    padding-inline-start: 1rem;
+  }
+
+  .header-preview-lock {
+    display: none;
+    align-items: center;
+    min-height: 28px;
+    padding: .1rem .45rem;
+    border: 1px solid #9b7663;
+    border-radius: 4px;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  :global(html.maintenance-unlocked) .header-preview-lock {
     display: inline-flex;
   }
 
-  .desktop-search-btn {
-    display: none !important;
+  .header-preview-lock:hover {
+    background: #593b2b;
   }
 
-  /* Centered Brand Logo: Auto-balanced between Left (2 icons) and Right (3 icons) */
-  .header-center {
+  .header-preview-lock:focus-visible {
+    outline-color: #fff7ee;
+  }
+
+  @media (max-width: 540px) {
+    .header-top-ribbon {
+      gap: .55rem;
+    }
+
+    .header-ribbon-payment {
+      display: none;
+    }
+  }
+
+  /* 2. Main Header Row (SouqScent Single Unified Row) */
+  .header-container {
+    height: 64px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    text-align: center;
-    flex: 1;
-    min-width: 0;
-    padding: 0 0.35rem;
-    z-index: 1;
-    pointer-events: auto;
+    justify-content: space-between;
+    gap: clamp(1rem, 2vw, 2.5rem);
+    position: relative;
+    max-width: var(--content-max-width, 1600px);
+    margin: 0 auto;
+    padding-left: var(--page-gutter);
+    padding-right: var(--page-gutter);
+  }
+
+  @media (min-width: 1200px) {
+    .header-container {
+      height: 72px;
+    }
+  }
+
+  /* Left: Hamburger (mobile) + Brand Logo */
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.5rem, 1.2vw, 1rem);
+    z-index: 2;
+    flex-shrink: 0;
   }
 
   .brand-link {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
     text-decoration: none;
     line-height: 1;
-    max-width: 100%;
   }
 
   .brand-logo {
-    height: 18px;
-    max-width: clamp(96px, 25vw, 122px);
+    height: 20px;
     width: auto;
+    max-width: clamp(120px, 18vw, 158px);
     object-fit: contain;
     display: block;
   }
 
-  .header-right {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 2px;
-    z-index: 2;
-    flex-shrink: 0;
-  }
-
-  /* OPTION B: All 5 Icons with Generous 44px Touch Targets */
-  @media (max-width: 767px) {
-    .header-action-btn,
-    .mobile-toggle-btn {
-      width: 38px;
-      height: 44px;
-      min-width: 38px;
-      min-height: 44px;
-    }
-
-    .header-action-btn .header-line-icon,
-    .mobile-toggle-btn .hamburger-svg {
-      width: 18.5px;
-      height: 18.5px;
-    }
-
-    .header-left {
-      gap: 2px;
-      flex-shrink: 0;
-    }
-
-    .header-right {
-      gap: 2px;
-      flex-shrink: 0;
-    }
-
-    .wishlist-trigger {
-      display: inline-flex !important;
-    }
-  }
-
-  @media (max-width: 375px) {
-    .header-container {
-      padding-left: 0.35rem;
-      padding-right: 0.35rem;
-    }
-
-    .header-action-btn,
-    .mobile-toggle-btn {
-      width: 35px;
-      height: 44px;
-      min-width: 35px;
-      min-height: 44px;
-    }
-
-    .header-action-btn .header-line-icon,
-    .mobile-toggle-btn .hamburger-svg {
-      width: 17.5px;
-      height: 17.5px;
-    }
-
-    .brand-logo {
-      height: 16.5px;
-      max-width: 98px;
-    }
-  }
-
-  @media (max-width: 330px) {
-    .header-action-btn,
-    .mobile-toggle-btn {
-      width: 32px;
-      height: 44px;
-      min-width: 32px;
-      min-height: 44px;
-    }
-
-    .brand-logo {
-      height: 15px;
-      max-width: 88px;
-    }
-  }
-
-  @media (min-width: 768px) {
-    .header-container {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      position: static;
-      padding-left: clamp(1.25rem, 3vw, 2.5rem);
-      padding-right: clamp(1.25rem, 3vw, 2.5rem);
-    }
-
-    .header-left {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-    }
-
-    .header-center {
-      position: static;
-      transform: translateY(-2px);
-      flex: none;
-      padding: 0;
-    }
-
+  @media (min-width: 1200px) {
     .brand-logo {
       height: 24px;
-      max-width: 160px;
-    }
-
-    .header-right {
-      gap: 0.75rem;
-    }
-
-    .header-action-btn {
-      width: 44px;
-      height: 44px;
-    }
-
-    .header-action-btn .header-line-icon {
-      width: 22px;
-      height: 22px;
-      stroke-width: 1.75;
-    }
-
-    .bag-icon-frame,
-    .wishlist-icon-frame,
-    .whatsapp-icon-frame {
-      width: 24px;
-      height: 24px;
-    }
-
-    .bag-counter-pill,
-    .wishlist-counter-pill {
-      top: -4px;
-      right: -6px;
-      min-width: 16px;
-      height: 16px;
-      font-size: 0.625rem;
-    }
-
-    .mobile-search-btn {
-      display: none !important;
-    }
-
-    .desktop-search-btn {
-      display: inline-flex !important;
-    }
-
-    .wishlist-trigger {
-      display: inline-flex !important;
     }
   }
 
-  /* Desktop Primary Navigation */
+  /* Center: Horizontal Navigation Menu */
   .primary-nav {
     display: none;
+    flex: 1;
+    align-self: stretch;
+    justify-content: center;
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 1200px) {
     .primary-nav {
-      display: block;
+      display: flex;
     }
   }
 
   .nav-list {
     display: flex;
-    align-items: center;
+    gap: clamp(.8rem, 1.35vw, 1.55rem);
     list-style: none;
-    gap: clamp(1.75rem, 2.2vw, 2.5rem);
     margin: 0;
     padding: 0;
   }
 
   .nav-link {
     font-family: var(--font-body);
-    font-size: clamp(0.8125rem, 0.95vw, 0.875rem);
+    font-size: clamp(0.75rem, 0.88vw, 0.8125rem);
     font-weight: 600;
-    letter-spacing: 0.11em;
-    color: var(--color-text-main);
+    letter-spacing: 0.08em;
+    color: #110F0D;
     text-transform: uppercase;
     text-decoration: none;
     position: relative;
-    padding: 0.45rem 0;
-    transition: opacity var(--transition-fast), color var(--transition-fast);
+    padding: 0.5rem 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    white-space: nowrap;
+    transition: color var(--transition-fast);
   }
 
-  .nav-link:hover {
-    color: var(--color-brand-cognac, #9e532b);
-    opacity: 0.85;
-  }
-
+  .nav-link:hover,
   .nav-link.active {
-    color: var(--color-brand-cognac, #9e532b);
-    font-weight: 600;
+    color: #A84112;
   }
 
   .nav-link.active::after {
     content: '';
     position: absolute;
-    bottom: -2px;
+    bottom: 0px;
     left: 0;
     width: 100%;
-    height: 1.5px;
-    background-color: var(--color-brand-cognac, #9e532b);
+    height: 2px;
+    background-color: #A84112;
+    border-radius: 2px;
   }
 
-  /* Dropdown Trigger & Luxury Panel */
+  .nav-quiz-badge {
+    color: #9E532B;
+  }
+
+  .quiz-sparkle {
+    color: #C5A059;
+    font-size: 0.85rem;
+    line-height: 1;
+  }
+
+  /* Dropdowns */
+  .nav-item {
+    display: flex;
+    align-items: center;
+  }
+
   .nav-item-dropdown {
     position: relative;
   }
 
-  .dropdown-trigger-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
+  .dropdown-trigger {
+    border: 0;
+    background: none;
+    cursor: pointer;
   }
 
   .dropdown-caret {
-    width: 10px;
-    height: 10px;
+    width: 9px;
+    height: 9px;
     stroke-width: 2.2;
-    transition: transform 200ms ease;
+    color: #8C847B;
+    transition: transform 200ms ease, color 200ms ease;
   }
 
-  .nav-item-dropdown:hover .dropdown-caret,
-  .nav-item-dropdown:focus-within .dropdown-caret {
+  .dropdown-trigger[aria-expanded="true"] .dropdown-caret {
     transform: rotate(180deg);
-    color: var(--color-brand-cognac, #9E532B);
+    color: #A84112;
   }
 
   .nav-dropdown-panel {
     position: absolute;
-    top: calc(100% + 8px);
-    left: -20px;
-    width: 580px;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 31rem;
+    max-height: min(70vh, calc(100dvh - 7rem));
+    overflow-y: auto;
+    overscroll-behavior: contain;
     background: #FFFFFF;
     border: 1px solid rgba(197, 160, 89, 0.35);
-    border-radius: var(--border-radius-sm, 4px);
-    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.1), 0 4px 14px rgba(197, 160, 89, 0.08);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(6px);
-    transition: opacity 200ms ease, transform 200ms ease, visibility 200ms ease;
+    border-radius: 8px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12), 0 4px 14px rgba(197, 160, 89, 0.08);
     z-index: 120;
-    pointer-events: none;
   }
 
-  /* Keep hover alive with invisible top bridge */
-  .nav-dropdown-panel::before {
-    content: '';
-    position: absolute;
-    top: -12px;
-    left: 0;
-    right: 0;
-    height: 12px;
-  }
-
-  .nav-item-dropdown:hover .nav-dropdown-panel,
-  .nav-item-dropdown:focus-within .nav-dropdown-panel {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-    pointer-events: auto;
+  #nav-categories-panel {
+    width: 18rem;
   }
 
   .nav-dropdown-inner {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.75rem;
-    padding: 1.65rem 1.65rem 1.35rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+    padding: 1rem;
+  }
+
+  .nav-dropdown-inner.single-col {
+    grid-template-columns: minmax(0, 1fr);
+    gap: .15rem;
+    padding: .65rem;
   }
 
   .dropdown-col {
     display: flex;
     flex-direction: column;
-    gap: 0.4rem;
+  }
+
+  .dropdown-col + .dropdown-col {
+    border-inline-start: 1px solid #eee3d8;
+    padding-inline-start: 1rem;
   }
 
   .dropdown-header {
-    font-family: var(--font-body);
-    font-size: 0.8125rem;
+    padding: .25rem .55rem .45rem;
+    color: #855339;
+    font-size: .69rem;
     font-weight: 700;
+    letter-spacing: .09em;
     text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--color-brand-cognac, #9E532B);
-    margin-bottom: 0.75rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid rgba(197, 160, 89, 0.22);
   }
 
   .dropdown-item-link {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.7rem 0.75rem;
+    gap: .65rem;
+    min-height: 40px;
+    padding: .45rem .55rem;
     border-radius: 4px;
-    text-decoration: none;
-    transition: all 180ms ease;
-  }
-
-  .dropdown-item-link:hover {
-    background-color: #FAF8F5;
-    transform: translateX(3px);
-  }
-
-  .dropdown-item-main {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  .dropdown-bullet {
-    font-size: 0.875rem;
-    color: #C5A059;
-    line-height: 1;
-    flex-shrink: 0;
-    transition: transform 180ms ease, color 180ms ease;
-  }
-
-  .dropdown-item-link:hover .dropdown-bullet {
-    transform: scale(1.15);
-    color: var(--color-brand-cognac, #9E532B);
-  }
-
-  .dropdown-item-link .item-title {
-    font-family: var(--font-body);
-    font-size: 0.96875rem;
-    font-weight: 500;
-    color: #1A1614;
-    letter-spacing: 0.012em;
+    color: #2D2722;
+    font-size: .83rem;
     line-height: 1.35;
-    transition: color 180ms ease;
+    text-decoration: none;
   }
 
-  .dropdown-item-link:hover .item-title {
-    color: var(--color-brand-cognac, #9E532B);
-    font-weight: 600;
+  .dropdown-item-link:hover,
+  .dropdown-item-link:focus-visible {
+    background-color: #FAF5EF;
+    color: #7C4023;
   }
 
   .dropdown-arrow {
-    font-size: 0.9375rem;
-    color: #C5A059;
-    opacity: 0;
-    transform: translateX(-4px);
-    transition: opacity 180ms ease, transform 180ms ease;
+    flex-shrink: 0;
+    color: #855339;
   }
 
-  .dropdown-item-link:hover .dropdown-arrow {
-    opacity: 1;
-    transform: translateX(0);
+  /* Brands Mega Dropdown Panel */
+  .brands-mega-panel {
+    width: 36.25rem;
   }
 
-  .dropdown-footer-bar {
-    padding: 0.95rem 1.65rem;
-    background: linear-gradient(180deg, #FAF8F4 0%, #F5EFE6 100%);
-    border-top: 1px solid rgba(197, 160, 89, 0.22);
-    border-radius: 0 0 4px 4px;
+  .brands-dropdown-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    padding: 1.5rem 1.65rem;
+  }
+
+  .brands-col {
     display: flex;
-    align-items: center;
-    justify-content: flex-end;
+    flex-direction: column;
+    gap: 0.35rem;
   }
 
-  .dropdown-all-link {
+  .brands-col-title {
     font-family: var(--font-body);
-    font-size: 0.84375rem;
-    font-weight: 600;
+    font-size: 0.6875rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.09em;
-    color: var(--color-brand-cognac, #9E532B);
+    letter-spacing: 0.12em;
+    color: #9E532B;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid rgba(197, 160, 89, 0.22);
+  }
+
+  .dropdown-brand-link {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    color: #2D2722;
+    text-decoration: none;
+    padding: 0.25rem 0;
+    transition: all 160ms ease;
+    display: block;
+  }
+
+  .dropdown-brand-link:hover {
+    color: #A84112;
+    transform: translateX(3px);
+  }
+
+  .brands-dropdown-footer {
+    padding: 0.8rem 1.65rem;
+    background: #FAF8F4;
+    border-top: 1px solid rgba(197, 160, 89, 0.22);
+    border-radius: 0 0 8px 8px;
+    text-align: center;
+  }
+
+  .brands-all-link {
+    font-family: var(--font-body);
+    font-size: 0.78125rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #110F0D;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
     gap: 0.45rem;
-    transition: transform 150ms ease, color 150ms ease;
+    transition: color 150ms ease;
   }
 
-  .dropdown-all-link:hover {
-    color: #8C4424;
-    transform: translateX(3px);
+  .brands-all-link:hover {
+    color: #A84112;
+  }
+
+  /* Right Utility Actions */
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.35rem, 0.8vw, 0.75rem);
+    z-index: 2;
+    flex-shrink: 0;
+  }
+
+  .header-bag-badge {
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    border: 1px solid #fff;
+    background: #ead0b3;
+    color: #30211c;
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    min-width: 17px;
+    height: 17px;
+    padding: 0 4.5px;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+
+  .header-bag-badge[hidden] {
+    display: none !important;
+  }
+
+  /* Qatar Region / Currency Indicator */
+  .header-region-item {
+    display: none;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #2D2722;
+    padding: 0.4rem 0.65rem;
+    border-radius: 6px;
+    background: #F8F6F1;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    cursor: default;
+    user-select: none;
+  }
+
+  @media (min-width: 1320px) {
+    .header-region-item {
+      display: inline-flex;
+    }
+  }
+
+  .region-flag {
+    font-size: 1.05rem;
+    line-height: 1;
+  }
+
+  .region-label {
+    letter-spacing: 0.06em;
+  }
+
+  @media (min-width: 1200px) {
+    .mobile-toggle-btn {
+      display: none !important;
+    }
+  }
+
+  /* Hamburger SVG */
+  .hamburger-svg {
+    display: block;
+    color: var(--color-text-main);
   }
 
   /* Minimalist 2-line Hamburger Button */
@@ -881,23 +944,11 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
   }
 
   .mobile-toggle-btn:hover {
-    opacity: 0.8;
-    background-color: rgba(24, 21, 19, 0.04);
+    background-color: rgba(24, 21, 19, 0.05);
   }
 
   .mobile-toggle-btn:active {
     transform: scale(0.92);
-  }
-
-  @media (min-width: 768px) {
-    .mobile-toggle-btn {
-      display: none;
-    }
-  }
-
-  .hamburger-svg {
-    display: block;
-    color: var(--color-text-main);
   }
 
   /* Header Line Action Buttons - Clean Minimal Luxury Iconography */
@@ -955,6 +1006,36 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
   .whatsapp-header-btn:hover {
     color: #25D366 !important;
     background-color: rgba(37, 211, 102, 0.08) !important;
+  }
+
+  @media (max-width: 767px) {
+    .whatsapp-header-btn {
+      display: none;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .header-container,
+    .header-left {
+      gap: .25rem;
+    }
+
+    .header-right {
+      gap: 0;
+    }
+
+    .mobile-toggle-btn,
+    .header-action-btn {
+      min-width: 44px;
+      min-height: 44px;
+    }
+
+  }
+
+  @media (max-width: 360px) {
+    .brand-logo {
+      max-width: 104px;
+    }
   }
 
   .whatsapp-icon {
@@ -1474,6 +1555,80 @@ const searchHighlights = productsData.filter((p) => p.featured).slice(0, 3);
 <script>
   import { getProductCatalog } from '../lib/catalog';
   import { getFavorites } from '../lib/favorites';
+
+  let openDropdown: HTMLElement | null = null;
+  let dropdownPinned = false;
+
+  function setNavDropdown(item: HTMLElement | null, pinned = false) {
+    openDropdown?.querySelector('button')?.setAttribute('aria-expanded', 'false');
+    const previousPanel = openDropdown?.querySelector<HTMLElement>('.nav-dropdown-panel');
+    if (previousPanel) previousPanel.hidden = true;
+
+    openDropdown = item;
+    dropdownPinned = pinned;
+    item?.querySelector('button')?.setAttribute('aria-expanded', 'true');
+    const nextPanel = item?.querySelector<HTMLElement>('.nav-dropdown-panel');
+    if (nextPanel) nextPanel.hidden = false;
+  }
+
+  function initNavDropdowns() {
+    const nav = document.getElementById('primary-nav');
+    if (!nav || nav.dataset.dropdownsReady) return;
+    nav.dataset.dropdownsReady = 'true';
+
+    nav.querySelectorAll<HTMLElement>('.nav-item-dropdown').forEach((item) => {
+      const trigger = item.querySelector<HTMLButtonElement>('.dropdown-trigger');
+      const panel = item.querySelector<HTMLElement>('.nav-dropdown-panel');
+      if (!trigger || !panel) return;
+
+      trigger.addEventListener('click', () => {
+        if (openDropdown === item && dropdownPinned) {
+          setNavDropdown(null);
+        } else {
+          setNavDropdown(item, true);
+        }
+      });
+
+      trigger.addEventListener('pointerenter', (event) => {
+        if (event.pointerType === 'mouse' && openDropdown !== item &&
+            !openDropdown?.querySelector('.nav-dropdown-panel')?.contains(document.activeElement)) {
+          setNavDropdown(item);
+        }
+      });
+
+      item.addEventListener('pointerleave', () => {
+        if (openDropdown === item && !dropdownPinned && !panel.contains(document.activeElement)) {
+          setNavDropdown(null);
+        }
+      });
+
+      item.addEventListener('focusout', (event) => {
+        if (openDropdown === item && event.relatedTarget instanceof Node && !item.contains(event.relatedTarget)) {
+          setNavDropdown(null);
+        }
+      });
+
+      panel.addEventListener('click', (event) => {
+        if (event.target instanceof Element && event.target.closest('a')) setNavDropdown(null);
+      });
+    });
+  }
+
+  initNavDropdowns();
+  document.addEventListener('astro:page-load', initNavDropdowns);
+  document.addEventListener('astro:before-swap', () => setNavDropdown(null));
+
+  document.addEventListener('pointerdown', (event) => {
+    if (openDropdown && event.target instanceof Node && !openDropdown.contains(event.target)) {
+      setNavDropdown(null);
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape' || !openDropdown) return;
+    if (openDropdown.contains(document.activeElement)) openDropdown.querySelector('button')?.focus();
+    setNavDropdown(null);
+  });
 
   // Wishlist Badge Logic
   function updateWishlistBadge() {

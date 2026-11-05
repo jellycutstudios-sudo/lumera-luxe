@@ -3,6 +3,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import ProductCard from '../../components/ProductCard.astro';
 import productsData from '../../data/products.json';
 import { siteConfig } from '../../data/site';
+import { getDeliveryFeeQar } from '../../lib/delivery';
 import { findSimilarFragrances } from '../../lib/fragrance-matcher';
 import { CURATED_LAYERING_PAIRS } from '../../data/fragrance-discovery';
 
@@ -24,14 +25,13 @@ const activeLayeringPair = CURATED_LAYERING_PAIRS.find(
   (pair) => pair.baseSlug === product.slug || pair.topSlug === product.slug
 );
 
-let pairedProduct = null;
-let isCurrentBase = false;
-if (activeLayeringPair) {
-  isCurrentBase = activeLayeringPair.baseSlug === product.slug;
-  const companionSlug = isCurrentBase ? activeLayeringPair.topSlug : activeLayeringPair.baseSlug;
-  pairedProduct = productsData.find((p) => p.slug === companionSlug) || null;
-}
+const companionSlug = activeLayeringPair?.baseSlug === product.slug
+  ? activeLayeringPair.topSlug
+  : activeLayeringPair?.baseSlug;
+const pairedProduct = productsData.find((item) => item.slug === companionSlug && !item.isDraft);
 const duetPriceTotal = pairedProduct ? Math.round((product.priceMinor + pairedProduct.priceMinor) / 100) : 0;
+const productDeliveryFee = getDeliveryFeeQar(product.priceMinor);
+const checkoutHref = `/checkout/?product=${encodeURIComponent(product.slug)}&qty=1`;
 
 // Schema.org Product structured data (Enhanced for Google Merchant & AEO Rich Snippets)
 const productSchema = {
@@ -57,42 +57,23 @@ const productSchema = {
     seller: {
       '@type': 'Organization',
       name: siteConfig.brandName,
-      url: 'https://lumeraluxe.com.qa'
+      url: 'https://lumeraluxe.com.qa',
+      hasMerchantReturnPolicy: {
+        '@type': 'MerchantReturnPolicy',
+        merchantReturnLink: 'https://lumeraluxe.com.qa/returns-refunds/'
+      }
     },
     shippingDetails: {
       '@type': 'OfferShippingDetails',
       shippingRate: {
         '@type': 'MonetaryAmount',
-        value: '0',
+        value: productDeliveryFee,
         currency: 'QAR'
       },
       shippingDestination: {
         '@type': 'DefinedRegion',
         addressCountry: 'QA'
-      },
-      deliveryTime: {
-        '@type': 'ShippingDeliveryTime',
-        handlingTime: {
-          '@type': 'QuantitativeValue',
-          minValue: 0,
-          maxValue: 1,
-          unitCode: 'DAY'
-        },
-        transitTime: {
-          '@type': 'QuantitativeValue',
-          minValue: 1,
-          maxValue: 2,
-          unitCode: 'DAY'
-        }
       }
-    },
-    hasMerchantReturnPolicy: {
-      '@type': 'MerchantReturnPolicy',
-      applicableCountry: 'QA',
-      returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
-      merchantReturnDays: 14,
-      returnMethod: 'https://schema.org/ReturnByMail',
-      returnFees: 'https://schema.org/FreeReturn'
     }
   }
 };
@@ -109,18 +90,18 @@ const productSchema = {
     <!-- Minimalist Haute Breadcrumb -->
     <nav class="pdp-breadcrumb" aria-label="Breadcrumb">
       <a href="/">Home</a>
-      <span class="sep">/</span>
+      <span class="sep" aria-hidden="true">/</span>
       <a href="/shop/">Collection</a>
-      <span class="sep">/</span>
+      <span class="sep" aria-hidden="true">/</span>
       <a href={`/shop/?brand=${encodeURIComponent(product.brand)}`}>{product.brand}</a>
-      <span class="sep">/</span>
+      <span class="sep" aria-hidden="true">/</span>
       <span class="current" aria-current="page">{product.name}</span>
     </nav>
 
     <div class="pdp-grid">
       <!-- Media Stage with Magnifier -->
       <div class="pdp-media-wrap">
-        <div class="pdp-media-frame" id="pdp-media-frame" title="Click to view full bottle photograph">
+        <button class="pdp-media-frame" id="pdp-media-frame" type="button" aria-label={`Enlarge image of ${product.fullName}`} aria-haspopup="dialog">
           <img
             src={product.image}
             alt={`${product.fullName} luxury perfume bottle`}
@@ -133,12 +114,12 @@ const productSchema = {
             id="pdp-image"
           />
 
-          <!-- Authentic Batch Micro-Seal -->
-          <div class="pdp-seal-pill">
-            <span class="seal-dot"></span>
-            <span>Sealed European Stock</span>
-          </div>
-        </div>
+          <span class="pdp-zoom-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+              <circle cx="10.5" cy="10.5" r="6.5" /><path d="m16 16 4 4M8 10.5h5m-2.5-2.5v5" />
+            </svg>
+          </span>
+        </button>
       </div>
 
       <!-- Product Information Tier -->
@@ -152,19 +133,11 @@ const productSchema = {
 
         <!-- Luxury Price & Privilege Bar -->
         <div class="pdp-price-row">
-          <div class="price-figures">
-            {product.stickerPriceMinor && product.stickerPriceMinor > product.priceMinor && (
-              <span class="pdp-sticker-price">{(product.stickerPriceMinor / 100).toFixed(0)} QAR</span>
-            )}
-            <span class="pdp-price">{product.priceDisplay}</span>
-          </div>
-          <div class="pdp-curation-badge">
-            <span>Complimentary Qatar Delivery</span>
-          </div>
+          <span class="pdp-price">{product.priceDisplay}</span>
+          {product.stickerPriceMinor && product.stickerPriceMinor > product.priceMinor && (
+            <s class="pdp-sticker-price"><span class="sr-only">Original price </span>{(product.stickerPriceMinor / 100).toFixed(0)} QAR</s>
+          )}
         </div>
-
-        <!-- Sensory Description -->
-        <p class="pdp-description">{product.description}</p>
 
         {product.isDraft && (
           <div class="pdp-draft-notice">
@@ -175,8 +148,8 @@ const productSchema = {
 
         <!-- STREAMLINED LUXURY ACTION BLOCK -->
         <div class="pdp-action-block" id="pdp-cta-trigger">
-          <!-- Row 1: Add to Bag + Wishlist Heart -->
           <div class="pdp-primary-action-row">
+            <a href={checkoutHref} class="btn-pdp-buy-now">Buy now</a>
             <button
               type="button"
               class="btn-pdp-add-bag"
@@ -190,12 +163,7 @@ const productSchema = {
               data-price={product.priceMinor}
               data-image={product.image}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <path d="M16 10a4 4 0 0 1-8 0"></path>
-              </svg>
-              <span class="btn-text">Add to Bag</span>
+              <span class="btn-text">Add to cart</span>
             </button>
 
             <!-- Wishlist Heart Button -->
@@ -207,181 +175,61 @@ const productSchema = {
               aria-label={`Save ${product.brand} ${product.name} to wishlist`}
               title="Save to Wishlist"
             >
-              <svg class="pdp-heart-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
               </svg>
             </button>
-
-            <!-- Share Button -->
-            <button
-              type="button"
-              class="btn-pdp-fav"
-              id="btn-share-fragrance"
-              aria-label={`Share ${product.brand} ${product.name}`}
-              title="Share Fragrance"
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="18" cy="5" r="3"></circle>
-                <circle cx="6" cy="12" r="3"></circle>
-                <circle cx="18" cy="19" r="3"></circle>
-                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
-                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
-              </svg>
-            </button>
           </div>
 
-          <!-- Row 2: Instant Buy Now (Direct to Delivery Details Checkout) -->
-          <a
-            href={`/checkout/?product=${encodeURIComponent(product.slug)}&qty=1`}
-            class="btn-pdp-buy-now"
-            id="pdp-direct-buy-btn"
-            data-slug={product.slug}
-          >
-            <span>BUY NOW · {product.priceDisplay}</span>
-          </a>
-
-          <!-- Micro Assurance Strip -->
           <div class="pdp-micro-assurances">
-            <span>✓ Sealed European Stock</span>
-            <span class="micro-sep">·</span>
-            <span>Free Qatar Courier Delivery</span>
-            <span class="micro-sep">·</span>
-            <span>Cash or Card on Delivery</span>
+            <a href="/shipping-delivery/">{productDeliveryFee === 0 ? 'Free delivery' : `${productDeliveryFee} QAR delivery`} within 6 hours</a>
+            <a href="/returns-refunds/">Returns & exchanges</a>
           </div>
-
+          <a
+            class="pdp-whatsapp-help"
+            href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent(`Hello LUMÈRA LUXE, I have a question about ${product.fullName}.`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >Ask on WhatsApp <span aria-hidden="true">↗</span></a>
         </div>
 
-        <!-- Olfactory Composition (Clean Note Chips) -->
-        <section class="pdp-composition-section">
-          <div class="composition-header">
-            <h2 class="composition-title">Olfactory Composition</h2>
-            <span class="composition-kicker">Haute Parfumerie</span>
-          </div>
-
-          <div class="composition-families">
-            <span class="family-label">Scent Families:</span>
-            <div class="family-pills">
-              {product.scentFamilies.map((fam) => (
-                <a href={`/shop/?family=${product.category || 'floral'}`} class="family-tag" title={`Explore ${fam} fragrances`}>
-                  {fam}
-                </a>
-              ))}
-            </div>
-          </div>
-
-          <div class="composition-notes-block">
-            <span class="notes-heading">Prominent Notes:</span>
-            <ul class="notes-cloud">
-              {product.keyNotes.map((note) => (
-                <li class="note-chip">
-                  <span class="note-pip"></span>
-                  <span>{note}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <section class="pdp-composition-section" aria-labelledby="scent-profile-title">
+          <h2 id="scent-profile-title">Scent profile</h2>
+          <p class="pdp-description">{product.description}</p>
+          <dl class="pdp-scent-details">
+            {product.scentFamilies.length > 0 && (
+              <div><dt>Scent families</dt><dd>{product.scentFamilies.join(' · ')}</dd></div>
+            )}
+            {product.keyNotes.length > 0 && (
+              <div><dt>Key notes</dt><dd>{product.keyNotes.join(' · ')}</dd></div>
+            )}
+          </dl>
         </section>
       </div>
     </div>
 
-    <!-- 8. THE ART OF LAYERING (Curated Flacon Combination) -->
     {activeLayeringPair && pairedProduct && (
-      <section class="layering-section" aria-label="Fragrance Layering Ritual">
-        <div class="layering-card">
-          <!-- Compact Editorial Header -->
-          <div class="layering-header">
-            <div class="layering-kicker-row">
-              <span class="layering-kicker">Maison Scent Duet · The Art of Layering</span>
-              <a href={`/layering/#duet-${activeLayeringPair.id}`} class="layering-browse-all" data-astro-prefetch>
-                <span>View All 10 Duets</span>
-                <span aria-hidden="true">→</span>
-              </a>
-            </div>
-            <h2 class="layering-title">{activeLayeringPair.title}</h2>
-            <p class="layering-lead">{activeLayeringPair.description}</p>
-          </div>
-
-          <!-- Symmetrical Duet Stage (Mobile Stacked, Desktop Side-by-Side) -->
-          <div class="layering-duet-stage">
-            <!-- Current Flacon -->
-            <div class="duet-podium current-podium">
-              <span class="podium-role-badge">{isCurrentBase ? 'Foundation Base' : 'Harmonizing Top Veil'}</span>
-              <div class="podium-visual">
-                <div class="podium-image-frame">
-                  <img src={product.image} alt={product.fullName} width="160" height="160" class="podium-img" loading="lazy" decoding="async" />
-                </div>
-              </div>
-              <div class="podium-meta">
-                <span class="podium-brand">{product.brand}</span>
-                <span class="podium-name">{product.name}</span>
-                <span class="podium-notes">{(product.keyNotes || []).slice(0, 3).join(' · ')}</span>
-                <div class="podium-price-row">
-                  <span class="podium-price">{product.priceDisplay}</span>
-                  <span class="podium-pill-tag">Current Flacon</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Visual Scent Connector -->
-            <div class="duet-connector" aria-hidden="true">
-              <span class="connector-plus">+</span>
-              <span class="connector-label">Layer With</span>
-            </div>
-
-            <!-- Companion Flacon -->
-            <div class="duet-podium companion-podium">
-              <span class="podium-role-badge">{isCurrentBase ? 'Harmonizing Top Veil' : 'Foundation Base'}</span>
-              <div class="podium-visual">
-                <a href={`/perfumes/${pairedProduct.slug}/`} class="podium-image-link" aria-label={`View ${pairedProduct.fullName}`}>
-                  <div class="podium-image-frame">
-                    <img src={pairedProduct.image} alt={pairedProduct.fullName} width="160" height="160" class="podium-img" loading="lazy" decoding="async" />
-                  </div>
-                </a>
-              </div>
-              <div class="podium-meta">
-                <span class="podium-brand">{pairedProduct.brand}</span>
-                <a href={`/perfumes/${pairedProduct.slug}/`} class="podium-name-link">{pairedProduct.name}</a>
-                <span class="podium-notes">{(pairedProduct.keyNotes || []).slice(0, 3).join(' · ')}</span>
-                <div class="podium-price-row">
-                  <span class="podium-price">{pairedProduct.priceDisplay}</span>
-                  <a href={`/perfumes/${pairedProduct.slug}/`} class="podium-explore-link">Details →</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Integrated Ritual Tip Strip -->
-          <div class="layering-ritual-strip">
-            <span class="ritual-sparkle" aria-hidden="true">✦</span>
-            <p class="ritual-text"><strong>Layering Ritual:</strong> {activeLayeringPair.ritualNote}</p>
-          </div>
-
-          <!-- Seamless 1-Click Purchase Bar -->
-          <div class="layering-footer-bar">
-            <div class="duet-offer-summary">
-              <span class="duet-offer-title">Acquire Complete Scent Duet</span>
-              <div class="duet-offer-figures">
-                <span class="duet-offer-total">{duetPriceTotal} QAR</span>
-                <span class="duet-offer-subtitle">(Both Full Flacons · Free Delivery)</span>
-              </div>
-            </div>
-
-            <button
-              type="button"
-              class="btn-buy-duet"
-              data-action="add-duet-to-bag"
-              data-id-1={product.id}
-              data-id-2={pairedProduct.id}
-              aria-label={`Add Scent Duet: ${product.name} and ${pairedProduct.name} to bag`}
-            >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                <line x1="3" y1="6" x2="21" y2="6"></line>
-                <path d="M16 10a4 4 0 0 1-8 0"></path>
-              </svg>
-              <span class="btn-duet-text">Add Both to Bag · {duetPriceTotal} QAR</span>
-            </button>
-          </div>
+      <section class="layering-card" aria-labelledby="layering-title">
+        <div class="layering-intro">
+          <h2 id="layering-title">Layer it with</h2>
+          <p>{activeLayeringPair.description}</p>
+          <a href={`/layering/#duet-${activeLayeringPair.id}`}>See how to layer this pair <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="layering-selection">
+          <a class="layering-companion" href={`/perfumes/${pairedProduct.slug}/`}>
+            <img src={pairedProduct.image} alt="" width="64" height="64" loading="lazy" decoding="async" />
+            <span><small>{pairedProduct.brand}</small><strong>{pairedProduct.name}</strong></span>
+            <span aria-hidden="true">↗</span>
+          </a>
+          <button
+            type="button"
+            class="btn-buy-duet"
+            data-action="add-duet-to-bag"
+            data-id-1={product.id}
+            data-id-2={pairedProduct.id}
+          >
+            <span class="btn-duet-text">Add both to bag · {duetPriceTotal} QAR</span>
+          </button>
         </div>
       </section>
     )}
@@ -390,8 +238,8 @@ const productSchema = {
     {similarProducts.length > 0 && (
       <section class="related-section" aria-label="Similar Fragrances">
         <div class="section-header-minimal">
-          <h2 class="section-title-minimal">If You Love This, Try These</h2>
-          <a href="/shop/" class="see-all-link">Explore Collection</a>
+          <h2 class="section-title-minimal">Similar fragrances</h2>
+          <a href="/shop/" class="see-all-link">View all fragrances</a>
         </div>
         <div class="grid-products">
           {similarProducts.map((p) => (
@@ -402,1563 +250,545 @@ const productSchema = {
     )}
   </article>
 
-  <!-- Mobile Floating Sticky Dual-Action Bar -->
+  <!-- Quick purchase on smaller screens -->
   <aside class="pdp-sticky-bar" id="pdp-sticky-bar" aria-label="Quick Purchase Actions">
     <div class="pdp-sticky-inner">
-      <div class="sticky-thumb-info">
-        <img src={product.image} alt={product.name} class="sticky-thumb-img" width="38" height="38" loading="lazy" decoding="async" />
-        <div class="sticky-meta">
-          <span class="sticky-title">{product.name}</span>
-          <span class="sticky-price" id="pdp-sticky-amount">{product.priceDisplay}</span>
-        </div>
+      <div class="sticky-meta">
+        <span class="sticky-title">{product.name}</span>
+        <span class="sticky-price">{product.priceDisplay}</span>
       </div>
-
-      <div class="sticky-actions-wrap">
-        <button
-          type="button"
-          class="btn-sticky-fav"
-          id="btn-sticky-fav"
-          data-id={product.id}
-          aria-label="Save to Wishlist"
-          title="Save to Wishlist"
-        >
-          <svg class="sticky-heart-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-          </svg>
-        </button>
-
-        <button
-          type="button"
-          class="btn-sticky-add-bag"
-          id="btn-sticky-add-bag"
-          data-action="add-to-bag"
-          data-id={product.id}
-          data-name={product.name}
-          data-brand={product.brand}
-          data-size={product.sizeDisplay}
-          data-concentration={product.concentration}
-          data-price={product.priceMinor}
-          data-image={product.image}
-          aria-label="Add to Bag"
-        >
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <path d="M16 10a4 4 0 0 1-8 0"></path>
-          </svg>
-          <span class="btn-text">Add to Bag</span>
-        </button>
-      </div>
+      <a href={checkoutHref} class="btn-pdp-buy-now">Buy now</a>
+      <button
+        type="button"
+        class="btn-sticky-add-bag"
+        id="btn-sticky-add-bag"
+        data-action="add-to-bag"
+        data-id={product.id}
+        data-name={product.name}
+        data-brand={product.brand}
+        data-size={product.sizeDisplay}
+        data-concentration={product.concentration}
+        data-price={product.priceMinor}
+        data-image={product.image}
+      >
+        <span class="btn-text">Add to cart</span>
+      </button>
     </div>
   </aside>
 
-  <!-- Image Lightbox Modal -->
-  <div class="image-lightbox-backdrop" id="image-lightbox" hidden>
-    <div class="image-lightbox-content">
-      <button class="lightbox-close-btn" id="lightbox-close" aria-label="Close zoom view">✕</button>
-      <img src={product.image} alt={product.fullName} class="lightbox-img" />
-      <span class="lightbox-caption">{product.fullName} · {product.sizeDisplay}</span>
-    </div>
-  </div>
+  <dialog class="image-lightbox" id="image-lightbox" aria-labelledby="lightbox-caption">
+    <form method="dialog">
+      <button class="lightbox-close-btn" aria-label="Close image" autofocus>×</button>
+    </form>
+    <img src={product.image} alt={product.fullName} class="lightbox-img" width="600" height="600" loading="lazy" />
+    <p class="lightbox-caption" id="lightbox-caption">{product.fullName} · {product.sizeDisplay}</p>
+  </dialog>
 </BaseLayout>
 
 <style>
   .pdp-container {
-    padding-top: clamp(1rem, 2.5vw, 1.75rem);
-    padding-bottom: clamp(3.5rem, 6vw, 6rem);
+    padding-top: clamp(.85rem, 2vw, 1.6rem);
+    padding-bottom: clamp(3rem, 6vw, 5rem);
   }
 
-  /* Breadcrumb */
+  .pdp-breadcrumb, .pdp-grid, .layering-card, .related-section {
+    max-width: 76rem;
+    margin-inline: auto;
+  }
+
   .pdp-breadcrumb {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.5rem;
-    font-size: 0.75rem;
-    letter-spacing: 0.04em;
-    color: var(--color-text-light);
-    margin-bottom: clamp(1.25rem, 2.5vw, 2rem);
+    gap: .35rem .6rem;
+    margin-bottom: clamp(.9rem, 2vw, 1.6rem);
+    color: var(--color-text-muted);
+    font-size: .76rem;
+    overflow-wrap: anywhere;
   }
 
   .pdp-breadcrumb a {
-    color: var(--color-text-muted);
+    color: inherit;
     text-decoration: none;
-    transition: color var(--transition-fast);
   }
 
   .pdp-breadcrumb a:hover {
-    color: var(--color-text-main);
-  }
-
-  .pdp-breadcrumb .sep {
-    color: var(--color-border);
+    text-decoration: underline;
   }
 
   .pdp-breadcrumb .current {
-    color: var(--color-text-main);
-    font-weight: 500;
+    color: #38261f;
   }
 
-  /* PDP Grid */
   .pdp-grid {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 2rem;
+    grid-template-columns: minmax(0, 1fr);
     align-items: start;
-    margin-bottom: clamp(3.5rem, 6vw, 5.5rem);
-  }
-
-  @media (min-width: 860px) {
-    .pdp-grid {
-      grid-template-columns: 1.15fr 1fr;
-      gap: 4.5rem;
-    }
-  }
-
-  /* Media Frame */
-  .pdp-media-wrap {
-    position: relative;
-  }
-
-  @media (min-width: 860px) {
-    .pdp-media-wrap {
-      position: sticky;
-      top: 90px;
-    }
+    gap: clamp(1.4rem, 4vw, 4.5rem);
+    margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
   }
 
   .pdp-media-frame {
     position: relative;
-    background-color: #FFFFFF;
-    border: 1px solid #ECEAE5;
-    border-radius: var(--border-radius-sm);
-    aspect-ratio: 1 / 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: clamp(1rem, 2.5vw, 2rem);
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: clamp(220px, 80vw, 440px);
+    padding: clamp(.65rem, 2vw, 1.5rem);
+    border: 1px solid #e7dbce;
+    border-radius: .65rem;
+    background: #fbf8f4;
+    color: #38261f;
     cursor: zoom-in;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.03);
-    overflow: hidden;
-  }
-
-  .pdp-zoom-btn {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    font-size: 0.6875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    background-color: rgba(255, 255, 255, 0.94);
-    backdrop-filter: blur(8px);
-    border: 1px solid #ECEAE5;
-    padding: 0.4rem 0.75rem;
-    border-radius: var(--border-radius-sm);
-    color: var(--color-text-main);
-    z-index: 2;
-    transition: all var(--transition-fast);
-  }
-
-  .pdp-zoom-btn:hover {
-    background-color: var(--color-text-main);
-    color: #FFFFFF;
-  }
-
-  .pdp-seal-pill {
-    position: absolute;
-    bottom: 1rem;
-    left: 1rem;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    background-color: rgba(255, 255, 255, 0.94);
-    backdrop-filter: blur(8px);
-    border: 1px solid #ECEAE5;
-    padding: 0.35rem 0.65rem;
-    border-radius: var(--border-radius-sm);
-    color: var(--color-text-muted);
-  }
-
-  .seal-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background-color: var(--color-accent);
   }
 
   .pdp-main-image {
     width: 100%;
     height: 100%;
-    max-width: 95%;
-    max-height: 95%;
+    min-height: 0;
     object-fit: contain;
-    transition: transform 360ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .pdp-media-frame:hover .pdp-main-image {
-    transform: scale(1.035);
+  .pdp-zoom-icon {
+    position: absolute;
+    right: .7rem;
+    bottom: .7rem;
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border: 1px solid #e7dbce;
+    border-radius: 50%;
+    background: #fff;
   }
 
-  /* Product Info */
+  @media (min-width: 720px) {
+    .pdp-grid {
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    }
+
+    .pdp-media-frame {
+      height: auto;
+      aspect-ratio: 1;
+    }
+  }
+
+  @media (min-width: 720px) and (min-height: 760px) {
+    .pdp-media-wrap {
+      position: sticky;
+      top: 7.5rem;
+    }
+  }
+
   .pdp-info {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .pdp-header-block {
-    margin-bottom: 1.25rem;
+    min-width: 0;
+    color: #38261f;
   }
 
   .pdp-brand {
-    font-size: clamp(0.78125rem, 1.2vw, 0.85rem);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    color: var(--color-accent);
     display: block;
-    margin-bottom: 0.35rem;
+    margin-bottom: .45rem;
+    color: #784b34;
+    font-size: .74rem;
+    font-weight: 650;
+    letter-spacing: .13em;
+    text-transform: uppercase;
   }
 
   .pdp-title {
-    font-family: var(--font-display);
-    font-size: clamp(1.85rem, 3.5vw, 2.5rem);
-    font-weight: 400;
-    line-height: 1.18;
-    letter-spacing: 0.015em;
-    color: var(--color-text-main);
-    margin-bottom: 0.35rem;
+    margin-bottom: .35rem;
+    font: 400 clamp(2rem, 4vw, 3.5rem)/1.08 var(--font-display);
+    letter-spacing: -.035em;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
   }
 
   .pdp-variant-details {
-    font-size: clamp(0.875rem, 1.2vw, 0.95rem);
     color: var(--color-text-muted);
-    letter-spacing: 0.02em;
+    font-size: .92rem;
   }
 
-  /* Luxury Price Row */
   .pdp-price-row {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    justify-content: space-between;
-    gap: 0.75rem;
-    padding-bottom: 1.25rem;
-    border-bottom: 1px solid var(--color-border);
-    margin-bottom: 1.25rem;
-  }
-
-  .price-figures {
-    display: flex;
-    align-items: baseline;
-    gap: 0.75rem;
+    gap: .3rem .85rem;
+    margin-block: .85rem 1rem;
   }
 
   .pdp-price {
-    font-size: clamp(1.5rem, 2.8vw, 1.95rem);
-    font-weight: 700;
-    color: var(--color-text-main);
+    font-size: clamp(1.35rem, 2.3vw, 1.7rem);
+    font-weight: 650;
   }
 
   .pdp-sticker-price {
-    font-size: clamp(0.95rem, 1.3vw, 1.1rem);
-    color: var(--color-text-light);
-    text-decoration: line-through;
+    color: #6f6158;
+    font-size: .9rem;
   }
 
-  .pdp-curation-badge {
-    font-size: clamp(0.72rem, 1vw, 0.78125rem);
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    color: var(--color-accent);
-    background-color: var(--color-accent-light);
-    padding: 0.3rem 0.7rem;
-    border-radius: var(--border-radius-sm);
-  }
-
-  /* Olfactory Specs Strip */
-  .pdp-specs-strip {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    border: 1px solid #ECEAE5;
-    border-radius: var(--border-radius-sm);
-    background-color: #FAF9F6;
-    margin-bottom: 1.5rem;
-  }
-
-  .spec-cell {
-    display: flex;
-    flex-direction: column;
-    padding: 0.65rem 0.85rem;
-    gap: 0.15rem;
-  }
-
-  .spec-cell:not(:last-child) {
-    border-right: 1px solid #ECEAE5;
-  }
-
-  .spec-title {
-    font-size: clamp(0.6875rem, 1vw, 0.72rem);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-text-light);
-  }
-
-  .spec-value {
-    font-size: clamp(0.8125rem, 1.1vw, 0.875rem);
-    font-weight: 600;
-    color: var(--color-text-main);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  /* Description */
-  .pdp-description {
-    font-size: clamp(0.9375rem, 1.3vw, 1.025rem);
-    line-height: 1.75;
-    color: var(--color-text-muted);
-    margin-bottom: 1.75rem;
-  }
-
-  /* Draft Candidate Availability Notice */
   .pdp-draft-notice {
-    background-color: #FAF8F5;
-    border: 1px solid var(--color-border);
-    border-left: 3px solid var(--color-brand-cognac);
-    padding: 0.85rem 1.15rem;
-    margin-bottom: 1.25rem;
-    border-radius: 2px;
-  }
-
-  .draft-tag {
-    display: block;
-    font-size: 0.65rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--color-brand-cognac);
-    margin-bottom: 0.25rem;
+    padding: .8rem 1rem;
+    margin-bottom: 1rem;
+    border-left: 2px solid #784b34;
+    background: #fbf8f4;
+    color: #584a40;
+    font-size: .85rem;
   }
 
   .pdp-draft-notice p {
-    font-size: 0.8rem;
-    line-height: 1.45;
-    color: var(--color-text-muted);
-    margin: 0;
+    margin-bottom: 0;
   }
 
-  /* Action Block (Dual Luxury Action) */
-  .pdp-action-block {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    padding: 1.25rem;
-    background-color: #FFFFFF;
-    border: 1px solid #ECEAE5;
-    border-radius: var(--border-radius-sm);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
-    margin-bottom: 2.25rem;
+  .draft-tag {
+    font-weight: 650;
   }
 
   .pdp-primary-action-row {
-    display: flex;
-    gap: 0.65rem;
-    align-items: stretch;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, .72fr) 48px;
+    gap: .45rem;
   }
 
-  /* Row 1: Add to Bag + Wishlist */
-  .pdp-primary-action-row {
-    display: flex;
-    gap: 0.65rem;
-    align-items: stretch;
-  }
-
-  .btn-pdp-add-bag {
-    flex: 1;
-    min-height: 52px;
-    padding: 0.9rem 1.25rem;
-    background-color: #FFFFFF;
-    color: #1A1A1A;
-    border: 1.5px solid #1A1A1A;
-    border-radius: var(--border-radius-sm);
-    font-family: var(--font-body);
-    font-size: clamp(0.84rem, 1.2vw, 0.9rem);
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+  .btn-pdp-add-bag, .btn-pdp-buy-now, .btn-pdp-fav, .btn-buy-duet, .btn-sticky-add-bag {
     display: inline-flex;
-    align-items: center;
     justify-content: center;
-    gap: 0.6rem;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all var(--transition-fast);
-  }
-
-  .btn-pdp-add-bag:hover {
-    background-color: #1A1A1A;
-    color: #FFFFFF;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
-  }
-
-  .btn-pdp-add-bag:active {
-    transform: scale(0.985);
-  }
-
-  .btn-pdp-fav {
-    width: 52px;
-    height: 52px;
-    display: flex;
     align-items: center;
-    justify-content: center;
-    border: 1px solid var(--color-border);
-    border-radius: var(--border-radius-sm);
-    background-color: #FAF9F6;
-    color: var(--color-text-main);
-    cursor: pointer;
-    flex-shrink: 0;
-    transition: all var(--transition-fast);
-  }
-
-  .btn-pdp-fav:hover {
-    border-color: var(--color-brand-cognac);
-    color: var(--color-brand-cognac);
-    transform: scale(1.05);
-  }
-
-  .btn-pdp-fav.is-active {
-    color: var(--color-brand-cognac);
-    border-color: rgba(200, 90, 36, 0.4);
-    background-color: #FFFFFF;
-    box-shadow: 0 2px 8px rgba(200, 90, 36, 0.2);
-  }
-
-  .btn-pdp-fav.is-active .pdp-heart-icon {
-    fill: var(--color-brand-cognac);
-    stroke: var(--color-brand-cognac);
-  }
-
-  /* Row 2: Instant Buy Now (Direct to Delivery Details Checkout) */
-  .btn-pdp-buy-now {
-    width: 100%;
-    min-height: 52px;
-    padding: 0.95rem 1.5rem;
-    background-color: #1A1A1A;
-    color: #FFFFFF;
-    border: none;
-    border-radius: var(--border-radius-sm);
-    font-family: var(--font-body);
-    font-size: clamp(0.875rem, 1.2vw, 0.95rem);
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.65rem;
-    cursor: pointer;
-    white-space: nowrap;
+    gap: .45rem;
+    min-height: 48px;
+    padding: .55rem .45rem;
+    border: 1px solid #cdbcae;
+    border-radius: .4rem;
+    background: transparent;
+    color: #38261f;
+    font: 650 .83rem/1.25 var(--font-body);
     text-decoration: none;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.14);
-    transition: all var(--transition-fast);
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .btn-pdp-buy-now {
+    background: #38261f;
+    border-color: #38261f;
+    color: #fff;
   }
 
   .btn-pdp-buy-now:hover {
-    background-color: #000000;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22);
+    color: #fff;
+    background: #593b2e;
+    border-color: #593b2e;
   }
 
-  .btn-pdp-buy-now:active {
-    transform: scale(0.985);
+  .btn-pdp-add-bag:hover, .btn-sticky-add-bag:hover, .btn-pdp-fav:hover, .btn-buy-duet:hover {
+    background: #f5eee7;
+    border-color: #a6775b;
+  }
+
+  .btn-pdp-fav.is-active {
+    color: #934e31;
+    border-color: currentColor;
+  }
+
+  .btn-pdp-fav.is-active svg {
+    fill: currentColor;
   }
 
   .pdp-micro-assurances {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 0.4rem;
-    font-size: clamp(0.72rem, 1vw, 0.78125rem);
-    color: var(--color-text-muted);
-    padding-top: 0.65rem;
-    border-top: 1px solid #ECEAE5;
-    text-align: center;
+    gap: .3rem 1rem;
+    margin-top: .8rem;
+    color: #665449;
+    font-size: .79rem;
   }
 
-  .micro-sep {
-    color: var(--color-border);
+  .pdp-micro-assurances a, .layering-intro a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: .22em;
   }
 
-  /* Composition Section */
-  .pdp-composition-section {
-    background-color: #FAF9F6;
-    border: 1px solid #ECEAE5;
-    border-radius: var(--border-radius-sm);
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-  }
-
-  .composition-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    margin-bottom: 1.25rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 1px solid #ECEAE5;
-  }
-
-  .composition-title {
-    font-family: var(--font-body);
-    font-size: 0.8125rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-text-main);
-    margin: 0;
-  }
-
-  .composition-kicker {
-    font-size: 0.625rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-accent);
-  }
-
-  .composition-families {
-    display: flex;
-    align-items: center;
-    gap: 0.65rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .family-label {
-    font-size: 0.71875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--color-text-light);
-  }
-
-  .family-pills {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-  }
-
-  .family-tag {
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    background-color: var(--color-accent-light);
-    color: var(--color-accent);
-    padding: 0.2rem 0.55rem;
-    border-radius: var(--border-radius-sm);
-  }
-
-  .composition-notes-block {
-    margin-bottom: 1rem;
-  }
-
-  .notes-heading {
-    display: block;
-    font-size: 0.6875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-text-light);
-    margin-bottom: 0.5rem;
-  }
-
-  .notes-cloud {
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-  }
-
-  .note-chip {
+  .pdp-whatsapp-help {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    font-size: 0.75rem;
-    background-color: #FFFFFF;
-    border: 1px solid #ECEAE5;
-    padding: 0.3rem 0.7rem;
-    border-radius: var(--border-radius-sm);
-    color: var(--color-text-main);
-    transition: all var(--transition-fast);
-  }
-
-  .note-chip:hover {
-    border-color: var(--color-accent);
-    color: var(--color-accent);
-  }
-
-  .note-pip {
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background-color: var(--color-accent);
-  }
-
-  .composition-accord-wrap {
-    margin-top: 1rem;
-    padding-top: 0.85rem;
-    border-top: 1px dashed #ECEAE5;
-  }
-
-  .accord-label {
-    display: block;
-    font-size: 0.6875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--color-text-light);
-    margin-bottom: 0.35rem;
-  }
-
-  .accord-text {
-    font-size: 0.8125rem;
-    line-height: 1.6;
-    color: var(--color-text-muted);
-    font-style: italic;
-  }
-
-  /* Guarantees */
-  .pdp-guarantee-cards {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--color-border);
-  }
-
-  .guarantee-row-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.85rem;
-  }
-
-  .guarantee-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background-color: #FAF9F6;
-    border: 1px solid #ECEAE5;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-accent);
-    flex-shrink: 0;
-  }
-
-  .guarantee-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-  }
-
-  .guarantee-headline {
-    font-size: 0.75rem;
-    font-weight: 700;
-    color: var(--color-text-main);
-    letter-spacing: 0.02em;
-  }
-
-  .guarantee-subtext {
-    font-size: 0.71875rem;
-    color: var(--color-text-muted);
-    line-height: 1.45;
-  }
-
-  /* Related Section */
-  .related-section {
-    padding-top: clamp(3rem, 5vw, 4.5rem);
-    border-top: 1px solid var(--color-border);
-    margin-top: 3rem;
-  }
-
-  .related-section .section-header-minimal {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 1rem;
-    flex-wrap: wrap;
-  }
-
-  /* The Art of Layering Section - Premium Compact Architecture */
-  .layering-section {
-    padding-top: clamp(2rem, 3.5vw, 3rem);
-    margin-top: 2.5rem;
-    margin-bottom: 2rem;
-    border-top: 1px solid var(--color-border);
-  }
-
-  .layering-card {
-    max-width: 800px;
-    margin: 0 auto;
-    background: #FFFFFF;
-    border: 1px solid #E6DFD5;
-    border-radius: 6px;
-    box-shadow: 0 4px 24px rgba(26, 23, 21, 0.04);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .layering-header {
-    text-align: center;
-    padding: clamp(1.25rem, 2.5vw, 1.85rem) clamp(1rem, 2.5vw, 2rem) 1rem;
-    background: linear-gradient(180deg, #FAF7F2 0%, #FFFFFF 100%);
-    border-bottom: 1px solid #F0ECE4;
-  }
-
-  .layering-kicker-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    margin-bottom: 0.35rem;
-    flex-wrap: wrap;
-  }
-
-  .layering-kicker {
-    display: inline-block;
-    font-size: 0.6875rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--color-brand-cognac, #9E532B);
-  }
-
-  .layering-browse-all {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    font-size: 0.6875rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-text-muted);
-    text-decoration: none;
-    transition: color 150ms ease;
-  }
-
-  .layering-browse-all:hover {
-    color: var(--color-brand-cognac, #9E532B);
-  }
-
-  .layering-title {
-    font-family: var(--font-display);
-    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
-    font-weight: 500;
-    color: var(--color-text-main);
-    line-height: 1.25;
-    margin: 0 0 0.45rem;
-  }
-
-  .layering-lead {
-    font-size: 0.84375rem;
-    color: var(--color-text-muted);
-    line-height: 1.5;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-
-  /* Dual Flacon Stage - Responsive (Mobile Stacked, Desktop Side-by-Side) */
-  .layering-duet-stage {
-    display: flex;
-    flex-direction: column;
-    gap: 0.65rem;
-    padding: 0.85rem;
-    background-color: #FFFFFF;
-  }
-
-  .duet-podium {
-    background: #FAF8F5;
-    border: 1px solid #EBE5DC;
-    border-radius: 4px;
-    padding: 0.85rem;
-    display: grid;
-    grid-template-columns: 80px 1fr;
-    grid-template-rows: auto auto;
-    column-gap: 0.85rem;
-    row-gap: 0.35rem;
-    align-items: center;
-    text-align: left;
-    position: relative;
-    min-width: 0;
-    transition: border-color 180ms ease, box-shadow 180ms ease;
-  }
-
-  .duet-podium:hover {
-    border-color: #D6C9B8;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
-  }
-
-  .podium-role-badge {
-    grid-column: 1 / -1;
-    justify-self: start;
-    font-size: 0.625rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-brand-cognac, #9E532B);
-    background: #FFFFFF;
-    border: 1px solid #E6DED4;
-    padding: 0.2rem 0.5rem;
-    border-radius: 2px;
-    margin-bottom: 0.15rem;
-    white-space: nowrap;
-  }
-
-  .podium-visual {
-    grid-column: 1;
-    grid-row: 2;
-    width: 80px;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #FFFFFF;
-    border: 1px solid #EFEAE3;
-    border-radius: 3px;
-    overflow: hidden;
-  }
-
-  .podium-image-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    text-decoration: none;
-  }
-
-  .podium-image-frame {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0;
-  }
-
-  .podium-img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    transition: transform 200ms ease;
-  }
-
-  .podium-image-link:hover .podium-img {
-    transform: scale(1.05);
-  }
-
-  .podium-meta {
-    grid-column: 2;
-    grid-row: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
-    width: 100%;
-    min-width: 0;
-  }
-
-  .podium-brand {
-    font-size: 0.625rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-text-muted);
-    margin-bottom: 0.1rem;
-  }
-
-  .podium-name,
-  .podium-name-link {
-    font-family: var(--font-display);
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--color-text-main);
-    text-decoration: none;
-    line-height: 1.25;
-    margin-bottom: 0.15rem;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-align: left;
-  }
-
-  .podium-name-link:hover {
-    color: var(--color-brand-cognac);
-  }
-
-  .podium-notes {
-    font-size: 0.6875rem;
-    color: var(--color-text-muted);
-    font-style: italic;
-    margin-bottom: 0.35rem;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-align: left;
-  }
-
-  .podium-price-row {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 0.45rem;
-    width: 100%;
-    padding-top: 0.35rem;
-    border-top: 1px solid #ECE5DC;
-    flex-wrap: wrap;
-  }
-
-  .podium-price {
-    font-size: 0.8125rem;
-    font-weight: 700;
-    color: var(--color-text-main);
-  }
-
-  .podium-pill-tag {
-    font-size: 0.5625rem;
-    font-weight: 600;
-    color: var(--color-text-muted);
-    background: #EFEAE2;
-    padding: 0.12rem 0.35rem;
-    border-radius: 2px;
-  }
-
-  .podium-explore-link {
-    font-size: 0.6875rem;
-    font-weight: 600;
-    color: var(--color-brand-cognac);
-    text-decoration: none;
-    transition: transform 150ms ease;
-  }
-
-  .podium-explore-link:hover {
-    transform: translateX(2px);
-  }
-
-  /* Duet Connector - Mobile */
-  .duet-connector {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 0.6rem;
-    padding: 0.2rem 0;
-    width: 100%;
-  }
-
-  .duet-connector::before,
-  .duet-connector::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: #E8E2D8;
-  }
-
-  .connector-plus {
-    width: 26px;
-    height: 26px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: #FAF7F2;
-    border: 1px solid #E6DED4;
-    color: var(--color-brand-cognac, #9E532B);
-    font-size: 0.95rem;
-    font-weight: 400;
-    line-height: 1;
-    flex-shrink: 0;
-  }
-
-  .connector-label {
-    font-size: 0.55rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-text-muted);
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  /* Desktop Adaptive Breakpoint: Symmetrical Side-by-Side */
-  @media (min-width: 600px) {
-    .layering-duet-stage {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-      align-items: stretch;
-      padding: clamp(0.85rem, 2vw, 1.5rem);
-      gap: clamp(0.4rem, 1.5vw, 1.25rem);
-    }
-
-    .duet-podium {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: clamp(0.75rem, 1.8vw, 1.25rem);
-      row-gap: 0;
-    }
-
-    .podium-role-badge {
-      justify-self: auto;
-      margin-bottom: 0.4rem;
-    }
-
-    .podium-visual {
-      width: clamp(75px, 13vw, 120px);
-      height: clamp(75px, 13vw, 120px);
-      background: transparent;
-      border: none;
-      border-radius: 0;
-      margin: 0.25rem auto 0.5rem;
-    }
-
-    .podium-meta {
-      align-items: center;
-      text-align: center;
-      margin-top: auto;
-    }
-
-    .podium-name,
-    .podium-name-link {
-      font-size: clamp(0.75rem, 1.4vw, 0.95rem);
-      margin-bottom: 0.2rem;
-      text-align: center;
-    }
-
-    .podium-notes {
-      margin-bottom: 0.5rem;
-      text-align: center;
-    }
-
-    .podium-price-row {
-      justify-content: center;
-      padding-top: 0.45rem;
-      gap: 0.4rem;
-    }
-
-    .duet-connector {
-      flex-direction: column;
-      gap: 0.2rem;
-      width: auto;
-      padding: 0;
-    }
-
-    .duet-connector::before,
-    .duet-connector::after {
-      content: none;
-    }
-  }
-
-  /* Integrated Ritual Note */
-  .layering-ritual-strip {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.65rem;
-    padding: 0.75rem clamp(0.85rem, 2vw, 1.5rem);
-    background: #FAF7F2;
-    border-top: 1px solid #F0ECE4;
-    border-bottom: 1px solid #F0ECE4;
-  }
-
-  .ritual-sparkle {
-    color: #D4AF37;
-    font-size: 0.875rem;
-    line-height: 1.3;
-    flex-shrink: 0;
-  }
-
-  .ritual-text {
-    font-size: 0.78125rem;
-    line-height: 1.45;
-    color: #4A423A;
-    margin: 0;
-  }
-
-  /* Integrated Purchase Footer Bar */
-  .layering-footer-bar {
-    padding: clamp(0.85rem, 2vw, 1.25rem) clamp(0.85rem, 2vw, 1.5rem);
-    background: #FFFFFF;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    align-items: center;
-  }
-
-  @media (min-width: 580px) {
-    .layering-footer-bar {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-    }
-  }
-
-  .duet-offer-summary {
-    display: flex;
-    flex-direction: column;
-    gap: 0.1rem;
-    text-align: center;
-  }
-
-  @media (min-width: 580px) {
-    .duet-offer-summary {
-      text-align: left;
-    }
-  }
-
-  .duet-offer-title {
-    font-size: 0.6875rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-brand-cognac, #9E532B);
-  }
-
-  .duet-offer-figures {
-    display: flex;
-    align-items: baseline;
-    justify-content: center;
-    gap: 0.45rem;
-  }
-
-  @media (min-width: 580px) {
-    .duet-offer-figures {
-      justify-content: flex-start;
-    }
-  }
-
-  .duet-offer-total {
-    font-family: var(--font-display);
-    font-size: 1.25rem;
-    font-weight: 700;
-    color: var(--color-text-main);
-    line-height: 1.2;
-  }
-
-  .duet-offer-subtitle {
-    font-size: 0.75rem;
-    color: var(--color-text-muted);
-  }
-
-  .btn-buy-duet {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.55rem;
-    background: #1A1715;
-    color: #FAF8F5;
-    border: 1px solid #1A1715;
-    border-radius: 3px;
-    padding: 0.8rem 1.4rem;
-    font-family: var(--font-sans);
-    font-size: 0.78125rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    cursor: pointer;
-    min-height: 46px;
-    white-space: nowrap;
-    width: 100%;
-    transition: all 180ms ease;
-    box-shadow: 0 4px 14px rgba(26, 23, 21, 0.12);
-  }
-
-  @media (min-width: 580px) {
-    .btn-buy-duet {
-      width: auto;
-      flex-shrink: 0;
-    }
-  }
-
-  .btn-buy-duet:hover {
-    background: var(--color-brand-cognac, #9E532B);
-    border-color: var(--color-brand-cognac, #9E532B);
-    color: #FFFFFF;
-    transform: translateY(-1px);
-    box-shadow: 0 6px 18px rgba(158, 83, 43, 0.25);
-  }
-
-  .btn-buy-duet:active {
-    transform: translateY(1px);
-  }
-
-  .btn-buy-duet.added-success {
-    background: #2E6930 !important;
-    border-color: #2E6930 !important;
-    color: #FFFFFF !important;
-  }
-
-  /* Mobile Sticky Dual-Action Bar */
-  .pdp-sticky-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 85;
-    background-color: rgba(255, 255, 255, 0.96);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-top: 1px solid var(--color-border);
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
-    padding: 0.65rem 1rem calc(0.65rem + env(safe-area-inset-bottom, 0px));
-    transform: translateY(100%);
-    opacity: 0;
-    visibility: hidden;
-    transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), opacity 200ms ease;
-  }
-
-  .pdp-sticky-bar.is-visible {
-    transform: translateY(0);
-    opacity: 1;
-    visibility: visible;
+    gap: .35rem;
+    min-height: 44px;
+    color: #16604a;
+    font-size: .83rem;
+    font-weight: 650;
+    text-decoration: underline;
+    text-underline-offset: .22em;
   }
 
   @media (min-width: 768px) {
+    .pdp-whatsapp-help {
+      display: none;
+    }
+  }
+
+  .pdp-composition-section {
+    margin-top: clamp(1.5rem, 3vw, 2.25rem);
+    padding-top: 1.15rem;
+    border-top: 1px solid #e7dbce;
+  }
+
+  .pdp-composition-section h2, .layering-card h2, .related-section .section-title-minimal {
+    margin-bottom: .6rem;
+    color: #38261f;
+    font: 400 clamp(1.45rem, 2.4vw, 2rem)/1.16 var(--font-display);
+    letter-spacing: -.025em;
+    text-transform: none;
+  }
+
+  .pdp-description, .layering-intro p {
+    max-width: 62ch;
+    color: #584a40;
+    font-size: .94rem;
+    line-height: 1.65;
+  }
+
+  .pdp-scent-details {
+    display: grid;
+    gap: .65rem;
+    margin: .95rem 0 0;
+    font-size: .85rem;
+  }
+
+  .pdp-scent-details dt {
+    font-weight: 650;
+  }
+
+  .pdp-scent-details dd {
+    margin: .15rem 0 0;
+    color: #665449;
+  }
+
+  .layering-card {
+    display: grid;
+    gap: 1rem clamp(1rem, 4vw, 3.5rem);
+    align-items: center;
+    padding: clamp(1rem, 3vw, 2rem);
+    margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
+    border: 1px solid #e7dbce;
+    border-radius: .65rem;
+    background: #fbf8f4;
+  }
+
+  .layering-intro a {
+    color: #694b3a;
+    font-size: .83rem;
+  }
+
+  .layering-selection {
+    display: grid;
+    gap: .6rem;
+    min-width: 0;
+  }
+
+  .layering-companion {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 1fr) auto;
+    gap: .65rem;
+    align-items: center;
+    color: #38261f;
+    text-decoration: none;
+  }
+
+  .layering-companion:hover strong {
+    text-decoration: underline;
+  }
+
+  .layering-companion img {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    border-radius: .3rem;
+    background: #fff;
+  }
+
+  .layering-companion small, .layering-companion strong {
+    display: block;
+    overflow-wrap: anywhere;
+  }
+
+  .layering-companion small {
+    color: #665449;
+  }
+
+  .btn-buy-duet.added-success {
+    background: #38261f;
+    color: #fff;
+  }
+
+  .related-section .section-header-minimal {
+    align-items: baseline;
+    gap: .75rem;
+    margin-bottom: 1rem;
+  }
+
+  .related-section .section-title-minimal {
+    margin-bottom: 0;
+  }
+
+  .related-section .see-all-link {
+    color: #694b3a;
+    font-size: .75rem;
+    letter-spacing: 0;
+    text-align: right;
+    text-transform: none;
+  }
+
+  @media (min-width: 680px) {
+    .layering-card {
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    }
+
+    .related-section .grid-products {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .pdp-sticky-bar {
+    position: fixed;
+    inset: auto 0 0;
+    z-index: 85;
+    padding: .55rem 1rem calc(.55rem + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid #e7dbce;
+    background: #fff;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(100%);
+    transition: transform 220ms ease, opacity 180ms ease;
+  }
+
+  .pdp-sticky-bar.is-visible {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (min-width: 720px) {
     .pdp-sticky-bar {
-      display: none !important;
+      display: none;
     }
   }
 
   .pdp-sticky-inner {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(78px, .7fr) minmax(92px, .7fr);
     align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-    max-width: 500px;
-    margin: 0 auto;
+    gap: .4rem;
+    max-width: 34rem;
+    margin-inline: auto;
   }
 
-  .sticky-thumb-info {
-    display: flex;
-    align-items: center;
-    gap: 0.55rem;
-    min-width: 0;
-    flex: 1;
-  }
-
-  .sticky-thumb-img {
-    width: 38px;
-    height: 38px;
-    object-fit: contain;
-    background-color: #FAF9F6;
-    border-radius: var(--border-radius-sm);
-    padding: 2px;
-    border: 1px solid #ECEAE5;
-    flex-shrink: 0;
-  }
-
-  .sticky-meta {
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    line-height: 1.25;
+  .sticky-title, .sticky-price {
+    display: block;
+    font-size: .8rem;
   }
 
   .sticky-title {
-    font-size: 0.71875rem;
-    font-weight: 500;
-    color: var(--color-text-muted);
-    white-space: nowrap;
     overflow: hidden;
+    white-space: nowrap;
     text-overflow: ellipsis;
-    max-width: 140px;
   }
 
   .sticky-price {
-    font-size: 0.84375rem;
-    font-weight: 700;
-    color: var(--color-text-main);
-    white-space: nowrap;
-    flex-shrink: 0;
+    font-weight: 650;
   }
 
-  .sticky-actions-wrap {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    flex-shrink: 0;
-  }
-
-  .btn-sticky-add-bag {
-    min-height: 42px;
-    padding: 0.6rem 1.25rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.45rem;
-    background-color: #1A1A1A;
-    border: none;
-    color: #FFFFFF;
-    font-family: var(--font-body);
-    font-size: 0.75rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    border-radius: var(--border-radius-sm);
-    cursor: pointer;
-    transition: all var(--transition-fast);
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-    white-space: nowrap;
-  }
-
-  .btn-sticky-add-bag:active {
-    transform: scale(0.96);
-  }
-
-  .btn-sticky-fav {
-    width: 42px;
-    height: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #FAF9F6;
-    border: 1px solid #D5D0C9;
-    color: var(--color-text-main);
-    border-radius: var(--border-radius-sm);
-    cursor: pointer;
-    transition: all var(--transition-fast);
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-    flex-shrink: 0;
-  }
-
-  .btn-sticky-fav:hover {
-    color: var(--color-brand-cognac);
-    border-color: var(--color-brand-cognac);
-  }
-
-  .btn-sticky-fav:active {
-    transform: scale(0.92);
-  }
-
-  .btn-sticky-fav.is-active {
-    color: var(--color-brand-cognac);
-    border-color: rgba(200, 90, 36, 0.4);
-    background-color: #FFFFFF;
-  }
-
-  .btn-sticky-fav.is-active .sticky-heart-icon {
-    fill: var(--color-brand-cognac);
-    stroke: var(--color-brand-cognac);
-  }
-
-  .btn-sticky-add-bag:hover {
-    background-color: #FFFFFF;
-    border-color: #1A1A1A;
-  }
-
-  /* Lightbox Zoom */
-  .image-lightbox-backdrop {
+  .image-lightbox {
     position: fixed;
     inset: 0;
-    background-color: rgba(24, 21, 19, 0.85);
-    backdrop-filter: blur(8px);
-    z-index: 200;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-    animation: fadeIn 200ms ease;
+    width: min(calc(100% - 2rem), 42rem);
+    max-height: calc(100dvh - 2rem);
+    margin: auto;
+    padding: 1rem;
+    border: 1px solid #e7dbce;
+    border-radius: .65rem;
+    background: #fff;
+    color: #38261f;
   }
 
-  .image-lightbox-content {
-    position: relative;
-    max-width: 520px;
-    width: 100%;
-    background-color: #FFFFFF;
-    border-radius: var(--border-radius-sm);
-    padding: 2.5rem 2rem 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+  .image-lightbox::backdrop {
+    background: rgb(35 23 18 / .76);
   }
 
   .lightbox-close-btn {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
-    width: 36px;
-    height: 36px;
+    top: .6rem;
+    right: .6rem;
+    width: 44px;
+    height: 44px;
+    border: 1px solid #e7dbce;
     border-radius: 50%;
-    background-color: #FAF9F6;
-    border: 1px solid #ECEAE5;
-    color: var(--color-text-main);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.1rem;
+    background: #fbf8f4;
+    font-size: 1.35rem;
     cursor: pointer;
   }
 
   .lightbox-img {
-    max-width: 100%;
-    max-height: 60vh;
+    display: block;
+    width: 100%;
+    height: min(65dvh, 36rem);
     object-fit: contain;
-    margin-bottom: 1.5rem;
   }
 
   .lightbox-caption {
-    font-family: var(--font-display);
-    font-size: 1.15rem;
-    color: var(--color-text-main);
+    margin: .5rem 0 0;
+    text-align: center;
+    font-size: .9rem;
   }
 </style>
 
 <script>
   import { isFavorite, toggleFavorite } from '../../lib/favorites';
 
-  function initPdp() {
-    const pdpAddBtn = document.getElementById('pdp-main-add-btn');
-    if (!pdpAddBtn) return;
-
-    // Quantity handling (default 1)
-    let currentQty = 1;
-    const directBuyBtn = document.getElementById('pdp-direct-buy-btn');
+  document.addEventListener('astro:page-load', () => {
+    const mainButton = document.getElementById('pdp-main-add-btn');
+    const favorite = document.getElementById('btn-pdp-fav');
     const stickyBar = document.getElementById('pdp-sticky-bar');
-    const pdpFavBtn = document.getElementById('btn-pdp-fav');
-    const stickyFavBtn = document.getElementById('btn-sticky-fav');
-  const prodId = pdpFavBtn?.getAttribute('data-id') || stickyFavBtn?.getAttribute('data-id');
+    const media = document.getElementById('pdp-media-frame');
+    const lightbox = document.querySelector<HTMLDialogElement>('#image-lightbox');
+    if (!mainButton || !favorite || !stickyBar || !media || !lightbox || mainButton.dataset.ready) return;
+    mainButton.dataset.ready = 'true';
 
-  // Track recently viewed perfume for personalized recommendations
-  try {
-    const match = window.location.pathname.match(/\/perfumes\/([^\/]+)/);
-    const slug = match ? match[1] : '';
-    if (slug && prodId) {
-      const key = 'lumera_recently_viewed';
-      const existing = JSON.parse(localStorage.getItem(key) || '[]');
-      const updated = [{ slug, id: prodId, timestamp: Date.now() }, ...existing.filter((item: any) => (typeof item === 'string' ? item !== slug : item.slug !== slug))].slice(0, 12);
-      localStorage.setItem(key, JSON.stringify(updated));
-    }
-  } catch {}
+    const controller = new AbortController();
+    const { signal } = controller;
+    const productId = favorite.dataset.id;
+    const syncFavorite = () => {
+      if (!productId) return;
+      const saved = isFavorite(productId);
+      favorite.classList.toggle('is-active', saved);
+      favorite.setAttribute('aria-pressed', String(saved));
+    };
 
-  // Sync Favorite Buttons state
-  function syncPdpFav() {
-    if (!prodId) return;
-    const active = isFavorite(prodId);
-    [pdpFavBtn, stickyFavBtn].forEach((btn) => {
-      if (btn) {
-        btn.classList.toggle('is-active', active);
-        btn.setAttribute('aria-pressed', active ? 'true' : 'false');
-      }
-    });
-  }
+    favorite.addEventListener('click', () => {
+      if (productId) toggleFavorite(productId);
+      syncFavorite();
+    }, { signal });
+    window.addEventListener('favorites-updated', syncFavorite, { signal });
+    window.addEventListener('storage', syncFavorite, { signal });
+    syncFavorite();
 
-  function handleFavToggle(e: Event) {
-    e.preventDefault();
-    if (!prodId) return;
-    toggleFavorite(prodId);
-    syncPdpFav();
-  }
-
-  pdpFavBtn?.addEventListener('click', handleFavToggle);
-  stickyFavBtn?.addEventListener('click', handleFavToggle);
-  window.addEventListener('favorites-updated', syncPdpFav);
-  window.addEventListener('storage', syncPdpFav);
-  syncPdpFav();
-
-
-
-  // Direct Buy: Instant 1-click checkout navigation fallback
-  function handleDirectBuy(e: Event) {
-    const target = (e.currentTarget || e.target) as HTMLElement;
-    const slug = target?.getAttribute('data-slug') || directBuyBtn?.getAttribute('data-slug');
-    if (slug) {
-      window.location.href = `/checkout/?product=${encodeURIComponent(slug)}&qty=${currentQty}`;
-    }
-  }
-
-  directBuyBtn?.addEventListener('click', handleDirectBuy);
-
-  // Mobile Sticky Bar Visibility
-  function handleStickyScroll() {
-    if (!stickyBar || !pdpAddBtn) return;
-    const btnRect = pdpAddBtn.getBoundingClientRect();
+    const header = document.querySelector('header');
     const footer = document.querySelector('footer');
-    const footerRect = footer ? footer.getBoundingClientRect() : null;
+    const actionBlock = mainButton.closest('.pdp-action-block') ?? mainButton;
+    const syncStickyBar = () => {
+      const headerBottom = header?.getBoundingClientRect().bottom ?? 0;
+      const pastActions = actionBlock.getBoundingClientRect().bottom <= headerBottom;
+      const beforeFooter = (footer?.getBoundingClientRect().top ?? Infinity) > window.innerHeight + 20;
+      stickyBar.classList.toggle('is-visible', pastActions && beforeFooter);
+    };
 
-    const isPastCta = btnRect.bottom < 64;
-    const isAtBottom = footerRect ? footerRect.top <= (window.innerHeight + 20) : false;
+    window.addEventListener('scroll', syncStickyBar, { passive: true, signal });
+    window.addEventListener('resize', syncStickyBar, { passive: true, signal });
+    syncStickyBar();
 
-    if (isPastCta && !isAtBottom) {
-      stickyBar.classList.add('is-visible');
-    } else {
-      stickyBar.classList.remove('is-visible');
-    }
-  }
+    media.addEventListener('click', () => lightbox.showModal(), { signal });
+    lightbox.addEventListener('click', (event) => {
+      if (event.target === lightbox) lightbox.close();
+    }, { signal });
 
-  window.addEventListener('scroll', handleStickyScroll, { passive: true });
-  window.addEventListener('resize', handleStickyScroll, { passive: true });
-  handleStickyScroll();
-
-  // Lightbox Zoom logic
-  const mediaFrame = document.getElementById('pdp-media-frame');
-  const lightbox = document.getElementById('image-lightbox');
-  const lightboxClose = document.getElementById('lightbox-close');
-
-  mediaFrame?.addEventListener('click', () => {
-    if (lightbox) {
-      lightbox.hidden = false;
-      document.body.style.overflow = 'hidden';
-    }
+    document.addEventListener('astro:before-swap', () => controller.abort(), { once: true });
   });
-
-  lightboxClose?.addEventListener('click', (e) => {
-    e.stopPropagation();
-    if (lightbox) {
-      lightbox.hidden = true;
-      document.body.style.overflow = '';
-    }
-  });
-
-  lightbox?.addEventListener('click', (e) => {
-    if (e.target === lightbox) {
-      lightbox.hidden = true;
-      document.body.style.overflow = '';
-    }
-  });
-
-  // Native Web Share API
-    const shareBtn = document.getElementById('btn-share-fragrance');
-    shareBtn?.addEventListener('click', () => {
-      const text = `Explore ${document.title} on LUMÈRA LUXE Haute Parfumerie`;
-      if (navigator.share) {
-        navigator.share({ title: document.title, url: window.location.href, text }).catch(() => {});
-      } else {
-        window.open(`https://wa.me/?text=${encodeURIComponent(text + ' ' + window.location.href)}`, '_blank');
-      }
-    });
-  }
-
-  // Run on initial load and every Astro view transition
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initPdp);
-  } else {
-    initPdp();
-  }
-  document.addEventListener('astro:page-load', initPdp);
 </script>

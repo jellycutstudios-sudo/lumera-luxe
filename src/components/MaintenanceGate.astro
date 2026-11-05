@@ -37,12 +37,12 @@ const passcode = maintenance.passcode;
           <span class="m-line"></span>
         </div>
 
-        <span class="maintenance-kicker">Maison de Parfum · Doha</span>
-        <h1 id="maintenance-title" class="maintenance-title">Private Fragrance Boutique Under Maintenance</h1>
+        <span class="maintenance-kicker">LUMÈRA LUXE · Doha, Qatar</span>
+        <h1 id="maintenance-title" class="maintenance-title">Online Perfume Boutique Under Scheduled Update</h1>
 
         <p class="maintenance-copy">
-          Our online perfume boutique is currently closed for private collection curation and scheduled enhancements.
-          Invited clients may enter their passkey to access the boutique.
+          We are currently updating our luxury fragrance catalog to bring you Qatar's finest designer and niche collections.
+          Invited clients, partners, and team members may enter their passkey to access the boutique.
         </p>
 
         <!-- Access Passcode Form -->
@@ -67,11 +67,11 @@ const passcode = maintenance.passcode;
               type="password"
               id="maintenance-passcode"
               class="maintenance-input"
-              placeholder="Enter client passkey"
+              placeholder="Enter passkey (e.g. 0000)"
               maxlength="16"
               inputmode="numeric"
               autocomplete="one-time-code"
-              aria-label="Client access passkey"
+              aria-label="Access passkey"
               required
             />
             <button
@@ -93,7 +93,7 @@ const passcode = maintenance.passcode;
           </p>
 
           <button type="submit" id="maintenance-submit-btn" class="maintenance-submit-btn">
-            <span>Unlock Private Boutique</span>
+            <span>Access Boutique</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <line x1="5" y1="12" x2="19" y2="12"></line>
               <polyline points="12 5 19 12 12 19"></polyline>
@@ -101,22 +101,27 @@ const passcode = maintenance.passcode;
           </button>
         </form>
 
+        <!-- Direct WhatsApp Concierge Escape Link for Customers -->
+        <div class="maintenance-wa-escape">
+          <span class="m-escape-label">Need to place a perfume order or inquire in Qatar?</span>
+          <a
+            href={`https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent('Hello LUMÈRA LUXE, I would like to place a fragrance order in Doha.')}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="m-escape-link"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 0 1 2.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.32a8.196 8.196 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.24-8.24zm4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.65.81-.79.98-.15.17-.29.19-.54.06-.25-.13-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.39-1.72-.15-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.35-.77-1.85-.2-.49-.41-.42-.56-.43l-.48-.01c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1s.9 2.43 1.02 2.6c.13.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.44.53.6.19 1.15.16 1.59.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.07-.1-.23-.17-.48-.29z"/>
+            </svg>
+            <span>Direct WhatsApp Concierge (+974 6667 5166) →</span>
+          </a>
+        </div>
+
         <div class="maintenance-footer-note">
           <span>© {siteConfig.brandName} · State of Qatar</span>
         </div>
       </div>
     </div>
-
-    <!-- Floating Client Preview Pill (Only visible when unlocked) -->
-    <aside id="maintenance-client-badge" class="maintenance-client-badge" aria-label="Client preview mode controls">
-      <div class="client-badge-pill">
-        <span class="client-badge-dot"></span>
-        <span class="client-badge-text">Client Mode Active</span>
-        <button type="button" id="maintenance-relock-btn" class="client-relock-btn" title="Re-lock Store">
-          Re-lock Store
-        </button>
-      </div>
-    </aside>
 
     <script is:inline define:vars={{ expectedPasscode: passcode }}>
       (function() {
@@ -488,6 +493,40 @@ const passcode = maintenance.passcode;
     transform: translateY(0);
   }
 
+  .maintenance-wa-escape {
+    margin-top: 1.5rem;
+    padding: 1rem 1.25rem;
+    background: #F9F7F2;
+    border: 1px dashed rgba(197, 160, 89, 0.45);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .m-escape-label {
+    font-size: 0.8125rem;
+    color: #5C554F;
+    font-weight: 500;
+  }
+
+  .m-escape-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: #25D366;
+    font-size: 0.875rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+
+  .m-escape-link:hover {
+    color: #1EBE5D;
+    text-decoration: underline;
+  }
+
   .maintenance-footer-note {
     margin-top: 1.75rem;
     padding-top: 1.25rem;
@@ -498,74 +537,5 @@ const passcode = maintenance.passcode;
     letter-spacing: 0.06em;
   }
 
-  /* ==========================================================================
-     FLOATING CLIENT PREVIEW BADGE (Only in unlocked client mode)
-     ========================================================================== */
-  .maintenance-client-badge {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    z-index: 99999;
-    display: none;
-  }
-
-  :global(html.maintenance-unlocked) .maintenance-client-badge {
-    display: block;
-  }
-
-  .client-badge-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.65rem;
-    background: #181513;
-    color: #FFFFFF;
-    border: 1px solid rgba(197, 160, 89, 0.5);
-    border-radius: 999px;
-    padding: 0.45rem 0.85rem;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-    font-family: var(--font-body);
-    font-size: 0.75rem;
-  }
-
-  .client-badge-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background-color: #2ECC71;
-    box-shadow: 0 0 8px #2ECC71;
-    flex-shrink: 0;
-  }
-
-  .client-badge-text {
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    color: #ECEAE5;
-  }
-
-  .client-relock-btn {
-    background: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #FFFFFF;
-    border-radius: 999px;
-    padding: 0.2rem 0.6rem;
-    font-family: var(--font-body);
-    font-size: 0.6875rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    cursor: pointer;
-    transition: all 150ms ease;
-  }
-
-  .client-relock-btn:hover {
-    background: var(--color-brand-cognac, #9E532B);
-    border-color: var(--color-brand-cognac, #9E532B);
-  }
-
-  @media (max-width: 600px) {
-    .maintenance-client-badge {
-      bottom: 74px; /* avoid obscuring mobile bottom nav */
-      left: 12px;
-    }
-  }
 </style>
 

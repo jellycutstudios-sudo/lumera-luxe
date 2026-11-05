@@ -33,8 +33,21 @@ import { siteConfig } from '../data/site';
           </svg>
         </div>
         <div class="guarantee-text">
-          <span class="guarantee-title">Doorstep Qatar Courier</span>
-          <span class="guarantee-sub">Complimentary delivery across Qatar</span>
+          <span class="guarantee-title">Express 6-Hour Delivery</span>
+          <span class="guarantee-sub">Free on purchases above 300 QAR</span>
+        </div>
+      </div>
+
+      <div class="guarantee-cell">
+        <div class="guarantee-icon-wrap">
+          <!-- Shield Guarantee Icon -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+        </div>
+        <div class="guarantee-text">
+          <span class="guarantee-title">6-Hour Return Guarantee</span>
+          <span class="guarantee-sub">Returns accepted even if opened & used</span>
         </div>
       </div>
 
@@ -47,8 +60,8 @@ import { siteConfig } from '../data/site';
           </svg>
         </div>
         <div class="guarantee-text">
-          <span class="guarantee-title">Direct WhatsApp Advice</span>
-          <span class="guarantee-sub">Personal scent guidance & ordering</span>
+          <span class="guarantee-title">Direct WhatsApp Concierge</span>
+          <span class="guarantee-sub">Instant ordering: +974 6667 5166</span>
         </div>
       </div>
     </div>
@@ -151,24 +164,29 @@ import { siteConfig } from '../data/site';
   /* Guarantees bar */
   .footer-guarantees-bar {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem clamp(1rem, 2vw, 2rem);
     padding-bottom: clamp(1.75rem, 3vw, 2.5rem);
     margin-bottom: clamp(1.75rem, 3vw, 2.5rem);
     border-bottom: 1px solid var(--color-border);
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 560px) {
     .footer-guarantees-bar {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2.5rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .footer-guarantees-bar {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
 
   .guarantee-cell {
     display: flex;
-    align-items: center;
-    gap: 1rem;
+    align-items: flex-start;
+    gap: clamp(.65rem, 1.2vw, .95rem);
   }
 
   .guarantee-icon-wrap {

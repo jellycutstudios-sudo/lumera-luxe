@@ -1,927 +1,386 @@
 ---
 import { siteConfig } from '../data/site';
-import productsData from '../data/products.json';
 
-// Only public live products (exclude bank review drafts)
-const publicProducts = productsData.filter((p) => !p.isDraft);
+const whatsappUrl = `https://wa.me/${siteConfig.whatsappNumber}?text=${encodeURIComponent('Hello LUMÈRA LUXE, I would like help choosing a fragrance.')}`;
+const scentFamilies = [
+  { label: 'Fresh & Citrus', slug: 'fresh' },
+  { label: 'Floral & Rose', slug: 'floral' },
+  { label: 'Amber & Oriental', slug: 'oriental' },
+  { label: 'Woody & Earthy', slug: 'woody' }
+];
 ---
 
-<!-- Mobile Navigation Drawer Overlay (Root Level, outside header) -->
-<div class="mobile-nav-backdrop" id="mobile-nav-backdrop" hidden></div>
+<div class="mobile-menu-backdrop" id="mobile-nav-backdrop" hidden></div>
 
-<aside
-  class="mobile-nav-drawer"
-  id="mobile-nav-drawer"
-  role="dialog"
-  aria-modal="true"
-  aria-label="Navigation Menu"
-  hidden
->
-  <!-- Top Bar: Brand & Minimal Close Button -->
-  <div class="mobile-drawer-top">
-    <div class="mobile-drawer-brand-block">
-      <a href="/" class="mobile-drawer-brand" aria-label="LUMÈRA LUXE Home">
-        <img
-          src="/assets/lumera-logo.svg"
-          alt="LUMÈRA LUXE"
-          class="mobile-drawer-logo"
-          width="132"
-          height="22"
-          loading="lazy"
-          decoding="async"
-        />
-      </a>
-      <span class="mobile-drawer-origin">Doha · Haute Parfumerie</span>
-    </div>
-    <button
-      class="mobile-drawer-close"
-      id="mobile-nav-close-btn"
-      aria-label="Close navigation menu"
-    >
-      <svg
-        width="18"
-        height="18"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.6"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-      >
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
+<aside class="mobile-menu-drawer" id="mobile-nav-drawer" role="dialog" aria-modal="true" aria-label="Navigation menu" hidden>
+  <div class="mobile-menu-top">
+    <a href="/" aria-label="LUMÈRA LUXE home">
+      <img src="/assets/lumera-logo.svg" alt="" width="132" height="22" class="mobile-menu-logo" />
+    </a>
+    <button type="button" class="mobile-menu-close" id="mobile-nav-close-btn" aria-label="Close navigation menu">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+        <path d="m6 6 12 12M18 6 6 18" />
       </svg>
     </button>
   </div>
 
-  <!-- Scrollable Minimal Content -->
-  <div class="mobile-drawer-content">
-    <!-- Top Utility Quick Bar: Wishlist & Bag -->
-    <div class="drawer-quick-bar">
-      <button type="button" class="drawer-quick-pill" id="drawer-open-wishlist-btn">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-        </svg>
-        <span>Wishlist (<strong id="drawer-wishlist-count">0</strong>)</span>
-      </button>
-
-      <button type="button" class="drawer-quick-pill" id="drawer-open-bag-btn">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-          <line x1="3" y1="6" x2="21" y2="6"></line>
-          <path d="M16 10a4 4 0 0 1-8 0"></path>
-        </svg>
-        <span>Bag (<strong id="drawer-bag-count">0</strong>)</span>
-      </button>
-    </div>
-
-    <nav class="drawer-nav-menu" aria-label="Mobile Navigation">
-      <!-- Section 1: The Collection -->
-      <div class="nav-group">
-        <span class="nav-section-label">The Collection</span>
-        <ul class="nav-items-list">
-          <li>
-            <a href="/shop/" class="drawer-menu-link" data-astro-prefetch>
-              <span class="link-label">All Fragrances</span>
-              <span class="link-badge">{publicProducts.length}</span>
-            </a>
-          </li>
-
-          <!-- Clean Inline Scent Accord Links -->
-          <li class="drawer-inline-accords">
-            <span class="accords-label">Olfactive Accords</span>
-            <div class="accords-links">
-              <a href="/shop/?family=fresh" class="accord-link" data-astro-prefetch>Fresh & Citrus</a>
-              <span class="accord-sep">·</span>
-              <a href="/shop/?family=floral" class="accord-link" data-astro-prefetch>Floral & Rose</a>
-              <span class="accord-sep">·</span>
-              <a href="/shop/?family=oriental" class="accord-link" data-astro-prefetch>Amber & Oud</a>
-              <span class="accord-sep">·</span>
-              <a href="/shop/?family=woody" class="accord-link" data-astro-prefetch>Woody & Earthy</a>
-            </div>
-          </li>
-        </ul>
-      </div>
-
-      <div class="nav-separator"></div>
-
-      <!-- Section 2: Discovery & Styling -->
-      <div class="nav-group">
-        <span class="nav-section-label">Discovery & Consultation</span>
-        <ul class="nav-items-list">
-          <li>
-            <a href="/fragrance-finder/" class="drawer-menu-link" data-astro-prefetch>
-              <div class="link-text-stack">
-                <span class="link-label">Fragrance Finder</span>
-                <span class="link-caption">4-question bespoke consultation</span>
-              </div>
-              <span class="link-badge quiz-badge">Quiz</span>
-            </a>
-          </li>
-
-          <li>
-            <a href="/scent-styling/" class="drawer-menu-link" data-astro-prefetch>
-              <div class="link-text-stack">
-                <span class="link-label">Scent & Style Alignment</span>
-                <span class="link-caption">Wear with Gold · Silver · Rose Gold</span>
-              </div>
-              <svg class="link-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-                <polyline points="9 18 15 12 9 6"></polyline>
-              </svg>
-            </a>
-          </li>
-
-          <li>
-            <a href="/layering/" class="drawer-menu-link" data-astro-prefetch>
-              <div class="link-text-stack">
-                <span class="link-label">The Art of Layering</span>
-                <span class="link-caption">10 curated 2-flacon Scent Duets</span>
-              </div>
-              <span class="link-badge">Duets</span>
-            </a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="nav-separator"></div>
-
-      <!-- Section 3: The Maison -->
-      <div class="nav-group">
-        <span class="nav-section-label">The Maison</span>
-        <ul class="nav-items-list">
-          <li>
-            <a href="/our-story/" class="drawer-menu-link" data-astro-prefetch>
-              <span class="link-label">Our Story & Craft</span>
-              <svg class="link-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-                <polyline points="9 18 15 12 9 6"></polyline>
-              </svg>
-            </a>
-          </li>
-
-          <li>
-            <a href="/delivery-returns/" class="drawer-menu-link" data-astro-prefetch>
-              <span class="link-label">Qatar Priority Delivery</span>
-              <svg class="link-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-                <polyline points="9 18 15 12 9 6"></polyline>
-              </svg>
-            </a>
-          </li>
-
-          <li>
-            <a href="/contact/" class="drawer-menu-link" data-astro-prefetch>
-              <span class="link-label">Boutique Contact</span>
-              <svg class="link-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-                <polyline points="9 18 15 12 9 6"></polyline>
-              </svg>
-            </a>
-          </li>
-        </ul>
-      </div>
-
-      <!-- Section 4: Clean Luxury Trust Strip -->
-      <div class="drawer-trust-card">
-        <div class="trust-point">
-          <span class="trust-pip" aria-hidden="true"></span>
-          <span>100% Genuine Sealed Stock</span>
-        </div>
-        <div class="trust-point">
-          <span class="trust-pip" aria-hidden="true"></span>
-          <span>Complimentary Delivery in Qatar</span>
-        </div>
-        <div class="trust-point">
-          <span class="trust-pip" aria-hidden="true"></span>
-          <span>Cash or Card on Delivery</span>
-        </div>
-      </div>
-    </nav>
-
-    <!-- Clean WhatsApp Concierge -->
-    <div class="drawer-concierge-card">
-      <button type="button" class="drawer-concierge-btn" id="drawer-support-modal-btn">
-        <div class="concierge-icon-wrap">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
-          </svg>
-          <span class="concierge-live-dot" aria-hidden="true"></span>
-        </div>
-        <div class="concierge-info">
-          <div class="concierge-top-line">
-            <span class="concierge-heading">Personal Concierge</span>
-            <span class="concierge-status">Available</span>
-          </div>
-          <span class="concierge-desc">WhatsApp perfume guidance & orders</span>
-        </div>
-        <svg class="concierge-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
-          <polyline points="9 18 15 12 9 6"></polyline>
-        </svg>
-      </button>
-    </div>
-  </div>
-
-  <!-- Minimalist Bottom Bar -->
-  <div class="mobile-drawer-bottom">
-    <div class="drawer-socials">
-      <a href={siteConfig.instagramUrl} target="_blank" rel="noopener" class="social-link">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-        </svg>
-        <span>Instagram</span>
+  <nav class="mobile-menu-content" aria-label="Mobile navigation">
+    <div class="mobile-menu-group">
+      <h2>Browse</h2>
+      <a href="/shop/" class="mobile-menu-primary" data-astro-prefetch>
+        Shop fragrances <span aria-hidden="true">↗</span>
       </a>
-      <span class="social-dot">·</span>
-      <a href={siteConfig.tiktokUrl} target="_blank" rel="noopener" class="social-link">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.24 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
-        </svg>
-        <span>TikTok</span>
+      <a href="/#shop-by-occasion" class="mobile-menu-row">
+        Shop by occasion <span class="mobile-menu-chevron" aria-hidden="true"></span>
       </a>
+      <details>
+        <summary class="mobile-menu-row">Scent families <span class="mobile-menu-chevron" aria-hidden="true"></span></summary>
+        <ul class="mobile-menu-sublinks">
+          {scentFamilies.map(({ label, slug }) => (
+            <li><a href={`/shop/?family=${slug}`}>{label}</a></li>
+          ))}
+        </ul>
+      </details>
     </div>
-    <span class="drawer-guarantee-note">Doha, Qatar · Registered Storefront</span>
+
+    <div class="mobile-menu-group">
+      <h2>Discover</h2>
+      <a href="/fragrance-finder/" class="mobile-menu-row">
+        Fragrance quiz <span class="mobile-menu-chevron" aria-hidden="true"></span>
+      </a>
+      <details>
+        <summary class="mobile-menu-row">More to explore <span class="mobile-menu-chevron" aria-hidden="true"></span></summary>
+        <ul class="mobile-menu-sublinks">
+          <li><a href="/scent-styling/">Scent & style</a></li>
+          <li><a href="/layering/">Fragrance layering</a></li>
+          <li><a href="/our-story/">Our story</a></li>
+        </ul>
+      </details>
+    </div>
+
+    <details class="mobile-menu-help">
+      <summary class="mobile-menu-row">Delivery & help <span class="mobile-menu-chevron" aria-hidden="true"></span></summary>
+      <ul class="mobile-menu-sublinks">
+        <li><a href="/delivery-returns/">Delivery & returns</a></li>
+        <li><a href="/contact/">Contact us</a></li>
+      </ul>
+    </details>
+  </nav>
+
+  <div class="mobile-menu-bottom">
+    <a href={whatsappUrl} class="mobile-menu-chat" target="_blank" rel="noopener noreferrer">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M3 21l1.65-3.8a9 9 0 1 1 3.4 2.9L3 21" />
+        <path d="M15.5 13.5v1.2a1.3 1.3 0 0 1-1.4 1.3 7.8 7.8 0 0 1-5.6-5.6 1.3 1.3 0 0 1 1.3-1.4h1.2a.9.9 0 0 1 .9.7l.3 1.2a.9.9 0 0 1-.3.9l-.6.6a5.5 5.5 0 0 0 2.6 2.6l.6-.6a.9.9 0 0 1 .9-.3l1.2.3a.9.9 0 0 1 .7.9z" />
+      </svg>
+      Chat on WhatsApp
+    </a>
   </div>
 </aside>
 
-<style>
-  [hidden] {
-    display: none !important;
+<!-- Keep the drawer styles with its markup during Astro page transitions. -->
+<style is:inline>
+  .mobile-menu-drawer[hidden],
+  .mobile-menu-backdrop[hidden] {
+    display: none;
   }
 
-  .mobile-nav-backdrop[hidden],
-  .mobile-nav-drawer[hidden] {
-    display: none !important;
-  }
-
-  /* Full Screen Backdrop - Hardware accelerated without laggy blur */
-  .mobile-nav-backdrop {
+  .mobile-menu-backdrop {
     position: fixed;
     inset: 0;
-    background-color: rgba(24, 21, 19, 0.48);
     z-index: 998;
-    animation: drawerFadeIn 180ms ease;
-    will-change: opacity;
-    transform: translate3d(0, 0, 0);
-    -webkit-transform: translate3d(0, 0, 0);
+    background: rgb(35 24 18 / .48);
   }
 
-  /* Sliding Panel (Pure Luxury Cashmere & Minimal White) - GPU accelerated */
-  .mobile-nav-drawer {
+  .mobile-menu-drawer {
     position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    max-width: 350px;
-    background-color: #FFFFFF !important;
+    inset: 0 auto 0 0;
     z-index: 999;
     display: flex;
     flex-direction: column;
-    box-shadow: 10px 0 40px rgba(24, 21, 19, 0.15);
-    border-right: 1px solid var(--color-border-subtle);
-    animation: drawerSlideLeft 220ms cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: transform;
-    transform: translate3d(0, 0, 0);
-    -webkit-transform: translate3d(0, 0, 0);
+    width: min(calc(100% - 1.25rem), 24rem);
+    background: #fffcf8;
+    color: #38261f;
+    box-shadow: 8px 0 30px rgb(35 24 18 / .16);
+    animation: drawer-slide-in 220ms cubic-bezier(.16, 1, .3, 1);
   }
 
-  @keyframes drawerSlideLeft {
-    from {
-      transform: translateX(-100%);
-    }
-    to {
-      transform: translateX(0);
-    }
+  @keyframes drawer-slide-in {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
   }
 
-  @keyframes drawerFadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  /* Top Bar */
-  .mobile-drawer-top {
-    height: 64px;
+  .mobile-menu-top {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 1.25rem;
-    border-bottom: 1px solid var(--color-border-subtle);
-    background-color: #FFFFFF;
     flex-shrink: 0;
+    padding: calc(.65rem + env(safe-area-inset-top, 0px)) 1.25rem .65rem;
+    border-bottom: 1px solid #e7dbce;
   }
 
-  .mobile-drawer-brand-block {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-  }
-
-  .mobile-drawer-brand {
-    display: inline-flex;
-    align-items: center;
-    line-height: 1;
-  }
-
-  .mobile-drawer-logo {
-    height: 20px;
-    width: auto;
-    object-fit: contain;
-  }
-
-  .mobile-drawer-origin {
-    font-family: var(--font-body);
-    font-size: 0.6rem;
-    font-weight: 600;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--color-brand-cognac);
-  }
-
-  .mobile-drawer-close {
-    width: 34px;
-    height: 34px;
+  .mobile-menu-top > a {
     display: flex;
     align-items: center;
-    justify-content: center;
-    color: var(--color-text-muted);
-    background: transparent;
-    border: 1px solid var(--color-border-subtle);
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all var(--transition-fast);
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
+    min-height: 44px;
   }
 
-  .mobile-drawer-close:hover {
-    background-color: var(--color-surface);
-    border-color: var(--color-brand-cognac);
-    color: var(--color-brand-cognac);
+  .mobile-menu-logo {
+    width: 132px;
+    height: auto;
   }
 
-  .mobile-drawer-close:active {
-    transform: scale(0.92);
-  }
-
-  /* Scrollable Navigation Body */
-  .mobile-drawer-content {
-    flex: 1;
-    overflow-y: auto;
-    overscroll-behavior-y: contain;
-    -webkit-overflow-scrolling: touch;
-    padding: 1rem 1.1rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.85rem;
-  }
-
-  .drawer-nav-menu {
-    display: flex;
-    flex-direction: column;
-    gap: 0.65rem;
-  }
-
-  /* Group Headers */
-  .nav-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-  }
-
-  .nav-section-label {
-    font-family: var(--font-body);
-    font-size: 0.6rem;
-    font-weight: 700;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--color-brand-cognac);
-    padding: 0 0.5rem 0.25rem;
-  }
-
-  .nav-items-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    margin: 0;
-    padding: 0;
-  }
-
-  /* Clean Luxury Menu Item Link */
-  .drawer-menu-link {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.55rem 0.5rem;
-    background: transparent;
-    border: none;
-    border-radius: 4px;
-    text-decoration: none;
-    cursor: pointer;
-    text-align: left;
-    transition: all var(--transition-fast);
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
-  }
-
-  .drawer-menu-link:hover,
-  .drawer-menu-link:active {
-    background-color: var(--color-surface);
-    padding-left: 0.75rem;
-  }
-
-  .link-label {
-    font-family: var(--font-display);
-    font-size: 1rem;
-    font-weight: 500;
-    color: #141210;
-    letter-spacing: 0.01em;
-    transition: color var(--transition-fast);
-  }
-
-  .drawer-menu-link:hover .link-label {
-    color: var(--color-brand-cognac);
-  }
-
-  .link-badge {
-    font-family: var(--font-body);
-    font-size: 0.65rem;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    color: var(--color-text-muted);
-    background: #FAF8F5;
-    border: 1px solid #ECE7E0;
-    padding: 0.12rem 0.5rem;
-    border-radius: 999px;
-    flex-shrink: 0;
-  }
-
-  .link-chevron {
-    color: var(--color-text-light);
-    flex-shrink: 0;
-    transition: transform var(--transition-fast), color var(--transition-fast);
-  }
-
-  .drawer-menu-link:hover .link-chevron {
-    transform: translateX(2px);
-    color: var(--color-brand-cognac);
-  }
-
-  /* Quick Utilities Bar */
-  .drawer-quick-bar {
+  .mobile-menu-close {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
-    padding: 0.25rem 0.5rem 0.75rem;
-    border-bottom: 1px solid var(--color-border-subtle);
-    margin-bottom: 0.65rem;
-  }
-
-  .drawer-quick-pill {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.45rem;
-    padding: 0.45rem 0.75rem;
-    background: #FAF8F5;
-    border: 1px solid #ECE7E0;
-    border-radius: 4px;
-    font-family: var(--font-body);
-    font-size: 0.75rem;
-    color: var(--color-text-main);
-    cursor: pointer;
-    transition: all var(--transition-fast);
-  }
-
-  .drawer-quick-pill:hover,
-  .drawer-quick-pill:active {
-    background: #FFFFFF;
-    border-color: var(--color-brand-cognac);
-    color: var(--color-brand-cognac);
-  }
-
-  .drawer-quick-pill strong {
-    font-weight: 700;
-  }
-
-  /* Inline Olfactive Accords */
-  .drawer-inline-accords {
-    padding: 0.25rem 0.5rem 0.45rem;
-    display: flex;
-    flex-direction: column;
-    gap: 0.2rem;
-  }
-
-  .accords-label {
-    font-size: 0.625rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: #9C9389;
-  }
-
-  .accords-links {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 0.35rem;
-  }
-
-  .accord-link {
-    font-size: 0.74rem;
-    color: #7E756C;
-    text-decoration: none;
-    transition: color 150ms ease;
-  }
-
-  .accord-link:hover,
-  .accord-link:active {
-    color: var(--color-brand-cognac);
-  }
-
-  .accord-sep {
-    font-size: 0.65rem;
-    color: #D3CBC2;
-  }
-
-  /* Link Text Stack */
-  .link-text-stack {
-    display: flex;
-    flex-direction: column;
-    gap: 0.15rem;
-  }
-
-  .link-caption {
-    font-size: 0.72rem;
-    color: #8C827A;
-    font-family: var(--font-body);
-    font-weight: 400;
-    letter-spacing: 0.01em;
-    line-height: 1.35;
-    transition: color var(--transition-fast);
-  }
-
-  .drawer-menu-link:hover .link-caption {
-    color: #6E655E;
-  }
-
-  .link-badge.quiz-badge {
-    background-color: var(--color-brand-cognac);
-    color: #FFFFFF;
-    border-color: var(--color-brand-cognac);
-  }
-
-  .nav-separator {
-    height: 1px;
-    background: var(--color-border-subtle);
-    margin: 0.3rem 0.5rem;
-  }
-
-  /* Understated Luxury Trust Strip */
-  .drawer-trust-card {
-    display: flex;
-    flex-direction: column;
-    gap: 0.35rem;
-    padding: 0.65rem 0.75rem;
-    background: #FAF9F6;
-    border: 1px solid #EBE6DE;
-    border-radius: 8px;
-    margin: 0.35rem 0.25rem 0;
-  }
-
-  .trust-point {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.7rem;
-    color: var(--color-text-muted);
-    font-weight: 450;
-    letter-spacing: 0.01em;
-  }
-
-  .trust-pip {
-    width: 4px;
-    height: 4px;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid #e7dbce;
     border-radius: 50%;
-    background: var(--color-brand-cognac);
-    flex-shrink: 0;
-  }
-
-  /* Refined WhatsApp Concierge Card */
-  .drawer-concierge-card {
-    margin-top: auto;
-    padding-top: 0.25rem;
-  }
-
-  .drawer-concierge-btn {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.65rem 0.8rem;
-    background: #FFFFFF;
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
+    background: transparent;
+    color: inherit;
     cursor: pointer;
-    text-align: left;
-    transition: all var(--transition-fast);
-    touch-action: manipulation;
-    -webkit-tap-highlight-color: transparent;
   }
 
-  .drawer-concierge-btn:hover,
-  .drawer-concierge-btn:active {
-    border-color: #25D366;
-    box-shadow: 0 4px 14px rgba(37, 211, 102, 0.08);
-  }
-
-  .concierge-icon-wrap {
-    position: relative;
-    width: 32px;
-    height: 32px;
-    border-radius: 6px;
-    background: rgba(37, 211, 102, 0.1);
-    color: #128C7E;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-
-  .concierge-live-dot {
-    position: absolute;
-    top: -1px;
-    right: -1px;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background-color: #25D366;
-    border: 1.5px solid #FFFFFF;
-  }
-
-  .concierge-info {
+  .mobile-menu-content {
     flex: 1;
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.1rem;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: 1.25rem 1.25rem .75rem;
   }
 
-  .concierge-top-line {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
+  .mobile-menu-group + .mobile-menu-group,
+  .mobile-menu-help {
+    margin-top: .85rem;
+    padding-top: .85rem;
+    border-top: 1px solid #e7dbce;
   }
 
-  .concierge-heading {
-    font-family: var(--font-body);
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: var(--color-text-main);
-  }
-
-  .concierge-status {
-    font-size: 0.56rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
+  .mobile-menu-group h2 {
+    margin: 0 0 .4rem;
+    color: #784b34;
+    font: 650 .7rem/1.4 var(--font-body);
+    letter-spacing: .13em;
     text-transform: uppercase;
-    color: #128C7E;
-    background: rgba(18, 140, 126, 0.1);
-    padding: 0.1rem 0.35rem;
-    border-radius: 3px;
   }
 
-  .concierge-desc {
-    font-size: 0.67rem;
-    color: var(--color-text-light);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .concierge-chevron {
-    color: var(--color-text-light);
-    flex-shrink: 0;
-    transition: transform var(--transition-fast), color var(--transition-fast);
-  }
-
-  .drawer-concierge-btn:hover .concierge-chevron {
-    transform: translateX(2px);
-    color: #128C7E;
-  }
-
-  /* Minimalist Bottom Bar */
-  .mobile-drawer-bottom {
-    padding: 0.75rem 1.25rem max(env(safe-area-inset-bottom, 0.75rem), 0.75rem);
-    border-top: 1px solid var(--color-border-subtle);
-    background-color: #FAF9F6;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.25rem;
-    flex-shrink: 0;
-  }
-
-  .drawer-socials {
+  .mobile-menu-primary,
+  .mobile-menu-row {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-  }
-
-  .social-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    font-size: 0.7rem;
-    font-weight: 500;
-    color: var(--color-text-muted);
+    justify-content: space-between;
+    gap: .5rem;
+    min-height: 48px;
+    padding-block: .45rem;
+    color: inherit;
     text-decoration: none;
-    transition: color var(--transition-fast);
+    font-weight: 550;
+    cursor: pointer;
   }
 
-  .social-link:hover {
-    color: var(--color-brand-cognac);
+  .mobile-menu-primary {
+    min-height: 58px;
+    margin-bottom: .3rem;
+    padding-inline: .9rem;
+    border-radius: .55rem;
+    background: #efe3d7;
+    font: 400 1.2rem/1.2 var(--font-display);
   }
 
-  .social-dot {
-    font-size: 0.75rem;
-    color: var(--color-border);
+  .mobile-menu-row {
+    padding-inline: .15rem .45rem;
+    list-style: none;
   }
 
-  .drawer-guarantee-note {
-    font-size: 0.6rem;
-    color: var(--color-text-light);
-    letter-spacing: 0.02em;
+  summary.mobile-menu-row::-webkit-details-marker {
+    display: none;
+  }
+
+  .mobile-menu-chevron {
+    width: .45rem;
+    height: .45rem;
+    flex-shrink: 0;
+    border: solid currentColor;
+    border-width: 0 1px 1px 0;
+    transform: rotate(-45deg);
+  }
+
+  summary .mobile-menu-chevron {
+    transform: rotate(45deg);
+  }
+
+  details[open] > summary .mobile-menu-chevron {
+    transform: rotate(225deg);
+  }
+
+  .mobile-menu-sublinks {
+    margin: .15rem 0 .4rem;
+    padding: .15rem .75rem;
+    list-style: none;
+    border-left: 1px solid #d9c5b4;
+    background: #f7f0e9;
+  }
+
+  .mobile-menu-sublinks a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding-block: .35rem;
+    color: #58463b;
+    font-size: .89rem;
+    text-decoration: none;
+  }
+
+  .mobile-menu-row:hover,
+  .mobile-menu-sublinks a:hover {
+    text-decoration: underline;
+    text-underline-offset: .2em;
+  }
+
+  .mobile-menu-bottom {
+    flex-shrink: 0;
+    padding: .8rem 1.25rem calc(.8rem + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid #e7dbce;
+  }
+
+  .mobile-menu-chat {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .55rem;
+    min-height: 48px;
+    padding-inline: .6rem;
+    border-radius: .55rem;
+    background: #e9f3ed;
+    color: #16604a;
+    font-size: .88rem;
+    font-weight: 650;
     text-align: center;
+    text-decoration: none;
+  }
+
+  .mobile-menu-chat:hover {
+    background: #dcebe2;
   }
 </style>
 
 <script is:inline>
-  function openDrawer() {
-    if (typeof window.closeSearchModal === 'function') {
-      window.closeSearchModal();
-    }
-    if (typeof window.closeAllNavModals === 'function') {
-      window.closeAllNavModals();
-    }
-    var backdrop = document.getElementById('mobile-nav-backdrop');
-    var drawer = document.getElementById('mobile-nav-drawer');
-    var openBtn = document.getElementById('menu-toggle-btn');
-    if (backdrop) {
-      backdrop.removeAttribute('hidden');
-      backdrop.hidden = false;
-    }
-    if (drawer) {
-      drawer.removeAttribute('hidden');
-      drawer.hidden = false;
-    }
-    if (openBtn) openBtn.setAttribute('aria-expanded', 'true');
-    document.body.style.overflow = 'hidden';
-  }
+  (() => {
+    if (window.openMobileDrawer) return;
 
-  function closeDrawer() {
-    var backdrop = document.getElementById('mobile-nav-backdrop');
-    var drawer = document.getElementById('mobile-nav-drawer');
-    var openBtn = document.getElementById('menu-toggle-btn');
-    if (backdrop) {
-      backdrop.setAttribute('hidden', '');
-      backdrop.hidden = true;
-    }
-    if (drawer) {
-      drawer.setAttribute('hidden', '');
-      drawer.hidden = true;
-    }
-    if (openBtn) openBtn.setAttribute('aria-expanded', 'false');
-    var isOtherModalOpen =
-      (document.getElementById('bag-drawer') && !document.getElementById('bag-drawer').hidden) ||
-      (document.getElementById('search-modal') && !document.getElementById('search-modal').hidden) ||
-      (document.getElementById('wishlist-drawer') && document.getElementById('wishlist-drawer').classList.contains('is-open')) ||
-      (document.getElementById('discovery-modal') && document.getElementById('discovery-modal').classList.contains('is-open')) ||
-      (document.getElementById('families-modal') && document.getElementById('families-modal').classList.contains('is-open')) ||
-      (document.getElementById('support-modal') && document.getElementById('support-modal').classList.contains('is-open'));
-    if (!isOtherModalOpen) {
-      document.body.style.overflow = '';
-    }
-  }
-
-  window.openMobileDrawer = openDrawer;
-  window.closeMobileDrawer = closeDrawer;
-
-  // Zero-delay instant tap response on mobile touch
-  document.addEventListener('pointerdown', function (e) {
-    var target = e.target;
-    if (!target) return;
-    if (target.closest('#menu-toggle-btn, .mobile-toggle-btn, [data-action="open-menu"]')) {
-      e.preventDefault();
-      openDrawer();
-    }
-  }, { passive: false });
-
-  // Global Click Delegator (Never breaks on SPA route changes)
-  document.addEventListener('click', function (e) {
-    var target = e.target;
-    if (!target) return;
-
-    if (target.closest('#menu-toggle-btn, .mobile-toggle-btn, [data-action="open-menu"]')) {
-      e.preventDefault();
-      openDrawer();
-      return;
-    }
-
-    if (target.closest('#mobile-nav-close-btn')) {
-      e.preventDefault();
-      closeDrawer();
-      return;
-    }
-
-    if (target.closest('#drawer-families-btn')) {
-      e.preventDefault();
-      closeDrawer();
-      if (typeof window.openFamiliesModal === 'function') {
-        window.openFamiliesModal();
+    function openDrawer() {
+      if (typeof window.closeSearchModal === 'function') {
+        window.closeSearchModal();
       }
-      return;
-    }
-
-    if (target.closest('#drawer-support-modal-btn')) {
-      e.preventDefault();
-      closeDrawer();
-      if (typeof window.openSupportModal === 'function') {
-        window.openSupportModal();
+      if (typeof window.closeAllNavModals === 'function') {
+        window.closeAllNavModals();
       }
-      return;
-    }
-
-    if (target.closest('#drawer-open-wishlist-btn')) {
-      e.preventDefault();
-      closeDrawer();
-      if (typeof window.openWishlist === 'function') {
-        window.openWishlist();
+      var backdrop = document.getElementById('mobile-nav-backdrop');
+      var drawer = document.getElementById('mobile-nav-drawer');
+      var openBtn = document.getElementById('menu-toggle-btn');
+      if (backdrop) {
+        backdrop.removeAttribute('hidden');
+        backdrop.hidden = false;
       }
-      return;
-    }
-
-    if (target.closest('#drawer-open-bag-btn')) {
-      e.preventDefault();
-      closeDrawer();
-      if (typeof window.openBagDrawer === 'function') {
-        window.openBagDrawer();
+      if (drawer) {
+        drawer.removeAttribute('hidden');
+        drawer.hidden = false;
       }
-      return;
+      if (openBtn) openBtn.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('mobile-nav-close-btn')?.focus({ preventScroll: true });
     }
 
-    // Auto-close when clicking any navigation link inside drawer
-    if (target.closest('#mobile-nav-drawer a')) {
+    function closeDrawer() {
+      var backdrop = document.getElementById('mobile-nav-backdrop');
+      var drawer = document.getElementById('mobile-nav-drawer');
+      var openBtn = document.getElementById('menu-toggle-btn');
+      if (backdrop) {
+        backdrop.setAttribute('hidden', '');
+        backdrop.hidden = true;
+      }
+      if (drawer) {
+        drawer.setAttribute('hidden', '');
+        drawer.hidden = true;
+      }
+      if (openBtn) openBtn.setAttribute('aria-expanded', 'false');
+      var isOtherModalOpen =
+        (document.getElementById('bag-drawer') && !document.getElementById('bag-drawer').hidden) ||
+        (document.getElementById('search-modal') && !document.getElementById('search-modal').hidden) ||
+        (document.getElementById('wishlist-drawer') && document.getElementById('wishlist-drawer').classList.contains('is-open')) ||
+        (document.getElementById('discovery-modal') && document.getElementById('discovery-modal').classList.contains('is-open')) ||
+        (document.getElementById('families-modal') && document.getElementById('families-modal').classList.contains('is-open')) ||
+        (document.getElementById('support-modal') && document.getElementById('support-modal').classList.contains('is-open'));
+      if (!isOtherModalOpen) {
+        document.body.style.overflow = '';
+      }
+    }
+
+    window.openMobileDrawer = openDrawer;
+    window.closeMobileDrawer = closeDrawer;
+
+    // Global Click Delegator (Never breaks on SPA route changes)
+    document.addEventListener('click', function (e) {
+      var target = e.target;
+      if (!target) return;
+
+      if (target.closest('#menu-toggle-btn, .mobile-toggle-btn, [data-action="open-menu"]')) {
+        e.preventDefault();
+        openDrawer();
+        return;
+      }
+
+      if (target.closest('#mobile-nav-close-btn')) {
+        e.preventDefault();
+        closeDrawer();
+        document.getElementById('menu-toggle-btn')?.focus();
+        return;
+      }
+
+      // Auto-close when clicking any navigation link inside drawer
+      if (target.closest('#mobile-nav-drawer a')) {
+        closeDrawer();
+        return;
+      }
+
+      var backdropEl = document.getElementById('mobile-nav-backdrop');
+      if (backdropEl && target === backdropEl) {
+        closeDrawer();
+        document.getElementById('menu-toggle-btn')?.focus();
+        return;
+      }
+    });
+
+    window.addEventListener('keydown', function (event) {
+      var drawer = document.getElementById('mobile-nav-drawer');
+      if (!drawer || drawer.hidden) return;
+      if (event.key === 'Escape') {
+        closeDrawer();
+        document.getElementById('menu-toggle-btn')?.focus();
+      }
+      if (event.key !== 'Tab') return;
+
+      var focusable = Array.from(drawer.querySelectorAll('a[href], button, summary'))
+        .filter(function (element) { return element.getClientRects().length > 0; });
+      var first = focusable[0];
+      var last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+
+    document.addEventListener('astro:page-load', function () {
       closeDrawer();
-      return;
-    }
+    });
 
-    var backdropEl = document.getElementById('mobile-nav-backdrop');
-    if (backdropEl && target === backdropEl) {
+    document.addEventListener('astro:before-preparation', function () {
       closeDrawer();
-      return;
-    }
-  });
-
-  function syncDrawerCounts() {
-    var wishCountEl = document.getElementById('drawer-wishlist-count');
-    try {
-      var favs = JSON.parse(localStorage.getItem('lumera_favorites_v1') || '[]');
-      if (wishCountEl) wishCountEl.textContent = String(favs.length);
-    } catch (e) {}
-
-    var bagCountEl = document.getElementById('drawer-bag-count');
-    try {
-      var bag = JSON.parse(localStorage.getItem('lumera_bag_v1') || '[]');
-      var total = bag.reduce(function(sum, it) { return sum + (it.quantity || 1); }, 0);
-      if (bagCountEl) bagCountEl.textContent = String(total);
-    } catch (e) {}
-  }
-
-  // Initial sync
-  syncDrawerCounts();
-  window.addEventListener('favorites-updated', syncDrawerCounts);
-  window.addEventListener('bag-updated', syncDrawerCounts);
-  window.addEventListener('storage', syncDrawerCounts);
-  window.addEventListener('focus', syncDrawerCounts);
-
-  // Close on Escape
-  window.addEventListener('keydown', function (e) {
-    var drawer = document.getElementById('mobile-nav-drawer');
-    if (e.key === 'Escape' && drawer && !drawer.hidden) {
-      closeDrawer();
-    }
-  });
-
-  document.addEventListener('astro:page-load', function () {
-    syncDrawerCounts();
-    closeDrawer();
-  });
-
-  document.addEventListener('astro:before-preparation', function () {
-    closeDrawer();
-  });
+    });
+  })();
 </script>

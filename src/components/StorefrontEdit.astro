@@ -1,0 +1,58 @@
+---
+import ProductCard from './ProductCard.astro';
+import type { Product } from '../lib/catalog';
+
+interface Props {
+  id: string;
+  kicker: string;
+  title: string;
+  href: string;
+  products: Product[];
+}
+
+const { id, kicker, title, href, products } = Astro.props;
+---
+
+{products.length > 0 && (
+  <section class="storefront-edit" aria-labelledby={id}>
+    <div class="container">
+      <div class="section-header-minimal">
+        <div>
+          <p class="edit-kicker">{kicker}</p>
+          <h2 id={id} class="section-title-minimal">{title}</h2>
+        </div>
+        <a href={href} class="see-all-link" aria-label={`View ${title}`}>View collection <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="edit-grid home-preview-grid">
+        {products.map((product) => <ProductCard product={product} />)}
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .storefront-edit {
+    margin-bottom: var(--home-section-gap, clamp(2.8rem, 5vw, 5rem));
+  }
+
+  .edit-kicker {
+    margin: 0 0 .45rem;
+    color: #855339;
+    font-size: .69rem;
+    font-weight: 700;
+    letter-spacing: .15em;
+    text-transform: uppercase;
+  }
+
+  .edit-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(.65rem, 2vw, 1.4rem);
+  }
+
+  @media (min-width: 860px) {
+    .edit-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+</style>

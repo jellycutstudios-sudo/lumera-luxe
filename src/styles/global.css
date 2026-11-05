@@ -5,33 +5,39 @@
   --color-surface: #FAF8F5;          /* Warm cashmere alabaster */
   --color-surface-subtle: #F5F1EB;   /* Soft warm neutral */
   --color-surface-card: #FFFFFF;
-  --color-text-main: #181513;        /* Deep espresso black */
-  --color-text-muted: #57524C;       /* Soft charcoal (7.2:1 contrast ratio) */
-  --color-text-light: #6E6862;       /* Refined warm grey (5.2:1 contrast ratio - passes WCAG AA) */
+  --color-text-main: #110F0D;        /* Deep luxury carbon black */
+  --color-text-muted: #38332E;       /* Crisp, readable warm charcoal (8.5:1 contrast) */
+  --color-text-light: #524B45;       /* Strong secondary text (6.2:1 contrast) */
 
   /* Logo Cognac Palette (matches SVG logo gradient #D2632C -> #802201) */
-  --color-brand-cognac: #B04515;     /* Rich deep cognac (5.5:1 contrast ratio - passes WCAG AA) */
+  --color-brand-cognac: #A84112;     /* Rich deep cognac */
   --color-brand-cognac-dark: #802201;
   --color-brand-cognac-light: #FDF5F0;
-  --color-brand-cognac-glow: rgba(176, 69, 21, 0.22);
+  --color-brand-cognac-glow: rgba(168, 65, 18, 0.22);
   --color-brand-gradient: linear-gradient(135deg, #D2632C 0%, #802201 100%);
 
   /* Aristocratic Champagne Gold */
   --color-gold: #C5A059;
+  --color-gold-deep: #A98538;
   --color-gold-light: #FBF7EE;
-  --color-gold-dark: #8A6D30;        /* 4.8:1 contrast ratio */
-  --color-gold-border: rgba(197, 160, 89, 0.38);
-  --color-gold-border-subtle: rgba(197, 160, 89, 0.18);
+  --color-gold-dark: #7A5E24;
+  --color-gold-border: rgba(197, 160, 89, 0.42);
+  --color-gold-border-subtle: rgba(197, 160, 89, 0.22);
   --color-gold-glow: rgba(197, 160, 89, 0.24);
   --color-gold-shimmer: linear-gradient(135deg, #E2C285 0%, #C5A059 50%, #9A7B38 100%);
 
   /* Accent Aliases */
-  --color-accent: #B04515;
+  --color-accent: #A84112;
   --color-accent-hover: #802201;
   --color-accent-light: #FDF5F0;
 
-  --color-border: #E8E3DC;
-  --color-border-subtle: #F2EEE8;
+  --color-border: #E2DDD5;
+  --color-border-subtle: #ECE8E1;
+
+  /* Luxury Shadows */
+  --shadow-luxury-subtle: 0 4px 16px rgba(17, 15, 13, 0.04);
+  --shadow-luxury: 0 10px 30px rgba(17, 15, 13, 0.07);
+  --shadow-luxury-hover: 0 18px 42px rgba(17, 15, 13, 0.12);
 
   /* Typography System (Strictly 2 Curated Fonts: Tenor Sans & Inter) */
   --font-serif: 'Tenor Sans', -apple-system, BlinkMacSystemFont, serif;
@@ -40,8 +46,8 @@
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 
   /* Spacing */
-  --content-max-width: 1320px;
-  --page-gutter: clamp(0.875rem, 3.5vw, 3rem);
+  --content-max-width: 1600px;
+  --page-gutter: clamp(1rem, 2.5vw, 2.5rem);
   --space-section: clamp(4rem, 7vw, 7.5rem);
 
   /* Radius & Transitions */
@@ -717,7 +723,7 @@ a.btn:active,
 /* Mobile Bottom Safe Spacing (when MobileBottomNav is mounted) */
 @media (max-width: 767px) {
   body:not(.is-checkout-page) {
-    padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px));
   }
 }
 
