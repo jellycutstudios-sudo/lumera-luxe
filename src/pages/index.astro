@@ -228,16 +228,13 @@ const homeStructuredData = {
       <div class="container">
         <div class="hero-editorial-stage" id="hero-slider" role="region" aria-roledescription="carousel" aria-label="LUMÈRA LUXE Featured Perfumes">
           {firstHeroSlide && (
-            <div class="hero-purchase">
-              <p class="hero-product-title">{firstHeroSlide.title}</p>
-              <a
-                href={firstHeroSlide.checkoutHref}
-                class="btn-hero-shop-now"
-                aria-label={`Buy now: ${firstHeroSlide.title}`}
-              >
-                Buy now <span aria-hidden="true">↗</span>
-              </a>
-            </div>
+            <a
+              href={firstHeroSlide.checkoutHref}
+              class="btn-hero-shop-now"
+              aria-label={`Buy now: ${firstHeroSlide.title}`}
+            >
+              Buy now <span aria-hidden="true">↗</span>
+            </a>
           )}
           <div class="hero-slides-track" id="hero-slides-track">
             {heroSlides.map((slide, idx) => (
@@ -573,37 +570,24 @@ const homeStructuredData = {
     text-transform: uppercase;
   }
 
-  .hero-purchase {
-    grid-area: 2 / 1;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: .5rem 1rem;
-    padding: .75rem clamp(1rem, 2.4vw, 2.5rem);
-    border-bottom: 1px solid #e4d9cc;
-  }
-
-  .hero-product-title {
-    color: #38261f;
-    font-size: clamp(1rem, 1.5vw, 1.25rem);
-    font-weight: 600;
-    line-height: 1.4;
-  }
-
   .btn-hero-shop-now {
+    grid-area: 1 / 1;
+    z-index: 1;
+    place-self: end;
+    margin: clamp(1rem, 2.4vw, 2.5rem);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: .5rem;
     min-height: 44px;
+    min-width: 9rem;
     padding: .65rem 1.2rem;
     border-radius: 999px;
     border: 1px solid #e4d9cc;
     background: #fff9f2;
     color: #38261f;
     box-shadow: 0 3px 14px rgb(39 25 18 / 28%);
-    font-size: 1rem;
+    font-size: .81rem;
     font-weight: 700;
     text-decoration: none;
   }
@@ -614,7 +598,7 @@ const homeStructuredData = {
   }
 
   .hero-controls {
-    grid-area: 3 / 1;
+    grid-area: 2 / 1;
     position: relative;
     display: flex;
     align-items: center;
@@ -1042,6 +1026,12 @@ const homeStructuredData = {
       border-radius: 0;
     }
 
+    .btn-hero-shop-now {
+      justify-self: center;
+      margin: 0 0 .85rem;
+      min-width: 8rem;
+    }
+
     .hero-slide-picture {
       aspect-ratio: 896 / 1200;
     }
@@ -1061,6 +1051,7 @@ const homeStructuredData = {
       display: none;
     }
 
+    .btn-hero-shop-now,
     .hero-slide-count,
     .home-house-count,
     .shopping-help-link {
@@ -1110,6 +1101,7 @@ const homeStructuredData = {
       font-size: .875rem;
     }
 
+    .btn-hero-shop-now,
     .minimal-storefront :global(.section-header-minimal .see-all-link),
     .shopping-help-link {
       font-size: .9375rem;
@@ -1177,7 +1169,6 @@ const homeStructuredData = {
     const slides = Array.from(slider.querySelectorAll<HTMLElement>('.hero-slide'));
     const controls = slider.querySelector<HTMLElement>('.hero-controls');
     const purchase = slider.querySelector<HTMLAnchorElement>('.btn-hero-shop-now');
-    const title = slider.querySelector<HTMLElement>('.hero-product-title');
     const current = document.getElementById('hero-current-slide');
     const track = document.getElementById('hero-slides-track');
     const prevBtn = slider.querySelector<HTMLButtonElement>('#hero-prev-btn');
@@ -1249,7 +1240,6 @@ const homeStructuredData = {
       if (checkoutHref && productTitle) {
         purchaseLink.href = checkoutHref;
         purchaseLink.setAttribute('aria-label', `Buy now: ${productTitle}`);
-        if (title) title.textContent = productTitle;
       }
       if (status && announce) status.textContent = activeSlide.getAttribute('aria-label');
       resetProgress();
