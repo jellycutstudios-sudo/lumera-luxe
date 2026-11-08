@@ -56,7 +56,7 @@ export const siteConfig: SiteConfig = {
   complianceNotice: 'Boutique storefront operating under WhatsApp concierge order verification. No automated online card gateway is integrated.',
   isBankReviewDraft: false,
   maintenanceMode: {
-    enabled: true,
+    enabled: false,
     passcode: '0000'
   },
   googleSheetWebhookUrl: import.meta.env.PUBLIC_GOOGLE_SHEET_WEBHOOK_URL || 'https://script.google.com/macros/s/AKfycbyUBG0JbxspFySy_SKAI8-1az6i8lQ75JODW-q5OAd6us-4whx5iSQ2t5d4yq22C3amuA/exec',

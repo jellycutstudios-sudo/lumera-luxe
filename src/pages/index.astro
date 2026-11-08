@@ -290,28 +290,28 @@ const homeStructuredData = {
             <p class="home-kicker">Designer & niche</p>
             <h2 class="section-title-minimal" id="fragrance-houses-title">Shop by House</h2>
           </div>
-          <div class="home-house-controls" role="group" aria-label="Shop by House controls" hidden>
-            <button type="button" class="rail-icon-btn home-house-rotation" aria-label="Pause auto-scroll" title="Pause auto-scroll" aria-controls="home-house-track">
-              <svg class="rotation-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M9 6v12m6-12v12" /></svg>
-              <svg class="rotation-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m9 6 9 6-9 6z" /></svg>
-            </button>
-            <button type="button" class="rail-icon-btn" data-house-direction="-1" aria-label="Previous house" aria-controls="home-house-track">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m14.5 6-6 6 6 6" /></svg>
-            </button>
-            <button type="button" class="rail-icon-btn" data-house-direction="1" aria-label="Next house" aria-controls="home-house-track">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m9.5 6 6 6-6 6" /></svg>
-            </button>
-          </div>
         </div>
-        <div class="home-house-track" id="home-house-track">
-          {featuredHouses.map(({ name, logo, logoSize, count }) => (
-            <a class="home-house-link" href={`/shop/?brand=${encodeURIComponent(name)}`}>
-              <span class="home-house-logo" data-logo-size={logoSize}>
-                <img src={`/assets/brand/houses/${logo}`} alt={name} loading="lazy" decoding="async" />
-              </span>
-              <span class="home-house-count">{count} {count === 1 ? 'fragrance' : 'fragrances'}</span>
-            </a>
-          ))}
+        <div class="home-house-marquee" id="home-house-marquee">
+          <div class="home-house-group">
+            {featuredHouses.map(({ name, logo, logoSize, count }) => (
+              <a class="home-house-link" href={`/shop/?brand=${encodeURIComponent(name)}`}>
+                <span class="home-house-logo" data-logo-size={logoSize}>
+                  <img src={`/assets/brand/houses/${logo}`} alt={name} loading="lazy" decoding="async" />
+                </span>
+                <span class="home-house-count">{count} {count === 1 ? 'fragrance' : 'fragrances'}</span>
+              </a>
+            ))}
+          </div>
+          <div class="home-house-group" aria-hidden="true">
+            {featuredHouses.map(({ name, logo, logoSize, count }) => (
+              <a class="home-house-link" href={`/shop/?brand=${encodeURIComponent(name)}`} tabindex="-1">
+                <span class="home-house-logo" data-logo-size={logoSize}>
+                  <img src={`/assets/brand/houses/${logo}`} alt={name} loading="lazy" decoding="async" />
+                </span>
+                <span class="home-house-count">{count} {count === 1 ? 'fragrance' : 'fragrances'}</span>
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -460,11 +460,11 @@ const homeStructuredData = {
           <div class="home-faq-list">
             <details>
               <summary>How much is delivery in Qatar?</summary>
-              <p>Express delivery is free on orders over 300 QAR. Orders of 300 QAR or less have a 25 QAR delivery fee. <a href="/shipping-delivery/">Read the delivery policy.</a></p>
+              <p>Express delivery is free on orders over 300 QAR. For orders of 300 QAR or less, the delivery fee is decided based on your delivery location in Qatar and confirmed with you on WhatsApp. <a href="/shipping-delivery/">Read the delivery policy.</a></p>
             </details>
             <details>
               <summary>How do I place and pay for an order?</summary>
-              <p>Add your perfumes to your bag and send your order request on WhatsApp. We confirm availability and delivery with you. You can pay by cash or card on delivery, or arrange a bank transfer.</p>
+              <p>Add your perfumes to your bag and send your order request on WhatsApp. We confirm product availability and calculate the delivery fee based on your location (free above 300 QAR). You can pay upon delivery by cash or card POS, or arrange a bank transfer.</p>
             </details>
             <details>
               <summary>What if I don’t like the perfume?</summary>
@@ -711,28 +711,56 @@ const homeStructuredData = {
     gap: clamp(.65rem, 1.5vw, 1.15rem);
   }
 
-  .home-house-track {
-    --house-columns: 3;
+  .home-house-marquee {
     --house-gap: clamp(.65rem, 1.25vw, 1rem);
     position: relative;
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: calc((100% - (var(--house-columns) - 1) * var(--house-gap)) / var(--house-columns));
+    display: flex;
+    overflow: hidden;
     gap: var(--house-gap);
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
+    width: 100%;
+    user-select: none;
+    padding: .35rem 0;
+    mask-image: linear-gradient(to right, transparent 0%, black 2.5%, black 97.5%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 2.5%, black 97.5%, transparent 100%);
   }
 
-  .home-house-track::-webkit-scrollbar {
-    display: none;
+  .home-house-group {
+    display: flex;
+    align-items: center;
+    gap: var(--house-gap);
+    flex-shrink: 0;
+    min-width: 100%;
+    animation: houseMarquee 38s linear infinite;
+    will-change: transform;
+  }
+
+  .home-house-marquee:hover .home-house-group,
+  .home-house-marquee:focus-within .home-house-group,
+  .home-house-marquee:active .home-house-group {
+    animation-play-state: paused;
+  }
+
+  @keyframes houseMarquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc(-100% - var(--house-gap)));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .home-house-group {
+      animation-play-state: paused;
+    }
   }
 
   .home-house-link {
     display: grid;
     align-content: center;
     gap: .55rem;
-    min-width: 0;
+    flex: 0 0 clamp(160px, 14vw, 240px);
+    width: clamp(160px, 14vw, 240px);
     min-height: clamp(6.25rem, 10vw, 7.5rem);
     padding: .85rem clamp(.6rem, 1.5vw, 1.25rem);
     border: 1px solid #e7dbce;
@@ -741,7 +769,7 @@ const homeStructuredData = {
     color: #38261f;
     text-align: center;
     text-decoration: none;
-    scroll-snap-align: start;
+    transition: transform var(--transition-fast, 0.2s ease), border-color var(--transition-fast, 0.2s ease), background-color var(--transition-fast, 0.2s ease), box-shadow var(--transition-fast, 0.2s ease);
   }
 
   .home-house-link:focus-visible {
@@ -751,6 +779,8 @@ const homeStructuredData = {
   .home-house-link:hover {
     background: #f5eee7;
     border-color: #a6775b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(56, 38, 31, 0.08);
   }
 
   .home-browse-card:hover {
@@ -803,6 +833,8 @@ const homeStructuredData = {
 
   @media (width < 640px) {
     .home-house-link {
+      flex: 0 0 clamp(135px, 36vw, 160px);
+      width: clamp(135px, 36vw, 160px);
       min-height: 5.5rem;
       gap: .35rem;
       padding: .65rem clamp(.35rem, 1.5vw, .6rem);
@@ -814,12 +846,6 @@ const homeStructuredData = {
 
     .home-house-logo img {
       height: 1rem;
-    }
-  }
-
-  @media (width < 375px) {
-    .home-house-track {
-      --house-columns: 2;
     }
   }
 
@@ -1137,25 +1163,8 @@ const homeStructuredData = {
       text-wrap: wrap;
     }
 
-    .home-house-track {
-      --house-columns: 4;
-    }
-
     .home-browse-grid {
       grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-
-  }
-
-  @media (min-width: 1120px) {
-    .home-house-track {
-      --house-columns: 5;
-    }
-  }
-
-  @media (min-width: 1440px) {
-    .home-house-track {
-      --house-columns: 6;
     }
   }
 
@@ -1301,128 +1310,8 @@ const homeStructuredData = {
     }, { once: true });
   }
 
-  function initHouseCarousel() {
-    const section = document.getElementById('fragrance-houses');
-    const track = document.getElementById('home-house-track');
-    const controls = section?.querySelector<HTMLElement>('.home-house-controls');
-    const rotation = controls?.querySelector<HTMLButtonElement>('.home-house-rotation');
-    if (!section || !track || !controls || !rotation || track.dataset.ready) return;
-
-    const cards = Array.from(track.querySelectorAll<HTMLAnchorElement>('.home-house-link'));
-    if (cards.length < 2) return;
-    track.dataset.ready = 'true';
-    controls.hidden = false;
-
-    // Repeat the rail on both sides so the visible cards also wrap at the seam.
-    const copyCards = () => cards.map((card) => {
-      const copy = card.cloneNode(true) as HTMLAnchorElement;
-      copy.tabIndex = -1;
-      copy.setAttribute('aria-hidden', 'true');
-      return copy;
-    });
-    const before = copyCards();
-    const after = copyCards();
-    track.prepend(...before);
-    track.append(...after);
-    const railCards = [...before, ...cards, ...after];
-    track.scrollTo({ left: cards[0].offsetLeft, behavior: 'instant' });
-
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const canHover = window.matchMedia('(hover: hover)');
-    let paused = reducedMotion.matches;
-    let visible = false;
-    let lastScroll = 0;
-    let settleTimer: number;
-    let touching = false;
-
-    const recenter = () => {
-      if (touching || track.contains(document.activeElement)) return;
-      const start = cards[0].offsetLeft;
-      const period = after[0].offsetLeft - start;
-      if (period <= 0) return;
-
-      const offset = track.scrollLeft - start;
-      // Allow for fractional card widths at the snap points.
-      if (offset >= -2 && offset < period - 2) return;
-      const wrapped = ((offset % period) + period) % period;
-      track.scrollTo({ left: start + (wrapped >= period - 2 ? 0 : wrapped), behavior: 'instant' });
-    };
-
-    const settle = () => {
-      window.clearTimeout(settleTimer);
-      settleTimer = window.setTimeout(recenter, 160);
-    };
-
-    const move = (direction: number) => {
-      recenter();
-      const left = track.scrollLeft;
-      const stops = railCards.map((card) => card.offsetLeft);
-      const target = direction > 0
-        ? stops.find((stop) => stop > left + 2)
-        : stops.findLast((stop) => stop < left - 2);
-
-      if (target !== undefined) {
-        track.scrollTo({ left: target, behavior: reducedMotion.matches ? 'instant' : 'smooth' });
-      }
-    };
-
-    const syncRotationLabel = () => {
-      const label = paused ? 'Play auto-scroll' : 'Pause auto-scroll';
-      rotation.setAttribute('aria-label', label);
-      rotation.title = label;
-      rotation.toggleAttribute('data-paused', paused);
-    };
-
-    syncRotationLabel();
-    rotation.addEventListener('click', () => {
-      paused = !paused;
-      syncRotationLabel();
-    });
-    controls.querySelectorAll<HTMLButtonElement>('[data-house-direction]').forEach((button) => {
-      button.addEventListener('click', () => move(Number(button.dataset.houseDirection)));
-    });
-    track.addEventListener('scroll', () => {
-      lastScroll = Date.now();
-      settle();
-    }, { passive: true });
-    track.addEventListener('touchstart', () => { touching = true; }, { passive: true });
-    const endTouch = () => {
-      touching = false;
-      settle();
-    };
-    track.addEventListener('touchend', endTouch, { passive: true });
-    track.addEventListener('touchcancel', endTouch, { passive: true });
-
-    const observer = new IntersectionObserver(([entry]) => {
-      visible = entry.isIntersecting;
-    }, { threshold: .5 });
-    observer.observe(track);
-
-    function respectMotionPreference(event: MediaQueryListEvent) {
-      if (event.matches) {
-        paused = true;
-        syncRotationLabel();
-      }
-    }
-    reducedMotion.addEventListener('change', respectMotionPreference);
-
-    const interval = window.setInterval(() => {
-      if (!visible || paused || touching || document.hidden || Date.now() - lastScroll < 1500) return;
-      if (section.contains(document.activeElement) || (canHover.matches && section.matches(':hover'))) return;
-      move(1);
-    }, 3000);
-
-    document.addEventListener('astro:before-swap', () => {
-      window.clearInterval(interval);
-      window.clearTimeout(settleTimer);
-      observer.disconnect();
-      reducedMotion.removeEventListener('change', respectMotionPreference);
-    }, { once: true });
-  }
-
   function initHome() {
     initHeroSlider();
-    initHouseCarousel();
   }
 
   if (document.readyState === 'loading') {

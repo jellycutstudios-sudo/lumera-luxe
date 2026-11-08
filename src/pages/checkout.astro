@@ -1292,12 +1292,10 @@ const description = `Complete your luxury fragrance order with doorstep delivery
 
     const subtotalMinor = checkoutItems.reduce((sum, it) => sum + it.priceMinor * it.quantity, 0);
     const subtotalQar = Math.round(subtotalMinor / 100);
-    const deliveryFee = getDeliveryFeeQar(subtotalMinor);
-    const totalQar = subtotalQar + deliveryFee;
-
+    const isFree = subtotalMinor > 300 * 100;
     const formattedSubtotal = `${subtotalQar} QAR`;
-    const formattedTotal = `${totalQar} QAR`;
-    const deliveryText = deliveryFee === 0 ? 'Free' : `${deliveryFee} QAR`;
+    const formattedTotal = isFree ? `${subtotalQar} QAR` : `${subtotalQar} QAR + delivery`;
+    const deliveryText = isFree ? 'Free (Above 300 QAR)' : 'Calculated on WhatsApp (by area)';
 
     if (subtotalEl) subtotalEl.textContent = formattedSubtotal;
     if (totalEl) totalEl.textContent = formattedTotal;
@@ -1308,11 +1306,11 @@ const description = `Complete your luxury fragrance order with doorstep delivery
 
     document.querySelectorAll('#summary-shipping-label, #mobile-shipping-label').forEach((label) => {
       label.textContent = deliveryText;
-      label.classList.toggle('free-shipping-label', deliveryFee === 0);
+      label.classList.toggle('free-shipping-label', isFree);
     });
     if (mobileStickyDelivery) {
       mobileStickyDelivery.textContent = `Delivery · ${deliveryText}`;
-      mobileStickyDelivery.classList.toggle('free-shipping-label', deliveryFee === 0);
+      mobileStickyDelivery.classList.toggle('free-shipping-label', isFree);
     }
 
     // Mobile Header Preview
@@ -1504,7 +1502,7 @@ const description = `Complete your luxury fragrance order with doorstep delivery
     };
 
     const subtotalMinor = checkoutItems.reduce((acc, it) => acc + it.priceMinor * it.quantity, 0);
-    const totalQar = Math.round(subtotalMinor / 100) + getDeliveryFeeQar(subtotalMinor);
+    const totalQar = Math.round(subtotalMinor / 100);
     const totalCount = checkoutItems.reduce((acc, it) => acc + it.quantity, 0);
 
     const itemsSummary = checkoutItems

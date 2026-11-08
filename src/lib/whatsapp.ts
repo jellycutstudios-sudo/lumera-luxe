@@ -64,18 +64,18 @@ export function formatWhatsAppOrderMessage(
   });
 
   const subtotalNum = Number(subtotalQar);
-  const deliveryFee = getDeliveryFeeQar(subtotalMinor);
-  const totalAmount = subtotalNum + deliveryFee;
+  const isFreeDelivery = subtotalMinor > 300 * 100;
 
   message += `────────────────────────\n`;
   message += `💰 *ORDER SUMMARY:*\n`;
   message += `• Products Subtotal: ${subtotalQar} QAR\n`;
-  if (deliveryFee === 0) {
+  if (isFreeDelivery) {
     message += `• Qatar Delivery (Within 6 Hours): *FREE* (Above 300 QAR)\n`;
+    message += `• *Total Amount:* *${subtotalNum} QAR*\n`;
   } else {
-    message += `• Qatar Delivery (Within 6 Hours): *${deliveryFee} QAR*\n`;
+    message += `• Qatar Delivery (Within 6 Hours): *To be confirmed on WhatsApp based on location*\n`;
+    message += `• *Total Amount:* *${subtotalNum} QAR + delivery fee (confirmed on WhatsApp)*\n`;
   }
-  message += `• *Total Amount:* *${totalAmount} QAR*\n`;
 
   if (customerInfo) {
     const fullName = ('fullName' in customerInfo ? customerInfo.fullName : customerInfo.name) || '';
@@ -151,10 +151,10 @@ export function generateSingleProductWhatsAppLink(product: {
   const priceNum = Math.round(product.priceMinor / 100);
   const price = product.priceDisplay || `${priceNum} QAR`;
   const size = product.sizeDisplay ? ` (${product.sizeDisplay} · ${product.concentration || 'EDP'})` : '';
-  const deliveryFee = getDeliveryFeeQar(product.priceMinor);
-  const deliveryText = deliveryFee === 0 ? 'FREE (Orders above 300 QAR)' : `${deliveryFee} QAR`;
-  const total = priceNum + deliveryFee;
-  const msg = `Hello LUMÈRA LUXE, I would like to order:\n\n✨ *${product.brand.toUpperCase()} · ${product.name}*${size}\n💰 Price: *${price}*\n🚚 Qatar Delivery (Within 6 Hours): *${deliveryText}*\n💵 Total Amount: *${total} QAR*\n\n✦ 6-Hour Trial Guarantee (Returns and exchanges accepted even if opened and used)\nPlease confirm availability and delivery timing. Thank you!`;
+  const isFreeDelivery = product.priceMinor > 300 * 100;
+  const deliveryText = isFreeDelivery ? 'FREE (Orders above 300 QAR)' : 'To be confirmed on WhatsApp (based on location)';
+  const totalText = isFreeDelivery ? `${priceNum} QAR` : `${priceNum} QAR + delivery fee (confirmed on WhatsApp)`;
+  const msg = `Hello LUMÈRA LUXE, I would like to order:\n\n✨ *${product.brand.toUpperCase()} · ${product.name}*${size}\n💰 Price: *${price}*\n🚚 Qatar Delivery (Within 6 Hours): *${deliveryText}*\n💵 Total Amount: *${totalText}*\n\n✦ 6-Hour Return Guarantee (Returns and exchanges accepted even if opened and used)\nPlease confirm availability and delivery timing. Thank you!`;
   const phone = siteConfig.whatsappNumber.replace(/[^0-9]/g, '');
   return `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
 }

@@ -1,5 +1,4 @@
 export const FREE_DELIVERY_THRESHOLD_QAR = 300;
-export const DELIVERY_FEE_QAR = 25;
 
 export const QATAR_DELIVERY_AREAS = [
   { value: 'Doha', label: 'Doha (Ad-Dawhah)' },
@@ -12,6 +11,10 @@ export const QATAR_DELIVERY_AREAS = [
   { value: 'Other Qatar Area', label: 'Other area in Qatar' }
 ] as const;
 
+export function isFreeDelivery(subtotalMinor: number): boolean {
+  return subtotalMinor > FREE_DELIVERY_THRESHOLD_QAR * 100;
+}
+
 export function getDeliveryFeeQar(subtotalMinor: number): number {
-  return subtotalMinor > FREE_DELIVERY_THRESHOLD_QAR * 100 ? 0 : DELIVERY_FEE_QAR;
+  return isFreeDelivery(subtotalMinor) ? 0 : 0;
 }
